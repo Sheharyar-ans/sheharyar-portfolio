@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="cyber-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+    <linearGradient id="amber-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <radialGradient id="bg-radial" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#141824" />
+      <stop offset="100%" stop-color="#080808" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Outer Rounded Shield -->
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#bg-radial)" stroke="url(#cyber-gradient)" stroke-width="3" />
+  
+  <!-- Circuit Accent Nodes -->
+  <circle cx="28" cy="28" r="3" fill="#00E5FF" opacity="0.8" />
+  <circle cx="100" cy="28" r="3" fill="#00E5FF" opacity="0.8" />
+  <circle cx="100" cy="100" r="3" fill="#F59E0B" opacity="0.8" />
+  <circle cx="28" cy="100" r="3" fill="#F59E0B" opacity="0.8" />
+  
+  <!-- Monogram SS -->
+  <path d="M 42 46 C 42 38 52 36 64 36 C 76 36 84 40 84 48 C 84 58 72 61 56 65 C 44 68 38 73 38 82 C 38 92 48 96 64 96 C 78 96 88 90 88 82" 
+        fill="none" 
+        stroke="url(#cyber-gradient)" 
+        stroke-width="9" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" />
+  
+  <!-- Center AI Node Pulse -->
+  <circle cx="64" cy="65" r="4" fill="url(#amber-accent)" />
+</svg>

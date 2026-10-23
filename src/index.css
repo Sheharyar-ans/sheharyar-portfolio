@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-color: #080808;
+    --accent-color: #B7FF3C;
+    --accent-glow: rgba(183, 255, 60, 0.22);
+  }
+
+  html {
+    background-color: #080808;
+    color: #F5F5F0;
+    font-family: 'Manrope', sans-serif;
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: #080808;
+    overflow-x: hidden;
+    color: #F5F5F0;
+  }
+
+  ::selection {
+    background-color: #B7FF3C;
+    color: #080808;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #080808;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #262626;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #404040;
+  }
+}
+
+/* Custom background grain */
+.bg-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Glassmorphic card utility */
+.glass-panel {
+  background: rgba(18, 18, 18, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(26, 26, 26, 0.85);
+  border-color: rgba(183, 255, 60, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px -10px rgba(183, 255, 60, 0.12);
+}
+
+/* Glowing text and buttons */
+.text-glow {
+  text-shadow: 0 0 24px rgba(183, 255, 60, 0.4);
+}
+
+.border-glow {
+  box-shadow: 0 0 20px rgba(183, 255, 60, 0.2);
+}
+
+/* Subtle grid line overlay */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Cinematic film utilities */
+.cinematic-vignette {
+  background: radial-gradient(circle at 65% 50%, transparent 20%, rgba(8, 8, 8, 0.4) 60%, #080808 95%);
+}
+
+.cinematic-video-mask {
+  mask-image: linear-gradient(to right, transparent 0%, black 18%, black 85%, transparent 100%),
+              linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 18%, black 85%, transparent 100%),
+                      linear-gradient(to bottom, black 80%, transparent 100%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+
+.text-tracking-cinematic {
+  letter-spacing: 0.25em;
+}
+

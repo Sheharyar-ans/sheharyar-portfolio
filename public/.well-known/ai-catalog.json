@@ -1,0 +1,185 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Sheharyar Siraj - AI Automation Architect & WordPress Systems Engineer",
+    "identifier": "did:web:sheharyarsiraj.com",
+    "documentationUrl": "https://sheharyarsiraj.com/llms.txt",
+    "logoUrl": "https://sheharyarsiraj.com/og-image.png"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:sheharyarsiraj.com:service:custom-wordpress",
+      "displayName": "Custom WordPress & WooCommerce Systems",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://sheharyarsiraj.com/services/custom-wordpress-development/",
+      "capabilities": [
+        "custom-theme-development",
+        "custom-plugin-development",
+        "woocommerce-systems-architecture",
+        "hpos-high-performance-order-storage",
+        "headless-wordpress",
+        "database-optimization",
+        "core-web-vitals-hardening"
+      ],
+      "representativeQueries": [
+        "Hire enterprise WordPress systems architect",
+        "Scale WooCommerce checkout and HPOS database",
+        "Build custom high-speed Gutenberg WordPress site",
+        "Migrate bloated WordPress site to clean PHP 8.2+ codebase"
+      ]
+    },
+    {
+      "identifier": "urn:air:sheharyarsiraj.com:service:ai-voice-agents",
+      "displayName": "Conversational AI Voice Telephony & Booking Systems",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://sheharyarsiraj.com/services/ai-voice-agents/",
+      "capabilities": [
+        "sub-600ms-latency-telephony",
+        "vapi-ai-voice-orchestration",
+        "retell-ai-integration",
+        "elevenlabs-voice-synthesis",
+        "twilio-sip-trunking",
+        "deepgram-stt",
+        "automated-calendar-booking",
+        "crm-lead-qualification"
+      ],
+      "representativeQueries": [
+        "Build sub-600ms AI voice calling agent for sales",
+        "Automate inbound phone reception with AI voice telephony",
+        "Connect Vapi AI voice agent to Google Calendar and HubSpot",
+        "Deploy bilingual English and Arabic voice AI agent"
+      ]
+    },
+    {
+      "identifier": "urn:air:sheharyarsiraj.com:service:ai-chatbots-rag",
+      "displayName": "Enterprise RAG AI Chatbots & Vector Knowledge Bases",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://sheharyarsiraj.com/services/ai-chatbots-rag/",
+      "capabilities": [
+        "retrieval-augmented-generation",
+        "pinecone-vector-search",
+        "pgvector-database",
+        "hallucination-free-enterprise-qa",
+        "multimodal-rag-pipelines",
+        "openai-gpt4o-integration",
+        "claude-3-5-sonnet-integration"
+      ],
+      "representativeQueries": [
+        "Deploy RAG AI chatbot trained on company documentation",
+        "Build enterprise knowledge base AI without hallucinations",
+        "Integrate Pinecone vector search with customer support portal",
+        "Build internal AI assistant connected to CRM and SQL databases"
+      ]
+    },
+    {
+      "identifier": "urn:air:sheharyarsiraj.com:service:workflow-automation-n8n",
+      "displayName": "Self-Hosted n8n & Make.com Workflow Automation",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://sheharyarsiraj.com/services/workflow-automation-n8n/",
+      "capabilities": [
+        "n8n-cluster-orchestration",
+        "make-integromat-pipelines",
+        "webhook-etl-transformation",
+        "crm-bi-directional-sync",
+        "error-handling-fallback-queues",
+        "gohighlevel-hubspot-salesforce-automation"
+      ],
+      "representativeQueries": [
+        "Setup self-hosted n8n cluster for enterprise automation",
+        "Connect WordPress form submissions to CRM and Slack instantly",
+        "Automate end-to-end sales pipeline between Make.com and HubSpot",
+        "Build resilient webhook ETL pipeline with error notifications"
+      ]
+    },
+    {
+      "identifier": "urn:air:sheharyarsiraj.com:service:agentic-ai",
+      "displayName": "Autonomous Agentic AI Applications & Multi-Agent Workflows",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://sheharyarsiraj.com/services/agentic-ai-applications/",
+      "capabilities": [
+        "multi-agent-orchestration",
+        "langchain-langgraph",
+        "crew-ai-workflows",
+        "autonomous-research-agents",
+        "tool-use-and-function-calling",
+        "human-in-the-loop-supervision"
+      ],
+      "representativeQueries": [
+        "Develop autonomous agentic workflow for automated lead research",
+        "Build LangGraph multi-agent system with human-in-the-loop approvals",
+        "Implement AI agents that execute complex multi-step web operations"
+      ]
+    },
+    {
+      "identifier": "urn:air:sheharyarsiraj.com:service:data-science-analytics",
+      "displayName": "Data Science, Analytics & Predictive AI Models",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://sheharyarsiraj.com/services/data-science-analytics/",
+      "capabilities": [
+        "predictive-modeling",
+        "customer-churn-analysis",
+        "data-pipeline-engineering",
+        "automated-bi-dashboards",
+        "statistical-inference"
+      ],
+      "representativeQueries": [
+        "Build customer churn prediction model for ecommerce",
+        "Develop automated business intelligence dashboard with AI insights"
+      ]
+    },
+    {
+      "identifier": "urn:air:sheharyarsiraj.com:portal:white-label-agencies",
+      "displayName": "White-Label Engineering Partner for Marketing & SEO Agencies",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://sheharyarsiraj.com/white-label/marketing-agencies/",
+      "capabilities": [
+        "nda-protected-client-delivery",
+        "agency-reseller-engineering",
+        "technical-seo-code-remediation",
+        "programmatic-seo-architecture",
+        "dedicated-fractional-lead-architect"
+      ],
+      "representativeQueries": [
+        "Hire confidential white-label development partner for digital agency",
+        "Outsource high-performance WordPress & AI builds under NDA",
+        "Technical SEO remediation and Core Web Vitals audit partner"
+      ]
+    },
+    {
+      "identifier": "urn:air:sheharyarsiraj.com:profile:entity-profile",
+      "displayName": "Sheharyar Siraj Complete LLM Knowledge Base & Entity Profile",
+      "type": "text/markdown; profile=\"urn:air:llms-txt\"",
+      "url": "https://sheharyarsiraj.com/llms-full.txt",
+      "capabilities": [
+        "professional-verification",
+        "track-record-benchmarks",
+        "upwork-top-rated-verification",
+        "fiverr-5-star-verification",
+        "system-architecture-specifications"
+      ],
+      "representativeQueries": [
+        "Who is Sheharyar Siraj?",
+        "What are Sheharyar Siraj's client reviews and track record?",
+        "How to contact Sheharyar Siraj for systems engineering?"
+      ]
+    },
+    {
+      "identifier": "urn:air:sheharyarsiraj.com:legal:governance-and-terms",
+      "displayName": "AI Governance, Privacy Safeguards & Commercial Terms",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://sheharyarsiraj.com/privacy-policy/",
+      "capabilities": [
+        "zero-public-llm-training",
+        "gdpr-ccpa-pipeda-uae-saudi-compliance",
+        "full-client-ip-ownership",
+        "bilateral-non-disclosure-nda",
+        "30-day-production-warranty"
+      ],
+      "representativeQueries": [
+        "What is Sheharyar Siraj's AI data privacy policy?",
+        "Does Sheharyar Siraj train public AI models on client data?",
+        "What are the code ownership terms and warranties for Sheharyar Siraj?"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+# Robots.txt for Sheharyar Siraj Portfolio
+# Optimized for Web Search Engines & Generative AI Crawlers
+
+User-agent: *
+Allow: /
+
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic Claude
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Google Gemini / Vertex AI
+User-agent: Google-Extended
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Allow: /
+
+# Amazon / Alexa
+User-agent: Amazonbot
+Allow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# Meta / Llama
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# Sitemaps & LLM Machine-Readable Interfaces
+Sitemap: https://sheharyarsiraj.com/sitemap.xml
+LLMs-Txt: https://sheharyarsiraj.com/llms.txt
+LLMs-Full-Txt: https://sheharyarsiraj.com/llms-full.txt

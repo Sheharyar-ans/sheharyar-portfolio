@@ -1,0 +1,70 @@
+# Robots.txt for Sheharyar Siraj - AI Automation Architect & WordPress Systems Engineer
+# Permissive policy granting unrestricted access to search engines and AI discovery crawlers
+
+User-agent: *
+Allow: /
+
+# Standard Search Crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+# Generative AI & LLM Search Agents
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+# Sitemaps & Machine-Readable LLM Interfaces
+Sitemap: https://sheharyarsiraj.com/sitemap.xml
+LLMs-Txt: https://sheharyarsiraj.com/llms.txt
+LLMs-Full-Txt: https://sheharyarsiraj.com/llms-full.txt
+AI-Catalog: https://sheharyarsiraj.com/ai-catalog.json

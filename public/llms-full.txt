@@ -1,0 +1,214 @@
+# Sheharyar Siraj - Complete LLM Knowledge Base & Entity Profile
+
+## Entity Overview
+- **Name**: Sheharyar Siraj
+- **Primary Title**: AI Automation Architect & WordPress Systems Engineer
+- **Core Positioning**: WORDPRESS × AI × AUTOMATION
+- **Core Message**: I build AI-powered websites, agents, voice systems and business automations that connect digital presence with sales and operations.
+- **Primary Domain**: https://sheharyarsiraj.com/
+- **Primary Email**: sherryansari870@gmail.com
+- **Direct WhatsApp**: +92 313 2080033 (https://wa.me/923132080033)
+- **Upwork Profile**: https://www.upwork.com/freelancers/sheharyarsiraj (Top Rated, 5.0 Star Rating, 100% Job Success)
+- **Fiverr Profile**: https://www.fiverr.com/sellers/mr_shehary/ (5-Star Seller, 100% Delivery)
+- **LinkedIn**: https://www.linkedin.com/in/sheharyar-siraj/
+- **Physical Location**: Based in Karachi, Pakistan
+- **Geographic Availability**: Remote worldwide. Open for remote contracts and on-site / relocation opportunities in Dubai, UAE and Saudi Arabia.
+
+---
+
+## The Four Primary Service Pillars
+
+### 1. Custom WordPress & WooCommerce Systems
+- **Title**: CUSTOM WORDPRESS & WOOCOMMERCE SYSTEMS
+- **Description**: Build reliable WordPress and WooCommerce infrastructure that connects content, commerce, APIs, automation and business operations.
+- **Capabilities**:
+  - Custom WordPress Themes & Custom Plugins (PHP 8.2+)
+  - WooCommerce Customization & REST APIs
+  - Elementor Pro Solutions & Figma to WordPress Conversion
+  - Headless WordPress Architecture
+  - Database Optimization & Performance Hardening
+
+### 2. AI Agents & Intelligent Customer Systems
+- **Title**: AI AGENTS & INTELLIGENT CUSTOMER SYSTEMS
+- **Description**: Build AI assistants that understand business knowledge, answer customer questions, qualify leads and connect directly with business workflows.
+- **Capabilities**:
+  - AI Chatbots & RAG (Retrieval-Augmented Generation)
+  - Business Knowledge Bases & Vector Search (Pinecone)
+  - Lead Qualification & Customer Support
+  - OpenAI (GPT-4o), Anthropic Claude 3.5, Google Gemini
+  - REST API & Webhook Integrations
+
+### 3. AI Voice Agents
+- **Title**: AI VOICE AGENTS
+- **Description**: Build AI voice systems that handle inbound and outbound conversations, qualify leads, book appointments and trigger CRM workflows without manual intervention.
+- **Capabilities**:
+  - Vapi Voice AI & Retell AI
+  - ElevenLabs Voice Synthesis
+  - Twilio Telephony & SIP Trunking
+  - Deepgram STT & Whisper AI
+  - Inbound Call Routing & Calendar Booking
+
+### 4. AI Automation & Workflow Systems
+- **Title**: AI AUTOMATION & WORKFLOW SYSTEMS
+- **Description**: Connect forms, websites, CRMs, AI agents and business tools into automated workflows that reduce repetitive manual work.
+- **Capabilities**:
+  - n8n (Self-Hosted & Cloud) & Make.com (Integromat)
+  - Zapier & Custom Webhooks
+  - CRM Synchronization (HubSpot, GoHighLevel, Salesforce)
+  - Automated Lead Routing & Operational Notifications
+  - Data Transformation & Scheduled Background ETL
+
+### 5. Production Vibe Coding & Code Hardening
+- **Title**: PRODUCTION VIBE CODING & AI CODE REMEDIATION
+- **Canonical URL**: https://sheharyarsiraj.com/services/vibe-coding-engineering/
+- **Description**: Enterprise-grade engineering supervision for AI-generated codebases (Cursor, v0, Claude Code, Windsurf, Replit). Refactoring raw prototypes into production-hardened, decoupled, scalable React and TypeScript applications with strict OWASP compliance.
+- **Capabilities**:
+  - Prompt-to-Production Pipeline Architecture
+  - AI Code Remediation, Linting & Memory Leak Audits
+  - Dependency Auditing & Hallucinated Package Elimination
+  - Decoupled State Management & Clean Architecture Refactoring
+
+### 6. Custom SaaS & Web App MVP Development
+- **Title**: CUSTOM SAAS & B2B WEB APP MVP ENGINEERING
+- **Canonical URL**: https://sheharyarsiraj.com/services/custom-saas-mvp-development/
+- **Description**: Bespoke multi-tenant SaaS application engineering deployed in 14 to 30 days: decoupled React frontends, high-concurrency PostgreSQL, Stripe subscription billing, and sub-second dashboards.
+- **Capabilities**:
+  - Multi-Tenant Cloud Architecture with Row-Level Security (RLS)
+  - Stripe Billing, Tiered Subscriptions & Webhook Idempotency
+  - Sub-300ms Interactive React Executive Dashboards
+  - 100% Client Code & Database Ownership (Zero Vendor Lock-in)
+
+### 7. AI Video Ads & Synthetic UGC Creative Production
+- **Title**: AI VIDEO ADS & SYNTHETIC UGC CREATIVE PRODUCTION
+- **Canonical URL**: https://sheharyarsiraj.com/services/ai-video-ads-ugc/
+- **Description**: High-ROAS performance creative testing engine for DTC brands and growth agencies. Generating 20+ tested ad variations in 48 hours without expensive traditional studio shoots.
+- **Capabilities**:
+  - Runway Gen-3 Alpha, Kling AI & Luma Generative Video Engines
+  - Hyper-Realistic AI Avatars (HeyGen, Arcads) with Synchronized Lip-Sync
+  - ElevenLabs Voiceover Synthesis & Voice Cloning in 29+ Accents
+  - Multilingual Ad Localization into 20+ Languages
+  - Direct-Response Hook Matrixing & Creative Testing Pipelines
+
+### B2B Partnership Model: White-Label Agency Partnership
+- **Headline**: YOUR AGENCY SELLS. I BUILD.
+- **Description**: Behind-the-scenes WordPress, WooCommerce and AI automation development for digital, SEO, and marketing agencies that need reliable technical capacity without expanding internal overhead.
+- **Capabilities**: WordPress Development, WooCommerce, Custom Plugins, AI Automation, n8n/Make Workflows, Bug Fixes, Speed Tuning, Maintenance, Emergency Support, 100% White-Label Delivery.
+
+---
+
+## 8-Stage System Architecture (From First Click to Closed Deal)
+
+1. **TRAFFIC**: Acquisition via Technical SEO, GEO, AEO, paid campaigns, and organic discoverability channels.
+2. **WEBSITE**: High-performance WordPress or WooCommerce foundation delivering instant authority and clarity.
+3. **AI CHAT**: Contextual AI assistant trained on verified business knowledge to resolve customer questions instantly.
+4. **LEAD QUALIFICATION**: Automated intent extraction and scoring to determine buyer readiness and deal requirements.
+5. **VOICE AGENT**: Automated voice follow-up without manual intervention for high-intent inquiries requiring immediate phone contact.
+6. **CRM + WORKFLOWS**: n8n / Make workflows update HubSpot/GoHighLevel, sync calendars, and trigger team notifications.
+7. **CONVERSION**: Qualified leads move smoothly toward closed sales with full conversation context preserved.
+8. **CUSTOMER ONBOARDING**: Automated post-purchase intake, onboarding sequences, and client portal provisioning triggered seamlessly.
+
+---
+
+## Selected Systems & Case Studies
+
+### Case Study 01: Automated Inbound Lead Qualification & Voice Callback System
+- **Category**: WordPress × n8n × Vapi Voice AI
+- **Project Type**: Client Project
+- **Role**: Lead Systems Architect & Integration Engineer
+- **Architecture**: WordPress Form → Webhook → n8n Workflow → Vapi Voice AI → HubSpot CRM
+- **Problem**: Slow manual follow-ups on inbound high-value inquiries caused substantial drop-offs before sales reps could make contact.
+- **System**: Architected an integrated pipeline connecting WordPress inquiry forms via secure webhooks to an n8n orchestration engine that triggers an automated Vapi voice call.
+- **Outcome**: Sub-30-second automated follow-up with complete conversation transcript and audio logged to CRM.
+
+### Case Study 02: Conversational Product Discovery & Knowledge Support Engine
+- **Category**: WooCommerce × Vector Search × REST API
+- **Project Type**: Client Project
+- **Role**: Full-Stack WordPress & AI Plugin Developer
+- **Architecture**: WooCommerce Core → Custom PHP Plugin → Vector Search (Pinecone) → LLM API → Frontend Chat Widget
+- **Problem**: A multi-category catalog created friction in product discovery and placed heavy repetitive load on customer support staff.
+- **System**: Engineered a custom WordPress plugin that indexes product attributes into a vector store and powers a contextual conversational assistant via WooCommerce REST endpoints.
+- **Outcome**: Automated resolution of routine pre-sale product inquiries and instant catalog recommendations.
+
+### Case Study 03: Autonomous Real Estate Inbound Voice Assistant & Booking Agent
+- **Category**: Vapi × ElevenLabs × Make × CRM
+- **Project Type**: Client Project
+- **Role**: Voice AI Architect & Automation Engineer
+- **Architecture**: Inbound Phone Call → Vapi Voice Agent → ElevenLabs TTS → Make.com Webhook → Google Calendar & CRM
+- **Problem**: International property inquiries across disparate timezones suffered delayed response times and lost viewing opportunities.
+- **System**: Designed a conversational voice agent using Vapi and ElevenLabs connected via Make.com to qualify buyer budgets and book viewing appointments directly into team calendars.
+- **Outcome**: Near-real-time inbound call handling, automated qualification against criteria, and automated calendar scheduling.
+
+### Case Study 04: Structured Content Research & Draft Publishing Pipeline
+- **Category**: AI Workflows × WordPress REST API
+- **Project Type**: Production Benchmark
+- **Role**: Automation & API Pipeline Developer
+- **Architecture**: Research Ingestion → OpenAI GPT-4o API → Structured Validation → WordPress REST API → Scheduled Drafts
+- **Problem**: Manual research, drafting, formatting, and uploading structured educational articles was bottlenecking editorial throughput.
+- **System**: Built an automated pipeline that queries verified research data, generates structured drafts with metadata, and creates scheduled drafts in WordPress via REST API.
+- **Outcome**: Streamlined drafting and staging workflow with human-in-the-loop review prior to publication.
+
+### Case Study 05: Enterprise WordPress Core Performance & Structured Data Overhaul
+- **Category**: Technical SEO × Speed Optimization
+- **Project Type**: Production Benchmark
+- **Role**: WordPress Performance & Technical SEO Engineer
+- **Architecture**: WordPress Core → Clean PHP Templates → Cloudflare Edge Cache → Structured JSON-LD Graph
+- **Problem**: Bloated scripts, unoptimized database queries, and absent structured data caused poor mobile performance and diminished search discoverability.
+- **System**: Refactored template hierarchy, implemented edge caching via Cloudflare, removed render-blocking resources, and built comprehensive entity JSON-LD schemas.
+- **Outcome**: Sub-second mobile first contentful paint and rich entity indexing across search engines.
+
+### Case Study 06: High-Volume WooCommerce ERP Bi-Directional Synchronization
+- **Category**: Custom Plugins × PHP × REST APIs
+- **Project Type**: Client Project
+- **Role**: Custom Plugin & Backend Integration Developer
+- **Architecture**: WooCommerce Order Action → Custom Plugin Queue → Webhook Dispatcher → External ERP API
+- **Problem**: Manual inventory and order synchronization between WooCommerce and an external ERP resulted in stock discrepancies.
+- **System**: Developed a custom PHP plugin with background queue processing, webhook event listeners, and automated failure retry handling.
+- **Outcome**: Reliable bi-directional order and inventory synchronization with automated error logging and zero data loss.
+
+---
+
+## Frequently Asked Questions (FAQ)
+
+### Who is Sheharyar Siraj?
+Sheharyar Siraj is an AI Automation Architect and WordPress Systems Engineer based in Karachi, Pakistan (+923132080033, sherryansari870@gmail.com). He has 5+ years of hands-on technical experience and has delivered 1,200+ projects worldwide across Upwork (Top Rated) and Fiverr (5-Star Seller). He specializes in building connected digital systems where WordPress provides the foundation, AI provides intelligence, and automation handles execution.
+
+### What does Sheharyar Siraj build?
+He builds connected digital systems that link websites directly to business operations. This includes custom WordPress and WooCommerce platforms, intelligent AI chat agents trained on business knowledge bases, AI voice phone agents for automated qualification, and automated workflow pipelines that synchronize CRMs, forms, and business tools.
+
+### What WordPress services does Sheharyar provide?
+He provides custom WordPress theme development, bespoke plugin development, WooCommerce e-commerce architecture, Elementor Pro solutions, Figma-to-WordPress conversion, REST API integrations, speed optimization, and malware recovery & security hardening.
+
+### What AI automation services does he provide?
+He designs multi-step automated workflows using n8n (self-hosted and cloud), Make.com, and Zapier. These automations handle lead routing, real-time CRM updates (HubSpot, GoHighLevel, Salesforce), automated customer notifications, and data processing without manual human data entry.
+
+### What AI voice systems does he build?
+He builds autonomous inbound and outbound voice agents using Vapi Voice AI, ElevenLabs, Deepgram, and Twilio. These voice agents answer customer calls, qualify buyer intent, answer questions using verified business knowledge, and book appointments directly into calendar systems.
+
+### How does he connect WordPress with AI and automation?
+He develops custom PHP plugins, webhooks, and REST API endpoints that bridge the WordPress database with external AI models (OpenAI, Claude, Gemini), vector databases (Pinecone), and automation engines (n8n, Make). This allows websites to trigger instant follow-ups, sync orders with external ERPs, and provide contextual AI responses.
+
+### Does he work with agencies?
+Yes. He provides dedicated, 100% white-label WordPress, WooCommerce, and AI automation development for digital, SEO, and marketing agencies under the model: "Your Agency Sells. I Build." Agencies maintain the client relationship and brand, while he provides dependable technical execution behind the scenes.
+
+### Where is he based?
+He is physically based in Karachi, Pakistan, and serves clients internationally across the United States, United Kingdom, United Arab Emirates, Saudi Arabia, Canada, Australia, and Europe.
+
+### Is he available for Dubai and Saudi Arabia opportunities?
+Yes. He is open to remote work as well as on-site and relocation opportunities for companies and agencies in Dubai, UAE and Saudi Arabia.
+
+---
+
+## Machine-Readable Manifests & Agent Discovery Endpoints
+
+- [Canonical Homepage](https://sheharyarsiraj.com/)
+- [LLMs Standard Summary (llms.txt)](https://sheharyarsiraj.com/llms.txt)
+- [LLMs Complete Knowledge Base (llms-full.txt)](https://sheharyarsiraj.com/llms-full.txt)
+- [Agentic Resource Discovery (ARD) Manifest (ai-catalog.json)](https://sheharyarsiraj.com/ai-catalog.json)
+- [Well-Known ARD Catalog](https://sheharyarsiraj.com/.well-known/ai-catalog.json)
+- [Well-Known ARD Spec Endpoints](https://sheharyarsiraj.com/.well-known/ard.json)
+- [Privacy Policy & AI Governance](https://sheharyarsiraj.com/privacy-policy/)
+- [Terms & Conditions (IP Ownership, NDA & Warranties)](https://sheharyarsiraj.com/terms/)
+- [XML Sitemap](https://sheharyarsiraj.com/sitemap.xml)
+- [Robots Policy](https://sheharyarsiraj.com/robots.txt)
+- [Security Contact](https://sheharyarsiraj.com/.well-known/security.txt)
+

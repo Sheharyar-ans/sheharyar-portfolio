@@ -1,0 +1,6 @@
+Contact: mailto:sherryansari870@gmail.com
+Contact: https://wa.me/923132080033
+Preferred-Languages: en, ur
+Canonical: https://sheharyarsiraj.com/.well-known/security.txt
+Policy: https://sheharyarsiraj.com/about/
+Expires: 2027-10-13T00:00:00.000Z
