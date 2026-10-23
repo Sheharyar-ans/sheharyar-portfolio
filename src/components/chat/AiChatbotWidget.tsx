@@ -15,7 +15,7 @@ import {
   FileText,
   BadgePercent
 } from 'lucide-react';
-import { processRagQuery, ChatMessage, ChatBotMode } from '../../utils/ragEngine';
+import { processRagQuery, ChatMessage, ChatBotMode, DEFAULT_QUICK_CHIPS } from '../../utils/ragEngine';
 import { saveLead } from '../../utils/leadStorage';
 import { LeadManagementModal } from '../modals/LeadManagementModal';
 
@@ -45,27 +45,111 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
     {
       id: 'welcome-1',
       sender: 'assistant',
-      text: 'Hello! I am Sheharyar Siraj\'s interactive software & AI consultant. I can answer questions about custom WordPress architectures, sub-600ms AI voice agents, and enterprise automations, or help you scope and start a new project. How can I assist you today?',
+      text: 'Hello! I am Sheharyar Siraj\'s official AI Project Consultant. Sheharyar is an Enterprise WordPress Architect & Agentic AI Automation Engineer (Cisco CCNP, CyberOps, Vertex AI) with 1,200+ delivered systems worldwide.\n\nAre you looking to architect a high-performance WordPress/WooCommerce platform, deploy an autonomous sub-600ms AI voice receptionist (via Vapi/Twilio), or automate complex workflows using self-hosted n8n?',
       timestamp: 'Just now',
-      mode: 'support'
+      mode: 'support',
+      suggestedChips: DEFAULT_QUICK_CHIPS,
+      action: {
+        type: 'whatsapp',
+        label: 'Chat on WhatsApp (+92 313 2080033)',
+        url: 'https://wa.me/923132080033'
+      }
     }
   ]);
 
+  const modalRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToBottom = (smooth = true) => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({
+        behavior: smooth ? 'smooth' : 'auto',
+        block: 'nearest'
+      });
+    }
   };
 
+  // Scroll to latest message whenever messages update or typing state changes
   useEffect(() => {
     if (isOpen) {
-      scrollToBottom();
-      setTimeout(() => {
+      scrollToBottom(true);
+      const timer = setTimeout(() => {
         inputRef.current?.focus();
       }, 150);
+      return () => clearTimeout(timer);
     }
   }, [isOpen, messages, isTyping]);
+
+  // Mobile background body scroll lock
+  useEffect(() => {
+    if (isOpen && typeof window !== 'undefined' && window.innerWidth < 768) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [isOpen]);
+
+  // Native non-passive Wheel Event Isolation to prevent scroll chaining to window & Lenis
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const container = messagesContainerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Prevent bubbling to window and smooth-scrolling libraries
+      e.stopPropagation();
+
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      const isScrollable = scrollHeight > clientHeight;
+
+      if (!isScrollable) {
+        e.preventDefault();
+        return;
+      }
+
+      const deltaY = e.deltaY;
+      const isScrollingUp = deltaY < 0;
+      const isScrollingDown = deltaY > 0;
+
+      // Prevent scroll chaining when hitting bounds
+      if (isScrollingUp && scrollTop <= 0) {
+        e.preventDefault();
+        return;
+      }
+
+      if (isScrollingDown && scrollTop + clientHeight >= scrollHeight - 1) {
+        e.preventDefault();
+        return;
+      }
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    // Trap wheel events occurring on headers, footer or chips inside the modal
+    const modal = modalRef.current;
+    const handleModalWheel = (e: WheelEvent) => {
+      if (container && !container.contains(e.target as Node)) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    };
+
+    if (modal) {
+      modal.addEventListener('wheel', handleModalWheel, { passive: false });
+    }
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+      if (modal) {
+        modal.removeEventListener('wheel', handleModalWheel);
+      }
+    };
+  }, [isOpen, messages]);
 
   const handleSendMessage = async (textToSend?: string) => {
     const text = (textToSend || inputValue).trim();
@@ -102,7 +186,8 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
         mode: result.mode,
         showLeadForm: result.showLeadForm,
         action: result.action,
-        sources: result.sources
+        sources: result.sources,
+        suggestedChips: result.suggestedChips
       };
       setMessages((prev) => [...prev, botMsg]);
     } catch (error) {
@@ -113,6 +198,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
         text: 'I am ready to help with your project! You can connect with Sheharyar directly on WhatsApp (+92 313 2080033) or email sherryansari870@gmail.com for instant technical scoping with a guaranteed 2-hour SLA.',
         timestamp: 'Just now',
         mode: 'support',
+        suggestedChips: DEFAULT_QUICK_CHIPS,
         action: {
           type: 'whatsapp',
           label: 'Chat on WhatsApp (+92 313 2080033)',
@@ -158,7 +244,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
     const confirmMsg: ChatMessage = {
       id: `assistant-confirm-${Date.now()}`,
       sender: 'assistant',
-      text: `Thank you, ${leadForm.name}! Your project details have been recorded in Sheharyar's direct client queue (Ref: ${saved.id.slice(0, 12)}). Sheharyar reviews all submissions within 2 hours. You can also jump straight into WhatsApp to connect immediately!`,
+      text: `Thank you, ${leadForm.name}! Your project requirements have been directly registered in Sheharyar's queue (Ref: ${saved.id.slice(0, 12)}). Sheharyar reviews all submissions within 2 business hours.\n\nYou can also jump straight into WhatsApp to connect with him immediately!`,
       timestamp: 'Just now',
       leadCaptured: true,
       action: {
@@ -185,21 +271,24 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
       {
         id: `welcome-${Date.now()}`,
         sender: 'assistant',
-        text: 'Conversation reset. What system architecture or project scoping question can I answer for you?',
+        text: 'Conversation reset. What system architecture or project scoping question can I answer for you today?',
         timestamp: 'Just now',
-        mode: 'support'
+        mode: 'support',
+        suggestedChips: DEFAULT_QUICK_CHIPS,
+        action: {
+          type: 'whatsapp',
+          label: 'Chat on WhatsApp (+92 313 2080033)',
+          url: 'https://wa.me/923132080033'
+        }
       }
     ]);
   };
 
-  const starterChips = [
-    'Scope a New Project',
-    'Custom WordPress Architecture',
-    'Sub-600ms AI Voice Agents',
-    'Workflow Automation (n8n)',
-    'Pricing Models & Rates',
-    'Turnaround Times'
-  ];
+  // Find dynamic quick action chips from the latest assistant message, or default to core chips
+  const lastAssistantMsg = [...messages].reverse().find((m) => m.sender === 'assistant');
+  const activeChips = (lastAssistantMsg?.suggestedChips && lastAssistantMsg.suggestedChips.length > 0)
+    ? lastAssistantMsg.suggestedChips
+    : DEFAULT_QUICK_CHIPS;
 
   return (
     <>
@@ -237,11 +326,13 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
       {/* Main Chat Interface Modal */}
       {isOpen && (
         <div
+          ref={modalRef}
           data-lenis-prevent="true"
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[95vw] sm:w-[420px] h-[600px] max-h-[85vh] bg-surface-1 border border-brand-border rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fade-in font-body overscroll-contain"
+          style={{ overscrollBehavior: 'contain' }}
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[95vw] sm:w-[420px] h-[580px] max-h-[85vh] bg-surface-1 border border-brand-border rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fade-in font-body overscroll-contain"
         >
           {/* Header */}
-          <div className="p-3.5 bg-surface-2/80 border-b border-brand-border flex items-center justify-between backdrop-blur-md">
+          <div className="p-3.5 bg-surface-2/80 border-b border-brand-border flex items-center justify-between backdrop-blur-md shrink-0">
             <div className="flex items-center gap-2.5">
               <div className="relative">
                 <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center text-accent">
@@ -303,9 +394,14 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
 
           {/* Messages Scroll Area */}
           <div
+            ref={messagesContainerRef}
             data-lenis-prevent="true"
+            style={{
+              overscrollBehavior: 'contain',
+              WebkitOverflowScrolling: 'touch',
+              touchAction: 'pan-y'
+            }}
             className="flex-1 overflow-y-auto p-4 space-y-3.5 custom-scrollbar bg-black/20 overscroll-contain touch-pan-y"
-            onWheel={(e) => e.stopPropagation()}
             onTouchMove={(e) => e.stopPropagation()}
           >
             {messages.map((msg) => (
@@ -316,7 +412,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
                 }`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl p-3.5 text-xs sm:text-[13px] leading-relaxed ${
+                  className={`max-w-[88%] rounded-2xl p-3.5 text-xs sm:text-[13px] leading-relaxed ${
                     msg.sender === 'user'
                       ? 'bg-accent text-black font-semibold rounded-tr-none shadow-sm'
                       : 'bg-surface-2/90 border border-brand-border/70 text-white rounded-tl-none shadow-sm'
@@ -337,27 +433,48 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
                     </div>
                   )}
 
-                  {/* Interactive Action Button */}
+                  {/* Interactive Action Button & Conversion CTAs */}
                   {msg.action && msg.action.type !== 'lead_form' && (
-                    <div className="mt-2.5 pt-2 border-t border-brand-border/40">
-                      {msg.action.url ? (
+                    <div className="mt-3 pt-2.5 border-t border-brand-border/40 flex flex-wrap items-center gap-2">
+                      {msg.action.type === 'whatsapp' ? (
+                        <a
+                          href={msg.action.url || 'https://wa.me/923132080033'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-500 text-black font-mono font-bold text-xs hover:bg-emerald-400 transition-all shadow-md shadow-emerald-500/20 active:scale-95"
+                        >
+                          <Phone size={13} className="fill-current" />
+                          <span>{msg.action.label || 'Message on WhatsApp (+92 313 2080033)'}</span>
+                          <ArrowUpRight size={13} />
+                        </a>
+                      ) : msg.action.url ? (
                         <a
                           href={msg.action.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[11px] font-mono font-bold hover:bg-emerald-500/30 transition-colors"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent text-black font-mono font-bold text-xs hover:bg-white transition-all shadow-sm active:scale-95"
                         >
-                          <Phone size={11} />
                           <span>{msg.action.label}</span>
-                          <ArrowUpRight size={11} />
+                          <ArrowUpRight size={13} />
                         </a>
                       ) : (
                         <button
                           onClick={onOpenInquiry}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/20 border border-accent/40 text-accent text-[11px] font-mono font-bold hover:bg-accent/30 transition-colors"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/20 border border-accent/40 text-accent font-mono font-bold text-xs hover:bg-accent/30 transition-colors active:scale-95"
                         >
                           <span>{msg.action.label}</span>
-                          <ArrowUpRight size={11} />
+                          <ArrowUpRight size={13} />
+                        </button>
+                      )}
+
+                      {/* Direct Scoping Brief Link when in sales mode */}
+                      {msg.mode === 'sales' && (
+                        <button
+                          onClick={onOpenInquiry}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-surface-3 border border-brand-border text-brand-muted hover:text-white text-[11px] font-mono transition-colors"
+                        >
+                          <span>Audit Scoping Brief</span>
+                          <ArrowUpRight size={10} />
                         </button>
                       )}
                     </div>
@@ -465,24 +582,29 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
               </div>
             ))}
 
+            {/* Subtle Typing & Thinking State */}
             {isTyping && (
-              <div className="flex items-center gap-1.5 p-3 rounded-2xl bg-surface-2/80 border border-brand-border w-16 text-accent">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-bounce" />
-                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-bounce [animation-delay:0.2s]" />
-                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-bounce [animation-delay:0.4s]" />
+              <div className="flex items-center gap-2 p-3 rounded-2xl bg-surface-2/90 border border-brand-border/70 text-brand-muted text-xs font-mono w-fit animate-pulse">
+                <Sparkles size={13} className="text-accent animate-spin" />
+                <span>Consulting engineering dossier...</span>
+                <span className="flex items-center gap-1 ml-1 text-accent">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-bounce" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-bounce [animation-delay:0.2s]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-bounce [animation-delay:0.4s]" />
+                </span>
               </div>
             )}
 
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Starter Chips */}
-          <div className="p-2 bg-surface-2/40 border-t border-brand-border/40 overflow-x-auto whitespace-nowrap flex gap-1.5 no-scrollbar">
-            {starterChips.map((chip, idx) => (
+          {/* Quick Starter & Follow-up Chips */}
+          <div className="p-2 bg-surface-2/60 border-t border-brand-border/40 overflow-x-auto whitespace-nowrap flex gap-1.5 no-scrollbar shrink-0">
+            {activeChips.map((chip, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSendMessage(chip)}
-                className="px-2.5 py-1 rounded-full bg-surface-2 border border-brand-border/60 hover:border-accent text-brand-secondary hover:text-white text-[11px] font-mono transition-colors shrink-0"
+                className="px-2.5 py-1 rounded-full bg-surface-2 border border-brand-border/80 hover:border-accent text-brand-secondary hover:text-white text-[11px] font-mono transition-colors shrink-0 shadow-sm active:scale-95"
               >
                 {chip}
               </button>
@@ -490,7 +612,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
           </div>
 
           {/* Input Box */}
-          <div className="p-3 bg-surface-2 border-t border-brand-border">
+          <div className="p-3 bg-surface-2 border-t border-brand-border shrink-0">
             <div className="relative flex items-center">
               <input
                 ref={inputRef}
@@ -508,7 +630,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
               <button
                 onClick={() => handleSendMessage()}
                 disabled={!inputValue.trim() || isTyping}
-                className="absolute right-1.5 w-7 h-7 rounded-lg bg-accent text-black flex items-center justify-center hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
+                className="absolute right-1.5 w-7 h-7 rounded-lg bg-accent text-black flex items-center justify-center hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm active:scale-95"
                 title="Send message"
               >
                 <Send size={13} />
