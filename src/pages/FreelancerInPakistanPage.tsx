@@ -54,7 +54,7 @@ export const FreelancerInPakistanPage: React.FC<FreelancerInPakistanPageProps> =
     },
     {
       question: 'Can you work as an invisible white-label engineer for our digital agency under an NDA?',
-      answer: 'Yes. A substantial portion of my work is white-label development for digital marketing and SEO agencies across the United States, United Kingdom, and Australia. I operate under strict non-disclosure agreements (NDAs), commit code directly to agency GitHub or GitLab repositories under your organization handles, and collaborate seamlessly in agency Slack or Microsoft Teams channels without client poaching.'
+      answer: 'Yes. A substantial portion of my work is white-label development for digital marketing and SEO agencies across the United States, United Kingdom, and Australia. I operate under strict non-disclosure agreements (NDAs), commit code directly to agency GitHub or GitLab repositories under your organization handles, and collaborate directly in agency Slack or Microsoft Teams channels without client poaching.'
     }
   ];
 

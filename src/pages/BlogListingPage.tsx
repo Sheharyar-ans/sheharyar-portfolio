@@ -117,8 +117,8 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({ onOpenInquiry 
         <div className="mb-14 p-6 sm:p-8 rounded-3xl bg-surface-1 border border-brand-border/80 hover:border-accent transition-all group relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="flex flex-col lg:flex-row gap-8 items-start justify-between">
-            <div className="space-y-4 max-w-3xl">
+          <div className="flex flex-col lg:flex-row gap-8 items-center justify-between">
+            <div className="space-y-4 max-w-2xl">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="px-2.5 py-0.5 rounded-full bg-accent/15 border border-accent/30 text-accent font-mono text-[11px] font-bold uppercase tracking-wider">
                   FEATURED PILLAR ARTICLE
@@ -162,20 +162,33 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({ onOpenInquiry 
               </div>
             </div>
 
-            {/* Author Badge */}
-            <div className="p-4 rounded-2xl bg-surface-2/60 border border-brand-border/60 shrink-0 lg:w-72">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center font-heading font-black text-accent text-sm">
-                  SS
-                </div>
-                <div>
-                  <div className="font-heading font-bold text-sm text-white">{featuredPost.author.name}</div>
-                  <div className="text-[10px] font-mono text-brand-muted">Lead Systems Engineer</div>
-                </div>
+            {/* Featured Image & Author Card */}
+            <div className="w-full lg:w-96 shrink-0 space-y-4">
+              <div className="w-full aspect-video rounded-2xl overflow-hidden border border-brand-border/60 shadow-xl bg-surface-2 relative">
+                <img
+                  src={featuredPost.featuredImage}
+                  alt={featuredPost.featuredImageAlt || featuredPost.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  width="600"
+                  height="338"
+                  loading="eager"
+                />
               </div>
-              <p className="text-[11px] text-brand-secondary font-body leading-relaxed">
-                {featuredPost.author.bio}
-              </p>
+
+              <div className="p-4 rounded-2xl bg-surface-2/60 border border-brand-border/60">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center font-heading font-black text-accent text-sm">
+                    SS
+                  </div>
+                  <div>
+                    <div className="font-heading font-bold text-sm text-white">{featuredPost.author.name}</div>
+                    <div className="text-[10px] font-mono text-brand-muted">Lead Systems Engineer</div>
+                  </div>
+                </div>
+                <p className="text-[11px] text-brand-secondary font-body leading-relaxed">
+                  {featuredPost.author.bio}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -186,9 +199,21 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({ onOpenInquiry 
         {filteredPosts.map((post) => (
           <article
             key={post.slug}
-            className="p-6 rounded-2xl bg-surface-1 border border-brand-border/60 hover:border-accent hover:-translate-y-1 transition-all flex flex-col justify-between group"
+            className="p-5 sm:p-6 rounded-2xl bg-surface-1 border border-brand-border/60 hover:border-accent hover:-translate-y-1 transition-all flex flex-col justify-between group"
           >
             <div className="space-y-3">
+              {/* Responsive 16:9 Image Container (0 CLS) */}
+              <Link to={`/blog/${post.slug}/`} className="block w-full aspect-video rounded-xl overflow-hidden border border-brand-border/60 bg-surface-2 relative">
+                <img
+                  src={post.featuredImage}
+                  alt={post.featuredImageAlt || post.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  width="600"
+                  height="338"
+                />
+              </Link>
+
               <div className="flex items-center justify-between text-xs font-mono text-brand-muted">
                 <span className="px-2 py-0.5 rounded bg-surface-2 border border-brand-border/60 text-accent font-bold text-[10px] uppercase">
                   {post.category}

@@ -14,7 +14,7 @@ interface LocationsHubPageProps {
 export const LOCATIONS_HUB_FAQS = [
   {
     question: 'How do you coordinate real-time collaboration across multiple international timezones?',
-    answer: 'We schedule daily live collaboration windows aligned with each client territory: 4 to 6 hours overlap with US East and West Coast, full-day alignment with UK (GMT) and Europe (CET), seamless integration with the GCC (UAE/Saudi Arabia), and 5 to 7 hours overlap with Asia-Pacific (Singapore, Malaysia, Australia) via Slack, Microsoft Teams, and Google Meet.'
+    answer: 'We schedule daily live collaboration windows aligned with each client territory: 4 to 6 hours overlap with US East and West Coast, full-day alignment with UK (GMT) and Europe (CET), synchronized coordination with the GCC (UAE/Saudi Arabia), and 5 to 7 hours overlap with Asia-Pacific (Singapore, Malaysia, Australia) via Slack, Microsoft Teams, and Google Meet.'
   },
   {
     question: 'What currencies and corporate payment rails are supported for international clients?',

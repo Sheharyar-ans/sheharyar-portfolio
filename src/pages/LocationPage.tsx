@@ -364,7 +364,7 @@ export const LocationPage: React.FC<LocationPageProps> = ({ onOpenInquiry }) => 
           How do organizations in {data.country} initiate a regional technical engagement with Sheharyar Siraj?
         </h2>
         <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed max-w-2xl mx-auto mb-8 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
-          Organizations in {data.country} initiate direct technical engagements with Sheharyar Siraj by scheduling a confidential architecture scoping session, receiving localized technical proposals within 24 hours, guaranteed regional regulatory compliance, and seamless collaboration synchronized across {data.country} business hours.
+          Organizations in {data.country} initiate direct technical engagements with Sheharyar Siraj by scheduling a confidential architecture scoping session, receiving localized technical proposals within 24 hours, guaranteed regional regulatory compliance, and direct collaboration synchronized across {data.country} business hours.
         </p>
         <button
           onClick={onOpenInquiry}

@@ -312,10 +312,14 @@ export const CodeArcadePage: React.FC<CodeArcadePageProps> = ({ onOpenInquiry })
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
           <div className="relative w-full max-w-md p-6 sm:p-8 rounded-3xl bg-surface-1 border border-accent/40 shadow-[0_0_50px_rgba(183,255,60,0.25)] text-center font-mono">
             {/* Mascot Avatar */}
-            <div className="w-24 h-24 rounded-2xl bg-black border border-accent/40 p-1 mx-auto mb-4 overflow-hidden shadow-xl">
+            <div className="w-24 h-24 aspect-square rounded-2xl bg-black border border-accent/40 p-1 mx-auto mb-4 overflow-hidden shadow-xl">
               <img
                 src="/assets/images/arcade/arcade-cyber-bot.jpg"
-                alt="Cyber-Bot Pilot"
+                alt="Cyber-Bot Pilot Code Arcade Security Mascot"
+                width="96"
+                height="96"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover rounded-xl"
               />
             </div>

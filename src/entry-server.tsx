@@ -340,6 +340,7 @@ export function getRouteMetadata(url: string) {
         title: post.seoTitle,
         description: post.metaDescription,
         canonical: `https://sheharyarsiraj.com/blog/${post.slug}/`,
+        image: `https://sheharyarsiraj.com${post.featuredImage}`,
         schema
       };
     }

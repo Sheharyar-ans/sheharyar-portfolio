@@ -30,11 +30,17 @@
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
     "@types/three": "^0.160.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.17",
     "playwright": "^1.64.0",
     "postcss": "^8.4.33",
     "typescript": "^5.3.3",
-    "vite": "^5.0.12"
+    "vite": "^6.4.5"
+  },
+  "overrides": {
+    "vite": "^6.4.5",
+    "esbuild": "^0.28.2",
+    "source-map-js": "^1.2.2",
+    "postcss-selector-parser": "^7.1.7"
   }
 }

@@ -72,6 +72,17 @@ async function prerender() {
         `<meta property="og:url" content="${meta.canonical}" />`
       );
 
+      if (meta.image) {
+        pageHtml = pageHtml.replace(
+          /<meta\s+property="og:image"\s+content="[\s\S]*?"\s*\/?>/i,
+          `<meta property="og:image" content="${meta.image}" />`
+        );
+        pageHtml = pageHtml.replace(
+          /<meta\s+property="twitter:image"\s+content="[\s\S]*?"\s*\/?>/i,
+          `<meta property="twitter:image" content="${meta.image}" />`
+        );
+      }
+
       // Inject JSON-LD Schema
       if (meta.schema && Object.keys(meta.schema).length > 0) {
         const schemaTag = `\n  <script type="application/ld+json" id="route-schema-ssg">\n${JSON.stringify(meta.schema, null, 2)}\n  </script>\n`;

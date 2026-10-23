@@ -201,6 +201,20 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ onOpenInquiry }) => 
           </ul>
         </div>
 
+        {/* Featured Architecture Hero Banner (16:9 Aspect Ratio / 0 CLS) */}
+        <div className="mb-12 w-full aspect-video rounded-3xl overflow-hidden border border-brand-border/80 shadow-2xl relative bg-surface-1 group">
+          <img
+            src={post.featuredImage}
+            alt={post.featuredImageAlt || post.title}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+            width="1200"
+            height="675"
+            loading="eager"
+            fetchPriority="high"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+        </div>
+
         {/* Table of Contents */}
         <div className="mb-12 p-5 rounded-2xl bg-surface-2/40 border border-brand-border/60">
           <div className="text-xs font-mono text-white font-bold uppercase tracking-wider mb-3 flex items-center gap-1.5">
@@ -224,8 +238,8 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ onOpenInquiry }) => 
         {/* Main Article Body */}
         <article className="prose prose-invert max-w-none font-body leading-relaxed text-brand-secondary space-y-6 text-sm sm:text-base">
           {post.content.split('\n\n').map((paragraph, idx) => {
-            if (paragraph.startsWith('### ')) {
-              const headingText = paragraph.replace('### ', '');
+            if (paragraph.startsWith('### ') || paragraph.startsWith('## ')) {
+              const headingText = paragraph.replace(/^#{2,3}\s+/, '');
               const matchingToc = post.tableOfContents.find(t => headingText.toLowerCase().includes(t.title.toLowerCase().slice(0, 10)));
               const anchorId = matchingToc ? matchingToc.id : `section-${idx}`;
               return (
@@ -236,6 +250,18 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ onOpenInquiry }) => 
                 >
                   {headingText}
                 </h2>
+              );
+            }
+
+            if (paragraph.startsWith('#### ')) {
+              const subHeadingText = paragraph.replace(/^####\s+/, '');
+              return (
+                <h3
+                  key={idx}
+                  className="font-heading text-lg sm:text-xl font-bold text-accent pt-6 pb-1 scroll-mt-28"
+                >
+                  {subHeadingText}
+                </h3>
               );
             }
 

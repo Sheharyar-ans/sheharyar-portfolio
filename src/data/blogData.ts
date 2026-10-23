@@ -19,6 +19,7 @@ export interface BlogPost {
     bio: string;
   };
   featuredImage: string;
+  featuredImageAlt: string;
   excerpt: string;
   tags: string[];
   tableOfContents: { id: string; title: string }[];
@@ -58,7 +59,8 @@ export const BLOG_POSTS: BlogPost[] = [
       avatar: '/assets/images/sheharyar-siraj-ai-automation.webp',
       bio: '5+ years engineering high-concurrency custom WordPress architectures and AI automation pipelines with 1,200+ delivered projects worldwide.'
     },
-    featuredImage: '/assets/images/hero-poster.webp',
+    featuredImage: '/assets/images/blog/wordpress-php-vip-sub-1s-lcp.webp',
+    featuredImageAlt: 'Decoupled Custom WordPress and PHP 8.2 VIP systems engineering architecture optimizing Largest Contentful Paint under 1 second',
     excerpt: 'Heavy multi-purpose WordPress themes and visual page builders cripple Largest Contentful Paint (LCP) and Cumulative Layout Shift (CLS). Here is the exact architectural blueprint to build enterprise WordPress systems using PHP 8.2, object-oriented custom themes, and Redis object caching.',
     tags: ['WordPress VIP', 'PHP 8.2', 'Core Web Vitals', 'Redis', 'Gutenberg Blocks'],
     keyTakeaways: [
@@ -212,7 +214,8 @@ When your web foundation is fast by default, search engines reward your domain w
       avatar: '/assets/images/sheharyar-siraj-ai-automation.webp',
       bio: 'Pioneering production conversational AI voice pipelines and real-time CRM webhook integrations for enterprise service companies.'
     },
-    featuredImage: '/assets/images/hero-poster.webp',
+    featuredImage: '/assets/images/blog/vapi-ai-voice-telephony-architecture.webp',
+    featuredImageAlt: 'Autonomous AI voice agent telephony architecture diagram showing sub-600ms latency call routing via Vapi and Twilio SIP',
     excerpt: 'Latency is the single critical factor in conversational voice AI. If a caller pauses and waits more than 800ms for a response, the human brain detects a robotic disconnect. Here is how we engineer sub-600ms voice agents with Vapi, Deepgram Nova-2, and event-driven webhooks.',
     tags: ['AI Voice Agents', 'Vapi Voice', 'Twilio SIP', 'ElevenLabs', 'Deepgram'],
     keyTakeaways: [
@@ -255,7 +258,7 @@ Rather than running client calls through webRTC in a browser, production B2B voi
 </Response>
 \`\`\`
 
-This configuration delivers crystal-clear audio codecs (G.711 / Opus), automated caller ID transmission, and seamless call transfer to human managers whenever sentiment analysis flags an escalation.
+This configuration delivers crystal-clear audio codecs (G.711 / Opus), automated caller ID transmission, and sub-500ms call handoff to human managers whenever sentiment analysis flags an escalation.
 
 ### Vapi Assistant Architecture & System Prompts
 
@@ -368,7 +371,8 @@ The result is a telephone system that operates 24/7, never places callers on hol
       avatar: '/assets/images/sheharyar-siraj-ai-automation.webp',
       bio: 'Enterprise WooCommerce architect specializing in HPOS migrations, Redis object caching clusters, and checkout funnel optimization.'
     },
-    featuredImage: '/assets/images/hero-poster.webp',
+    featuredImage: '/assets/images/blog/woocommerce-hpos-high-concurrency-checkout.webp',
+    featuredImageAlt: 'WooCommerce High-Performance Order Storage database schema and high-concurrency checkout architecture for 10000 daily orders',
     excerpt: 'When e-commerce brands hit seasonal flash sales or scale past 5,000 orders per day, default WooCommerce architectures grind to a halt. Traditional postmeta table storage causes row lock contention that freezes checkout carts. Here is the engineering strategy to scale WooCommerce HPOS.',
     tags: ['WooCommerce HPOS', 'High Concurrency', 'MySQL Optimization', 'Redis', 'Checkout Optimization'],
     keyTakeaways: [
@@ -484,7 +488,7 @@ We eliminate cart fragments entirely, replacing them with modern HTML5 LocalStor
       },
       {
         question: 'Will existing custom plugins break after migrating to HPOS?',
-        answer: 'Plugins that use modern WooCommerce CRUD methods (e.g. wc_get_order()) work seamlessly with HPOS. Only legacy plugins that directly query wp_postmeta using custom SQL require refactoring to use HPOS-compatible repository methods.'
+        answer: 'Plugins that use modern WooCommerce CRUD methods (e.g. wc_get_order()) operate natively with HPOS without compatibility shims. Only legacy plugins that directly query wp_postmeta using custom SQL require refactoring to use HPOS-compatible repository methods.'
       }
     ]
   },
@@ -505,7 +509,8 @@ We eliminate cart fragments entirely, replacing them with modern HTML5 LocalStor
       avatar: '/assets/images/sheharyar-siraj-ai-automation.webp',
       bio: 'Enterprise automation architect building high-throughput n8n workflow clusters and custom API orchestration pipelines.'
     },
-    featuredImage: '/assets/images/hero-poster.webp',
+    featuredImage: '/assets/images/blog/n8n-self-hosted-cluster-automation.webp',
+    featuredImageAlt: 'Self-hosted n8n enterprise automation cluster diagram with Redis queues and Docker worker nodes vs Zapier',
     excerpt: 'Paying thousands of dollars per month for Zapier task limits while streaming proprietary customer data to third-party US clouds creates severe security risks and cost scaling headaches. Here is how we deploy self-hosted n8n clusters with automated retries and dead-letter queues.',
     tags: ['n8n', 'Workflow Automation', 'Docker', 'PostgreSQL', 'API Integration'],
     keyTakeaways: [
@@ -650,7 +655,7 @@ A global logistics agency operating across the UK and UAE migrated 42 multi-step
       },
       {
         question: 'Can n8n connect with any custom internal database or private API?',
-        answer: 'Yes. n8n includes native nodes for PostgreSQL, MySQL, Redis, GraphQL, and raw HTTP requests, allowing seamless communication with private internal microservices behind corporate VPNs.'
+        answer: 'Yes. n8n includes native nodes for PostgreSQL, MySQL, Redis, GraphQL, and raw HTTP requests, enabling direct, authenticated communication with private internal microservices behind corporate VPNs.'
       },
       {
         question: 'What happens to n8n workflows if the server restarts?',
@@ -675,7 +680,8 @@ A global logistics agency operating across the UK and UAE migrated 42 multi-step
       avatar: '/assets/images/sheharyar-siraj-ai-automation.webp',
       bio: 'AI systems architect engineering zero-hallucination contextual RAG applications, vector knowledge bases, and multi-agent systems.'
     },
-    featuredImage: '/assets/images/hero-poster.webp',
+    featuredImage: '/assets/images/blog/enterprise-rag-vector-hybrid-search.webp',
+    featuredImageAlt: 'Enterprise RAG vector architecture showing dense embeddings, BM25 sparse search, and cross-encoder reranking',
     excerpt: 'Standard vector search using naive cosine similarity frequently fails in production. It misses exact technical part numbers, dates, and domain-specific acronyms. Here is how we engineer production RAG architectures using hybrid BM25 + dense vector embeddings and cross-encoder rerankers.',
     tags: ['RAG', 'Vector Search', 'Pinecone', 'Embeddings', 'LangChain'],
     keyTakeaways: [
@@ -810,7 +816,8 @@ With these four layers in place, your business chatbot ceases to be a liability 
       avatar: '/assets/images/sheharyar-siraj-ai-automation.webp',
       bio: 'Technical SEO and AEO architect engineering structured data graphs and machine-readable web interfaces for generative search engines.'
     },
-    featuredImage: '/assets/images/hero-poster.webp',
+    featuredImage: '/assets/images/blog/geo-generative-engine-optimization-schema.webp',
+    featuredImageAlt: 'Generative Engine Optimization entity knowledge graph and structured JSON-LD schema for ChatGPT and Perplexity citations',
     excerpt: 'Traditional keyword-stuffing SEO is obsolete. AI answer engines like Perplexity, ChatGPT Search, and Google AI Overviews crawl websites as knowledge graphs, extracting authoritative factual claims rather than counting blue links. Here is how to engineer your website for Generative Engine Optimization.',
     tags: ['GEO', 'AEO', 'JSON-LD Schema', 'Entity Graphs', 'Perplexity SEO'],
     keyTakeaways: [
@@ -957,7 +964,8 @@ Websites engineered with solid entity foundations, verified credentials, and mac
       avatar: '/assets/images/sheharyar-siraj-ai-automation.webp',
       bio: 'Multi-agent systems architect specializing in LangGraph state machines, cyclical agent orchestration, and deterministic enterprise execution.'
     },
-    featuredImage: '/assets/images/hero-poster.webp',
+    featuredImage: '/assets/images/blog/agentic-ai-langgraph-multi-agent.webp',
+    featuredImageAlt: 'Deterministic agentic AI multi-agent workflow architecture diagram using LangGraph state machines and Python',
     excerpt: 'Single-prompt AI agents hallucinate and drift into infinite loops when assigned complex, multi-step business objectives. Here is how we build production multi-agent systems using LangGraph state graphs, cyclical human-in-the-loop validation, and strict JSON Schema tool calling.',
     tags: ['Agentic AI', 'LangGraph', 'Python', 'Multi-Agent', 'Tool Calling'],
     keyTakeaways: [
@@ -1071,7 +1079,7 @@ app = workflow.compile(checkpointer=memory, interrupt_before=["deployer"])
 
 # Agent runs autonomously until reaching the 'deployer' node, then freezes state.
 # A notification is dispatched to the manager's dashboard or Slack.
-# Once the manager clicks 'Approve', execution resumes seamlessly:
+# Once the manager clicks 'Approve', execution resumes deterministically:
 app.invoke(None, config={"configurable": {"thread_id": "project_1082"}})
 \`\`\`
 
@@ -1118,19 +1126,20 @@ By combining the structural rigidity of LangGraph with disciplined schema valida
       avatar: '/assets/images/sheharyar-siraj-ai-automation.webp',
       bio: 'White-label technical partner for agencies in the US, UK, and Australia delivering high-performance WordPress VIP and automation systems.'
     },
-    featuredImage: '/assets/images/hero-poster.webp',
+    featuredImage: '/assets/images/blog/white-label-agency-development-infrastructure.webp',
+    featuredImageAlt: 'White-label digital marketing agency development execution framework with Git pipelines and client brand invisibility',
     excerpt: 'Hiring full-time senior software engineers in London, New York, or Sydney costs $120,000+ per year plus recruitment overhead and downtime. Here is how progressive digital agencies leverage dedicated white-label engineering partnerships to boost client retention and profit margins.',
     tags: ['White-Label Agency', 'Agency Growth', 'Subcontracting', 'WordPress VIP', 'Client Retention'],
     keyTakeaways: [
       'Agency margins expand by 40% to 60% when replacing high local salaried engineering overhead with flexible white-label sprint capacity.',
       'Strict bilateral NDAs guarantee 100% white-label invisibility: commits, tickets, and communications happen under your agency brand.',
-      'Seamless collaboration inside your agency Slack or Teams workspace provides real-time sprint updates without client poaching risks.',
+      'Direct, transparent collaboration inside your agency Slack or Teams workspace provides real-time sprint updates without client poaching risks.',
       'Delivering 95+ PageSpeed Core Web Vitals and bulletproof security directly supports your agency SEO rankings and client retention.'
     ],
     tableOfContents: [
       { id: 'the-agency-hiring-conundrum', title: 'The Agency Engineering Conundrum' },
       { id: 'how-white-label-partnerships-work', title: 'The Operating Model: Your Agency Sells. I Build.' },
-      { id: 'slack-and-git-collaboration', title: 'Seamless Slack, Git & Project Management Integration' },
+      { id: 'slack-and-git-collaboration', title: 'Native Slack, Git & Project Management Integration' },
       { id: 'seo-and-cwv-synergy', title: 'Why Technical Excellence Multiplies Agency SEO Results' },
       { id: 'bilateral-nda-protection', title: 'Zero-Poaching Guarantees & Strict NDA Frameworks' }
     ],
@@ -1149,7 +1158,7 @@ Under the white-label partnership model, our working relationship is simple: **Y
 
 You sell custom web builds, speed optimization retainers, and AI automation suites at premium agency rates ($5,000 to $25,000+), while subcontracting execution at structured sprint or retainer rates that preserve a healthy 45% to 60% gross profit margin for your firm.
 
-### Seamless Slack, Git & Project Management Integration
+### Native Slack, Git & Project Management Integration
 
 A true white-label partner behaves like a dedicated in-house team member:
 - **Direct Workspace Integration**: We join your internal agency Slack, Discord, or Microsoft Teams channel under your company domain email address (e.g. \`sheharyar@youragency.com\`).
@@ -1211,7 +1220,8 @@ By having an invisible senior technical partner in your corner, your agency can 
       avatar: '/assets/images/sheharyar-siraj-ai-automation.webp',
       bio: 'Database systems optimizer specializing in high-concurrency MySQL tuning, transient cleanup algorithms, and enterprise security hardening.'
     },
-    featuredImage: '/assets/images/hero-poster.webp',
+    featuredImage: '/assets/images/blog/wordpress-database-autoload-transient-cleaner.webp',
+    featuredImageAlt: 'WordPress database optimization telemetry showing wp_options autoload reduction and MySQL InnoDB table tuning',
     excerpt: 'Is your WordPress site taking 2+ seconds to respond even on high-end hosting? The culprit is almost always bloated wp_options autoload size and millions of orphaned transients. Here is how to profile, clean, and permanently optimize your WordPress database for sub-10ms query execution.',
     tags: ['Database Optimization', 'wp_options', 'MySQL', 'Transients', 'Security Hardening'],
     keyTakeaways: [
@@ -1358,7 +1368,8 @@ With regular profiling, automated transient pruning, and hardened security stand
       avatar: '/assets/images/sheharyar-siraj-ai-automation.webp',
       bio: 'Data systems engineer architecting automated ETL pipelines, real-time analytics data warehouses, and executive intelligence dashboards.'
     },
-    featuredImage: '/assets/images/hero-poster.webp',
+    featuredImage: '/assets/images/blog/b2b-executive-bi-etl-pipeline-dashboards.webp',
+    featuredImageAlt: 'Event-driven B2B ETL pipeline architecture transforming Stripe and CRM data into real-time executive BI dashboards',
     excerpt: 'Executive leadership teams waste dozens of hours every month manually exporting CSVs from Stripe, WooCommerce, and HubSpot into spreadsheet Frankenstein models. Here is how we build automated event-driven ETL pipelines into real-time business intelligence dashboards.',
     tags: ['ETL Pipelines', 'Business Intelligence', 'Data Science', 'Stripe API', 'Analytics'],
     keyTakeaways: [

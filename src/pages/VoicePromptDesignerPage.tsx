@@ -333,7 +333,7 @@ Specific Objection Rules:
         </h1>
 
         <p className="text-brand-secondary text-base sm:text-xl max-w-4xl leading-relaxed font-body">
-          Generate production-ready Vapi and Retell system prompts, deterministic JSON state machines, and tool-calling schemas. Engineered for sub-600ms latency, zero off-script hallucinations, and seamless telephony handoffs.
+          Generate production-ready Vapi and Retell system prompts, deterministic JSON state machines, and tool-calling schemas. Engineered for sub-600ms latency, zero off-script hallucinations, and deterministic telephony handoffs.
         </p>
 
         {/* Quick System Telemetry Bar */}
@@ -723,7 +723,7 @@ Specific Objection Rules:
                   ElevenLabs & Cartesia Streaming Voice Synthesis Optimization
                 </h3>
                 <p className="leading-relaxed">
-                  When using ElevenLabs, select the Turbo v2.5 or Flash model over the multilingual v2 engine. While multilingual models offer expressive voice cloning, their generation latency exceeds 280 milliseconds. Cartesia Sonic provides ultra-low latency streaming at 135 milliseconds, making it ideal for fast-paced customer triage where rapid turn-taking is critical.
+                  When using ElevenLabs, select the Turbo v2.5 or Flash model over the multilingual v2 engine. While multilingual models offer expressive voice cloning, their generation latency exceeds 280 milliseconds. Cartesia Sonic provides ultra-low latency streaming at 135 milliseconds, making it ideal for high-throughput customer triage where rapid turn-taking is critical.
                 </p>
               </div>
 

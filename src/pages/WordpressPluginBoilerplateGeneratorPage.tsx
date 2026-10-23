@@ -1094,7 +1094,7 @@ composer run phpcs
     {
       question: 'Why should enterprise WordPress plugins use an object-oriented architecture instead of procedural functions?',
       answer:
-        'Procedural WordPress plugins with loose global functions pollute the global namespace, creating severe function collision risks when third-party plugins or theme updates are introduced. An object-oriented structure organizes activation hooks, admin views, REST endpoints, and AJAX dispatchers into distinct, single-responsibility classes under dedicated PHP namespaces. This enables clean autoloading, effortless unit testing with Mockery or Brain Monkey, and predictable maintenance in team environments.'
+        'Procedural WordPress plugins with loose global functions pollute the global namespace, creating severe function collision risks when third-party plugins or theme updates are introduced. An object-oriented structure organizes activation hooks, admin views, REST endpoints, and AJAX dispatchers into distinct, single-responsibility classes under dedicated PHP namespaces. This enables clean autoloading, deterministic unit testing with Mockery or Brain Monkey, and predictable maintenance in team environments.'
     },
     {
       question: 'How does this boilerplate prevent wp_options query bloat during WordPress bootstrap?',

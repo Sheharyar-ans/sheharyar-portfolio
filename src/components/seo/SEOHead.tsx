@@ -30,6 +30,14 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     }
     metaDesc.setAttribute('content', description);
 
+    // Strictly normalize canonical URL to prevent duplicate content / trailing slash anomalies
+    let normalizedCanonical = canonicalUrl.trim();
+    if (normalizedCanonical.includes('/home') || normalizedCanonical.endsWith('/home/')) {
+      normalizedCanonical = 'https://sheharyarsiraj.com/';
+    } else if (!normalizedCanonical.endsWith('/') && !normalizedCanonical.match(/\.[a-zA-Z0-9]+$/)) {
+      normalizedCanonical = `${normalizedCanonical}/`;
+    }
+
     // Update canonical link
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
@@ -37,7 +45,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', canonicalUrl);
+    canonical.setAttribute('href', normalizedCanonical);
 
     // Update Open Graph
     const setOgMeta = (property: string, content: string) => {
@@ -52,7 +60,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
 
     setOgMeta('og:title', title);
     setOgMeta('og:description', description);
-    setOgMeta('og:url', canonicalUrl);
+    setOgMeta('og:url', normalizedCanonical);
     setOgMeta('og:type', type);
 
     // Update Twitter
@@ -68,7 +76,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
 
     setTwitterMeta('twitter:title', title);
     setTwitterMeta('twitter:description', description);
-    setTwitterMeta('twitter:url', canonicalUrl);
+    setTwitterMeta('twitter:url', normalizedCanonical);
 
     // Update or insert route-specific JSON-LD Schema
     const existingRouteSchema = document.getElementById('route-schema-ld');

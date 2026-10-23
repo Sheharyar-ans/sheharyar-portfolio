@@ -408,7 +408,13 @@ export const App: React.FC = () => {
             element={<CodeArcadePage onOpenInquiry={() => setIsConnectOpen(true)} />}
           />
 
-          {/* Fallback */}
+          {/* Prevent routing duplicates / canonical aliases */}
+          <Route path="/home" element={<Navigate to="/" replace />} />
+          <Route path="/home/" element={<Navigate to="/" replace />} />
+          <Route path="/index.html" element={<Navigate to="/" replace />} />
+          <Route path="/index.php" element={<Navigate to="/" replace />} />
+
+          {/* 404 Fallback - canonical redirect to root */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

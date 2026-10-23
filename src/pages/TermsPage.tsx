@@ -278,7 +278,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenInquiry }) => {
               6. Milestones, Multi-Currency Settlement & Escrow
             </h2>
             <p className="text-sm sm:text-base mb-4">
-              To guarantee mutual trust and seamless cross-border delivery:
+              To guarantee mutual trust and frictionless cross-border delivery:
             </p>
             <ul className="space-y-2.5 text-xs sm:text-sm font-mono">
               <li className="flex items-start gap-2">

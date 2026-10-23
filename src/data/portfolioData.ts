@@ -285,7 +285,7 @@ export const SYSTEM_FLOW_STEPS: FlowNode[] = [
   {
     step: '08',
     name: 'CUSTOMER ONBOARDING',
-    desc: 'Automated post-purchase intake, onboarding sequences, and client portal provisioning triggered seamlessly.',
+    desc: 'Automated post-purchase intake, onboarding sequences, and client portal provisioning executed instantly upon checkout.',
   },
 ];
 
@@ -628,7 +628,7 @@ export const TESTIMONIALS: Testimonial[] = [
     source: 'Fiverr Verified',
   },
   {
-    quote: 'Sheharyar has been our reliable white-label development partner for multiple client projects. He handles complex WordPress builds, speed tuning, and automations seamlessly.',
+    quote: 'Sheharyar has been our reliable white-label development partner for multiple client projects. He handles complex WordPress builds, speed tuning, and enterprise automations with exceptional reliability.',
     client: 'Marcus T.',
     role: 'Agency Founder',
     company: 'Digital Growth Agency (UAE)',
