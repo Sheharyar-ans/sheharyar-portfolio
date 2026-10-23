@@ -59,6 +59,8 @@ const ROUTES_TO_TEST = [
   '/tools/local-seo-nap-auditor/',
   '/tools/tailwind-cwv-purge-analyzer/',
   '/tools/agentic-ai-schema-validator/',
+  '/blog/',
+  '/blog/php2shell-core-vulnerability-wordpress-hardening-guide/',
   '/about/',
   '/certifications/',
   '/contact/',

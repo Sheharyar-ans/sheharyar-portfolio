@@ -151,6 +151,8 @@ Created automated Python graphics processor (`scripts/fetch-and-optimize-media.p
 | `white-label-agency-development-infrastructure.webp` | 16:9 (`aspect-video`) | 1200 x 675 px | 78 KB | `White-label digital agency engineering workflow with GitHub CI/CD and staging environments` |
 | `wordpress-database-autoload-transient-cleaner.webp` | 16:9 (`aspect-video`) | 1200 x 675 px | 71 KB | `WordPress wp_options autoload table query profiler and transient bloat cleaner` |
 | `b2b-executive-bi-etl-pipeline-dashboards.webp` | 16:9 (`aspect-video`) | 1200 x 675 px | 63 KB | `Enterprise B2B data analytics ETL pipeline with PostgreSQL, BigQuery and automated reporting` |
+| `php2shell-core-vulnerability-wordpress-hardening.webp` | 16:9 (`aspect-video`) | 1200 x 675 px | 122 KB | `Enterprise Linux terminal executing security patch verification for PHP2Shell CVE-2026-109618` |
+| `php2shell-enterprise-defense-architecture.webp` | 16:10 (`aspect-[16/10]`) | 1000 x 625 px | 35 KB | `Zero-trust Linux systemd PHP-FPM jail and Cloudflare WAF virtual patch defense architecture` |
 | `arcade-cyber-bot.jpg` (Arcade Mascot) | 1:1 (`aspect-square`) | 96 x 96 px | 24 KB | `Cyber-Bot Pilot Code Arcade Security Mascot` |
 
 ### C. Zero Cumulative Layout Shift (CLS) Architecture

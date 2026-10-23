@@ -24,6 +24,70 @@ interface BlogPostPageProps {
   onOpenInquiry: () => void;
 }
 
+const renderFormattedText = (text: string): React.ReactNode => {
+  const regex = /\[(.*?)\]\((.*?)\)|\*\*(.*?)\*\*|`(.*?)`/g;
+  const elements: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      elements.push(text.slice(lastIndex, match.index));
+    }
+
+    if (match[1] !== undefined && match[2] !== undefined) {
+      const linkText = match[1];
+      const linkUrl = match[2];
+      if (linkUrl.startsWith('/')) {
+        elements.push(
+          <Link
+            key={match.index}
+            to={linkUrl}
+            className="text-accent hover:text-white underline font-semibold transition-colors"
+          >
+            {linkText}
+          </Link>
+        );
+      } else {
+        elements.push(
+          <a
+            key={match.index}
+            href={linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent hover:text-white underline font-semibold transition-colors"
+          >
+            {linkText}
+          </a>
+        );
+      }
+    } else if (match[3] !== undefined) {
+      elements.push(
+        <strong key={match.index} className="text-white font-bold">
+          {match[3]}
+        </strong>
+      );
+    } else if (match[4] !== undefined) {
+      elements.push(
+        <code
+          key={match.index}
+          className="px-1.5 py-0.5 rounded bg-surface-2 border border-brand-border/60 font-mono text-xs text-accent"
+        >
+          {match[4]}
+        </code>
+      );
+    }
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    elements.push(text.slice(lastIndex));
+  }
+
+  return elements.length > 0 ? elements : text;
+};
+
 export const BlogPostPage: React.FC<BlogPostPageProps> = ({ onOpenInquiry }) => {
   const { slug } = useParams<{ slug: string }>();
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -282,13 +346,76 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ onOpenInquiry }) => 
               );
             }
 
+            if (paragraph.trim().startsWith('|')) {
+              const lines = paragraph.trim().split('\n').filter(l => l.trim().startsWith('|'));
+              if (lines.length >= 2) {
+                const headerCells = lines[0].split('|').map(c => c.trim()).filter((c, i, a) => i > 0 && i < a.length - 1);
+                const bodyRows = lines.slice(2).map(row => 
+                  row.split('|').map(c => c.trim()).filter((c, i, a) => i > 0 && i < a.length - 1)
+                );
+                return (
+                  <div key={idx} className="my-8 overflow-x-auto rounded-2xl border border-brand-border/60 bg-surface-1 shadow-2xl">
+                    <table className="w-full text-left text-xs sm:text-sm font-body border-collapse">
+                      <thead className="bg-surface-2 text-white font-mono text-[11px] sm:text-xs uppercase tracking-wider border-b border-brand-border/80">
+                        <tr>
+                          {headerCells.map((header, hIdx) => (
+                            <th key={hIdx} className="py-3.5 px-4 font-bold text-accent whitespace-nowrap">
+                              {renderFormattedText(header)}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-brand-border/40">
+                        {bodyRows.map((row, rIdx) => (
+                          <tr key={rIdx} className="hover:bg-surface-2/40 transition-colors">
+                            {row.map((cell, cIdx) => (
+                              <td key={cIdx} className={`py-3.5 px-4 text-white/90 leading-relaxed ${cIdx === 0 ? 'font-mono text-accent/90 font-medium' : ''}`}>
+                                {renderFormattedText(cell)}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                );
+              }
+            }
+
+            if (paragraph.trim().startsWith('![')) {
+              const match = paragraph.trim().match(/^!\[(.*?)\]\((.*?)\)/);
+              if (match) {
+                const [, altText, src] = match;
+                return (
+                  <figure key={idx} className="my-8 w-full">
+                    <div className="w-full aspect-[16/10] rounded-2xl overflow-hidden border border-brand-border/80 shadow-2xl relative bg-surface-1 group">
+                      <img
+                        src={src}
+                        alt={altText}
+                        title={altText}
+                        width="1000"
+                        height="625"
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                    </div>
+                    <figcaption className="mt-2.5 text-center text-xs font-mono text-brand-muted">
+                      {altText}
+                    </figcaption>
+                  </figure>
+                );
+              }
+            }
+
             if (paragraph.startsWith('- ')) {
               const items = paragraph.split('\n- ').map(i => i.replace(/^- /, ''));
               return (
                 <ul key={idx} className="space-y-2 my-4 pl-4">
                   {items.map((item, itemIdx) => (
                     <li key={itemIdx} className="list-disc marker:text-accent text-white/90">
-                      {item}
+                      {renderFormattedText(item)}
                     </li>
                   ))}
                 </ul>
@@ -297,7 +424,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ onOpenInquiry }) => 
 
             return (
               <p key={idx} className="text-white/80 leading-relaxed">
-                {paragraph}
+                {renderFormattedText(paragraph)}
               </p>
             );
           })}

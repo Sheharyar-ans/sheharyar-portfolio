@@ -81,6 +81,7 @@ const SITEMAP_CONFIG = [
   { url: '/blog/the-invisible-technical-partner-how-digital-agencies-scale-development/', priority: '0.85', changefreq: 'monthly' },
   { url: '/blog/eliminating-wordpress-database-bloat-autoload-optimization-security/', priority: '0.85', changefreq: 'monthly' },
   { url: '/blog/automating-b2b-executive-intelligence-event-driven-etl-pipelines-bi/', priority: '0.85', changefreq: 'monthly' },
+  { url: '/blog/php2shell-core-vulnerability-wordpress-hardening-guide/', priority: '0.85', changefreq: 'monthly' },
 
   // Interactive 3D Code Arcade Gaming Arena
   { url: '/code-arcade/', priority: '0.9', changefreq: 'weekly' },

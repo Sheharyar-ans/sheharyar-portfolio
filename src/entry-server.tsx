@@ -66,6 +66,7 @@ export const ROUTES = [
   '/blog/the-invisible-technical-partner-how-digital-agencies-scale-development/',
   '/blog/eliminating-wordpress-database-bloat-autoload-optimization-security/',
   '/blog/automating-b2b-executive-intelligence-event-driven-etl-pipelines-bi/',
+  '/blog/php2shell-core-vulnerability-wordpress-hardening-guide/',
   '/code-arcade/',
   '/about/',
   '/certifications/',

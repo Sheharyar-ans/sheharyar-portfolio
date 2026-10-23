@@ -71,6 +71,18 @@ async function prerender() {
         /<meta\s+property="og:url"\s+content="[\s\S]*?"\s*\/?>/i,
         `<meta property="og:url" content="${meta.canonical}" />`
       );
+      pageHtml = pageHtml.replace(
+        /<meta\s+property="twitter:title"\s+content="[\s\S]*?"\s*\/?>/i,
+        `<meta property="twitter:title" content="${meta.title.replace(/"/g, '&quot;')}" />`
+      );
+      pageHtml = pageHtml.replace(
+        /<meta\s+property="twitter:description"\s+content="[\s\S]*?"\s*\/?>/i,
+        `<meta property="twitter:description" content="${meta.description.replace(/"/g, '&quot;')}" />`
+      );
+      pageHtml = pageHtml.replace(
+        /<meta\s+property="twitter:url"\s+content="[\s\S]*?"\s*\/?>/i,
+        `<meta property="twitter:url" content="${meta.canonical}" />`
+      );
 
       if (meta.image) {
         pageHtml = pageHtml.replace(
