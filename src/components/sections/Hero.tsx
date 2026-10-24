@@ -150,6 +150,59 @@ export const Hero: React.FC<HeroProps> = ({ onOpenInquiry }) => {
     setIsMuted(videoRef.current.muted);
   };
 
+  // Cross-browser reliable video autoplay & rendering engine
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Strict DOM properties for autoplay compliance across iOS Safari, Chrome, Edge, Firefox, Android
+    video.defaultMuted = true;
+    video.muted = true;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+
+    const attemptPlay = () => {
+      if (video && video.paused) {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((err) => {
+            console.debug('Autoplay waiting:', err?.name);
+          });
+        }
+      }
+    };
+
+    attemptPlay();
+
+    // Trigger on load events
+    video.addEventListener('loadeddata', attemptPlay);
+    video.addEventListener('canplay', attemptPlay);
+
+    // Fallback: resume on first user interaction if browser had strict autoplay policy
+    const onUserInteraction = () => {
+      attemptPlay();
+      window.removeEventListener('click', onUserInteraction);
+      window.removeEventListener('touchstart', onUserInteraction);
+      window.removeEventListener('scroll', onUserInteraction);
+      window.removeEventListener('keydown', onUserInteraction);
+    };
+
+    window.addEventListener('click', onUserInteraction, { once: true, passive: true });
+    window.addEventListener('touchstart', onUserInteraction, { once: true, passive: true });
+    window.addEventListener('scroll', onUserInteraction, { once: true, passive: true });
+    window.addEventListener('keydown', onUserInteraction, { once: true, passive: true });
+
+    return () => {
+      video.removeEventListener('loadeddata', attemptPlay);
+      video.removeEventListener('canplay', attemptPlay);
+      window.removeEventListener('click', onUserInteraction);
+      window.removeEventListener('touchstart', onUserInteraction);
+      window.removeEventListener('scroll', onUserInteraction);
+      window.removeEventListener('keydown', onUserInteraction);
+    };
+  }, []);
+
   // 1-Scroll = 1-Step Precision Interaction Engine
   // Works flawlessly on laptop trackpad, physical mouse wheel, and mobile touch swipe
   useEffect(() => {
@@ -345,12 +398,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenInquiry }) => {
             muted={isMuted}
             playsInline
             loop
-            preload="metadata"
-            poster="/assets/images/hero-poster.webp"
+            preload="auto"
+            poster="/assets/images/hero-developer-poster.webp"
             width={1920}
             height={1080}
             className="w-full h-full object-cover object-[52%_10%] sm:object-[68%_center] lg:object-[78%_center] opacity-85 sm:opacity-90 transition-all duration-700"
-          />
+          >
+            <source src="/video/Developer_working.webm" type="video/webm" />
+          </video>
 
           {/* Desktop Left Mask: covers left side cleanly so text is 100% legible while developer shines on right */}
           <div className="hidden sm:block absolute inset-0 bg-gradient-to-r from-[#080808] via-[#080808]/95 via-38% lg:via-42% to-transparent pointer-events-none" />

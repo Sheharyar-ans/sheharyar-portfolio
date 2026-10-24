@@ -8,8 +8,16 @@ export default defineConfig(({ isSsrBuild }) => ({
     port: 5173,
     open: false
   },
+  esbuild: {
+    target: 'esnext'
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      target: 'esnext'
+    }
+  },
   build: {
-    target: 'es2020',
+    target: 'esnext',
     minify: 'esbuild',
     cssMinify: true,
     cssCodeSplit: true,

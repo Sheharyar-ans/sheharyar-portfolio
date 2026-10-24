@@ -19,7 +19,7 @@
   <!-- Security Headers & Hardening -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(self), geolocation=()" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https: blob:; media-src 'self' https: blob: data:; connect-src 'self' https: ws: wss:; object-src 'none'; base-uri 'self';" />
   
   <!-- Favicon & Icons -->
@@ -55,7 +55,7 @@
   <meta property="twitter:image" content="https://sheharyarsiraj.com/assets/images/sheharyar-siraj-ai-automation.webp" />
 
   <!-- Preload Critical Hero Asset for Sub-1.0s LCP -->
-  <link rel="preload" as="image" href="/assets/images/hero-poster.webp" type="image/webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/images/hero-developer-poster.webp" type="image/webp" fetchpriority="high" />
 
   <!-- Google Fonts: Sora & Manrope (display=optional for 0 CLS) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />

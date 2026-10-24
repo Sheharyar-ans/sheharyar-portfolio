@@ -6,6 +6,7 @@ import {
   VolumeX, 
   X, 
   Phone, 
+  PhoneOff,
   Sparkles, 
   Radio, 
   ArrowUpRight, 
@@ -55,30 +56,57 @@ function formatSpokenResponse(text: string): string {
   return sentences.slice(0, 3).join(' ').trim();
 }
 
-// Strictly filter out female voice engines and prioritize calm, soft-tone American male voices
+// Comprehensive blacklist of female voice keywords across Windows, macOS, iOS, Android, and Linux
 const FEMALE_VOICE_KEYWORDS = [
-  'zira', 'jenny', 'samantha', 'victoria', 'aria', 'karen', 'moira', 'fiona',
+  'female', 'woman', 'girl', 'fem',
+  'samantha', 'zira', 'jenny', 'victoria', 'aria', 'karen', 'moira', 'fiona',
   'tessa', 'susan', 'cynthia', 'hazel', 'heera', 'helena', 'hortense', 'huihui',
-  'ayumi', 'haruka', 'yuna', 'kyoko', 'female', 'woman', 'girl', 'ava', 'emma',
-  'olivia', 'sonia', 'natasha', 'stephanie', 'veena', 'linda', 'alice', 'catherine',
-  'salli', 'kimberly', 'kendra', 'joanna', 'ivy', 'allison', 'kate', 'serena'
+  'ayumi', 'haruka', 'yuna', 'kyoko', 'ava', 'emma', 'olivia', 'sonia', 'natasha',
+  'stephanie', 'veena', 'linda', 'alice', 'catherine', 'salli', 'kimberly', 'kendra',
+  'joanna', 'ivy', 'allison', 'kate', 'serena', 'nicky', 'sandy', 'shelley', 'kathy',
+  'flo', 'grandma', 'bahh', 'alva', 'agnes', 'amira', 'charlotte', 'laura', 'anna',
+  'sarah', 'sara', 'clara', 'elena', 'monica', 'paulina', 'luciana', 'daria', 'ioana',
+  'miren', 'ellen', 'maja', 'dora', 'monika', 'helene', 'chloe', 'zoe', 'amelie',
+  'celeste', 'lea', 'manon', 'sin-ji', 'ting-ting', 'ya-ling', 'meijia', 'sinji',
+  '#female', 'female_1', 'female_2', '-tpc', 'sfg#female'
 ];
 
-const PREFERRED_MALE_KEYWORDS = [
+// Verified high-quality American Male voices in strict priority order
+const PREFERRED_MALE_IDENTIFIERS = [
+  // Edge / Azure Natural US English Male (Soft, human, calm tone)
   'natural (male)',
   'natural - english (united states)',
   'guy',
+  'christopher',
+  'eric',
+  'brian',
+  'roger',
+  'steffan',
+  // Apple / iOS US English Male (Very warm, calm American male accents)
+  'alex',
+  'aaron',
+  'eddy',
+  'reed',
+  'rocko',
+  'fred',
+  'junior',
+  'grandpa',
+  // Android Google US English Male voices
+  'en-us-x-sfg#male',
+  'en-us-x-iom',
+  'en-us-x-iol',
+  'en-us-x-tpd',
+  // Windows Desktop US English Male
   'microsoft david',
   'microsoft mark',
-  'google us english',
   'david',
   'mark',
-  'alex',
-  'male',
+  // Commonwealth English Male fallbacks
   'daniel',
   'george',
   'oliver',
-  'arthur'
+  'arthur',
+  'ryan'
 ];
 
 function selectCalmAmericanMaleVoice(customVoices?: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
@@ -86,46 +114,74 @@ function selectCalmAmericanMaleVoice(customVoices?: SpeechSynthesisVoice[]): Spe
   const voices = customVoices && customVoices.length > 0 ? customVoices : window.speechSynthesis.getVoices();
   if (!voices || voices.length === 0) return null;
 
-  const isNonFemale = (v: SpeechSynthesisVoice) => {
+  const isStrictlyNonFemale = (v: SpeechSynthesisVoice) => {
     const name = v.name.toLowerCase();
-    return !FEMALE_VOICE_KEYWORDS.some((kw) => name.includes(kw));
+    const uri = (v.voiceURI || '').toLowerCase();
+    
+    // Check both name and voiceURI against blacklist
+    const hasFemaleTag = FEMALE_VOICE_KEYWORDS.some((kw) => name.includes(kw) || uri.includes(kw));
+    if (hasFemaleTag) return false;
+
+    // Reject Android default "Google US English" because it is a female engine on Android
+    if (name === 'google us english' && !uri.includes('male') && !name.includes('male')) {
+      return false;
+    }
+    return true;
   };
 
-  const nonFemaleVoices = voices.filter(isNonFemale);
+  const eligibleVoices = voices.filter(isStrictlyNonFemale);
 
-  // 1. Check for specific preferred American Male voices in en-US
-  for (const kw of PREFERRED_MALE_KEYWORDS) {
-    const match = nonFemaleVoices.find(
-      (v) =>
-        (v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US') &&
-        v.name.toLowerCase().includes(kw)
-    );
+  // 1. Highest Priority: Preferred American Male voices in en-US
+  for (const identifier of PREFERRED_MALE_IDENTIFIERS) {
+    const match = eligibleVoices.find((v) => {
+      const isUsLang = v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US';
+      const name = v.name.toLowerCase();
+      const uri = (v.voiceURI || '').toLowerCase();
+      return isUsLang && (name.includes(identifier) || uri.includes(identifier));
+    });
     if (match) return match;
   }
 
   // 2. Any en-US voice explicitly tagged male
-  const usMale = nonFemaleVoices.find(
-    (v) => (v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US') && v.name.toLowerCase().includes('male')
-  );
-  if (usMale) return usMale;
+  const usExplicitMale = eligibleVoices.find((v) => {
+    const isUsLang = v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US';
+    const name = v.name.toLowerCase();
+    const uri = (v.voiceURI || '').toLowerCase();
+    return isUsLang && (name.includes('male') || uri.includes('male'));
+  });
+  if (usExplicitMale) return usExplicitMale;
 
-  // 3. Any non-female en-US voice
-  const usGeneral = nonFemaleVoices.find((v) => v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US');
-  if (usGeneral) return usGeneral;
-
-  // 4. en-GB fallback male voice (Daniel, George, Oliver, Arthur)
-  for (const kw of PREFERRED_MALE_KEYWORDS) {
-    const match = nonFemaleVoices.find(
-      (v) => v.lang.startsWith('en') && v.name.toLowerCase().includes(kw)
-    );
+  // 3. Fallback to English Male voices in any other dialect
+  for (const identifier of PREFERRED_MALE_IDENTIFIERS) {
+    const match = eligibleVoices.find((v) => {
+      const isEnglish = v.lang.startsWith('en');
+      const name = v.name.toLowerCase();
+      const uri = (v.voiceURI || '').toLowerCase();
+      return isEnglish && (name.includes(identifier) || uri.includes(identifier));
+    });
     if (match) return match;
   }
 
-  // 5. Any non-female English voice
-  const anyEnglish = nonFemaleVoices.find((v) => v.lang.startsWith('en'));
-  if (anyEnglish) return anyEnglish;
+  // 4. Any English voice explicitly tagged male
+  const anyEnglishMale = eligibleVoices.find((v) => {
+    const isEnglish = v.lang.startsWith('en');
+    const name = v.name.toLowerCase();
+    const uri = (v.voiceURI || '').toLowerCase();
+    return isEnglish && (name.includes('male') || uri.includes('male'));
+  });
+  if (anyEnglishMale) return anyEnglishMale;
 
-  return nonFemaleVoices.length > 0 ? nonFemaleVoices[0] : voices[0];
+  // 5. Any remaining non-female US English voice
+  const usNonFemale = eligibleVoices.find(
+    (v) => v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US'
+  );
+  if (usNonFemale) return usNonFemale;
+
+  // 6. Any non-female English voice
+  const englishNonFemale = eligibleVoices.find((v) => v.lang.startsWith('en'));
+  if (englishNonFemale) return englishNonFemale;
+
+  return eligibleVoices.length > 0 ? eligibleVoices[0] : voices[0];
 }
 
 export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
@@ -272,12 +328,18 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     setAudioLevel(0);
   }, []);
 
-  // Initialize Web Audio Mic Stream for Visualizer
+  // Initialize Web Audio Mic Stream for Visualizer with Hardware Echo Cancellation
   const initMicrophoneAudioContext = useCallback(async () => {
     try {
       if (typeof window === 'undefined' || !navigator.mediaDevices?.getUserMedia) return;
       
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        }
+      });
       streamRef.current = stream;
 
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
@@ -305,6 +367,16 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           }
           const avg = sum / buffer.length;
           setAudioLevel(avg);
+
+          // Full-Duplex VAD Barge-in: If user speaks into the microphone (avg > 22) while bot is speaking,
+          // instantly interrupt and cancel the bot's speech!
+          if (isSpeakingRef.current && avg > 22) {
+            if (typeof window !== 'undefined' && window.speechSynthesis) {
+              window.speechSynthesis.cancel();
+            }
+            isSpeakingRef.current = false;
+            setVoiceState('listening');
+          }
         }
         if (isModalOpenRef.current) {
           animationFrameRef.current = requestAnimationFrame(checkVolume);
@@ -318,23 +390,13 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     }
   }, []);
 
-  // BUG 2: STATE 1 & STATE 5 - Speak AI response using soft American male voice & loop back on utterance.onend
+  // Speak AI response using soft American male voice & enable instant user interruption (Barge-in)
   const speakResponse = useCallback(
     (textToSpeak: string, onFinish?: () => void) => {
       if (typeof window === 'undefined' || !window.speechSynthesis) {
         if (onFinish) onFinish();
         return;
       }
-
-      // Crucial Rule: Keep microphone recognizer paused/aborted while bot speaks (echo cancellation)
-      if (recognitionRef.current) {
-        try {
-          recognitionRef.current.onend = null;
-          recognitionRef.current.abort();
-        } catch {}
-        recognitionRef.current = null;
-      }
-      isListeningRef.current = false;
 
       window.speechSynthesis.cancel();
       const cleanText = formatSpokenResponse(textToSpeak);
@@ -348,19 +410,29 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       }
 
       const utterance = new SpeechSynthesisUtterance(cleanText);
-      const voice = selectCalmAmericanMaleVoice(availableVoices);
+      
+      // Dynamic live voice resolution for mobile & desktop engines
+      const liveVoices = window.speechSynthesis.getVoices();
+      const voiceList = liveVoices && liveVoices.length > 0 ? liveVoices : availableVoices;
+      const voice = selectCalmAmericanMaleVoice(voiceList);
       if (voice) {
         utterance.voice = voice;
       }
       
       // Calibrated tone & cadence tuning: calm, soft-tone American male
-      utterance.pitch = 0.95;
-      utterance.rate = 1.0;
+      // Pitch set to 0.88 shifts the voice down into a deep, gentle, warm male timbre
+      utterance.pitch = 0.88;
+      utterance.rate = 0.98;
       utterance.volume = 1.0;
 
       utterance.onstart = () => {
         isSpeakingRef.current = true;
         setVoiceState('speaking');
+
+        // BARGE-IN FEATURE: Keep microphone recognizer active so user can cut in and interrupt anytime!
+        if (isModalOpenRef.current && !isMutedRef.current && !isListeningRef.current) {
+          startListeningRef.current();
+        }
       };
 
       const handleSpeechComplete = () => {
@@ -368,13 +440,13 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         if (onFinish) {
           onFinish();
         } else if (isModalOpenRef.current && !isMutedRef.current) {
-          // STATE 2: BOT_FINISHED_SPEAKING -> Loop back to listening for the user's next question!
+          // Loop back to listening for the user's next question!
           setVoiceState('listening');
           setTimeout(() => {
             if (isModalOpenRef.current && !isSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
               startListeningRef.current();
             }
-          }, 250);
+          }, 150);
         } else {
           setVoiceState('idle');
         }
@@ -488,7 +560,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     [conversationHistory, speakResponse]
   );
 
-  // BUG 2: STATE 2 & STATE 3 - Web Speech API User Listening Loop
+  // Web Speech API User Listening Loop with Barge-In Support
   const startListening = useCallback(() => {
     if (typeof window === 'undefined') return;
 
@@ -500,8 +572,9 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       return;
     }
 
-    // Do not listen if call ended, muted, bot is currently speaking, or AI is currently thinking
-    if (!isModalOpenRef.current || isMutedRef.current || isSpeakingRef.current || isThinkingRef.current) {
+    // Do not listen if call ended, muted, or AI is currently thinking
+    // NOTE: Allowed to listen while isSpeakingRef.current is true to support Barge-In!
+    if (!isModalOpenRef.current || isMutedRef.current || isThinkingRef.current) {
       return;
     }
 
@@ -521,18 +594,51 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     recognition.lang = 'en-US';
 
     recognition.onstart = () => {
-      if (!isModalOpenRef.current || isSpeakingRef.current || isThinkingRef.current) {
+      if (!isModalOpenRef.current || isThinkingRef.current) {
         try { recognition.abort(); } catch {}
         return;
       }
       isListeningRef.current = true;
-      setVoiceState('listening');
+      if (!isSpeakingRef.current) {
+        setVoiceState('listening');
+      }
     };
 
-    // STATE 3: USER_SPEAKING - Accumulate transcript & display live subtitles
+    // BARGE-IN INTERRUPTION 1: On human speech start, immediately stop bot from talking!
+    recognition.onspeechstart = () => {
+      if (isSpeakingRef.current) {
+        if (typeof window !== 'undefined' && window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+        isSpeakingRef.current = false;
+        setVoiceState('listening');
+      }
+    };
+
+    // BARGE-IN INTERRUPTION 2: On sound start
+    recognition.onsoundstart = () => {
+      if (isSpeakingRef.current) {
+        if (typeof window !== 'undefined' && window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+        isSpeakingRef.current = false;
+        setVoiceState('listening');
+      }
+    };
+
+    // STATE 3: USER_SPEAKING - Accumulate transcript & cut off bot if interrupted
     recognition.onresult = (event: any) => {
-      if (isSpeakingRef.current || isThinkingRef.current || !isModalOpenRef.current) {
+      if (isThinkingRef.current || !isModalOpenRef.current) {
         return;
+      }
+
+      // BARGE-IN INTERRUPTION 3: Cut off bot speech if words detected
+      if (isSpeakingRef.current) {
+        if (typeof window !== 'undefined' && window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+        isSpeakingRef.current = false;
+        setVoiceState('listening');
       }
 
       let interim = '';
@@ -568,7 +674,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       } else if (interim.trim()) {
         // Auto-commit interim after 1400ms pause
         silenceTimerRef.current = setTimeout(() => {
-          if (isModalOpenRef.current && !isSpeakingRef.current && !isThinkingRef.current && interim.trim()) {
+          if (isModalOpenRef.current && !isThinkingRef.current && interim.trim()) {
             try {
               recognition.stop();
             } catch {}
@@ -591,8 +697,8 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
     recognition.onend = () => {
       isListeningRef.current = false;
-      // Re-trigger listening ONLY if modal is still active and not speaking, thinking, or muted
-      if (isModalOpenRef.current && !isSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
+      // Re-trigger listening ONLY if modal is still active, not thinking, and not muted
+      if (isModalOpenRef.current && !isThinkingRef.current && !isMutedRef.current) {
         try {
           recognition.start();
           isListeningRef.current = true;
@@ -618,17 +724,42 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     }
   };
 
-  // Close modal handler: triggers complete cleanup of mic tracks and AudioContext
-  const handleClose = useCallback(() => {
+  // Total Session Termination (Session Out): Releases hardware locks and flushes conversation state
+  const endCallSession = useCallback(() => {
     isModalOpenRef.current = false;
+    
+    // 1. Release hardware mic tracks and close Web Audio Context
     cleanupMedia();
+
+    // 2. Clear all session context & history (Session Out)
+    setUserTranscript('');
+    setAiTranscript(
+      'Hi! I am Sheharyar Siraj\'s Voice AI Assistant. You can ask me anything about high-speed WordPress VIP architecture, sub-600ms AI voice agents, or enterprise n8n workflow automations.'
+    );
+    setConversationHistory([]);
     setIsLeadOverlayOpen(false);
+    setVoiceLeadSubmitted(false);
+    setVoiceLeadError('');
+    setVoiceLeadForm({
+      name: '',
+      whatsapp: '',
+      email: '',
+      details: ''
+    });
+    setVoiceState('idle');
+    setIsMuted(false);
+    isMutedRef.current = false;
+    setAudioLevel(0);
+
+    // 3. Close the modal UI
     if (controlledOnClose) {
       controlledOnClose();
     } else {
       setInternalIsOpen(false);
     }
   }, [cleanupMedia, controlledOnClose]);
+
+  const handleClose = endCallSession;
 
   // Lifecycle when modal is opened / closed (locks body scroll and initiates conversational flow)
   useEffect(() => {
@@ -1224,12 +1355,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                   <ArrowUpRight size={12} />
                 </a>
 
-                {/* End Call / Close Button */}
+                {/* End Call / Terminate Session Button */}
                 <button
-                  onClick={handleClose}
-                  className="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl bg-surface-3 border border-brand-border text-white font-mono text-xs font-bold hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-300 transition-all"
+                  onClick={endCallSession}
+                  className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-red-500/20 hover:bg-red-600 border border-red-500/40 hover:border-red-600 text-red-300 hover:text-white font-mono text-xs font-bold transition-all shadow-md shadow-red-500/10 active:scale-95 group"
+                  title="End call and terminate session"
                 >
-                  End Call
+                  <PhoneOff size={13} className="text-red-400 group-hover:text-white transition-colors" />
+                  <span>End Call</span>
                 </button>
               </div>
             </div>
