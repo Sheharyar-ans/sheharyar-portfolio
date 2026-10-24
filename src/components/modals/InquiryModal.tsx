@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, Send, Loader2 } from 'lucide-react';
+import { dispatchLeadNotification, isValidPhoneNumber } from '../../utils/emailDispatch';
 
 interface InquiryModalProps {
   isOpen: boolean;
@@ -44,6 +45,9 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ isOpen, onClose }) =
     if (!formData.email.trim() || !/^\S+@\S+\.\S+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
+    if (formData.phone.trim() && !isValidPhoneNumber(formData.phone)) {
+      newErrors.phone = 'Please enter a valid phone number with country code';
+    }
     if (!formData.service) newErrors.service = 'Please select a primary service';
     if (!formData.description.trim() || formData.description.length < 10) {
       newErrors.description = 'Please describe your project (minimum 10 characters)';
@@ -52,16 +56,23 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ isOpen, onClose }) =
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
     setIsSubmitting(true);
-    // Simulate submission delay
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 700);
+    await dispatchLeadNotification({
+      source: 'Project Inquiry Modal',
+      name: formData.name,
+      email: formData.email,
+      whatsapp: formData.phone,
+      service: formData.service,
+      budget: formData.budget,
+      timeline: formData.timeline,
+      message: `${formData.company ? `Company: ${formData.company}\n` : ''}${formData.description}`
+    });
+    setIsSubmitting(false);
+    setIsSubmitted(true);
   };
 
   const handleResetAndClose = () => {

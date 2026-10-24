@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Mail, MessageSquare, MapPin, Clock, ArrowUpRight, CheckCircle2, ShieldCheck, Sparkles, Send, ExternalLink } from 'lucide-react';
+import { Mail, MessageSquare, MapPin, Clock, ArrowUpRight, CheckCircle2, ShieldCheck, Sparkles, Send, ExternalLink, Phone, AlertCircle } from 'lucide-react';
 import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 import { AeoDirectAnswer } from '../components/seo/AeoDirectAnswer';
 import { CONTACT_INFO } from '../data/portfolioData';
+import { dispatchLeadNotification, isValidPhoneNumber } from '../utils/emailDispatch';
 
 interface ContactPageProps {
   onOpenInquiry: () => void;
@@ -13,40 +14,63 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenInquiry }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    whatsapp: '',
     serviceInterest: 'Custom WordPress & WooCommerce',
     budget: '$3,000 - $5,000',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [formError, setFormError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError('');
+
+    if (!formData.name.trim()) {
+      setFormError('Please enter your full name.');
+      return;
+    }
+    if (!formData.email.trim() || !formData.email.includes('@')) {
+      setFormError('Please enter a valid business email address.');
+      return;
+    }
+    if (!formData.whatsapp.trim()) {
+      setFormError('Please enter your WhatsApp / Phone number with country code.');
+      return;
+    }
+    if (!isValidPhoneNumber(formData.whatsapp)) {
+      setFormError('Please enter a valid phone number with international country code (e.g. +1 555 0192 or +92 313 2080033).');
+      return;
+    }
+    if (!formData.message.trim()) {
+      setFormError('Please describe your project specifications or bottlenecks.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      // Direct AJAX delivery to sherryansari870@gmail.com
-      await fetch(`https://formsubmit.co/ajax/${CONTACT_INFO.email}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          _subject: `New Project Inquiry: ${formData.serviceInterest} - ${formData.name}`,
-          Name: formData.name,
-          Email: formData.email,
-          Service: formData.serviceInterest,
-          Budget: formData.budget,
-          Message: formData.message,
-          _template: 'table'
-        })
+      const result = await dispatchLeadNotification({
+        source: 'Main Contact Form',
+        name: formData.name,
+        email: formData.email,
+        whatsapp: formData.whatsapp,
+        service: formData.serviceInterest,
+        budget: formData.budget,
+        message: formData.message
       });
+
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        setFormError('There was a temporary delivery issue. Please message Sheharyar directly on WhatsApp for an immediate 2-hour SLA response.');
+      }
     } catch (err) {
-      console.warn('Form submission delivery error:', err);
+      console.warn('Form submission error:', err);
+      setFormError('Network communication error. Please connect directly via WhatsApp (+92 313 2080033).');
     } finally {
       setIsSubmitting(false);
-      setSubmitted(true);
     }
   };
 
@@ -234,9 +258,11 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenInquiry }) => {
                   type="button"
                   onClick={() => {
                     setSubmitted(false);
+                    setFormError('');
                     setFormData({
                       name: '',
                       email: '',
+                      whatsapp: '',
                       serviceInterest: 'Custom WordPress & WooCommerce',
                       budget: '$3,000 - $5,000',
                       message: ''
@@ -250,6 +276,24 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenInquiry }) => {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+              {formError && (
+                <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-mono flex items-start gap-2.5">
+                  <AlertCircle size={16} className="shrink-0 mt-0.5 text-red-400" />
+                  <div className="flex-1">
+                    <p>{formError}</p>
+                    <a
+                      href={CONTACT_INFO.whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 mt-1.5 text-accent hover:underline font-bold"
+                    >
+                      <span>Open WhatsApp (+92 313 2080033)</span>
+                      <ArrowUpRight size={12} />
+                    </a>
+                  </div>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-mono text-brand-muted uppercase font-bold mb-1.5">
@@ -281,6 +325,27 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenInquiry }) => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
+                  <label className="block text-xs font-mono text-brand-muted uppercase font-bold mb-1.5 flex items-center justify-between">
+                    <span>WhatsApp / Phone Number *</span>
+                    <span className="text-[10px] text-emerald-400 font-normal lowercase">int&apos;l format</span>
+                  </label>
+                  <div className="relative">
+                    <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-muted" />
+                    <input
+                      type="tel"
+                      required
+                      value={formData.whatsapp}
+                      onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+                      placeholder="+1 (555) 000-0000 or +92 313 2080033"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-surface-2 border border-brand-border text-white text-xs font-mono focus:outline-none focus:border-accent transition-colors"
+                    />
+                  </div>
+                  <p className="text-[10px] font-mono text-brand-muted mt-1">
+                    Include country code (+1, +44, +971, +966, +92) for direct WhatsApp response.
+                  </p>
+                </div>
+
+                <div>
                   <label className="block text-xs font-mono text-brand-muted uppercase font-bold mb-1.5">
                     Service Interest
                   </label>
@@ -297,22 +362,22 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenInquiry }) => {
                     <option value="Full Digital System Ecosystem">Full Digital System Ecosystem</option>
                   </select>
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-xs font-mono text-brand-muted uppercase font-bold mb-1.5">
-                    Project Budget Bracket
-                  </label>
-                  <select
-                    value={formData.budget}
-                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-surface-2 border border-brand-border text-white text-xs font-mono focus:outline-none focus:border-accent transition-colors"
-                  >
-                    <option value="$2,000 - $3,500">$2,000 - $3,500 (Targeted Build / Fast Turnaround)</option>
-                    <option value="$3,500 - $7,500">$3,500 - $7,500 (Comprehensive Architecture)</option>
-                    <option value="$7,500 - $15,000+">$7,500 - $15,000+ (Full Multi-Channel System)</option>
-                    <option value="Monthly Agency Retainer">Monthly Agency Retainer ($2,500 - $6,000/mo)</option>
-                  </select>
-                </div>
+              <div>
+                <label className="block text-xs font-mono text-brand-muted uppercase font-bold mb-1.5">
+                  Project Budget Bracket
+                </label>
+                <select
+                  value={formData.budget}
+                  onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl bg-surface-2 border border-brand-border text-white text-xs font-mono focus:outline-none focus:border-accent transition-colors"
+                >
+                  <option value="$2,000 - $3,500">$2,000 - $3,500 (Targeted Build / Fast Turnaround)</option>
+                  <option value="$3,500 - $7,500">$3,500 - $7,500 (Comprehensive Architecture)</option>
+                  <option value="$7,500 - $15,000+">$7,500 - $15,000+ (Full Multi-Channel System)</option>
+                  <option value="Monthly Agency Retainer">Monthly Agency Retainer ($2,500 - $6,000/mo)</option>
+                </select>
               </div>
 
               <div>

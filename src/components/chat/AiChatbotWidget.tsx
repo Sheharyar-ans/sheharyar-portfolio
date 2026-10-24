@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { processRagQuery, ChatMessage, ChatBotMode, DEFAULT_QUICK_CHIPS } from '../../utils/ragEngine';
 import { saveLead } from '../../utils/leadStorage';
+import { dispatchLeadNotification, isValidPhoneNumber } from '../../utils/emailDispatch';
 import { LeadManagementModal } from '../modals/LeadManagementModal';
 
 interface AiChatbotWidgetProps {
@@ -39,6 +40,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
     details: ''
   });
   const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const [isSubmittingLead, setIsSubmittingLead] = useState(false);
   const [leadError, setLeadError] = useState('');
 
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -211,7 +213,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
     }
   };
 
-  const handleLeadSubmit = (e: React.FormEvent) => {
+  const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLeadError('');
 
@@ -223,38 +225,66 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
       setLeadError('WhatsApp number is mandatory for instant communication.');
       return;
     }
+    if (!isValidPhoneNumber(leadForm.whatsapp)) {
+      setLeadError('Please enter a valid WhatsApp / Phone number with country code (e.g. +1 555 0192 or +92 313 2080033).');
+      return;
+    }
     if (!leadForm.email.trim() || !leadForm.email.includes('@')) {
       setLeadError('A valid email address is mandatory for project scope documentation.');
       return;
     }
 
-    // Save lead to local storage repository
-    const saved = saveLead({
+    setIsSubmittingLead(true);
+
+    // Extract recent conversation transcript excerpt for context
+    const transcriptExcerpt = messages
+      .slice(-4)
+      .map((m) => `${m.sender.toUpperCase()}: ${m.text.slice(0, 100)}`)
+      .join('\n');
+
+    const result = await dispatchLeadNotification({
+      source: 'AI Chatbot Assistant',
       name: leadForm.name,
-      whatsapp: leadForm.whatsapp,
       email: leadForm.email,
-      details: leadForm.details || 'Submitted via Chat Sales Agent Form',
+      whatsapp: leadForm.whatsapp,
       service: 'Custom Architecture Scoping',
-      source: 'Interactive Sales Chatbot'
+      details: leadForm.details || 'Submitted via Chatbot Scoping Form',
+      transcriptExcerpt
     });
 
+    setIsSubmittingLead(false);
     setLeadSubmitted(true);
 
-    // Add confirmation message from assistant
-    const confirmMsg: ChatMessage = {
-      id: `assistant-confirm-${Date.now()}`,
-      sender: 'assistant',
-      text: `Thank you, ${leadForm.name}! Your project requirements have been directly registered in Sheharyar's queue (Ref: ${saved.id.slice(0, 12)}). Sheharyar reviews all submissions within 2 business hours.\n\nYou can also jump straight into WhatsApp to connect with him immediately!`,
-      timestamp: 'Just now',
-      leadCaptured: true,
-      action: {
-        type: 'whatsapp',
-        label: 'Message Sheharyar Directly on WhatsApp',
-        url: `https://wa.me/923132080033?text=Hi%20Sheharyar,%20my%20name%20is%20${encodeURIComponent(leadForm.name)}.%20I%20just%20submitted%20my%20project%20details%20via%20your%20website:%20${encodeURIComponent(leadForm.details || 'Ready to scope project')}`
-      }
-    };
-
-    setMessages((prev) => [...prev, confirmMsg]);
+    if (result.success) {
+      // Add confirmation message from assistant
+      const confirmMsg: ChatMessage = {
+        id: `assistant-confirm-${Date.now()}`,
+        sender: 'assistant',
+        text: `Thank you! Your details and project request have been dispatched directly to Sheharyar. You will receive a response within 2 hours. You can also connect immediately on WhatsApp.`,
+        timestamp: 'Just now',
+        leadCaptured: true,
+        action: {
+          type: 'whatsapp',
+          label: 'Message Sheharyar Directly on WhatsApp',
+          url: `https://wa.me/923132080033?text=Hi%20Sheharyar,%20my%20name%20is%20${encodeURIComponent(leadForm.name)}.%20I%20just%20submitted%20my%20project%20details%20via%20your%20website:%20${encodeURIComponent(leadForm.details || 'Ready to scope project')}`
+        }
+      };
+      setMessages((prev) => [...prev, confirmMsg]);
+    } else {
+      // Graceful fallback error prompting direct WhatsApp link
+      const fallbackMsg: ChatMessage = {
+        id: `assistant-fallback-${Date.now()}`,
+        sender: 'assistant',
+        text: `Thank you, ${leadForm.name}! We registered your project details in our queue, but encountered a network delay dispatching the alert email. Please connect with Sheharyar directly on WhatsApp (+92 313 2080033) for an immediate 2-hour response!`,
+        timestamp: 'Just now',
+        action: {
+          type: 'whatsapp',
+          label: 'Connect Directly on WhatsApp (+92 313 2080033)',
+          url: `https://wa.me/923132080033?text=Hi%20Sheharyar,%20my%20name%20is%20${encodeURIComponent(leadForm.name)}.%20I%20wanted%20to%20discuss%20a%20project:%20${encodeURIComponent(leadForm.details || 'Project inquiry')}`
+        }
+      };
+      setMessages((prev) => [...prev, fallbackMsg]);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -568,10 +598,20 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
 
                       <button
                         type="submit"
-                        className="w-full py-2.5 rounded-lg bg-accent text-black font-mono font-bold text-xs hover:bg-white transition-colors shadow-md shadow-accent/20 flex items-center justify-center gap-1.5 mt-1 active:scale-95"
+                        disabled={isSubmittingLead}
+                        className="w-full py-2.5 rounded-lg bg-accent text-black font-mono font-bold text-xs hover:bg-white transition-colors shadow-md shadow-accent/20 flex items-center justify-center gap-1.5 mt-1 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        <CheckCircle2 size={13} />
-                        <span>Lock In Scoping Call & Quote</span>
+                        {isSubmittingLead ? (
+                          <>
+                            <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                            <span>DISPATCHING BRIEF...</span>
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle2 size={13} />
+                            <span>Lock In Scoping Call & Quote</span>
+                          </>
+                        )}
                       </button>
                     </form>
                   )}
