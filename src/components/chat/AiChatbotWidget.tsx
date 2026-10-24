@@ -84,13 +84,18 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
     }
   }, [isOpen, messages, isTyping]);
 
-  // Mobile background body scroll lock
+  // Lock body scroll while chat modal is open on all viewports
   useEffect(() => {
-    if (isOpen && typeof window !== 'undefined' && window.innerWidth < 768) {
+    if (isOpen && typeof window !== 'undefined') {
       const prevOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setIsOpen(false);
+      };
+      window.addEventListener('keydown', handleKeyDown);
       return () => {
         document.body.style.overflow = prevOverflow;
+        window.removeEventListener('keydown', handleKeyDown);
       };
     }
   }, [isOpen]);
@@ -322,45 +327,39 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
 
   return (
     <>
-      {/* Floating Trigger Button */}
-      <div className="fixed bottom-6 right-6 z-40">
-        {!isOpen && (
+      {/* Floating Trigger Button: Short Circle on Right Side */}
+      {!isOpen && (
+        <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40">
           <button
             onClick={() => setIsOpen(true)}
-            className="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-surface-1 border border-brand-border/80 text-white shadow-2xl hover:border-accent hover:shadow-[0_0_30px_rgba(30,144,255,0.3)] transition-all active:scale-95"
-            aria-label="Open AI Systems Representative Chat"
+            className="group relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-1/95 border border-brand-border/80 hover:border-accent text-accent shadow-2xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
+            aria-label="Open AI Project Consultant Chat"
+            title="AI Project Consultant Chat"
           >
-            <div className="relative">
-              <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent">
-                <MessageSquare size={16} />
-              </div>
-              <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-surface-1 animate-pulse" />
-            </div>
-
-            <div className="text-left font-mono">
-              <div className="text-xs font-bold leading-tight group-hover:text-accent transition-colors">
-                AI Project Consultant
-              </div>
-              <div className="text-[10px] text-brand-muted">Ask anything • Fast Quote</div>
-            </div>
-
-            {!hasInteracted && (
-              <span className="hidden sm:inline-block ml-1 px-1.5 py-0.5 rounded bg-accent/15 text-accent text-[9px] font-mono font-bold uppercase tracking-wider">
-                Online
-              </span>
-            )}
+            <MessageSquare size={20} className="sm:w-[22px] sm:h-[22px]" />
+            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-surface-1 animate-pulse" />
+            <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-surface-2 border border-brand-border text-white text-xs font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 shadow-xl hidden sm:block">
+              AI Project Consultant
+            </span>
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Main Chat Interface Modal */}
       {isOpen && (
         <div
-          ref={modalRef}
           data-lenis-prevent="true"
-          style={{ overscrollBehavior: 'contain' }}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[95vw] sm:w-[420px] h-[580px] max-h-[85vh] bg-surface-1 border border-brand-border rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fade-in font-body overscroll-contain"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 sm:bg-black/60 backdrop-blur-sm sm:backdrop-blur-md p-0 sm:p-4 md:p-6 animate-fade-in font-body select-none sm:select-auto overflow-hidden"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsOpen(false);
+          }}
         >
+          <div
+            ref={modalRef}
+            data-lenis-prevent="true"
+            style={{ overscrollBehavior: 'contain' }}
+            className="w-full h-[100dvh] max-h-[100dvh] sm:h-[85vh] md:h-[88vh] sm:max-h-[85vh] md:max-h-[88vh] sm:max-w-lg md:max-w-xl bg-surface-1 border-0 sm:border sm:border-brand-border rounded-none sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden overscroll-contain relative pb-[env(safe-area-inset-bottom,0px)]"
+          >
           {/* Header */}
           <div className="p-3.5 bg-surface-2/80 border-b border-brand-border flex items-center justify-between backdrop-blur-md shrink-0">
             <div className="flex items-center gap-2.5">
@@ -680,6 +679,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
               <span>Strictly Grounded in Website Architecture</span>
               <span>Sub-2h SLA via WhatsApp</span>
             </div>
+          </div>
           </div>
         </div>
       )}

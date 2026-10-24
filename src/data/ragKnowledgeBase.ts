@@ -73,9 +73,10 @@ export const RAG_KNOWLEDGE_BASE: KnowledgeChunk[] = [
     title: 'Sheharyar Siraj Background, Bio & Credentials',
     keywords: [
       'sheharyar', 'siraj', 'who is', 'about', 'experience', 'credentials', 'bio', 
-      'background', 'profile', 'kon hai', 'intro', 'taruf', 'qualification', 'certifications'
+      'background', 'profile', 'kon hai', 'intro', 'taruf', 'qualification', 'certifications',
+      'ccnp', 'cyberops', 'vertex ai', 'upwork', 'jss', 'rating'
     ],
-    content: 'Sheharyar Siraj is a Senior WordPress Developer & Agentic AI Automation Engineer with over 5 years of remote commercial experience delivering 1,200+ high-converting websites, custom web applications, and automated workflows across the USA, UK, UAE, Saudi Arabia, Ireland, and Europe. He is 5-star rated on Upwork and Fiverr with 100% client satisfaction. His credentials include Cisco Certified Network Professional (CCNP), AI for App Building, AI for Data Analysis, AI for Content Creation, and a Bachelor of Business & Information Technology (BBIT, Computer Software Engineering) from Virtual University of Pakistan. He is currently open to full-time remote engineering roles, on-site relocation to UAE/KSA, and white-label agency retainers.',
+    content: 'Sheharyar Siraj is an Enterprise WordPress Systems Architect & Agentic AI Automation Engineer with 5+ years of commercial remote engineering experience, 1,200+ delivered projects worldwide, and a 100% Job Success Score (JSS) on Upwork with Top Rated status. His verified credentials include Cisco Certified Network Professional (CCNP), Cisco Certified CyberOps Associate, Google Cloud Vertex AI Certified Professional, AI for App Building, and a Bachelor of Business & Information Technology (BBIT, Computer Software Engineering) from Virtual University of Pakistan. Clients work directly with Sheharyar with zero junior account manager friction, protected by bilateral NDAs and a guaranteed sub-2 hour technical scoping SLA.',
     suggestedAction: {
       type: 'inquiry',
       label: 'View Credentials & Timeline'
@@ -87,13 +88,29 @@ export const RAG_KNOWLEDGE_BASE: KnowledgeChunk[] = [
     title: 'Core Engineering Services & Capabilities',
     keywords: [
       'services', 'kya karte ho', 'kya kaam hai', 'what do you do', 'offerings', 
-      'capabilities', 'skills', 'help me', 'what can you build', 'expertise', 'specialization'
+      'capabilities', 'skills', 'help me', 'what can you build', 'expertise', 'specialization',
+      'hpos', 'vapi', 'n8n', 'langgraph', 'white-label'
     ],
-    content: 'Sheharyar provides 4 core technical services: (1) Custom WordPress & WooCommerce Systems with zero-bloat PHP 8.2 and sub-600ms speeds; (2) Conversational AI Voice Agents operating under 600ms latency via Vapi, Retell, and Twilio; (3) Event-driven Workflow Automation via self-hosted n8n and Make; and (4) Contextual RAG AI Chatbots connected to vector databases (Pinecone, pgvector) with zero hallucination. He also provides white-label agency partnerships under NDA.',
+    content: 'Sheharyar provides 6 core engineering capabilities: (1) Custom WordPress Development (PHP 8.2 VIP, Gutenberg blocks, sub-600ms TTFB, 95+ Core Web Vitals); (2) Autonomous AI Voice Telephony (sub-600ms conversational phone receptionists via Vapi and Twilio SIP with live calendar booking); (3) Workflow Automation (self-hosted high-availability n8n clusters and Make.com pipelines); (4) WooCommerce HPOS scaling (high-concurrency order storage, Redis caching, 10k+ daily transactions); (5) Agentic AI & LangGraph Multi-Agent Workflows (autonomous tool-calling and self-correcting pipelines); and (6) White-Label Agency Subcontracting under bilateral NDA with direct senior architect collaboration.',
     suggestedAction: {
       type: 'link',
       label: 'View Services Hub',
       url: '/services/'
+    }
+  },
+  {
+    id: 'sla-guarantees',
+    category: 'services',
+    title: 'Engineering SLA, Scoping Guarantee & Bilateral NDA',
+    keywords: [
+      'sla', 'scoping', 'guarantee', 'nda', 'response time', 'how fast reply', 'architect access',
+      'consultation', 'confidentiality', 'agreement', 'hours'
+    ],
+    content: 'Sheharyar provides an industry-leading Service Level Agreement (SLA): (1) Guaranteed technical scoping and preliminary roadmap delivered under 2 business hours; (2) Strict bilateral Non-Disclosure Agreement (NDA) executed before deep-dive technical reviews; (3) 100% Direct senior architect access via Slack, WhatsApp, and GitHub with zero junior account managers or sales intermediaries; and (4) 30-day comprehensive post-launch warranty with 100% IP code transfer upon milestone completion.',
+    suggestedAction: {
+      type: 'whatsapp',
+      label: 'Request Scoping under 2-Hour SLA',
+      url: 'https://wa.me/923132080033?text=Hi%20Sheharyar,%20I%20would%20like%20to%20request%20a%20technical%20scoping%20review%20under%20the%202-hour%20SLA.'
     }
   },
   {

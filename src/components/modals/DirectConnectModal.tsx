@@ -76,7 +76,7 @@ export const DirectConnectModal: React.FC<DirectConnectModalProps> = ({ isOpen, 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6 overflow-y-auto overscroll-contain">
+        <div data-lenis-prevent="true" className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 md:p-6 overflow-hidden">
           {/* Backdrop with dark blur and grid */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -92,7 +92,7 @@ export const DirectConnectModal: React.FC<DirectConnectModalProps> = ({ isOpen, 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 20 }}
             transition={{ type: 'spring', damping: 26, stiffness: 320 }}
-            className="relative w-full max-w-lg lg:max-w-xl bg-gradient-to-b from-[#141414] to-[#0A0A0A] border border-brand-border/80 rounded-2xl sm:rounded-3xl shadow-[0_0_50px_rgba(183,255,60,0.15)] z-10 overflow-hidden flex flex-col max-h-[92dvh] sm:max-h-[88vh] overscroll-contain my-auto"
+            className="relative w-full h-[100dvh] max-h-[100dvh] sm:h-auto sm:max-h-[85vh] md:max-h-[88vh] sm:max-w-lg lg:max-w-xl bg-gradient-to-b from-[#141414] to-[#0A0A0A] border-0 sm:border sm:border-brand-border/80 rounded-none sm:rounded-3xl shadow-[0_0_50px_rgba(183,255,60,0.15)] z-10 overflow-hidden flex flex-col overscroll-contain my-auto pb-[env(safe-area-inset-bottom,0px)]"
           >
             {/* Top scanning accent glow bar */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent shadow-[0_0_15px_#B7FF3C] z-20" />
@@ -124,7 +124,7 @@ export const DirectConnectModal: React.FC<DirectConnectModalProps> = ({ isOpen, 
             </div>
 
             {/* Scrollable Modal Body */}
-            <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 pt-3 sm:pt-4 space-y-4">
+            <div className="flex-1 overflow-y-auto overscroll-contain custom-scrollbar p-4 sm:p-6 pt-3 sm:pt-4 space-y-4">
               {/* Title & Introduction */}
               <div className="text-left">
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-heading font-black text-white tracking-tight flex items-center gap-2">

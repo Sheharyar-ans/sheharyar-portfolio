@@ -49,9 +49,11 @@ export const LeadManagementModal: React.FC<LeadManagementModalProps> = ({ isOpen
   const [newPassword, setNewPassword] = useState('');
   const [changeSuccess, setChangeSuccess] = useState(false);
 
-  // Check existing session
+  // Check existing session & lock body scroll
   useEffect(() => {
     if (isOpen) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
       const isAuth = sessionStorage.getItem(AUTH_SESSION_KEY) === 'true';
       setIsAuthenticated(isAuth);
       if (isAuth) {
@@ -59,8 +61,16 @@ export const LeadManagementModal: React.FC<LeadManagementModalProps> = ({ isOpen
       }
       setAuthError('');
       setIsChangingPass(false);
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') onClose();
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = prevOverflow;
+        window.removeEventListener('keydown', handleKeyDown);
+      };
     }
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -138,12 +148,15 @@ export const LeadManagementModal: React.FC<LeadManagementModalProps> = ({ isOpen
   return (
     <div 
       data-lenis-prevent="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in overscroll-contain"
+      className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 md:p-6 bg-black/85 backdrop-blur-md animate-fade-in overflow-hidden select-none sm:select-auto"
       onWheel={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
       <div 
         data-lenis-prevent="true"
-        className="relative w-full max-w-4xl max-h-[90vh] bg-surface-1 border border-brand-border rounded-2xl shadow-2xl flex flex-col overflow-hidden overscroll-contain font-body"
+        className="relative w-full h-[100dvh] max-h-[100dvh] sm:h-auto sm:max-h-[85vh] md:max-h-[88vh] sm:max-w-4xl bg-surface-1 border-0 sm:border sm:border-brand-border rounded-none sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden overscroll-contain font-body pb-[env(safe-area-inset-bottom,0px)]"
       >
         
         {/* Header */}

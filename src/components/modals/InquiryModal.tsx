@@ -95,7 +95,7 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ isOpen, onClose }) =
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6 overflow-y-auto overscroll-contain">
+        <div data-lenis-prevent="true" className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 md:p-6 overflow-hidden">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -111,26 +111,28 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ isOpen, onClose }) =
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-2xl bg-surface-1 border border-brand-border rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl z-10 my-auto max-h-[92dvh] sm:max-h-[90vh] overflow-y-auto overscroll-contain"
+            className="relative w-full h-[100dvh] max-h-[100dvh] sm:h-auto sm:max-h-[85vh] md:max-h-[88vh] sm:max-w-2xl bg-surface-1 border-0 sm:border sm:border-brand-border rounded-none sm:rounded-2xl shadow-2xl z-10 my-auto overflow-hidden flex flex-col pb-[env(safe-area-inset-bottom,0px)]"
           >
             {/* Top Accent Line */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-white to-accent" />
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-white to-accent z-20" />
 
             {/* Close Button */}
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-surface-2 text-brand-secondary hover:text-white hover:bg-surface-3 flex items-center justify-center transition-colors"
+              className="absolute top-4 sm:top-5 right-4 sm:right-5 w-8 h-8 rounded-full bg-surface-2 text-brand-secondary hover:text-white hover:bg-surface-3 flex items-center justify-center transition-colors z-20"
               aria-label="Close Project Inquiry Modal"
             >
               <X size={18} />
             </button>
 
-            {!isSubmitted ? (
-              <>
-                <div className="text-[11px] font-mono tracking-widest text-accent uppercase mb-1">
-                  START A PROJECT
-                </div>
+            {/* Internal Scrollable Content */}
+            <div className="flex-1 overflow-y-auto overscroll-contain custom-scrollbar p-4 sm:p-6 md:p-8">
+              {!isSubmitted ? (
+                <>
+                  <div className="text-[11px] font-mono tracking-widest text-accent uppercase mb-1">
+                    START A PROJECT
+                  </div>
                 <h2 className="text-xl sm:text-2xl font-heading font-bold text-white mb-2">
                   LET'S BUILD SOMETHING THAT WORKS.
                 </h2>
@@ -329,6 +331,7 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ isOpen, onClose }) =
                 </button>
               </div>
             )}
+            </div>
           </motion.div>
         </div>
       )}

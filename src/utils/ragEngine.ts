@@ -58,9 +58,51 @@ export function isRomanUrdu(text: string): boolean {
   return urduPatterns.some((pattern) => pattern.test(text));
 }
 
+// Check for direct buying signals / "I am interested" trigger
+export function isDirectInterestIntent(query: string): boolean {
+  const clean = query.toLowerCase().trim();
+  const directTriggers = [
+    'i am interested',
+    'im interested',
+    "i'm interested",
+    'interested',
+    'i want this service',
+    'i want this',
+    'i need this service',
+    'how much',
+    'how much?',
+    'can you build this',
+    'can you build this?',
+    'can you build',
+    'can you develop this',
+    'hire you',
+    'hire',
+    'want to hire you',
+    'hire sheharyar',
+    "let's work together",
+    'lets work together',
+    'let work together',
+    'work together',
+    'sign me up',
+    'start project',
+    'i want to hire',
+    'start working',
+    'get a quote',
+    'quote for project',
+    'custom wordpress vip build',
+    'hire vapi',
+    'self-hosted n8n workflows',
+    'scope a project',
+    'book a call',
+    'schedule a call'
+  ];
+  return directTriggers.some((t) => clean.includes(t));
+}
+
 // Check for explicit buying/hiring intent (Sales Mode)
 export function isSalesIntent(query: string): boolean {
   const clean = query.toLowerCase();
+  if (isDirectInterestIntent(clean)) return true;
   const salesKeywords = [
     'hire', 'quote', 'pricing', 'price', 'cost', 'rates', 'charges', 'budget',
     'build', 'develop', 'create', 'make me a', 'i need a', 'i want a', 'banani', 'banwana',
@@ -216,6 +258,27 @@ function synthesizeConsultativeResponse(
   mode: ChatBotMode
 ): RetrievalResult {
   const lower = query.toLowerCase().trim();
+
+  // 0. Direct "I am interested" Dynamic Sales Trigger
+  if (isDirectInterestIntent(lower)) {
+    return {
+      answer: "That's fantastic! Sheharyar specializes in turning high-load bottlenecks into scalable systems. To get you an accurate scope and roadmap within 2 hours, what is your best WhatsApp number and email?",
+      mode: 'sales',
+      showLeadForm: true,
+      action: {
+        type: 'whatsapp',
+        label: 'Message Sheharyar Directly on WhatsApp (+92 313 2080033)',
+        url: 'https://wa.me/923132080033?text=Hi%20Sheharyar,%20I%20am%20interested%20in%20scoping%20a%20project%20and%20getting%20a%20roadmap.'
+      },
+      sources: ['Direct Architecture Scoping Desk'],
+      suggestedChips: [
+        '💬 Chat Directly on WhatsApp (+92 313 2080033)',
+        '⚡ Custom WordPress VIP Build',
+        '🎯 Hire Vapi / Voice AI Engineer'
+      ],
+      isOutOfScope: false
+    };
+  }
 
   // 1. Vague Commercial / Service Intent ("I need a service", "Can you help me?", "What do you do?")
   const isVagueService = [
@@ -548,6 +611,11 @@ export async function processRagQuery(
 
   // 2. Evaluate Mode: Sales Intent vs Customer Support
   const mode: ChatBotMode = isSalesIntent(trimmed) ? 'sales' : 'support';
+
+  // 2b. Direct "I am interested" instant bypass (deterministic response)
+  if (isDirectInterestIntent(trimmed)) {
+    return synthesizeConsultativeResponse(trimmed, isUrdu, mode);
+  }
 
   // 3. Try Live Cloud LLM Generation (if API key is available in environment)
   const liveLlmAnswer = await tryLiveLlmGeneration(trimmed, history, mode);

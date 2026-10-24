@@ -11,10 +11,15 @@ import {
   ArrowUpRight, 
   RotateCcw,
   AlertCircle,
-  MessageSquare
+  CheckCircle2,
+  Mail,
+  User,
+  FileText,
+  BadgePercent,
+  ChevronDown
 } from 'lucide-react';
-import { processRagQuery, ChatMessage } from '../utils/ragEngine';
-import { SHEHARYAR_IDENTITY } from '../data/chatKnowledge';
+import { processRagQuery, ChatMessage, isDirectInterestIntent } from '../utils/ragEngine';
+import { dispatchLeadNotification, isValidPhoneNumber } from '../utils/emailDispatch';
 
 type VoiceState = 'idle' | 'listening' | 'thinking' | 'speaking' | 'permission_denied' | 'unsupported';
 
@@ -24,18 +29,103 @@ interface VoiceAssistantModalProps {
   onClose?: () => void;
 }
 
-// Clean markdown and URLs for natural speech synthesis
+// Clean markdown, bold tags, URLs, and emojis for crisp, natural speech synthesis
 function cleanTextForSpeech(text: string): string {
   return text
     .replace(/\*\*(.*?)\*\*/g, '$1')
     .replace(/\*(.*?)\*/g, '$1')
     .replace(/\[(.*?)\]\((.*?)\)/g, '$1')
     .replace(/https?:\/\/\S+/g, '')
+    .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '')
     .replace(/[#*_`~>]/g, '')
     .replace(/•\s+/g, '')
     .replace(/\+\d[\d\s-]{8,}\d/g, (match) => match.replace(/\s+/g, ' '))
     .replace(/\n+/g, ' ')
     .trim();
+}
+
+// Restrict speech synthesis output to 1-3 conversational, punchy sentences (20-45 words)
+function formatSpokenResponse(text: string): string {
+  const cleaned = cleanTextForSpeech(text);
+  if (!cleaned) return '';
+  const sentences = cleaned.match(/[^.!?]+[.!?]+(?:\s|$)/g);
+  if (!sentences || sentences.length <= 3) {
+    return cleaned;
+  }
+  return sentences.slice(0, 3).join(' ').trim();
+}
+
+// Strictly filter out female voice engines and prioritize calm, soft-tone American male voices
+const FEMALE_VOICE_KEYWORDS = [
+  'zira', 'jenny', 'samantha', 'victoria', 'aria', 'karen', 'moira', 'fiona',
+  'tessa', 'susan', 'cynthia', 'hazel', 'heera', 'helena', 'hortense', 'huihui',
+  'ayumi', 'haruka', 'yuna', 'kyoko', 'female', 'woman', 'girl', 'ava', 'emma',
+  'olivia', 'sonia', 'natasha', 'stephanie', 'veena', 'linda', 'alice', 'catherine',
+  'salli', 'kimberly', 'kendra', 'joanna', 'ivy', 'allison', 'kate', 'serena'
+];
+
+const PREFERRED_MALE_KEYWORDS = [
+  'natural (male)',
+  'natural - english (united states)',
+  'guy',
+  'microsoft david',
+  'microsoft mark',
+  'google us english',
+  'david',
+  'mark',
+  'alex',
+  'male',
+  'daniel',
+  'george',
+  'oliver',
+  'arthur'
+];
+
+function selectCalmAmericanMaleVoice(customVoices?: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return null;
+  const voices = customVoices && customVoices.length > 0 ? customVoices : window.speechSynthesis.getVoices();
+  if (!voices || voices.length === 0) return null;
+
+  const isNonFemale = (v: SpeechSynthesisVoice) => {
+    const name = v.name.toLowerCase();
+    return !FEMALE_VOICE_KEYWORDS.some((kw) => name.includes(kw));
+  };
+
+  const nonFemaleVoices = voices.filter(isNonFemale);
+
+  // 1. Check for specific preferred American Male voices in en-US
+  for (const kw of PREFERRED_MALE_KEYWORDS) {
+    const match = nonFemaleVoices.find(
+      (v) =>
+        (v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US') &&
+        v.name.toLowerCase().includes(kw)
+    );
+    if (match) return match;
+  }
+
+  // 2. Any en-US voice explicitly tagged male
+  const usMale = nonFemaleVoices.find(
+    (v) => (v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US') && v.name.toLowerCase().includes('male')
+  );
+  if (usMale) return usMale;
+
+  // 3. Any non-female en-US voice
+  const usGeneral = nonFemaleVoices.find((v) => v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US');
+  if (usGeneral) return usGeneral;
+
+  // 4. en-GB fallback male voice (Daniel, George, Oliver, Arthur)
+  for (const kw of PREFERRED_MALE_KEYWORDS) {
+    const match = nonFemaleVoices.find(
+      (v) => v.lang.startsWith('en') && v.name.toLowerCase().includes(kw)
+    );
+    if (match) return match;
+  }
+
+  // 5. Any non-female English voice
+  const anyEnglish = nonFemaleVoices.find((v) => v.lang.startsWith('en'));
+  if (anyEnglish) return anyEnglish;
+
+  return nonFemaleVoices.length > 0 ? nonFemaleVoices[0] : voices[0];
 }
 
 export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
@@ -50,10 +140,22 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const [isMuted, setIsMuted] = useState(false);
   const [userTranscript, setUserTranscript] = useState('');
   const [aiTranscript, setAiTranscript] = useState(
-    'Hi! I am Sheharyar Siraj\'s Voice AI Assistant. You can ask me anything about high-speed WordPress architecture, sub-600ms AI voice agents, or enterprise n8n workflow automations.'
+    'Hi! I am Sheharyar Siraj\'s Voice AI Assistant. You can ask me anything about high-speed WordPress VIP architecture, sub-600ms AI voice agents, or enterprise n8n workflow automations.'
   );
   const [conversationHistory, setConversationHistory] = useState<ChatMessage[]>([]);
   const [audioLevel, setAudioLevel] = useState(0);
+
+  // Dynamic Sales Intent & Lead Capture Overlay State
+  const [isLeadOverlayOpen, setIsLeadOverlayOpen] = useState(false);
+  const [voiceLeadForm, setVoiceLeadForm] = useState({
+    name: '',
+    whatsapp: '',
+    email: '',
+    details: ''
+  });
+  const [voiceLeadSubmitted, setVoiceLeadSubmitted] = useState(false);
+  const [isSubmittingVoiceLead, setIsSubmittingVoiceLead] = useState(false);
+  const [voiceLeadError, setVoiceLeadError] = useState('');
 
   // Audio Context & Stream Refs for Real-Time Visualizer
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -62,130 +164,113 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const streamRef = useRef<MediaStream | null>(null);
   const animationFrameRef = useRef<number | null>(null);
 
-  // Web Speech API Refs
+  // Web Speech API Refs & Turn-Taking Loop Synchronization
   const recognitionRef = useRef<any>(null);
   const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isModalOpenRef = useRef(isModalOpen);
+  const isMutedRef = useRef(isMuted);
   const isSpeakingRef = useRef(false);
   const isThinkingRef = useRef(false);
+  const isListeningRef = useRef(false);
+  const startListeningRef = useRef<() => void>(() => {});
 
-  // Safe voice synthesis voice selection
-  const selectNaturalVoice = useCallback((): SpeechSynthesisVoice | null => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return null;
-    const voices = window.speechSynthesis.getVoices();
-    if (!voices || voices.length === 0) return null;
+  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
 
-    // Prioritize natural sounding modern English voices
-    const naturalVoice = voices.find(
-      (v) =>
-        v.lang.startsWith('en') &&
-        (v.name.includes('Google') ||
-          v.name.includes('Natural') ||
-          v.name.includes('Jenny') ||
-          v.name.includes('Guy') ||
-          v.name.includes('Samantha') ||
-          v.name.includes('Aria') ||
-          v.name.includes('Online'))
-    );
+  // Synchronize state values into persistent refs to eliminate stale closure bugs
+  useEffect(() => {
+    isModalOpenRef.current = isModalOpen;
+  }, [isModalOpen]);
 
-    return naturalVoice || voices.find((v) => v.lang === 'en-US') || voices.find((v) => v.lang.startsWith('en')) || voices[0];
-  }, []);
+  useEffect(() => {
+    isMutedRef.current = isMuted;
+  }, [isMuted]);
 
-  // Initialize Speech Synthesis voice loading listener
+  // Initialize dynamic Speech Synthesis voice loading listener
   useEffect(() => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
-      const load = () => {
-        window.speechSynthesis.getVoices();
+      const loadVoices = () => {
+        const v = window.speechSynthesis.getVoices();
+        if (v && v.length > 0) {
+          setAvailableVoices(v);
+        }
       };
-      load();
-      window.speechSynthesis.onvoiceschanged = load;
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
       return () => {
-        window.speechSynthesis.onvoiceschanged = null;
+        if (window.speechSynthesis) {
+          window.speechSynthesis.onvoiceschanged = null;
+        }
       };
     }
   }, []);
 
-  // Stop all active audio streams and synthesis
-  const stopAudioPipeline = useCallback(() => {
-    if (typeof window !== 'undefined' && window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-    }
-    isSpeakingRef.current = false;
-    isThinkingRef.current = false;
-
-    if (silenceTimerRef.current) {
-      clearTimeout(silenceTimerRef.current);
-      silenceTimerRef.current = null;
-    }
-
-    if (recognitionRef.current) {
-      try {
-        recognitionRef.current.abort();
-      } catch {
-        // Safe ignore
-      }
-    }
-
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-      animationFrameRef.current = null;
-    }
-
+  // BUG 1: DEDICATED CLEANUP FUNCTION - PROPER MEDIA STREAM CLEANUP & TAB INDICATOR RELEASE
+  const cleanupMedia = useCallback(() => {
+    // 1. Stop all microphone hardware tracks immediately and release hardware lock
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current.getTracks().forEach((track) => {
+        track.stop();
+        track.enabled = false;
+      });
       streamRef.current = null;
+    }
+
+    // 2. Disconnect nodes and close/suspend AudioContext
+    if (sourceRef.current) {
+      try {
+        sourceRef.current.disconnect();
+      } catch {}
+      sourceRef.current = null;
+    }
+
+    if (analyserRef.current) {
+      try {
+        analyserRef.current.disconnect();
+      } catch {}
+      analyserRef.current = null;
     }
 
     if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
       audioContextRef.current.close().catch(() => {});
       audioContextRef.current = null;
     }
-  }, []);
 
-  // Speak AI text response using native SpeechSynthesis
-  const speakResponse = useCallback(
-    (textToSpeak: string, onFinish?: () => void) => {
-      if (typeof window === 'undefined' || !window.speechSynthesis) {
-        if (onFinish) onFinish();
-        return;
-      }
+    // 3. Stop speech recognition and disconnect listeners to guarantee no zombie restarts
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.onend = null;
+        recognitionRef.current.onresult = null;
+        recognitionRef.current.onerror = null;
+        recognitionRef.current.onspeechend = null;
+        recognitionRef.current.abort();
+        recognitionRef.current.stop();
+      } catch {}
+      recognitionRef.current = null;
+    }
 
+    // 4. Cancel active SpeechSynthesis utterances
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const cleanText = cleanTextForSpeech(textToSpeak);
-      if (!cleanText) {
-        if (onFinish) onFinish();
-        return;
-      }
+    }
 
-      const utterance = new SpeechSynthesisUtterance(cleanText);
-      const voice = selectNaturalVoice();
-      if (voice) {
-        utterance.voice = voice;
-      }
-      utterance.rate = 1.05;
-      utterance.pitch = 1.0;
+    // 5. Cancel animation frames & debounce timers
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
 
-      utterance.onstart = () => {
-        isSpeakingRef.current = true;
-        setVoiceState('speaking');
-      };
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
+    }
 
-      utterance.onend = () => {
-        isSpeakingRef.current = false;
-        setVoiceState('idle');
-        if (onFinish) onFinish();
-      };
-
-      utterance.onerror = (e) => {
-        console.warn('SpeechSynthesis error:', e);
-        isSpeakingRef.current = false;
-        setVoiceState('idle');
-        if (onFinish) onFinish();
-      };
-
-      window.speechSynthesis.speak(utterance);
-    },
-    [selectNaturalVoice]
-  );
+    // 6. Reset states and control refs
+    isSpeakingRef.current = false;
+    isThinkingRef.current = false;
+    isListeningRef.current = false;
+    setVoiceState('idle');
+    setAudioLevel(0);
+  }, []);
 
   // Initialize Web Audio Mic Stream for Visualizer
   const initMicrophoneAudioContext = useCallback(async () => {
@@ -212,7 +297,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
       const buffer = new Uint8Array(analyser.frequencyBinCount);
       const checkVolume = () => {
-        if (analyserRef.current && isModalOpen) {
+        if (analyserRef.current && isModalOpenRef.current) {
           analyserRef.current.getByteFrequencyData(buffer);
           let sum = 0;
           for (let i = 0; i < buffer.length; i++) {
@@ -221,7 +306,9 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           const avg = sum / buffer.length;
           setAudioLevel(avg);
         }
-        animationFrameRef.current = requestAnimationFrame(checkVolume);
+        if (isModalOpenRef.current) {
+          animationFrameRef.current = requestAnimationFrame(checkVolume);
+        }
       };
       checkVolume();
     } catch (err: any) {
@@ -229,13 +316,95 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         setVoiceState('permission_denied');
       }
     }
-  }, [isModalOpen]);
+  }, []);
 
-  // Execute AI query with Grounded Knowledge Engine
+  // BUG 2: STATE 1 & STATE 5 - Speak AI response using soft American male voice & loop back on utterance.onend
+  const speakResponse = useCallback(
+    (textToSpeak: string, onFinish?: () => void) => {
+      if (typeof window === 'undefined' || !window.speechSynthesis) {
+        if (onFinish) onFinish();
+        return;
+      }
+
+      // Crucial Rule: Keep microphone recognizer paused/aborted while bot speaks (echo cancellation)
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.onend = null;
+          recognitionRef.current.abort();
+        } catch {}
+        recognitionRef.current = null;
+      }
+      isListeningRef.current = false;
+
+      window.speechSynthesis.cancel();
+      const cleanText = formatSpokenResponse(textToSpeak);
+      if (!cleanText || !isModalOpenRef.current) {
+        if (onFinish) {
+          onFinish();
+        } else if (isModalOpenRef.current && !isMutedRef.current) {
+          startListeningRef.current();
+        }
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      const voice = selectCalmAmericanMaleVoice(availableVoices);
+      if (voice) {
+        utterance.voice = voice;
+      }
+      
+      // Calibrated tone & cadence tuning: calm, soft-tone American male
+      utterance.pitch = 0.95;
+      utterance.rate = 1.0;
+      utterance.volume = 1.0;
+
+      utterance.onstart = () => {
+        isSpeakingRef.current = true;
+        setVoiceState('speaking');
+      };
+
+      const handleSpeechComplete = () => {
+        isSpeakingRef.current = false;
+        if (onFinish) {
+          onFinish();
+        } else if (isModalOpenRef.current && !isMutedRef.current) {
+          // STATE 2: BOT_FINISHED_SPEAKING -> Loop back to listening for the user's next question!
+          setVoiceState('listening');
+          setTimeout(() => {
+            if (isModalOpenRef.current && !isSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
+              startListeningRef.current();
+            }
+          }, 250);
+        } else {
+          setVoiceState('idle');
+        }
+      };
+
+      utterance.onend = handleSpeechComplete;
+      utterance.onerror = (e) => {
+        console.warn('SpeechSynthesis error:', e);
+        handleSpeechComplete();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    },
+    [availableVoices]
+  );
+
+  // BUG 2: STATE 4 - Execute AI query with Grounded Knowledge Engine & Sales Trigger
   const processVoiceInput = useCallback(
     async (spokenQuery: string) => {
-      if (!spokenQuery.trim() || isThinkingRef.current) return;
+      if (!spokenQuery.trim() || !isModalOpenRef.current) return;
 
+      // Abort recognizer during processing to prevent self-transcription
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.onend = null;
+          recognitionRef.current.abort();
+        } catch {}
+        recognitionRef.current = null;
+      }
+      isListeningRef.current = false;
       isThinkingRef.current = true;
       setVoiceState('thinking');
       setUserTranscript(spokenQuery);
@@ -249,45 +418,78 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
       setConversationHistory((prev) => [...prev, userMsg]);
 
-      try {
-        const result = await processRagQuery(spokenQuery, [...conversationHistory, userMsg]);
+      // Check for buying signals / "I am interested" trigger
+      const hasDirectInterest = isDirectInterestIntent(spokenQuery);
+
+      if (hasDirectInterest) {
+        const salesResponse =
+          "That's fantastic! Sheharyar specializes in turning high-load bottlenecks into scalable systems. To send you an architectural scope and roadmap within 2 hours, what is your best WhatsApp number and email?";
+        
         isThinkingRef.current = false;
-        setAiTranscript(result.answer);
+        setAiTranscript(salesResponse);
+        setIsLeadOverlayOpen(true);
+        setVoiceLeadForm((prev) => ({
+          ...prev,
+          details: prev.details || `Spoken interest: "${spokenQuery}"`
+        }));
 
         const botMsg: ChatMessage = {
           id: `voice-ai-${Date.now()}`,
           sender: 'assistant',
-          text: result.answer,
+          text: salesResponse,
           timestamp: 'Just now',
-          mode: result.mode,
-          action: result.action
+          mode: 'sales',
+          showLeadForm: true
         };
         setConversationHistory((prev) => [...prev, botMsg]);
 
-        // Speak response out loud
-        speakResponse(result.answer, () => {
-          if (isModalOpen && !isMuted) {
-            startRecognition();
-          }
-        });
+        // STATE 5: AI RESPONSE GENERATED -> speak response, then utterance.onend loops back to listening
+        speakResponse(salesResponse);
+        return;
+      }
+
+      try {
+        const result = await processRagQuery(spokenQuery, [...conversationHistory, userMsg]);
+        isThinkingRef.current = false;
+
+        // Keep spoken answers concise (1 to 3 spoken sentences per turn) for natural telephony back-and-forth
+        const spokenAnswer = formatSpokenResponse(result.answer);
+        setAiTranscript(spokenAnswer);
+
+        if (result.showLeadForm || result.mode === 'sales') {
+          setIsLeadOverlayOpen(true);
+          setVoiceLeadForm((prev) => ({
+            ...prev,
+            details: prev.details || `Inquiry topic: "${spokenQuery}"`
+          }));
+        }
+
+        const botMsg: ChatMessage = {
+          id: `voice-ai-${Date.now()}`,
+          sender: 'assistant',
+          text: spokenAnswer,
+          timestamp: 'Just now',
+          mode: result.mode,
+          action: result.action,
+          showLeadForm: result.showLeadForm
+        };
+        setConversationHistory((prev) => [...prev, botMsg]);
+
+        // STATE 5: AI RESPONSE GENERATED -> speak response, then utterance.onend loops back to listening
+        speakResponse(spokenAnswer);
       } catch (err) {
         console.error('Voice RAG processing error:', err);
         isThinkingRef.current = false;
         const fallback = 'I am ready to help with your project! You can connect directly with Sheharyar on WhatsApp at +92 313 2080033 for immediate scoping under our 2-hour SLA.';
         setAiTranscript(fallback);
-        speakResponse(fallback, () => {
-          if (isModalOpen && !isMuted) {
-            startRecognition();
-          }
-        });
+        speakResponse(fallback);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [conversationHistory, isModalOpen, isMuted, speakResponse]
+    [conversationHistory, speakResponse]
   );
 
-  // Start native Speech Recognition
-  const startRecognition = useCallback(() => {
+  // BUG 2: STATE 2 & STATE 3 - Web Speech API User Listening Loop
+  const startListening = useCallback(() => {
     if (typeof window === 'undefined') return;
 
     const SpeechRecognition =
@@ -298,17 +500,18 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       return;
     }
 
-    if (isSpeakingRef.current || isThinkingRef.current || isMuted) {
+    // Do not listen if call ended, muted, bot is currently speaking, or AI is currently thinking
+    if (!isModalOpenRef.current || isMutedRef.current || isSpeakingRef.current || isThinkingRef.current) {
       return;
     }
 
-    // Abort existing instance if any
+    // Abort existing instance cleanly
     if (recognitionRef.current) {
       try {
+        recognitionRef.current.onend = null;
         recognitionRef.current.abort();
-      } catch {
-        // safe
-      }
+      } catch {}
+      recognitionRef.current = null;
     }
 
     const recognition = new SpeechRecognition();
@@ -318,10 +521,20 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     recognition.lang = 'en-US';
 
     recognition.onstart = () => {
+      if (!isModalOpenRef.current || isSpeakingRef.current || isThinkingRef.current) {
+        try { recognition.abort(); } catch {}
+        return;
+      }
+      isListeningRef.current = true;
       setVoiceState('listening');
     };
 
+    // STATE 3: USER_SPEAKING - Accumulate transcript & display live subtitles
     recognition.onresult = (event: any) => {
+      if (isSpeakingRef.current || isThinkingRef.current || !isModalOpenRef.current) {
+        return;
+      }
+
       let interim = '';
       let finalSpeech = '';
 
@@ -333,32 +546,38 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         }
       }
 
-      if (interim) {
-        setUserTranscript(interim);
+      const activeText = finalSpeech || interim;
+      if (activeText) {
+        setUserTranscript(activeText);
       }
 
-      // If silence is detected after user speaks, trigger resolution
       if (silenceTimerRef.current) {
         clearTimeout(silenceTimerRef.current);
+        silenceTimerRef.current = null;
       }
 
+      // STATE 4: USER_FINISHED_SPEAKING -> Stop recognition, transition to Thinking, query AI
       if (finalSpeech.trim()) {
         try {
           recognition.stop();
-        } catch {
-          // safe
-        }
+        } catch {}
+        isListeningRef.current = false;
+        isThinkingRef.current = true;
+        setVoiceState('thinking');
         processVoiceInput(finalSpeech.trim());
       } else if (interim.trim()) {
-        // Auto-commit interim after 1600ms of silence
+        // Auto-commit interim after 1400ms pause
         silenceTimerRef.current = setTimeout(() => {
-          try {
-            recognition.stop();
-          } catch {
-            // safe
+          if (isModalOpenRef.current && !isSpeakingRef.current && !isThinkingRef.current && interim.trim()) {
+            try {
+              recognition.stop();
+            } catch {}
+            isListeningRef.current = false;
+            isThinkingRef.current = true;
+            setVoiceState('thinking');
+            processVoiceInput(interim.trim());
           }
-          processVoiceInput(interim.trim());
-        }, 1600);
+        }, 1400);
       }
     };
 
@@ -366,27 +585,29 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       if (event.error === 'not-allowed') {
         setVoiceState('permission_denied');
       } else if (event.error !== 'no-speech' && event.error !== 'aborted') {
-        console.warn('SpeechRecognition error:', event.error);
+        console.warn('SpeechRecognition warning:', event.error);
       }
     };
 
     recognition.onend = () => {
-      // Reconnect if modal is still active, not speaking, and not muted
-      if (isModalOpen && !isSpeakingRef.current && !isThinkingRef.current && !isMuted) {
+      isListeningRef.current = false;
+      // Re-trigger listening ONLY if modal is still active and not speaking, thinking, or muted
+      if (isModalOpenRef.current && !isSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
         try {
           recognition.start();
-        } catch {
-          // safe
-        }
+          isListeningRef.current = true;
+        } catch {}
       }
     };
 
     try {
       recognition.start();
-    } catch {
-      // safe
-    }
-  }, [isModalOpen, isMuted, processVoiceInput]);
+      isListeningRef.current = true;
+    } catch {}
+  }, [processVoiceInput]);
+
+  // Keep ref up to date to resolve circular dependency between speakResponse and startListening
+  startListeningRef.current = startListening;
 
   // Open modal handler
   const handleOpen = () => {
@@ -397,49 +618,48 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     }
   };
 
-  // Close modal handler
+  // Close modal handler: triggers complete cleanup of mic tracks and AudioContext
   const handleClose = useCallback(() => {
-    stopAudioPipeline();
-    setVoiceState('idle');
+    isModalOpenRef.current = false;
+    cleanupMedia();
+    setIsLeadOverlayOpen(false);
     if (controlledOnClose) {
       controlledOnClose();
     } else {
       setInternalIsOpen(false);
     }
-  }, [controlledOnClose, stopAudioPipeline]);
+  }, [cleanupMedia, controlledOnClose]);
 
-  // Lifecycle when modal is opened / closed
+  // Lifecycle when modal is opened / closed (locks body scroll and initiates conversational flow)
   useEffect(() => {
+    isModalOpenRef.current = isModalOpen;
     if (isModalOpen) {
-      // Lock body scroll
       const prevOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
 
-      // Setup microphone and start recognition
+      // Setup microphone visualizer stream
       initMicrophoneAudioContext();
-      startRecognition();
 
-      // Initial spoken greeting
+      // Initial spoken greeting: bot speaks FIRST, recognizer starts automatically when bot finishes (STATE 2)
       const greetingTimer = setTimeout(() => {
-        speakResponse(
-          'Hello! I am Sheharyar Siraj\'s Voice AI Assistant. How can I assist you with custom WordPress architecture, voice agents, or automations today?',
-          () => {
-            if (!isMuted) startRecognition();
-          }
-        );
-      }, 500);
+        if (isModalOpenRef.current) {
+          speakResponse(
+            'Hello! I am Sheharyar Siraj\'s Voice AI Assistant. How can I assist you with custom WordPress VIP architecture, voice telephony, or workflow automations today?'
+          );
+        }
+      }, 400);
 
       return () => {
         clearTimeout(greetingTimer);
         document.body.style.overflow = prevOverflow;
-        stopAudioPipeline();
+        cleanupMedia();
       };
     } else {
-      stopAudioPipeline();
+      cleanupMedia();
     }
-  }, [initMicrophoneAudioContext, isModalOpen, isMuted, speakResponse, startRecognition, stopAudioPipeline]);
+  }, [cleanupMedia, initMicrophoneAudioContext, isModalOpen, speakResponse]);
 
-  // Keyboard shortcut listener (Escape to close)
+  // Keyboard shortcut listener (Escape to close and cleanup immediately)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isModalOpen) {
@@ -454,16 +674,19 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const toggleMute = () => {
     if (isMuted) {
       setIsMuted(false);
-      startRecognition();
+      isMutedRef.current = false;
+      startListeningRef.current();
     } else {
       setIsMuted(true);
+      isMutedRef.current = true;
       if (recognitionRef.current) {
         try {
+          recognitionRef.current.onend = null;
           recognitionRef.current.abort();
-        } catch {
-          // safe
-        }
+        } catch {}
+        recognitionRef.current = null;
       }
+      isListeningRef.current = false;
       setVoiceState('idle');
     }
   };
@@ -474,93 +697,145 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       window.speechSynthesis.cancel();
     }
     isSpeakingRef.current = false;
-    setVoiceState('idle');
-    if (!isMuted) {
-      startRecognition();
+    if (!isMutedRef.current) {
+      setVoiceState('listening');
+      startListeningRef.current();
+    } else {
+      setVoiceState('idle');
     }
   };
 
   // Reset conversation
   const handleResetConversation = () => {
-    stopAudioPipeline();
+    cleanupMedia();
     setUserTranscript('');
     setAiTranscript('Conversation reset. What can Sheharyar build or automate for your business?');
     setConversationHistory([]);
+    setIsLeadOverlayOpen(false);
+    setVoiceLeadSubmitted(false);
     setVoiceState('idle');
+    initMicrophoneAudioContext();
     setTimeout(() => {
-      speakResponse('Conversation reset. What can Sheharyar build or automate for your business?', () => {
-        if (!isMuted) startRecognition();
-      });
+      if (isModalOpenRef.current) {
+        speakResponse('Conversation reset. What can Sheharyar build or automate for your business?');
+      }
     }, 200);
+  };
+
+  // Lead submission dispatcher
+  const handleVoiceLeadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setVoiceLeadError('');
+
+    if (!voiceLeadForm.name.trim()) {
+      setVoiceLeadError('Please enter your full name.');
+      return;
+    }
+    if (!voiceLeadForm.whatsapp.trim()) {
+      setVoiceLeadError('WhatsApp number is required for 2-hour SLA response.');
+      return;
+    }
+    if (!isValidPhoneNumber(voiceLeadForm.whatsapp)) {
+      setVoiceLeadError('Please enter a valid phone number with country code (e.g. +1 555 0192 or +92 313 2080033).');
+      return;
+    }
+    if (!voiceLeadForm.email.trim() || !voiceLeadForm.email.includes('@')) {
+      setVoiceLeadError('Please enter a valid email address.');
+      return;
+    }
+
+    setIsSubmittingVoiceLead(true);
+
+    const transcriptExcerpt = conversationHistory
+      .slice(-4)
+      .map((m) => `${m.sender.toUpperCase()}: ${m.text}`)
+      .join('\n');
+
+    const result = await dispatchLeadNotification({
+      source: 'Interactive Voice Bot',
+      name: voiceLeadForm.name,
+      email: voiceLeadForm.email,
+      whatsapp: voiceLeadForm.whatsapp,
+      service: 'AI Voice / Architecture Scoping',
+      details: voiceLeadForm.details || `Voice inquiry: ${userTranscript || 'Direct Voice Scoping'}`,
+      transcriptExcerpt
+    });
+
+    setIsSubmittingVoiceLead(false);
+    setVoiceLeadSubmitted(true);
+
+    const confirmationSpeech =
+      'Thank you! Your inquiry and WhatsApp details have been dispatched directly to Sheharyar. He will get back to you within 2 hours.';
+
+    if (result.success) {
+      setAiTranscript(confirmationSpeech);
+      speakResponse(confirmationSpeech);
+    } else {
+      const fallbackNotice =
+        'Thank you! We registered your details, but encountered a network dispatch delay. You can connect immediately on WhatsApp at +92 313 2080033.';
+      setAiTranscript(fallbackNotice);
+      speakResponse(fallbackNotice);
+    }
   };
 
   // Compute visualizer orb scale based on real-time mic volume or simulated bot frequency
   const visualScale =
     voiceState === 'speaking'
-      ? 1.15 + Math.sin(Date.now() / 150) * 0.1
+      ? 1.1 + Math.sin(Date.now() / 150) * 0.08
       : voiceState === 'listening'
-      ? 1 + Math.min(audioLevel / 120, 0.45)
+      ? 1 + Math.min(audioLevel / 120, 0.35)
       : voiceState === 'thinking'
-      ? 1.08
+      ? 1.05
       : 1;
 
   return (
     <>
-      {/* Floating Trigger Button (Positioned at bottom-6 left-6 to balance the text chat widget) */}
+      {/* Floating Trigger Button: Short Circle on Right Side */}
       {!isModalOpen && controlledIsOpen === undefined && (
-        <div className="fixed bottom-6 left-6 z-40">
+        <div className="fixed bottom-20 right-5 sm:bottom-23 sm:right-6 z-40">
           <button
             onClick={handleOpen}
-            className="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-surface-1 border border-brand-border/80 text-white shadow-2xl hover:border-accent hover:shadow-[0_0_35px_rgba(0,255,200,0.35)] transition-all active:scale-95"
+            className="group relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-1/95 border border-brand-border/80 hover:border-emerald-400 text-emerald-400 shadow-2xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
             aria-label="Open Autonomous Voice AI Assistant"
+            title="Talk to Voice AI Assistant"
           >
-            <div className="relative">
-              <div className="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
-                <Mic size={16} className="animate-pulse" />
-              </div>
-              <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-surface-1 animate-ping" />
-            </div>
-
-            <div className="text-left font-mono">
-              <div className="text-xs font-bold leading-tight group-hover:text-emerald-400 transition-colors flex items-center gap-1.5">
-                <span>Talk to AI Voice</span>
-                <span className="px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-300 text-[9px] font-bold uppercase tracking-wider border border-emerald-500/30">
-                  Live
-                </span>
-              </div>
-              <div className="text-[10px] text-brand-muted">Zero-cost client speech • Instant Scoping</div>
-            </div>
+            <Mic size={20} className="sm:w-[22px] sm:h-[22px] animate-pulse" />
+            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-surface-1 animate-ping" />
+            <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-surface-2 border border-brand-border text-white text-xs font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 shadow-xl hidden sm:block">
+              Talk to AI Voice
+            </span>
           </button>
         </div>
       )}
 
-      {/* Full-Screen Pop-Up Overlay Modal */}
+      {/* Full-Screen Viewport-Fitting Modal (Zero Cut-Off Architecture) */}
       {isModalOpen && (
         <div
           data-lenis-prevent="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-fade-in font-body select-none"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-0 sm:p-4 md:p-6 animate-fade-in font-body select-none overflow-hidden"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) handleClose();
+          }}
         >
-          <div className="relative w-full max-w-xl bg-surface-1/95 border border-brand-border rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden max-h-[92vh]">
-            {/* Modal Header */}
-            <div className="p-4 sm:p-5 bg-surface-2/70 border-b border-brand-border flex items-center justify-between backdrop-blur-md">
-              <div className="flex items-center gap-3">
+          <div className="relative w-full h-[100dvh] max-h-[100dvh] sm:h-auto sm:max-h-[85vh] md:max-h-[88vh] sm:max-w-lg md:max-w-xl bg-surface-1/95 border-0 sm:border sm:border-brand-border rounded-none sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden pb-[env(safe-area-inset-bottom,0px)]">
+            
+            {/* Pinned Header (shrink-0) */}
+            <div className="p-3.5 sm:p-4 bg-surface-2/80 border-b border-brand-border flex items-center justify-between backdrop-blur-md shrink-0">
+              <div className="flex items-center gap-2.5">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
-                    <Radio size={20} className="animate-pulse" />
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+                    <Radio size={16} className="animate-pulse" />
                   </div>
-                  <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-surface-2" />
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-surface-2" />
                 </div>
 
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="font-heading font-bold text-sm sm:text-base text-white">
-                      Sheharyar Siraj AI Voice Telephony
+                    <h3 className="font-heading font-bold text-xs sm:text-sm text-white">
+                      Sheharyar Siraj AI Voice
                     </h3>
-                  </div>
-                  <div className="flex items-center gap-2 mt-0.5">
-                    {/* Dynamic Status Badge */}
                     <span
-                      className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 ${
+                      className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 ${
                         voiceState === 'listening'
                           ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
                           : voiceState === 'thinking'
@@ -572,236 +847,393 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-current animate-ping" />
                       {voiceState === 'listening'
-                        ? 'Listening to you...'
+                        ? 'Listening'
                         : voiceState === 'thinking'
-                        ? 'Synthesizing Architecture...'
+                        ? 'Synthesizing'
                         : voiceState === 'speaking'
-                        ? 'Speaking Out Loud...'
+                        ? 'Speaking'
                         : isMuted
-                        ? 'Microphone Muted'
-                        : 'Ready for Voice Prompt'}
-                    </span>
-                    <span className="hidden sm:inline text-[10px] font-mono text-brand-muted">
-                      100% Free Web Speech Pipeline
+                        ? 'Muted'
+                        : 'Ready'}
                     </span>
                   </div>
+                  <p className="text-[10px] font-mono text-brand-muted">
+                    Calm American Male Voice • Sub-2h SLA Scoping
+                  </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1">
                 <button
                   onClick={handleResetConversation}
-                  className="w-8 h-8 rounded-xl hover:bg-surface-3 text-brand-muted hover:text-white transition-colors flex items-center justify-center"
+                  className="w-7 h-7 rounded-lg hover:bg-surface-3 text-brand-muted hover:text-white transition-colors flex items-center justify-center"
                   title="Reset voice conversation"
                 >
-                  <RotateCcw size={15} />
+                  <RotateCcw size={14} />
                 </button>
 
                 <button
                   onClick={handleClose}
-                  className="w-8 h-8 rounded-xl hover:bg-surface-3 text-brand-muted hover:text-white transition-colors flex items-center justify-center"
+                  className="w-7 h-7 rounded-lg hover:bg-surface-3 text-brand-muted hover:text-white transition-colors flex items-center justify-center"
                   title="End voice session (Escape)"
                 >
-                  <X size={18} />
+                  <X size={16} />
                 </button>
               </div>
             </div>
 
-            {/* Central Interactive Audio Wave / Glowing Orb */}
-            <div className="relative flex flex-col items-center justify-center py-10 sm:py-12 px-6 overflow-hidden bg-radial from-accent/10 via-surface-1 to-surface-1">
-              {/* Outer Ripple Waves */}
-              {voiceState === 'listening' && (
-                <>
-                  <div className="absolute w-56 h-56 rounded-full border border-emerald-500/20 animate-ping [animation-duration:2.5s]" />
-                  <div className="absolute w-72 h-72 rounded-full border border-accent/20 animate-ping [animation-duration:3.5s]" />
-                </>
-              )}
-
-              {voiceState === 'speaking' && (
-                <div className="absolute w-64 h-64 rounded-full bg-accent/15 blur-2xl animate-pulse" />
-              )}
-
-              {/* Central Orb */}
-              <div
-                style={{ transform: `scale(${visualScale})` }}
-                className={`relative w-28 h-28 sm:w-32 sm:h-32 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xl ${
-                  voiceState === 'speaking'
-                    ? 'bg-gradient-to-tr from-accent via-emerald-400 to-cyan-300 shadow-[0_0_50px_rgba(30,144,255,0.6)]'
-                    : voiceState === 'thinking'
-                    ? 'bg-gradient-to-tr from-amber-400 via-accent to-purple-500 animate-spin [animation-duration:4s] shadow-[0_0_40px_rgba(251,191,36,0.5)]'
-                    : voiceState === 'listening'
-                    ? 'bg-gradient-to-tr from-emerald-500 via-teal-400 to-accent shadow-[0_0_45px_rgba(16,185,129,0.5)]'
-                    : 'bg-gradient-to-tr from-surface-3 via-accent/30 to-surface-2 border border-brand-border/80 shadow-[0_0_20px_rgba(255,255,255,0.05)]'
-                }`}
-                onClick={voiceState === 'speaking' ? handleInterrupt : toggleMute}
-                title={voiceState === 'speaking' ? 'Click to interrupt' : 'Click to toggle mute'}
-              >
-                {/* Glowing Core */}
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-surface-1/80 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                  {voiceState === 'speaking' ? (
-                    <Volume2 size={32} className="text-accent animate-pulse" />
-                  ) : voiceState === 'thinking' ? (
-                    <Sparkles size={32} className="text-amber-300 animate-bounce" />
-                  ) : isMuted ? (
-                    <MicOff size={32} className="text-red-400" />
-                  ) : (
-                    <Mic size={32} className="text-emerald-400 animate-pulse" />
+            {/* Main Interactive Screen (Zero scrollbars on visualizer) */}
+            {!isLeadOverlayOpen ? (
+              <div className="flex-1 flex flex-col justify-between overflow-hidden bg-radial from-accent/10 via-surface-1 to-surface-1 p-3.5 sm:p-5 md:p-6">
+                
+                {/* Central Interactive Audio Wave / Glowing Orb */}
+                <div className="relative flex flex-col items-center justify-center my-auto py-1 sm:py-2">
+                  {/* Outer Ripple Waves */}
+                  {voiceState === 'listening' && (
+                    <>
+                      <div className="absolute w-36 h-36 sm:w-44 sm:h-44 rounded-full border border-emerald-500/20 animate-ping [animation-duration:2.5s]" />
+                      <div className="absolute w-48 h-48 sm:w-56 sm:h-56 rounded-full border border-accent/20 animate-ping [animation-duration:3.5s]" />
+                    </>
                   )}
-                </div>
-              </div>
 
-              {/* Dynamic Sound Frequency Bars (Speaking & Listening States) */}
-              <div className="flex items-center gap-1.5 mt-8 h-8">
-                {[0.4, 0.7, 1.0, 0.8, 0.5, 0.9, 1.2, 0.6, 1.1, 0.7, 0.5].map((multiplier, i) => {
-                  const barHeight =
-                    voiceState === 'speaking'
-                      ? Math.max(8, Math.sin(Date.now() / 100 + i) * 24 * multiplier + 16)
-                      : voiceState === 'listening'
-                      ? Math.max(6, (audioLevel / 10) * multiplier + 6)
-                      : 4;
+                  {voiceState === 'speaking' && (
+                    <div className="absolute w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-accent/15 blur-2xl animate-pulse" />
+                  )}
 
-                  return (
-                    <div
-                      key={i}
-                      style={{ height: `${barHeight}px` }}
-                      className={`w-1 rounded-full transition-all duration-75 ${
-                        voiceState === 'speaking'
-                          ? 'bg-gradient-to-t from-accent to-emerald-400'
-                          : voiceState === 'listening'
-                          ? 'bg-gradient-to-t from-emerald-500 to-cyan-300'
-                          : 'bg-surface-3'
-                      }`}
-                    />
-                  );
-                })}
-              </div>
-
-              {/* Helper instructions text */}
-              <p className="text-xs font-mono text-brand-muted mt-3 text-center">
-                {voiceState === 'listening'
-                  ? 'Speak naturally: "How much for a custom WordPress VIP build?"'
-                  : voiceState === 'thinking'
-                  ? 'Synthesizing technical knowledge...'
-                  : voiceState === 'speaking'
-                  ? 'Tap the sphere or click "Interrupt" to cut in anytime'
-                  : isMuted
-                  ? 'Microphone muted. Tap Unmute to speak.'
-                  : 'Listening will resume automatically...'}
-              </p>
-            </div>
-
-            {/* Error & Fallback Warnings */}
-            {voiceState === 'permission_denied' && (
-              <div className="mx-6 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-mono flex items-start gap-2.5">
-                <AlertCircle size={16} className="shrink-0 mt-0.5 text-red-400" />
-                <div>
-                  <p className="font-bold">Microphone Permission Required</p>
-                  <p className="text-[11px] text-red-200/80 mt-0.5">
-                    Your browser denied mic access. Please enable microphone permissions in your browser URL settings, or click &quot;Try Again&quot;.
-                  </p>
-                  <button
-                    onClick={() => {
-                      initMicrophoneAudioContext();
-                      startRecognition();
-                    }}
-                    className="mt-2 px-3 py-1 rounded bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-white text-[11px] font-bold"
+                  {/* Central Orb */}
+                  <div
+                    style={{ transform: `scale(${visualScale})` }}
+                    className={`relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xl ${
+                      voiceState === 'speaking'
+                        ? 'bg-gradient-to-tr from-accent via-emerald-400 to-cyan-300 shadow-[0_0_40px_rgba(30,144,255,0.5)]'
+                        : voiceState === 'thinking'
+                        ? 'bg-gradient-to-tr from-amber-400 via-accent to-purple-500 animate-spin [animation-duration:4s] shadow-[0_0_35px_rgba(251,191,36,0.5)]'
+                        : voiceState === 'listening'
+                        ? 'bg-gradient-to-tr from-emerald-500 via-teal-400 to-accent shadow-[0_0_40px_rgba(16,185,129,0.5)]'
+                        : 'bg-gradient-to-tr from-surface-3 via-accent/30 to-surface-2 border border-brand-border/80 shadow-[0_0_15px_rgba(255,255,255,0.05)]'
+                    }`}
+                    onClick={voiceState === 'speaking' ? handleInterrupt : toggleMute}
+                    title={voiceState === 'speaking' ? 'Click to interrupt' : 'Click to toggle mute'}
                   >
-                    Try Again
-                  </button>
-                </div>
-              </div>
-            )}
+                    {/* Glowing Core */}
+                    <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 rounded-full bg-surface-1/80 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                      {voiceState === 'speaking' ? (
+                        <Volume2 size={24} className="text-accent animate-pulse" />
+                      ) : voiceState === 'thinking' ? (
+                        <Sparkles size={24} className="text-amber-300 animate-bounce" />
+                      ) : isMuted ? (
+                        <MicOff size={24} className="text-red-400" />
+                      ) : (
+                        <Mic size={24} className="text-emerald-400 animate-pulse" />
+                      )}
+                    </div>
+                  </div>
 
-            {voiceState === 'unsupported' && (
-              <div className="mx-6 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono flex items-start gap-2.5">
-                <AlertCircle size={16} className="shrink-0 mt-0.5 text-amber-400" />
-                <div>
-                  <p className="font-bold">Browser Speech API Unsupported</p>
-                  <p className="text-[11px] text-amber-200/80 mt-0.5">
-                    Your browser does not support native Web Speech recognition. For the best voice experience, please open in Chrome, Edge, or Safari, or switch to the text AI Chatbot.
+                  {/* Dynamic Sound Frequency Bars */}
+                  <div className="flex items-center gap-1.5 mt-3 sm:mt-4 h-5 sm:h-6">
+                    {[0.4, 0.7, 1.0, 0.8, 0.5, 0.9, 1.2, 0.6, 1.1, 0.7, 0.5].map((multiplier, i) => {
+                      const barHeight =
+                        voiceState === 'speaking'
+                          ? Math.max(5, Math.sin(Date.now() / 100 + i) * 16 * multiplier + 8)
+                          : voiceState === 'listening'
+                          ? Math.max(4, (audioLevel / 12) * multiplier + 4)
+                          : 3;
+
+                      return (
+                        <div
+                          key={i}
+                          style={{ height: `${barHeight}px` }}
+                          className={`w-1 rounded-full transition-all duration-75 ${
+                            voiceState === 'speaking'
+                              ? 'bg-gradient-to-t from-accent to-emerald-400'
+                              : voiceState === 'listening'
+                              ? 'bg-gradient-to-t from-emerald-500 to-cyan-300'
+                              : 'bg-surface-3'
+                          }`}
+                        />
+                      );
+                    })}
+                  </div>
+
+                  {/* Micro Helper prompt */}
+                  <p className="text-[10px] sm:text-[11px] font-mono text-brand-muted mt-2 text-center">
+                    {voiceState === 'listening'
+                      ? 'Say: "I am interested in scoping a custom WordPress or Voice AI system"'
+                      : voiceState === 'thinking'
+                      ? 'Consulting Sheharyar\'s verified engineering dossiers...'
+                      : voiceState === 'speaking'
+                      ? 'Tap orb or click Interrupt to cut in'
+                      : isMuted
+                      ? 'Microphone muted. Tap to speak.'
+                      : 'Listening will resume automatically...'}
                   </p>
                 </div>
+
+                {/* Error & Fallback Warnings */}
+                {voiceState === 'permission_denied' && (
+                  <div className="my-1.5 p-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-mono flex items-start gap-2">
+                    <AlertCircle size={15} className="shrink-0 mt-0.5 text-red-400" />
+                    <div className="text-[11px]">
+                      <span className="font-bold">Microphone Permission Required: </span>
+                      Please allow microphone access in your browser, or switch to WhatsApp.
+                    </div>
+                  </div>
+                )}
+
+                {voiceState === 'unsupported' && (
+                  <div className="my-1.5 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono flex items-start gap-2">
+                    <AlertCircle size={15} className="shrink-0 mt-0.5 text-amber-400" />
+                    <div className="text-[11px]">
+                      <span className="font-bold">Web Speech API Unsupported: </span>
+                      Use Chrome, Edge, or Safari, or switch to the text AI Chatbot.
+                    </div>
+                  </div>
+                )}
+
+                {/* Compact Live Captions Strip (shrink-0) */}
+                <div className="mt-2 p-2.5 sm:p-3 rounded-xl bg-surface-2/80 border border-brand-border/80 text-xs space-y-1 shrink-0">
+                  <div className="flex items-center gap-1.5 text-brand-muted font-mono text-[10px] uppercase tracking-wider">
+                    <Mic size={10} className="text-emerald-400" />
+                    <span>You Said:</span>
+                    <span className="text-white italic truncate max-w-[260px] sm:max-w-[360px]">
+                      {userTranscript ? `"${userTranscript}"` : '(Awaiting your voice...)'}
+                    </span>
+                  </div>
+
+                  <div className="flex items-start gap-1.5 text-brand-secondary text-[11px] leading-relaxed line-clamp-2">
+                    <Sparkles size={11} className="text-accent shrink-0 mt-0.5" />
+                    <span>{aiTranscript}</span>
+                  </div>
+                </div>
+
+              </div>
+            ) : (
+              /* High-Converting On-Screen Lead Capture Overlay */
+              <div className="flex-1 overflow-y-auto overscroll-contain custom-scrollbar p-4 sm:p-5 bg-surface-1">
+                {!voiceLeadSubmitted ? (
+                  <form onSubmit={handleVoiceLeadSubmit} className="space-y-3">
+                    <div className="flex items-center justify-between pb-2 border-b border-brand-border/60">
+                      <div className="flex items-center gap-1.5 text-amber-300 font-mono text-xs font-bold uppercase tracking-wider">
+                        <BadgePercent size={14} />
+                        <span>Direct Calendar Invite &amp; Scoping Brief</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setIsLeadOverlayOpen(false)}
+                        className="text-[11px] font-mono text-brand-muted hover:text-white flex items-center gap-1"
+                      >
+                        <span>Back to Voice</span>
+                        <ChevronDown size={12} />
+                      </button>
+                    </div>
+
+                    <p className="text-xs text-brand-secondary leading-relaxed font-body">
+                      Leave your WhatsApp &amp; Email below for Sheharyar&apos;s direct calendar invite.
+                    </p>
+
+                    {voiceLeadError && (
+                      <p className="text-[11px] font-mono text-red-400 bg-red-500/10 p-2 rounded border border-red-500/20">
+                        {voiceLeadError}
+                      </p>
+                    )}
+
+                    <div>
+                      <label className="block text-[10px] font-mono text-brand-muted uppercase mb-1">
+                        Your Full Name <span className="text-red-400">*</span>
+                      </label>
+                      <div className="relative">
+                        <User size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-brand-muted" />
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. David Miller"
+                          value={voiceLeadForm.name}
+                          onChange={(e) => setVoiceLeadForm({ ...voiceLeadForm, name: e.target.value })}
+                          className="w-full pl-8 pr-3 py-2 rounded-lg bg-surface-2 border border-brand-border text-white text-xs placeholder-brand-muted focus:outline-none focus:border-accent"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      <div>
+                        <label className="block text-[10px] font-mono text-brand-muted uppercase mb-1">
+                          WhatsApp / Phone <span className="text-red-400">*</span>
+                        </label>
+                        <div className="relative">
+                          <Phone size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-brand-muted" />
+                          <input
+                            type="tel"
+                            required
+                            placeholder="+1 (555) 000-0000"
+                            value={voiceLeadForm.whatsapp}
+                            onChange={(e) => setVoiceLeadForm({ ...voiceLeadForm, whatsapp: e.target.value })}
+                            className="w-full pl-8 pr-3 py-2 rounded-lg bg-surface-2 border border-brand-border text-white text-xs placeholder-brand-muted focus:outline-none focus:border-accent"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-mono text-brand-muted uppercase mb-1">
+                          Email Address <span className="text-red-400">*</span>
+                        </label>
+                        <div className="relative">
+                          <Mail size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-brand-muted" />
+                          <input
+                            type="email"
+                            required
+                            placeholder="name@company.com"
+                            value={voiceLeadForm.email}
+                            onChange={(e) => setVoiceLeadForm({ ...voiceLeadForm, email: e.target.value })}
+                            className="w-full pl-8 pr-3 py-2 rounded-lg bg-surface-2 border border-brand-border text-white text-xs placeholder-brand-muted focus:outline-none focus:border-accent"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-[10px] font-mono text-brand-muted uppercase mb-1">
+                        Project Topic / Architecture Needs
+                      </label>
+                      <div className="relative">
+                        <FileText size={13} className="absolute left-2.5 top-2.5 text-brand-muted" />
+                        <textarea
+                          rows={2}
+                          placeholder="e.g. Need high-concurrency WooCommerce or Vapi voice agent..."
+                          value={voiceLeadForm.details}
+                          onChange={(e) => setVoiceLeadForm({ ...voiceLeadForm, details: e.target.value })}
+                          className="w-full pl-8 pr-3 py-2 rounded-lg bg-surface-2 border border-brand-border text-white text-xs placeholder-brand-muted focus:outline-none focus:border-accent resize-none"
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmittingVoiceLead}
+                      className="w-full py-2.5 rounded-lg bg-accent text-black font-mono font-bold text-xs hover:bg-white transition-colors shadow-md shadow-accent/20 flex items-center justify-center gap-1.5 mt-1 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {isSubmittingVoiceLead ? (
+                        <>
+                          <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                          <span>DISPATCHING LEAD BRIEF...</span>
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle2 size={13} />
+                          <span>Lock In Scoping Call &amp; Direct Calendar Invite</span>
+                        </>
+                      )}
+                    </button>
+                  </form>
+                ) : (
+                  /* Confirmed State */
+                  <div className="p-4 sm:p-6 text-center space-y-3 my-auto">
+                    <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
+                      <CheckCircle2 size={24} />
+                    </div>
+                    <h4 className="font-heading font-bold text-white text-base">
+                      Lead Brief Dispatched to Sheharyar Siraj!
+                    </h4>
+                    <p className="text-xs text-brand-secondary leading-relaxed">
+                      Thank you! Your inquiry and WhatsApp details have been dispatched directly to Sheharyar. He will get back to you within 2 hours.
+                    </p>
+                    <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2">
+                      <a
+                        href={`https://wa.me/923132080033?text=${encodeURIComponent(
+                          `Hi Sheharyar, my name is ${voiceLeadForm.name}. I just submitted my voice scoping request via your website.`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 text-black font-mono font-bold text-xs hover:bg-emerald-400 transition-all shadow-md shadow-emerald-500/20"
+                      >
+                        <Phone size={13} className="fill-current" />
+                        <span>Chat on WhatsApp (+92 313 2080033)</span>
+                        <ArrowUpRight size={13} />
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsLeadOverlayOpen(false);
+                          setVoiceLeadSubmitted(false);
+                        }}
+                        className="px-3 py-2 rounded-xl bg-surface-3 border border-brand-border text-brand-muted hover:text-white font-mono text-xs"
+                      >
+                        Return to Voice
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
-            {/* Live Transcript Display Box */}
-            <div className="px-5 py-4 space-y-3 bg-surface-2/40 border-t border-brand-border/60 overflow-y-auto max-h-48 custom-scrollbar">
-              {/* User Live Caption */}
-              <div className="p-3 rounded-xl bg-surface-1/90 border border-brand-border text-xs">
-                <div className="flex items-center gap-1.5 text-brand-muted font-mono text-[10px] uppercase tracking-wider mb-1">
-                  <Mic size={11} className="text-emerald-400" />
-                  <span>You Said:</span>
-                </div>
-                <p className="text-white font-medium italic">
-                  {userTranscript ? `"${userTranscript}"` : '(Waiting for your voice input...)'}
-                </p>
-              </div>
-
-              {/* AI Live Caption */}
-              <div className="p-3 rounded-xl bg-surface-2/90 border border-brand-border/80 text-xs">
-                <div className="flex items-center gap-1.5 text-brand-muted font-mono text-[10px] uppercase tracking-wider mb-1">
-                  <Sparkles size={11} className="text-accent" />
-                  <span>Sheharyar AI Voice Consultant:</span>
-                </div>
-                <p className="text-brand-secondary leading-relaxed">
-                  {aiTranscript}
-                </p>
-              </div>
-            </div>
-
-            {/* Call Control Buttons Bar */}
-            <div className="p-4 bg-surface-2 border-t border-brand-border flex flex-wrap items-center justify-between gap-2.5">
-              <div className="flex items-center gap-2">
+            {/* Pinned Call Controls Bar (shrink-0) */}
+            <div className="p-2.5 sm:p-3.5 bg-surface-2 border-t border-brand-border flex items-center justify-between gap-1.5 sm:gap-2 shrink-0">
+              <div className="flex items-center gap-1 sm:gap-1.5">
                 {/* Mute / Unmute Button */}
                 <button
                   onClick={toggleMute}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-mono font-bold transition-all ${
+                  className={`flex items-center gap-1 sm:gap-1.5 px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl text-xs font-mono font-bold transition-all ${
                     isMuted
                       ? 'bg-red-500/20 border border-red-500/40 text-red-300 hover:bg-red-500/30'
                       : 'bg-surface-3 border border-brand-border text-white hover:border-accent'
                   }`}
                   title={isMuted ? 'Unmute microphone' : 'Mute microphone'}
                 >
-                  {isMuted ? <MicOff size={14} /> : <Mic size={14} className="text-emerald-400" />}
-                  <span>{isMuted ? 'Unmute' : 'Mute Mic'}</span>
+                  {isMuted ? <MicOff size={13} /> : <Mic size={13} className="text-emerald-400" />}
+                  <span>{isMuted ? 'Unmute' : 'Mute'}</span>
                 </button>
 
-                {/* Interrupt / Stop Speaking Button */}
+                {/* Interrupt Button */}
                 <button
                   onClick={handleInterrupt}
                   disabled={voiceState !== 'speaking'}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-3 border border-brand-border text-xs font-mono font-bold text-brand-muted hover:text-white disabled:opacity-30 disabled:cursor-not-allowed hover:border-amber-400/50 transition-all"
+                  className="flex items-center gap-1 px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl bg-surface-3 border border-brand-border text-xs font-mono font-bold text-brand-muted hover:text-white disabled:opacity-30 disabled:cursor-not-allowed hover:border-amber-400/50 transition-all"
                   title="Stop AI speech and resume listening"
                 >
-                  <VolumeX size={14} />
+                  <VolumeX size={13} />
                   <span>Interrupt</span>
+                </button>
+
+                {/* Direct Sales Toggle ("I'm Interested") */}
+                <button
+                  onClick={() => setIsLeadOverlayOpen(!isLeadOverlayOpen)}
+                  className={`flex items-center gap-1 px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl text-xs font-mono font-bold transition-all ${
+                    isLeadOverlayOpen
+                      ? 'bg-amber-500/20 border border-amber-500/40 text-amber-300'
+                      : 'bg-surface-3 border border-brand-border text-brand-secondary hover:text-white hover:border-accent'
+                  }`}
+                  title="Open Lead Brief Overlay"
+                >
+                  <Sparkles size={13} className="text-amber-400" />
+                  <span className="hidden xs:inline sm:inline">I&apos;m Interested</span>
+                  <span className="xs:hidden sm:hidden">Brief</span>
                 </button>
               </div>
 
-              <div className="flex items-center gap-2">
-                {/* WhatsApp Quick Conversion Action */}
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                {/* WhatsApp Quick Action */}
                 <a
                   href={`https://wa.me/923132080033?text=${encodeURIComponent(
                     `Hi Sheharyar, I was speaking with your AI Voice Assistant regarding: "${userTranscript || 'a new project'}" and would like to scope this.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-500 text-black font-mono font-bold text-xs hover:bg-emerald-400 transition-all shadow-md shadow-emerald-500/20 active:scale-95"
+                  className="inline-flex items-center gap-1 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-emerald-500 text-black font-mono font-bold text-xs hover:bg-emerald-400 transition-all shadow-md shadow-emerald-500/20 active:scale-95"
                 >
-                  <Phone size={13} className="fill-current" />
-                  <span>Connect on WhatsApp</span>
-                  <ArrowUpRight size={13} />
+                  <Phone size={12} className="fill-current" />
+                  <span className="hidden sm:inline">WhatsApp</span>
+                  <ArrowUpRight size={12} />
                 </a>
 
                 {/* End Call / Close Button */}
                 <button
                   onClick={handleClose}
-                  className="px-3 py-2 rounded-xl bg-surface-3 border border-brand-border text-white font-mono text-xs font-bold hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-300 transition-all"
+                  className="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl bg-surface-3 border border-brand-border text-white font-mono text-xs font-bold hover:bg-red-500/20 hover:border-red-500/40 hover:text-red-300 transition-all"
                 >
                   End Call
                 </button>
               </div>
             </div>
+
           </div>
         </div>
       )}

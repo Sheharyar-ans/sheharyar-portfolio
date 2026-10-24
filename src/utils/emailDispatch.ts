@@ -2,7 +2,7 @@ import { CONTACT_INFO } from '../data/portfolioData';
 import { saveLead } from './leadStorage';
 
 export interface LeadDispatchPayload {
-  source: 'AI Chatbot Assistant' | 'Main Contact Form' | 'Project Inquiry Modal';
+  source: 'AI Chatbot Assistant' | 'Main Contact Form' | 'Project Inquiry Modal' | 'Interactive Voice Bot' | 'Voice AI Assistant' | string;
   name: string;
   email: string;
   whatsapp?: string;
@@ -78,17 +78,23 @@ export async function dispatchLeadNotification(
   const subjectPrefix =
     payload.source === 'AI Chatbot Assistant'
       ? `[New Lead via AI Chatbot] - ${cleanName}`
+      : payload.source === 'Interactive Voice Bot' || payload.source === 'Voice AI Assistant'
+      ? `[New Lead via Voice AI Assistant] - ${cleanName}`
       : `[New Project Inquiry] - ${cleanName} (${cleanService})`;
 
   const formBody: Record<string, string> = {
     _subject: subjectPrefix,
     _template: 'table',
     _captcha: 'false',
-    'Inquiry Source': payload.source,
+    'Lead Name': cleanName,
     'Full Name': cleanName,
     'Email Address': cleanEmail,
+    'WhatsApp Number': cleanWhatsapp || 'Not Provided',
     'WhatsApp / Phone Number': cleanWhatsapp || 'Not Provided',
+    'Stated Service Interest / Conversation Excerpt': payload.transcriptExcerpt || payload.message || payload.details || cleanService,
     'Selected Service / Architecture': cleanService,
+    'Source': payload.source,
+    'Inquiry Source': payload.source,
     'Budget Tier': cleanBudget,
     'Project Requirements': cleanDetails || 'None provided'
   };
@@ -101,6 +107,7 @@ export async function dispatchLeadNotification(
     formBody['Chat Transcript Excerpt'] = payload.transcriptExcerpt;
   }
 
+  formBody['Timestamp'] = `${timestamp} (PKT) / ${new Date().toUTCString()}`;
   formBody['Submission Timestamp'] = `${timestamp} (PKT) / ${new Date().toUTCString()}`;
 
   // 3. Dispatch to FormSubmit AJAX endpoint
