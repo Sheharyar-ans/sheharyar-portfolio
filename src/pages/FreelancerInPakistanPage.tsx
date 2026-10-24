@@ -63,8 +63,8 @@ export const FreelancerInPakistanPage: React.FC<FreelancerInPakistanPageProps> =
       title: 'WordPress & Custom PHP 8.2',
       badge: 'Core Foundation',
       icon: Layers,
-      description: 'Object-oriented WordPress architecture, custom theme engineering with Tailwind CSS, custom plugins with nonce security, and database index optimization achieving sub-600ms TTFB.',
-      deliverables: ['Custom Themes & Plugins', 'PHP 8.2+ Strict Typing', 'Sub-600ms TTFB Optimization', 'Zero-Bloat Codebases']
+      description: 'Object-oriented WordPress architecture, custom theme development with Tailwind CSS, secure custom plugins, and database optimization delivering ultra-fast loading speeds that keep visitors engaged and boost search rankings.',
+      deliverables: ['Custom Themes & Plugins', 'PHP 8.2+ Strict Typing', 'Ultra-Fast Loading Speeds', 'Zero-Bloat Codebases']
     },
     {
       title: 'WooCommerce High-Concurrency',
@@ -84,8 +84,8 @@ export const FreelancerInPakistanPage: React.FC<FreelancerInPakistanPageProps> =
       title: 'AI Voice Agents & Telephony',
       badge: 'Conversational AI',
       icon: Bot,
-      description: 'Sub-600ms conversational AI voice assistants built on Vapi and Retell AI with Twilio SIP trunking, real-time CRM tool calling, and appointment booking automation.',
-      deliverables: ['Vapi & Retell AI Agents', 'Sub-600ms Spoken Latency', 'Tool Calling & CRM Updates', 'Twilio SIP Trunking']
+      description: 'Instant-response AI voice agents for automated phone calls and customer reception, qualifying inquiries and booking appointments directly into your calendar 24/7.',
+      deliverables: ['Vapi & Retell AI Agents', 'Natural Voice Conversations', 'Calendar Booking & CRM Sync', '24/7 Phone Reception']
     },
     {
       title: 'Modern Frontends (React & TypeScript)',

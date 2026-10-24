@@ -282,7 +282,7 @@ export const LocationPage: React.FC<LocationPageProps> = ({ onOpenInquiry }) => 
           >
             <span className="text-accent text-[10px] block mb-1">ENTERPRISE CMS</span>
             <span className="text-white group-hover:text-accent font-bold block mb-1">Custom WordPress VIP Architecture</span>
-            <span className="text-[11px] text-brand-secondary">Decoupled themes, zero bloat, sub-second TTFB</span>
+            <span className="text-[11px] text-brand-secondary">Modern custom themes, zero bloat, ultra-fast loading</span>
           </Link>
 
           <Link

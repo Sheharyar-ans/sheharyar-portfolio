@@ -47,7 +47,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
     {
       id: 'welcome-1',
       sender: 'assistant',
-      text: 'Hello! I am Sheharyar Siraj\'s official AI Project Consultant. Sheharyar is an Enterprise WordPress Architect & Agentic AI Automation Engineer (Cisco CCNP, CyberOps, Vertex AI) with 1,200+ delivered systems worldwide.\n\nAre you looking to architect a high-performance WordPress/WooCommerce platform, deploy an autonomous sub-600ms AI voice receptionist (via Vapi/Twilio), or automate complex workflows using self-hosted n8n?',
+      text: "Hello! I am Sheharyar Siraj's Principal Architecture Consultant.\n\nWe specialize in high-performance web systems and AI engineering. Our core pillars include Custom WordPress VIP & WooCommerce HPOS architecture, Autonomous AI Voice Agents via Vapi and Twilio, Self-Hosted n8n Automation clusters, and Deterministic Multi-Agent AI. Which specific bottleneck are you looking to solve?",
       timestamp: 'Just now',
       mode: 'support',
       suggestedChips: DEFAULT_QUICK_CHIPS,

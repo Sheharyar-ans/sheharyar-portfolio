@@ -17,6 +17,7 @@ export const ROUTES = [
   '/services/workflow-automation-n8n/',
   '/services/agentic-ai-applications/',
   '/services/data-science-analytics/',
+  '/services/data-analytics-data-science/',
   '/services/vibe-coding-engineering/',
   '/services/custom-saas-mvp-development/',
   '/services/ai-video-ads-ugc/',

@@ -122,36 +122,42 @@ function selectCalmAmericanMaleVoice(customVoices?: SpeechSynthesisVoice[]): Spe
     const hasFemaleTag = FEMALE_VOICE_KEYWORDS.some((kw) => name.includes(kw) || uri.includes(kw));
     if (hasFemaleTag) return false;
 
-    // Reject Android default "Google US English" because it is a female engine on Android
-    if (name === 'google us english' && !uri.includes('male') && !name.includes('male')) {
-      return false;
-    }
+    // Filter out robotic synthesizers like Microsoft Zira or generic monotone engines
+    if (name.includes('zira') || uri.includes('zira')) return false;
+
     return true;
   };
 
   const eligibleVoices = voices.filter(isStrictlyNonFemale);
+  if (eligibleVoices.length === 0) return voices[0];
 
-  // 1. Highest Priority: Preferred American Male voices in en-US
-  for (const identifier of PREFERRED_MALE_IDENTIFIERS) {
+  // Priority 1: High-definition / Natural Neural Voices (Edge, Chrome, Windows 11 Natural)
+  const priority1NaturalPatterns = [
+    'microsoft guy online (natural)',
+    'microsoft christopher online',
+    'microsoft eric online',
+    'natural - english (united states)',
+    'natural (male)',
+    'online (natural)',
+    'natural',
+    'google us english',
+    'guy online',
+    'christopher online',
+    'eric online',
+    'neural'
+  ];
+
+  for (const identifier of priority1NaturalPatterns) {
     const match = eligibleVoices.find((v) => {
-      const isUsLang = v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US';
+      const isEnglish = v.lang.startsWith('en');
       const name = v.name.toLowerCase();
       const uri = (v.voiceURI || '').toLowerCase();
-      return isUsLang && (name.includes(identifier) || uri.includes(identifier));
+      return isEnglish && (name.includes(identifier) || uri.includes(identifier));
     });
     if (match) return match;
   }
 
-  // 2. Any en-US voice explicitly tagged male
-  const usExplicitMale = eligibleVoices.find((v) => {
-    const isUsLang = v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US';
-    const name = v.name.toLowerCase();
-    const uri = (v.voiceURI || '').toLowerCase();
-    return isUsLang && (name.includes('male') || uri.includes('male'));
-  });
-  if (usExplicitMale) return usExplicitMale;
-
-  // 3. Fallback to English Male voices in any other dialect
+  // Priority 2: High-quality English male voices with calm resonance
   for (const identifier of PREFERRED_MALE_IDENTIFIERS) {
     const match = eligibleVoices.find((v) => {
       const isEnglish = v.lang.startsWith('en');
@@ -162,7 +168,16 @@ function selectCalmAmericanMaleVoice(customVoices?: SpeechSynthesisVoice[]): Spe
     if (match) return match;
   }
 
-  // 4. Any English voice explicitly tagged male
+  // Priority 3: Any en-US voice explicitly tagged male
+  const usExplicitMale = eligibleVoices.find((v) => {
+    const isUsLang = v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US';
+    const name = v.name.toLowerCase();
+    const uri = (v.voiceURI || '').toLowerCase();
+    return isUsLang && (name.includes('male') || uri.includes('male'));
+  });
+  if (usExplicitMale) return usExplicitMale;
+
+  // Priority 4: Any English voice explicitly tagged male
   const anyEnglishMale = eligibleVoices.find((v) => {
     const isEnglish = v.lang.startsWith('en');
     const name = v.name.toLowerCase();
@@ -171,17 +186,9 @@ function selectCalmAmericanMaleVoice(customVoices?: SpeechSynthesisVoice[]): Spe
   });
   if (anyEnglishMale) return anyEnglishMale;
 
-  // 5. Any remaining non-female US English voice
-  const usNonFemale = eligibleVoices.find(
-    (v) => v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US'
-  );
-  if (usNonFemale) return usNonFemale;
-
-  // 6. Any non-female English voice
+  // Fallback to first non-female English voice
   const englishNonFemale = eligibleVoices.find((v) => v.lang.startsWith('en'));
-  if (englishNonFemale) return englishNonFemale;
-
-  return eligibleVoices.length > 0 ? eligibleVoices[0] : voices[0];
+  return englishNonFemale || eligibleVoices[0];
 }
 
 export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
@@ -196,13 +203,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const [isMuted, setIsMuted] = useState(false);
   const [userTranscript, setUserTranscript] = useState('');
   const [aiTranscript, setAiTranscript] = useState(
-    'Hi! I am Sheharyar Siraj\'s Voice AI Assistant. You can ask me anything about high-speed WordPress VIP architecture, sub-600ms AI voice agents, or enterprise n8n workflow automations.'
+    "Hello! I am Sheharyar Siraj's Principal Architecture Consultant. We specialize in custom WordPress VIP architectures, sub-600ms AI voice agents, and enterprise n8n automations. What technical bottleneck can I help you scope today?"
   );
   const [conversationHistory, setConversationHistory] = useState<ChatMessage[]>([]);
   const [audioLevel, setAudioLevel] = useState(0);
 
   // Dynamic Sales Intent & Lead Capture Overlay State
   const [isLeadOverlayOpen, setIsLeadOverlayOpen] = useState(false);
+  const [showTranscriptLog, setShowTranscriptLog] = useState(false);
   const [voiceLeadForm, setVoiceLeadForm] = useState({
     name: '',
     whatsapp: '',
@@ -367,16 +375,6 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           }
           const avg = sum / buffer.length;
           setAudioLevel(avg);
-
-          // Full-Duplex VAD Barge-in: If user speaks into the microphone (avg > 22) while bot is speaking,
-          // instantly interrupt and cancel the bot's speech!
-          if (isSpeakingRef.current && avg > 22) {
-            if (typeof window !== 'undefined' && window.speechSynthesis) {
-              window.speechSynthesis.cancel();
-            }
-            isSpeakingRef.current = false;
-            setVoiceState('listening');
-          }
         }
         if (isModalOpenRef.current) {
           animationFrameRef.current = requestAnimationFrame(checkVolume);
@@ -390,7 +388,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     }
   }, []);
 
-  // Speak AI response using soft American male voice & enable instant user interruption (Barge-in)
+  // Speak AI response using soft American male voice in strictly half-duplex turn-taking mode
   const speakResponse = useCallback(
     (textToSpeak: string, onFinish?: () => void) => {
       if (typeof window === 'undefined' || !window.speechSynthesis) {
@@ -398,12 +396,23 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         return;
       }
 
+      // 1. Immediately abort recognizer so it never transcribes the bot's own voice
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.onend = null;
+          recognitionRef.current.abort();
+        } catch {}
+        recognitionRef.current = null;
+      }
+      isListeningRef.current = false;
+
       window.speechSynthesis.cancel();
       const cleanText = formatSpokenResponse(textToSpeak);
       if (!cleanText || !isModalOpenRef.current) {
         if (onFinish) {
           onFinish();
         } else if (isModalOpenRef.current && !isMutedRef.current) {
+          setVoiceState('listening');
           startListeningRef.current();
         }
         return;
@@ -419,28 +428,23 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         utterance.voice = voice;
       }
       
-      // Calibrated tone & cadence tuning: calm, soft-tone American male
-      // Pitch set to 0.88 shifts the voice down into a deep, gentle, warm male timbre
-      utterance.pitch = 0.88;
+      // Calibrated tone & cadence: warm, natural, deliberate male pitch (0.96) and pacing (0.98)
+      utterance.pitch = 0.96;
       utterance.rate = 0.98;
       utterance.volume = 1.0;
 
       utterance.onstart = () => {
         isSpeakingRef.current = true;
         setVoiceState('speaking');
-
-        // BARGE-IN FEATURE: Keep microphone recognizer active so user can cut in and interrupt anytime!
-        if (isModalOpenRef.current && !isMutedRef.current && !isListeningRef.current) {
-          startListeningRef.current();
-        }
+        // STRICT HALF-DUPLEX: Keep microphone OFF while speaking to completely eliminate acoustic feedback!
       };
 
       const handleSpeechComplete = () => {
         isSpeakingRef.current = false;
         if (onFinish) {
           onFinish();
-        } else if (isModalOpenRef.current && !isMutedRef.current) {
-          // Loop back to listening for the user's next question!
+        } else if (isModalOpenRef.current && !isMutedRef.current && !isThinkingRef.current) {
+          // Immediately switch to listening state and resume SpeechRecognition
           setVoiceState('listening');
           setTimeout(() => {
             if (isModalOpenRef.current && !isSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
@@ -463,7 +467,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     [availableVoices]
   );
 
-  // BUG 2: STATE 4 - Execute AI query with Grounded Knowledge Engine & Sales Trigger
+  // Execute AI query with Grounded Knowledge Engine, LLM models, and Sales Trigger
   const processVoiceInput = useCallback(
     async (spokenQuery: string) => {
       if (!spokenQuery.trim() || !isModalOpenRef.current) return;
@@ -488,47 +492,18 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         timestamp: 'Just now'
       };
 
-      setConversationHistory((prev) => [...prev, userMsg]);
-
-      // Check for buying signals / "I am interested" trigger
-      const hasDirectInterest = isDirectInterestIntent(spokenQuery);
-
-      if (hasDirectInterest) {
-        const salesResponse =
-          "That's fantastic! Sheharyar specializes in turning high-load bottlenecks into scalable systems. To send you an architectural scope and roadmap within 2 hours, what is your best WhatsApp number and email?";
-        
-        isThinkingRef.current = false;
-        setAiTranscript(salesResponse);
-        setIsLeadOverlayOpen(true);
-        setVoiceLeadForm((prev) => ({
-          ...prev,
-          details: prev.details || `Spoken interest: "${spokenQuery}"`
-        }));
-
-        const botMsg: ChatMessage = {
-          id: `voice-ai-${Date.now()}`,
-          sender: 'assistant',
-          text: salesResponse,
-          timestamp: 'Just now',
-          mode: 'sales',
-          showLeadForm: true
-        };
-        setConversationHistory((prev) => [...prev, botMsg]);
-
-        // STATE 5: AI RESPONSE GENERATED -> speak response, then utterance.onend loops back to listening
-        speakResponse(salesResponse);
-        return;
-      }
+      const updatedHistory = [...conversationHistory, userMsg];
+      setConversationHistory(updatedHistory);
 
       try {
-        const result = await processRagQuery(spokenQuery, [...conversationHistory, userMsg]);
+        // Query Gemini / Grounded RAG with isVoice = true for spoken brevity
+        const result = await processRagQuery(spokenQuery, updatedHistory, true);
         isThinkingRef.current = false;
 
-        // Keep spoken answers concise (1 to 3 spoken sentences per turn) for natural telephony back-and-forth
         const spokenAnswer = formatSpokenResponse(result.answer);
         setAiTranscript(spokenAnswer);
 
-        if (result.showLeadForm || result.mode === 'sales') {
+        if (result.showLeadForm) {
           setIsLeadOverlayOpen(true);
           setVoiceLeadForm((prev) => ({
             ...prev,
@@ -545,9 +520,8 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           action: result.action,
           showLeadForm: result.showLeadForm
         };
-        setConversationHistory((prev) => [...prev, botMsg]);
+        setConversationHistory([...updatedHistory, botMsg]);
 
-        // STATE 5: AI RESPONSE GENERATED -> speak response, then utterance.onend loops back to listening
         speakResponse(spokenAnswer);
       } catch (err) {
         console.error('Voice RAG processing error:', err);
@@ -560,7 +534,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     [conversationHistory, speakResponse]
   );
 
-  // Web Speech API User Listening Loop with Barge-In Support
+  // Web Speech API User Listening Loop with Strict Turn-Taking
   const startListening = useCallback(() => {
     if (typeof window === 'undefined') return;
 
@@ -572,9 +546,8 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       return;
     }
 
-    // Do not listen if call ended, muted, or AI is currently thinking
-    // NOTE: Allowed to listen while isSpeakingRef.current is true to support Barge-In!
-    if (!isModalOpenRef.current || isMutedRef.current || isThinkingRef.current) {
+    // Do NOT listen if modal closed, muted, AI is speaking, or AI is thinking
+    if (!isModalOpenRef.current || isMutedRef.current || isThinkingRef.current || isSpeakingRef.current) {
       return;
     }
 
@@ -594,51 +567,17 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     recognition.lang = 'en-US';
 
     recognition.onstart = () => {
-      if (!isModalOpenRef.current || isThinkingRef.current) {
+      if (!isModalOpenRef.current || isThinkingRef.current || isSpeakingRef.current) {
         try { recognition.abort(); } catch {}
         return;
       }
       isListeningRef.current = true;
-      if (!isSpeakingRef.current) {
-        setVoiceState('listening');
-      }
+      setVoiceState('listening');
     };
 
-    // BARGE-IN INTERRUPTION 1: On human speech start, immediately stop bot from talking!
-    recognition.onspeechstart = () => {
-      if (isSpeakingRef.current) {
-        if (typeof window !== 'undefined' && window.speechSynthesis) {
-          window.speechSynthesis.cancel();
-        }
-        isSpeakingRef.current = false;
-        setVoiceState('listening');
-      }
-    };
-
-    // BARGE-IN INTERRUPTION 2: On sound start
-    recognition.onsoundstart = () => {
-      if (isSpeakingRef.current) {
-        if (typeof window !== 'undefined' && window.speechSynthesis) {
-          window.speechSynthesis.cancel();
-        }
-        isSpeakingRef.current = false;
-        setVoiceState('listening');
-      }
-    };
-
-    // STATE 3: USER_SPEAKING - Accumulate transcript & cut off bot if interrupted
     recognition.onresult = (event: any) => {
-      if (isThinkingRef.current || !isModalOpenRef.current) {
+      if (isThinkingRef.current || isSpeakingRef.current || !isModalOpenRef.current) {
         return;
-      }
-
-      // BARGE-IN INTERRUPTION 3: Cut off bot speech if words detected
-      if (isSpeakingRef.current) {
-        if (typeof window !== 'undefined' && window.speechSynthesis) {
-          window.speechSynthesis.cancel();
-        }
-        isSpeakingRef.current = false;
-        setVoiceState('listening');
       }
 
       let interim = '';
@@ -653,8 +592,8 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       }
 
       const activeText = finalSpeech || interim;
-      if (activeText) {
-        setUserTranscript(activeText);
+      if (activeText && activeText.trim()) {
+        setUserTranscript(activeText.trim());
       }
 
       if (silenceTimerRef.current) {
@@ -662,7 +601,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         silenceTimerRef.current = null;
       }
 
-      // STATE 4: USER_FINISHED_SPEAKING -> Stop recognition, transition to Thinking, query AI
+      // STATE: User finished speaking -> transition to thinking and process
       if (finalSpeech.trim()) {
         try {
           recognition.stop();
@@ -672,9 +611,9 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         setVoiceState('thinking');
         processVoiceInput(finalSpeech.trim());
       } else if (interim.trim()) {
-        // Auto-commit interim after 1400ms pause
+        // Auto-commit interim transcript after 1200ms pause
         silenceTimerRef.current = setTimeout(() => {
-          if (isModalOpenRef.current && !isThinkingRef.current && interim.trim()) {
+          if (isModalOpenRef.current && !isThinkingRef.current && !isSpeakingRef.current && interim.trim()) {
             try {
               recognition.stop();
             } catch {}
@@ -683,7 +622,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
             setVoiceState('thinking');
             processVoiceInput(interim.trim());
           }
-        }, 1400);
+        }, 1200);
       }
     };
 
@@ -691,14 +630,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       if (event.error === 'not-allowed') {
         setVoiceState('permission_denied');
       } else if (event.error !== 'no-speech' && event.error !== 'aborted') {
-        console.warn('SpeechRecognition warning:', event.error);
+        console.warn('SpeechRecognition notice:', event.error);
       }
     };
 
     recognition.onend = () => {
       isListeningRef.current = false;
-      // Re-trigger listening ONLY if modal is still active, not thinking, and not muted
-      if (isModalOpenRef.current && !isThinkingRef.current && !isMutedRef.current) {
+      // Re-trigger listening ONLY if modal is active, not speaking, not thinking, and not muted
+      if (isModalOpenRef.current && !isSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
         try {
           recognition.start();
           isListeningRef.current = true;
@@ -734,7 +673,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     // 2. Clear all session context & history (Session Out)
     setUserTranscript('');
     setAiTranscript(
-      'Hi! I am Sheharyar Siraj\'s Voice AI Assistant. You can ask me anything about high-speed WordPress VIP architecture, sub-600ms AI voice agents, or enterprise n8n workflow automations.'
+      "Hello! I am Sheharyar Siraj's Principal Architecture Consultant. We specialize in custom WordPress VIP architectures, sub-600ms AI voice agents, and enterprise n8n automations. What technical bottleneck can I help you scope today?"
     );
     setConversationHistory([]);
     setIsLeadOverlayOpen(false);
@@ -775,7 +714,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       const greetingTimer = setTimeout(() => {
         if (isModalOpenRef.current) {
           speakResponse(
-            'Hello! I am Sheharyar Siraj\'s Voice AI Assistant. How can I assist you with custom WordPress VIP architecture, voice telephony, or workflow automations today?'
+            "Hello! I am Sheharyar Siraj's Principal Architecture Consultant. We specialize in custom WordPress VIP architectures, sub-600ms AI voice agents, and enterprise n8n automations. What technical bottleneck can I help you scope today?"
           );
         }
       }, 400);
@@ -790,11 +729,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     }
   }, [cleanupMedia, initMicrophoneAudioContext, isModalOpen, speakResponse]);
 
-  // Keyboard shortcut listener (Escape to close and cleanup immediately)
+  // Keyboard shortcut listener (Escape to close, Space to interrupt speech)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isModalOpen) {
         handleClose();
+      } else if (e.code === 'Space' && isModalOpen && isSpeakingRef.current) {
+        e.preventDefault();
+        handleInterrupt();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -828,9 +770,13 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       window.speechSynthesis.cancel();
     }
     isSpeakingRef.current = false;
-    if (!isMutedRef.current) {
+    if (!isMutedRef.current && isModalOpenRef.current) {
       setVoiceState('listening');
-      startListeningRef.current();
+      setTimeout(() => {
+        if (!isSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
+          startListeningRef.current();
+        }
+      }, 200);
     } else {
       setVoiceState('idle');
     }
@@ -994,7 +940,20 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={() => setShowTranscriptLog(!showTranscriptLog)}
+                  className={`px-2 py-1 rounded-lg text-[10px] font-mono transition-colors flex items-center gap-1 border ${
+                    showTranscriptLog
+                      ? 'bg-accent/20 border-accent/40 text-accent font-bold'
+                      : 'bg-surface-3 border-brand-border text-brand-muted hover:text-white'
+                  }`}
+                  title="Toggle conversation transcript"
+                >
+                  <FileText size={12} />
+                  <span className="hidden sm:inline">{showTranscriptLog ? 'Orb' : 'Transcript'}</span>
+                </button>
+
                 <button
                   onClick={handleResetConversation}
                   className="w-7 h-7 rounded-lg hover:bg-surface-3 text-brand-muted hover:text-white transition-colors flex items-center justify-center"
@@ -1013,92 +972,137 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
               </div>
             </div>
 
-            {/* Main Interactive Screen (Zero scrollbars on visualizer) */}
+            {/* Main Interactive Screen */}
             {!isLeadOverlayOpen ? (
               <div className="flex-1 flex flex-col justify-between overflow-hidden bg-radial from-accent/10 via-surface-1 to-surface-1 p-3.5 sm:p-5 md:p-6">
                 
-                {/* Central Interactive Audio Wave / Glowing Orb */}
-                <div className="relative flex flex-col items-center justify-center my-auto py-1 sm:py-2">
-                  {/* Outer Ripple Waves */}
-                  {voiceState === 'listening' && (
-                    <>
-                      <div className="absolute w-36 h-36 sm:w-44 sm:h-44 rounded-full border border-emerald-500/20 animate-ping [animation-duration:2.5s]" />
-                      <div className="absolute w-48 h-48 sm:w-56 sm:h-56 rounded-full border border-accent/20 animate-ping [animation-duration:3.5s]" />
-                    </>
-                  )}
-
-                  {voiceState === 'speaking' && (
-                    <div className="absolute w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-accent/15 blur-2xl animate-pulse" />
-                  )}
-
-                  {/* Central Orb */}
-                  <div
-                    style={{ transform: `scale(${visualScale})` }}
-                    className={`relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xl ${
-                      voiceState === 'speaking'
-                        ? 'bg-gradient-to-tr from-accent via-emerald-400 to-cyan-300 shadow-[0_0_40px_rgba(30,144,255,0.5)]'
-                        : voiceState === 'thinking'
-                        ? 'bg-gradient-to-tr from-amber-400 via-accent to-purple-500 animate-spin [animation-duration:4s] shadow-[0_0_35px_rgba(251,191,36,0.5)]'
-                        : voiceState === 'listening'
-                        ? 'bg-gradient-to-tr from-emerald-500 via-teal-400 to-accent shadow-[0_0_40px_rgba(16,185,129,0.5)]'
-                        : 'bg-gradient-to-tr from-surface-3 via-accent/30 to-surface-2 border border-brand-border/80 shadow-[0_0_15px_rgba(255,255,255,0.05)]'
-                    }`}
-                    onClick={voiceState === 'speaking' ? handleInterrupt : toggleMute}
-                    title={voiceState === 'speaking' ? 'Click to interrupt' : 'Click to toggle mute'}
-                  >
-                    {/* Glowing Core */}
-                    <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 rounded-full bg-surface-1/80 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                      {voiceState === 'speaking' ? (
-                        <Volume2 size={24} className="text-accent animate-pulse" />
-                      ) : voiceState === 'thinking' ? (
-                        <Sparkles size={24} className="text-amber-300 animate-bounce" />
-                      ) : isMuted ? (
-                        <MicOff size={24} className="text-red-400" />
-                      ) : (
-                        <Mic size={24} className="text-emerald-400 animate-pulse" />
-                      )}
+                {showTranscriptLog ? (
+                  /* Full Scrollable Conversation Log */
+                  <div className="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-2.5 my-1">
+                    <div className="text-[10px] font-mono text-brand-muted uppercase tracking-wider text-center py-1 border-b border-brand-border/40">
+                      Voice Conversation Memory ({conversationHistory.length} turns)
                     </div>
-                  </div>
-
-                  {/* Dynamic Sound Frequency Bars */}
-                  <div className="flex items-center gap-1.5 mt-3 sm:mt-4 h-5 sm:h-6">
-                    {[0.4, 0.7, 1.0, 0.8, 0.5, 0.9, 1.2, 0.6, 1.1, 0.7, 0.5].map((multiplier, i) => {
-                      const barHeight =
-                        voiceState === 'speaking'
-                          ? Math.max(5, Math.sin(Date.now() / 100 + i) * 16 * multiplier + 8)
-                          : voiceState === 'listening'
-                          ? Math.max(4, (audioLevel / 12) * multiplier + 4)
-                          : 3;
-
-                      return (
+                    {conversationHistory.length === 0 ? (
+                      <div className="h-40 flex items-center justify-center text-center text-xs text-brand-muted font-mono">
+                        No conversation yet. Speak or tap a topic below to start!
+                      </div>
+                    ) : (
+                      conversationHistory.map((m) => (
                         <div
-                          key={i}
-                          style={{ height: `${barHeight}px` }}
-                          className={`w-1 rounded-full transition-all duration-75 ${
-                            voiceState === 'speaking'
-                              ? 'bg-gradient-to-t from-accent to-emerald-400'
-                              : voiceState === 'listening'
-                              ? 'bg-gradient-to-t from-emerald-500 to-cyan-300'
-                              : 'bg-surface-3'
-                          }`}
-                        />
-                      );
-                    })}
+                          key={m.id}
+                          className={`flex flex-col ${m.sender === 'user' ? 'items-end' : 'items-start'}`}
+                        >
+                          <div
+                            className={`max-w-[88%] rounded-2xl px-3 py-2 text-xs shadow-md ${
+                              m.sender === 'user'
+                                ? 'bg-accent text-black font-medium rounded-br-none'
+                                : 'bg-surface-2 border border-brand-border text-white rounded-bl-none'
+                            }`}
+                          >
+                            <div className="text-[9px] font-mono opacity-60 mb-0.5">
+                              {m.sender === 'user' ? 'You' : 'Sheharyar AI Voice'}
+                            </div>
+                            <div className="whitespace-pre-wrap leading-relaxed">{m.text}</div>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
+                ) : (
+                  /* Central Interactive Audio Wave / Glowing Orb */
+                  <div className="relative flex flex-col items-center justify-center my-auto py-1 sm:py-2">
+                    {/* Outer Ripple Waves */}
+                    {voiceState === 'listening' && (
+                      <>
+                        <div className="absolute w-36 h-36 sm:w-44 sm:h-44 rounded-full border border-emerald-500/20 animate-ping [animation-duration:2.5s]" />
+                        <div className="absolute w-48 h-48 sm:w-56 sm:h-56 rounded-full border border-accent/20 animate-ping [animation-duration:3.5s]" />
+                      </>
+                    )}
 
-                  {/* Micro Helper prompt */}
-                  <p className="text-[10px] sm:text-[11px] font-mono text-brand-muted mt-2 text-center">
-                    {voiceState === 'listening'
-                      ? 'Say: "I am interested in scoping a custom WordPress or Voice AI system"'
-                      : voiceState === 'thinking'
-                      ? 'Consulting Sheharyar\'s verified engineering dossiers...'
-                      : voiceState === 'speaking'
-                      ? 'Tap orb or click Interrupt to cut in'
-                      : isMuted
-                      ? 'Microphone muted. Tap to speak.'
-                      : 'Listening will resume automatically...'}
-                  </p>
-                </div>
+                    {voiceState === 'speaking' && (
+                      <div className="absolute w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-accent/15 blur-2xl animate-pulse" />
+                    )}
+
+                    {/* Central Orb */}
+                    <div
+                      style={{ transform: `scale(${visualScale})` }}
+                      className={`relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xl ${
+                        voiceState === 'speaking'
+                          ? 'bg-gradient-to-tr from-accent via-emerald-400 to-cyan-300 shadow-[0_0_40px_rgba(30,144,255,0.5)]'
+                          : voiceState === 'thinking'
+                          ? 'bg-gradient-to-tr from-amber-400 via-accent to-purple-500 animate-spin [animation-duration:4s] shadow-[0_0_35px_rgba(251,191,36,0.5)]'
+                          : voiceState === 'listening'
+                          ? 'bg-gradient-to-tr from-emerald-500 via-teal-400 to-accent shadow-[0_0_40px_rgba(16,185,129,0.5)]'
+                          : 'bg-gradient-to-tr from-surface-3 via-accent/30 to-surface-2 border border-brand-border/80 shadow-[0_0_15px_rgba(255,255,255,0.05)]'
+                      }`}
+                      onClick={voiceState === 'speaking' ? handleInterrupt : toggleMute}
+                      title={voiceState === 'speaking' ? 'Click to interrupt' : 'Click to toggle mute'}
+                    >
+                      {/* Glowing Core */}
+                      <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 rounded-full bg-surface-1/80 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                        {voiceState === 'speaking' ? (
+                          <Volume2 size={24} className="text-accent animate-pulse" />
+                        ) : voiceState === 'thinking' ? (
+                          <Sparkles size={24} className="text-amber-300 animate-bounce" />
+                        ) : isMuted ? (
+                          <MicOff size={24} className="text-red-400" />
+                        ) : (
+                          <Mic size={24} className="text-emerald-400 animate-pulse" />
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Dynamic Sound Frequency Bars */}
+                    <div className="flex items-center gap-1.5 mt-3 sm:mt-4 h-5 sm:h-6">
+                      {[0.4, 0.7, 1.0, 0.8, 0.5, 0.9, 1.2, 0.6, 1.1, 0.7, 0.5].map((multiplier, i) => {
+                        const barHeight =
+                          voiceState === 'speaking'
+                            ? Math.max(5, Math.sin(Date.now() / 100 + i) * 16 * multiplier + 8)
+                            : voiceState === 'listening'
+                            ? Math.max(4, (audioLevel / 12) * multiplier + 4)
+                            : 3;
+
+                        return (
+                          <div
+                            key={i}
+                            style={{ height: `${barHeight}px` }}
+                            className={`w-1 rounded-full transition-all duration-75 ${
+                              voiceState === 'speaking'
+                                ? 'bg-gradient-to-t from-accent to-emerald-400'
+                                : voiceState === 'listening'
+                                ? 'bg-gradient-to-t from-emerald-500 to-cyan-300'
+                                : 'bg-surface-3'
+                            }`}
+                          />
+                        );
+                      })}
+                    </div>
+
+                    {/* Tap to Interrupt Button when Bot is Speaking */}
+                    {voiceState === 'speaking' && (
+                      <button
+                        onClick={handleInterrupt}
+                        className="mt-2.5 px-3 py-1 rounded-full bg-accent/20 border border-accent/60 text-accent hover:bg-accent hover:text-black transition-all text-[11px] font-mono font-bold flex items-center gap-1.5 shadow-lg shadow-accent/20 animate-pulse active:scale-95"
+                      >
+                        <VolumeX size={12} />
+                        <span>Tap to Interrupt (or press Space)</span>
+                      </button>
+                    )}
+
+                    {/* Micro Helper prompt */}
+                    <p className="text-[10px] sm:text-[11px] font-mono text-brand-muted mt-2 text-center">
+                      {voiceState === 'listening'
+                        ? 'Listening... Speak now, or tap a topic below'
+                        : voiceState === 'thinking'
+                        ? 'Consulting Sheharyar\'s verified engineering dossiers...'
+                        : voiceState === 'speaking'
+                        ? 'Speaking • Tap orb or press Space to cut in'
+                        : isMuted
+                        ? 'Microphone muted. Tap Unmute to speak.'
+                        : 'Ready to listen...'}
+                    </p>
+                  </div>
+                )}
 
                 {/* Error & Fallback Warnings */}
                 {voiceState === 'permission_denied' && (
@@ -1121,8 +1125,33 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                   </div>
                 )}
 
+                {/* Quick Topic Chips (Tap or Voice) */}
+                <div className="my-1.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 shrink-0 max-w-full">
+                  {[
+                    '🎯 AI Voice Telephony',
+                    '⚡ Custom WordPress VIP',
+                    '⚙️ n8n Automations',
+                    '💰 Pricing & Timelines',
+                    '💬 Chat on WhatsApp'
+                  ].map((chip) => (
+                    <button
+                      key={chip}
+                      onClick={() => {
+                        if (chip.includes('WhatsApp')) {
+                          window.open('https://wa.me/923132080033?text=Hi%20Sheharyar,%20I%20am%20interested%20in%20scoping%20a%20project.', '_blank');
+                        } else {
+                          processVoiceInput(chip);
+                        }
+                      }}
+                      className="px-2.5 py-1 rounded-full bg-surface-2 border border-brand-border hover:border-accent hover:text-accent text-[11px] font-mono text-brand-secondary whitespace-nowrap transition-all active:scale-95 shrink-0"
+                    >
+                      {chip}
+                    </button>
+                  ))}
+                </div>
+
                 {/* Compact Live Captions Strip (shrink-0) */}
-                <div className="mt-2 p-2.5 sm:p-3 rounded-xl bg-surface-2/80 border border-brand-border/80 text-xs space-y-1 shrink-0">
+                <div className="mt-1 p-2.5 sm:p-3 rounded-xl bg-surface-2/80 border border-brand-border/80 text-xs space-y-1 shrink-0">
                   <div className="flex items-center gap-1.5 text-brand-muted font-mono text-[10px] uppercase tracking-wider">
                     <Mic size={10} className="text-emerald-400" />
                     <span>You Said:</span>

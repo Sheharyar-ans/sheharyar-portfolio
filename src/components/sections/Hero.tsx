@@ -393,12 +393,11 @@ export const Hero: React.FC<HeroProps> = ({ onOpenInquiry }) => {
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
           <video
             ref={videoRef}
-            src="/video/Developer_working.webm"
             autoPlay
             muted={isMuted}
             playsInline
             loop
-            preload="auto"
+            preload="metadata"
             poster="/assets/images/hero-developer-poster.webp"
             width={1920}
             height={1080}

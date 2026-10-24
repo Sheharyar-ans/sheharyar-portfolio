@@ -207,7 +207,7 @@ export const LocationsHubPage: React.FC<LocationsHubPageProps> = ({ onOpenInquir
           <div className="p-5 rounded-xl bg-surface-2/70 border border-brand-border/50">
             <div className="font-mono text-accent text-sm font-bold mb-1">02 / EDGE-CACHED PERFORMANCE</div>
             <p className="text-xs text-brand-secondary leading-relaxed">
-              Global CDN edge deployment via Cloudflare and AWS regional nodes, ensuring sub-500ms TTFB regardless of end-user geographic location.
+              Global edge deployment via Cloudflare and AWS regional nodes, ensuring ultra-fast page loading speeds that keep visitors engaged regardless of geographic location.
             </p>
           </div>
           <div className="p-5 rounded-xl bg-surface-2/70 border border-brand-border/50">

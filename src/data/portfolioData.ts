@@ -117,9 +117,9 @@ export const REAL_RESULTS_DELIVERED: ResultDelivered[] = [
     category: 'Workflow Automation'
   },
   {
-    metric: '40% Faster TTFB',
-    title: 'Core Web Vitals & +30% Organic Traffic Growth',
-    description: 'Delivered 40% faster page load times and up to 30% organic traffic growth across 50+ optimized WordPress and WooCommerce platforms.',
+    metric: '2.5x Faster',
+    title: 'Ultra-Fast Page Loading & Search Engine Performance',
+    description: 'Delivered up to 2.5x faster page load speeds and up to 30% organic traffic growth across 50+ optimized WordPress and WooCommerce platforms.',
     category: 'Performance & SEO'
   },
   {
@@ -138,7 +138,7 @@ export const PRIMARY_SERVICES: Service[] = [
   {
     num: '01',
     title: 'CUSTOM WORDPRESS & WOOCOMMERCE SYSTEMS',
-    desc: 'Build reliable WordPress and WooCommerce infrastructure that connects content, commerce, APIs, automation, and business operations.',
+    desc: 'Build reliable WordPress and WooCommerce infrastructure that connects content, commerce, APIs, automation, and business operations without bloated, slow page builders.',
     tags: [
       'Custom Themes',
       'Custom Plugins',
@@ -174,7 +174,7 @@ export const PRIMARY_SERVICES: Service[] = [
   {
     num: '03',
     title: 'AI VOICE AGENTS',
-    desc: 'Build AI voice systems that handle inbound and outbound conversations, qualify leads, book appointments, and trigger CRM workflows without manual intervention.',
+    desc: 'Build instant-response AI voice agents for automated phone calls and customer reception, qualifying inquiries and booking appointments directly into your calendar 24/7.',
     tags: [
       'Vapi Voice AI',
       'Retell AI',
@@ -207,6 +207,25 @@ export const PRIMARY_SERVICES: Service[] = [
     ],
     secondaryTitle: 'WORKFLOW ENGINE',
     secondaryTags: ['n8n Self-Hosted', 'Make.com', 'HubSpot API', 'GoHighLevel', 'Slack Webhooks', 'Database ETL'],
+  },
+  {
+    num: '05',
+    title: 'DATA ANALYTICS & DATA SCIENCE SOLUTIONS',
+    desc: 'Transform raw data into automated business intelligence with interactive executive dashboards, predictive machine learning models, and automated web data extraction.',
+    tags: [
+      'Power BI & Tableau',
+      'Advanced Excel & KPI Models',
+      'SQL & PostgreSQL',
+      'Python Data Science',
+      'Pandas & Scikit-learn',
+      'Customer Churn Prediction',
+      'Sales Forecasting',
+      'Automated Web Scrapers',
+      'ScrapeGraphAI & ETL',
+      'Executive Dashboards',
+    ],
+    secondaryTitle: 'ANALYTICS & BI ENGINE',
+    secondaryTags: ['Power BI', 'Tableau', 'Excel Dashboards', 'SQL', 'Python', 'ScrapeGraphAI', 'ETL Pipelines'],
   },
 ];
 

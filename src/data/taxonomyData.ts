@@ -617,21 +617,21 @@ export const SUB_SERVICES: Record<string, SubServiceData> = {
       'Automated executive telemetry alerts dispatched via Slack, email, and n8n webhooks.'
     ],
     specs: [
-      { label: 'Data Warehousing', value: 'PostgreSQL, ClickHouse, Snowflake, BigQuery' },
-      { label: 'Transformation Engine', value: 'dbt (data build tool), Python Pandas/Polars' },
-      { label: 'Pipeline Orchestration', value: 'Airflow, n8n Data Workflows, Prefect' },
-      { label: 'ML Frameworks', value: 'Scikit-learn, XGBoost, PyTorch, LightGBM' },
-      { label: 'Visualization', value: 'Apache Superset, Custom React/D3 Charts, Metabase' },
-      { label: 'Data Freshness', value: 'Sub-5-minute streaming or near-instant webhook sync' }
+      { label: 'BI & Dashboards', value: 'Power BI, Tableau, Advanced Microsoft Excel (Dynamic Models & VBA)' },
+      { label: 'Data Engineering & SQL', value: 'PostgreSQL, MySQL, ClickHouse, Automated ETL Pipelines' },
+      { label: 'Data Science & ML', value: 'Python (Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn)' },
+      { label: 'Predictive Modeling', value: 'Customer Churn Analysis, Sales Forecasting, LTV Scenarios' },
+      { label: 'Automated Scraping', value: 'Python Scrapers, ScrapeGraphAI, Headless Data Ingestion' },
+      { label: 'Pipeline Orchestration', value: 'n8n Data Workflows, Airflow, dbt Data Build Tool' }
     ],
     coreCapabilities: [
-      'Automated Data Ingestion Pipelines from WordPress, WooCommerce, Stripe, and HubSpot',
-      'Predictive Customer Modeling including churn probability, repeat purchase likelihood, and lead scoring',
-      'Unified Customer Data Platform (CDP) and central revenue data warehousing',
-      'Executive KPI & Performance Dashboards with sub-second drill-down capabilities',
-      'Automated Anomaly Detection with instant Telegram, Slack, or SMS incident routing'
+      'Business Intelligence & Dashboards: Power BI, Tableau, and Advanced Microsoft Excel automated KPI models',
+      'Data Engineering & Querying: SQL (PostgreSQL, MySQL) data transformation pipelines and automated ETL flows',
+      'Data Science & Machine Learning: Python predictive modeling, customer churn analysis, and sales forecasting',
+      'Automated Web Data Extraction: Python-based web scrapers, ScrapeGraphAI, and structured data feeds',
+      'Executive KPI & Performance Reporting with real-time drill-down telemetry and automated Slack alerts'
     ],
-    techStack: ['Python', 'PostgreSQL', 'ClickHouse', 'dbt', 'Polars', 'Scikit-learn', 'Docker', 'n8n', 'React'],
+    techStack: ['Power BI', 'Tableau', 'Excel', 'Python', 'Pandas', 'Scikit-learn', 'SQL', 'PostgreSQL', 'MySQL', 'ScrapeGraphAI', 'Docker', 'n8n'],
     architectureOverview: 'Data without automated processing creates executive blindness. We engineer clean, modern data stacks tailored for fast-moving businesses: extracting raw events from e-commerce stores, web forms, telephony logs, and advertising channels, transforming data through dbt and Polars into normalized star schemas, and presenting actionable predictive insights in intuitive dashboards.',
     contentSections: [
       {
@@ -942,6 +942,12 @@ export const SUB_SERVICES: Record<string, SubServiceData> = {
     ],
     relatedSlugs: ['workflow-automation-n8n', 'custom-saas-mvp-development', 'agentic-ai-applications']
   }
+};
+
+// Clean alias for /services/data-analytics-data-science/
+SUB_SERVICES['data-analytics-data-science'] = {
+  ...SUB_SERVICES['data-science-analytics'],
+  slug: 'data-analytics-data-science'
 };
 
 export const WHITE_LABEL_PORTALS: Record<string, WhiteLabelData> = {

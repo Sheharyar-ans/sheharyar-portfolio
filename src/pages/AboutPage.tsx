@@ -279,7 +279,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenInquiry }) => {
             </div>
             <h3 className="font-heading text-lg font-bold text-white">1. Clean Code Over Plugin Bloat</h3>
             <p className="text-xs sm:text-sm text-brand-secondary font-body leading-relaxed">
-              We never stack 40+ third-party plugins that degrade TTFB and introduce CVE vulnerabilities. Every feature is written in modular, object-oriented PHP 8.2+, custom themes, or modern TypeScript interfaces.
+              We never stack 40+ bloated third-party plugins that slow down your website and introduce security risks. Every feature is written in clean, modern code, bespoke custom themes, or high-performance React interfaces.
             </p>
           </div>
 

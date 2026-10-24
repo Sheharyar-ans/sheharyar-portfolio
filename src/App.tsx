@@ -130,6 +130,14 @@ export const App: React.FC = () => {
 
           {/* Sub-Services */}
           <Route
+            path="/services/data-analytics-data-science"
+            element={<Navigate to="/services/data-science-analytics/" replace />}
+          />
+          <Route
+            path="/services/data-analytics-data-science/"
+            element={<Navigate to="/services/data-science-analytics/" replace />}
+          />
+          <Route
             path="/services/:serviceSlug"
             element={<SubServicePage onOpenInquiry={() => setIsConnectOpen(true)} />}
           />

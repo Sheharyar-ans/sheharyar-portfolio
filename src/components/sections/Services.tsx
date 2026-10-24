@@ -35,12 +35,12 @@ export const Services: React.FC<ServicesProps> = ({ onOpenInquiry }) => {
             to="/services/"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-mono font-bold tracking-wider bg-surface-2 border border-brand-border text-accent hover:border-accent hover:bg-accent/10 transition-all shrink-0 self-start md:self-auto"
           >
-            <span>VIEW ALL 10 SERVICE ARCHITECTURES</span>
+            <span>VIEW ALL 11 SERVICE ARCHITECTURES</span>
             <ArrowUpRight size={14} />
           </Link>
         </div>
 
-        {/* 4 Primary Service Pillars */}
+        {/* 5 Primary Service Pillars */}
         <div className="space-y-6">
           {PRIMARY_SERVICES.map((service, index) => (
             <motion.article
