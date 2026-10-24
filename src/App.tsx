@@ -40,6 +40,7 @@ import { BlogListingPage } from './pages/BlogListingPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { CodeArcadePage } from './pages/CodeArcadePage';
 import { AiChatbotWidget } from './components/chat/AiChatbotWidget';
+import { VoiceAssistantModal } from './components/VoiceAssistantModal';
 
 const CaseStudyModal = React.lazy(() =>
   import('./components/modals/CaseStudyModal').then((m) => ({ default: m.CaseStudyModal }))
@@ -421,6 +422,9 @@ export const App: React.FC = () => {
 
       {/* Site footer */}
       <Footer onOpenInquiry={() => setIsConnectOpen(true)} />
+
+      {/* Autonomous Voice AI Telephony Assistant (Zero-Cost Client Speech Pipeline) */}
+      <VoiceAssistantModal onOpenInquiry={() => setIsConnectOpen(true)} />
 
       {/* Floating RAG AI Chatbot Widget */}
       <AiChatbotWidget onOpenInquiry={() => setIsConnectOpen(true)} />
