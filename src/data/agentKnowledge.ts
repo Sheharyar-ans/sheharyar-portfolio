@@ -520,7 +520,7 @@ export const CODE_ARCADE_INFO: ArcadeGameInfo = {
 };
 
 export const CONSULTATIVE_CORE_MESSAGE = 
-  "We specialize in high-performance web systems and AI engineering. Our core pillars include Custom WordPress VIP & WooCommerce HPOS architecture, Autonomous AI Voice Agents via Vapi and Twilio, Self-Hosted n8n Automation clusters, Deterministic Multi-Agent AI, and Data Analytics & Data Science Solutions. Which specific bottleneck are you looking to solve?";
+  "Sheharyar specializes in high-performance web systems and AI engineering. His core pillars include Custom WordPress VIP & WooCommerce HPOS architecture, Autonomous AI Voice Agents via Vapi and Twilio, Self-Hosted n8n Automation clusters, Deterministic Multi-Agent AI, and Data Analytics & Data Science Solutions. Which specific bottleneck are you looking to solve?";
 
 export const CONSULTATIVE_URDU_MESSAGE =
-  "Hum high-performance web systems aur AI engineering mein specialize karte hain. Hamare core pillars mein Custom WordPress VIP & WooCommerce HPOS architecture, Vapi aur Twilio par autonomous AI voice agents, self-hosted n8n automation clusters, multi-agent AI systems, aur Data Analytics & Data Science shamil hain. Aapko kis specific bottleneck ya project par guidance chahiye?";
+  "Sheharyar high-performance web systems aur AI engineering mein specialize karte hain: Custom WordPress VIP & WooCommerce HPOS architecture, Vapi aur Twilio par autonomous AI voice agents, self-hosted n8n automation clusters, multi-agent AI systems, aur Data Analytics & Data Science. Aapko kis specific bottleneck ya project par guidance chahiye?";

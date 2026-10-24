@@ -61,7 +61,7 @@ export const RAG_KNOWLEDGE_BASE: KnowledgeChunk[] = [
       'hi', 'hello', 'hey', 'salam', 'assalam', 'aoa', 'kaise ho', 'kaisa hai', 
       'how are you', 'good morning', 'good evening', 'greetings', 'adaab', 'kese ho'
     ],
-    content: 'Hello! I am Sheharyar Siraj\'s interactive architecture assistant. Sheharyar is a Senior WordPress Developer and Agentic AI Automation Engineer with 5+ years of experience delivering 1,200+ projects worldwide across the USA, UK, UAE, Saudi Arabia, Ireland, and Europe. I can answer questions about custom WordPress builds, sub-300ms AI voice agents, n8n/Make automations, project pricing, or how to get started together. What would you like to explore?',
+    content: 'Hello! I am Zack, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, but I am here to help answer your technical questions, look at your project scope, or get you scheduled on his calendar. What brings you to us today?',
     suggestedAction: {
       type: 'inquiry',
       label: 'Explore Services & Projects'

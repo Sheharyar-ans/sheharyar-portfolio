@@ -47,7 +47,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
     {
       id: 'welcome-1',
       sender: 'assistant',
-      text: "Hello! I am Sheharyar Siraj's Principal Architecture Consultant.\n\nWe specialize in high-performance web systems and AI engineering. Our core pillars include Custom WordPress VIP & WooCommerce HPOS architecture, Autonomous AI Voice Agents via Vapi and Twilio, Self-Hosted n8n Automation clusters, and Deterministic Multi-Agent AI. Which specific bottleneck are you looking to solve?",
+      text: "Hello! I am Zack, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, but I am here to help answer your technical questions, look at your project scope, or get you scheduled on his calendar. What brings you to us today?",
       timestamp: 'Just now',
       mode: 'support',
       suggestedChips: DEFAULT_QUICK_CHIPS,
@@ -265,7 +265,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
       const confirmMsg: ChatMessage = {
         id: `assistant-confirm-${Date.now()}`,
         sender: 'assistant',
-        text: `Thank you! Your details and project request have been dispatched directly to Sheharyar. You will receive a response within 2 hours. You can also connect immediately on WhatsApp.`,
+        text: `Thank you! I will make sure Sheharyar reviews your project details directly. You will receive a response within 2 hours. You can also review Sheharyar's live work at sheharyarsiraj.com in the meantime. Have a wonderful day!`,
         timestamp: 'Just now',
         leadCaptured: true,
         action: {
@@ -280,7 +280,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
       const fallbackMsg: ChatMessage = {
         id: `assistant-fallback-${Date.now()}`,
         sender: 'assistant',
-        text: `Thank you, ${leadForm.name}! We registered your project details in our queue, but encountered a network delay dispatching the alert email. Please connect with Sheharyar directly on WhatsApp (+92 313 2080033) for an immediate 2-hour response!`,
+        text: `Thank you, ${leadForm.name}! I registered your project details in our queue. To ensure Sheharyar gets this immediately without delay, please connect directly on WhatsApp (+92 313 2080033) for an immediate 2-hour response!`,
         timestamp: 'Just now',
         action: {
           type: 'whatsapp',
@@ -306,7 +306,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
       {
         id: `welcome-${Date.now()}`,
         sender: 'assistant',
-        text: 'Conversation reset. What system architecture or project scoping question can I answer for you today?',
+        text: 'Conversation reset. I am Zack, Executive Assistant to Sheharyar Siraj. How can I assist you with your project today?',
         timestamp: 'Just now',
         mode: 'support',
         suggestedChips: DEFAULT_QUICK_CHIPS,
@@ -333,13 +333,13 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
           <button
             onClick={() => setIsOpen(true)}
             className="group relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-1/95 border border-brand-border/80 hover:border-accent text-accent shadow-2xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
-            aria-label="Open AI Project Consultant Chat"
-            title="AI Project Consultant Chat"
+            aria-label="Chat with Zack (Executive Assistant)"
+            title="Chat with Zack (Executive Assistant)"
           >
             <MessageSquare size={20} className="sm:w-[22px] sm:h-[22px]" />
             <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-surface-1 animate-pulse" />
             <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-surface-2 border border-brand-border text-white text-xs font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 shadow-xl hidden sm:block">
-              AI Project Consultant
+              Zack • Executive Assistant
             </span>
           </button>
         </div>
@@ -373,7 +373,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="font-heading font-bold text-xs sm:text-sm text-white">
-                    Sheharyar Siraj AI
+                    Zack | Executive Assistant
                   </h3>
                   {/* Adaptive Mode Badge */}
                   <span
@@ -384,11 +384,11 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
                     }`}
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-                    {currentMode === 'sales' ? 'Sales Consultant' : 'Support Assistant'}
+                    {currentMode === 'sales' ? 'Solutions Manager' : 'Executive Assistant'}
                   </span>
                 </div>
                 <p className="text-[10px] font-mono text-brand-muted">
-                  Strictly grounded • Verified technical portfolio
+                  Assistant to Sheharyar Siraj • Operations & Solutions
                 </p>
               </div>
             </div>

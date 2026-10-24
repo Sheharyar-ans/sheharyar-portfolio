@@ -47,22 +47,58 @@ export const DEFAULT_QUICK_CHIPS = [
   '💬 Chat on WhatsApp'
 ];
 
-export const GEMINI_SYSTEM_INSTRUCTION = `You are the official AI Project Consultant for Sheharyar Siraj (sheharyarsiraj.com / Ansari Web Agency).
-Act as an experienced, consultative senior solutions architect and technical project manager.
+export const GEMINI_SYSTEM_INSTRUCTION = `[IDENTITY & ROLE]
+Your name is Zack. You are the professional Executive Assistant and Technical Solutions Manager for Sheharyar Siraj. 
+You represent Sheharyar Siraj, who is a globally recognized Senior WordPress Developer and Agentic AI Automation Engineer.
+You are NOT Sheharyar Siraj. You are his dedicated assistant and operations manager. Always speak about Sheharyar in the third person (he, him, Sheharyar).
 
-ARCHITECT IDENTITY & CREDENTIALS:
-- Sheharyar Siraj: Founder & Principal Systems Architect at Ansari Web Agency. Over 5+ years of verified software engineering experience, 1,200+ completed client deployments worldwide.
-- Upwork: Top Rated with 100% Job Success Score (JSS), 5.0 Star verified rating.
-- Credentials: Cisco Certified Network Professional (CCNP Enterprise Infrastructure), Cisco Certified CyberOps Associate, Google Cloud Vertex AI Certified Professional.
+[CORE OBJECTIVE]
+Your primary mission is to:
+1. Greet visitors, agency founders, and enterprise clients with extreme professionalism, warmth, and confidence.
+2. Introduce Sheharyar’s technical capabilities (Full-Stack WordPress, WooCommerce architecture, 24/7 Vapi Voice Agents, complex n8n/Make automation pipelines, and Data Analytics & Data Science Solutions).
+3. Qualify their project needs (budget, scope, timeline).
+4. Direct them toward booking a direct discovery call with Sheharyar or reviewing his verified portfolio (sheharyarsiraj.com).
+
+[TONE & COMMUNICATION STYLE]
+- Tone: Executive, articulate, consultative, polite, and humanized.
+- Absolute Rule: Never sound like a robotic script. Keep sentences clear, direct, and conversational. Always speak about Sheharyar in the third person.
+- Zero Jargon: Avoid corporate fluff and unnecessary buzzwords.
+- Brevity (For Voice Calls): When in voice mode or when isVoice is true, keep responses strictly under 2 to 3 sentences (under 45 words) so the caller can speak naturally without being interrupted, without markdown bullets or asterisks.
+- Multilingual: Support English and Roman Urdu / Urdu fluently, warmly, and naturally.
+
+[KEY INFORMATION ABOUT SHEHARYAR SIRAJ]
+- Background: Over 5 years of remote engineering experience, delivering 1,200+ high-converting websites and scalable automation systems for clients across the US, UK, UAE, Saudi Arabia, and Europe.
+- Technical Mastery: Full-Stack WordPress, Custom Plugins, Core Web Vitals speed optimization (40%+ speed improvements), WooCommerce, n8n, Make.com, Vapi AI Voice Agents, LLM multi-agent systems, and Data Analytics/Science.
+- Positioning: Independent Technical Partner for global enterprises and white-label engineering lead for high-growth digital agencies.
+- Portfolio: sheharyarsiraj.com
+- Direct Contact: sherryansari870@gmail.com | WhatsApp: +92 313 2080033
 - Response SLA: Guaranteed technical response and preliminary scoping roadmap delivered within 2 business hours under bilateral NDA.
-- Direct Contact Endpoints: WhatsApp: +92 313 2080033 (instant chat & voice notes), Email: sherryansari870@gmail.com.
 
-CASUAL HUMAN CONVERSATION & EMPATHY:
-- When the user engages in casual small talk (e.g., "Hello", "How are you doing?", "Who built you?", "What's up?", "How's it going?", "Nice to meet you"):
-  Respond warmly, naturally, and concisely like a real, experienced human engineer.
-  Always VALIDATE what they said first before gently anchoring back to how you can assist with their software architecture, WordPress VIP builds, voice bots, or enterprise automations.
-- Never give broken, repetitive, or teleprompter-like text dumps.
-- Do NOT ignore what the user just asked.
+[CONVERSATION PLAYBOOK & FLOW]
+
+Phase 1: Warm Greeting & Positioning
+- Chatbot: "Hello! I am Zack, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, but I am here to help answer your technical questions, look at your project scope, or get you scheduled on his calendar. What brings you to us today?"
+- Voice Bot: "Hi, thanks for calling! This is Zack, assistant to Sheharyar Siraj. Sheharyar is in an engineering session at the moment, but I manage his schedule and technical inquiries. How can I assist you today?"
+
+Phase 2: Discovery & Qualification
+When the user mentions their need:
+- For WordPress / Web: "Sheharyar has architected over 1,200 WordPress platforms, specializing in custom plugin logic, Core Web Vitals optimization, and high-conversion WooCommerce stores. Could you tell me a little about your timeline and requirements?"
+- For AI & Automations: "Sheharyar specializes in production-ready AI systems, including 24/7 Vapi Voice Agents and custom n8n workflows that eliminate operational overhead. Is this for internal operations or an agency client?"
+- For Agency White-Label Partnership: "Sheharyar frequently works behind the scenes as a dedicated white-label engineering partner for marketing and web agencies in the US, UK, and UAE. Would you like to see how he manages overflow dev capacity?"
+- For Data Analytics & Science: "Sheharyar builds automated executive dashboards in Power BI, Tableau, and Advanced Excel, alongside Python predictive models and automated scrapers. Are you looking to unify scattered business metrics or forecast customer trends?"
+
+Phase 3: Handling Pricing & Rates
+If asked "What are his rates?" or "How much does this cost?":
+- Response: "Sheharyar customizes each sprint based on architecture complexity and business impact. High-ticket project sprints and retainer partnerships typically range between $1,000 and $5,000, depending on the deliverable. To get you an accurate proposal, I can schedule a brief 10-minute screen share with Sheharyar. Would tomorrow afternoon work for you?"
+
+Phase 4: Call Scheduling & Closing
+- Response: "I will make sure Sheharyar reviews your project details directly. What is the best email address and phone number to send the calendar invite to?"
+- Confirm details, thank the user, and offer a direct link: "You can also review Sheharyar's live work at sheharyarsiraj.com in the meantime. Have a wonderful day!"
+
+[GUARDRAILS & BOUNDARIES]
+1. Never promise fixed deadlines or project quotes without Sheharyar reviewing the technical scope first.
+2. If asked technical questions outside of Sheharyar's tech stack, politely state: "Let me note that down so Sheharyar can review it personally on your call."
+3. Always maintain high confidentiality regarding existing enterprise client agreements.
 
 EXPLICIT 11 CORE SERVICES CATALOG:
 1. Custom WordPress Development: Modern, custom WordPress development built from scratch without bloated, slow page builders; clean PHP 8.2 code, bespoke Gutenberg blocks, ultra-fast loading speeds, 95+ Core Web Vitals ($1,200–$3,500; 1–3 weeks).
@@ -90,16 +126,7 @@ INTERACTIVE DEVELOPER UTILITY TOOLS (All 10 Built-In Tools at /tools/):
 - WooCommerce SKU & Catalog Auditor (/tools/woocommerce-seo-sku-auditor/): Detects SKU collisions and catalog metadata issues.
 
 INTERACTIVE MINI-GAMES & CODE ARCADE (/arcade/):
-- Retro-futuristic developer coding arena featuring Puzzle Mode (grid navigation coding) and Boss Fighter Mode (algorithmic battles) across JavaScript, Python, React, HTML/CSS, and API/JSON.
-
-DIALOGUE & CONVERSION GUIDELINES:
-- When asked "What services do you provide on this website?":
-  State: "${CONSULTATIVE_CORE_MESSAGE}"
-- Consultative Flow: Answer questions in clear, outcome-focused business language. Ask natural discovery questions (e.g., "Are you looking to optimize an existing system or scope a new build?"). Mention relevant built-in tools when helpful.
-- High-Intent Form Trigger: Display the lead capture form ONLY when the client exhibits clear hiring or purchasing intent (e.g., "I want to work with you", "How can we start?", "Let's do this", "Send me a quote", or after they explicitly agree to a consultation). Accompany the form with:
-  "I can have Sheharyar review your requirements and reach out within 2 hours. Feel free to leave your WhatsApp and details below, or reach out directly on WhatsApp at +92 313 2080033."
-- Spoken Brevity: For voice mode, keep responses strictly to 1 to 3 punchy sentences (under 45 words), without markdown bullets or asterisks.
-- Multilingual: Support English and Roman Urdu / Urdu fluently and naturally.`;
+- Retro-futuristic developer coding arena featuring Puzzle Mode (grid navigation coding) and Boss Fighter Mode (algorithmic battles) across JavaScript, Python, React, HTML/CSS, and API/JSON.`;
 
 // Language / Roman Urdu detection
 export function isRomanUrdu(text: string): boolean {
@@ -416,13 +443,13 @@ function synthesizeConsultativeResponse(
   const contextN8n = historyText.includes('n8n') || historyText.includes('automation') || historyText.includes('zapier') || historyText.includes('workflow');
   const contextAgency = historyText.includes('agency') || historyText.includes('white-label') || historyText.includes('whitelabel') || historyText.includes('retainer');
 
-  // 1. Direct Hiring / Explicit Scoping Intent
+  // 1. Direct Hiring / Explicit Scoping Intent (Phase 4: Call Scheduling & Closing)
   if (isDirectInterestIntent(lower)) {
     if (isUrdu) {
       return {
         answer: isVoice
-          ? "Main Sheharyar se aapki requirements review karwa kar 2 ghante mein rabta karwa sakta hoon. Aap apna WhatsApp neeche darj karein ya direct WhatsApp +92 313 2080033 par connect karein."
-          : "Main Sheharyar se aapki requirements review karwa kar 2 ghante ke andar direct rabta karwa sakta hoon. Aap apna WhatsApp aur details neeche darj karein, ya direct Sheharyar se WhatsApp (+92 313 2080033) par rabta karein.",
+          ? "Main Sheharyar se aapki project details directly review karwa deta hoon. Calendar invite ke liye aapka email aur phone number kya hai?"
+          : "Main Sheharyar se aapki project details directly review karwa deta hoon. Calendar invite bhejne ke liye behtareen email address aur phone number kya hai? Aap details neeche form mein darj kar sakte hain ya direct WhatsApp (+92 313 2080033) par rabta kar sakte hain.",
         mode: 'sales',
         showLeadForm: true,
         action: {
@@ -442,8 +469,8 @@ function synthesizeConsultativeResponse(
 
     return {
       answer: isVoice
-        ? "I can have Sheharyar review your requirements and reach out within 2 hours. Feel free to leave your WhatsApp and details below, or reach out directly on WhatsApp at +92 313 2080033."
-        : "I can have Sheharyar review your requirements and reach out within 2 hours. Feel free to leave your WhatsApp and details below, or reach out directly on WhatsApp at +92 313 2080033.",
+        ? "I will make sure Sheharyar reviews your project details directly. What is the best email address and phone number to send the calendar invite to?"
+        : "I will make sure Sheharyar reviews your project details directly. What is the best email address and phone number to send the calendar invite to?\n\nPlease enter your details below or connect directly with Sheharyar on WhatsApp (+92 313 2080033).",
       mode: 'sales',
       showLeadForm: true,
       action: {
@@ -478,8 +505,8 @@ function synthesizeConsultativeResponse(
     if (isUrdu) {
       return {
         answer: isVoice
-          ? "Main bilkul theek hoon, shukriya! Main Sheharyar ka AI Project Consultant hoon. Aap sunayein, aaj kis project ya architecture par baat karni hai?"
-          : "Main bilkul theek hoon, shukriya! Main Sheharyar Siraj ka official AI Project Consultant hoon. Hum custom WordPress VIP builds, sub-600ms voice agents, aur n8n automations mein lead karte hain. Aap sunayein, aaj kis project ya requirement par guidance chahiye?",
+          ? "Main bilkul theek hoon, shukriya! Yeh Zack hai, Sheharyar Siraj ka assistant. Aap sunayein, aaj kis project ya architecture par baat karni hai?"
+          : "Main bilkul theek hoon, shukriya! Main Zack hoon, Sheharyar Siraj ka Executive Assistant. Sheharyar is waqt client sprints lead kar rahe hain, jabke main unka schedule aur technical inquiries manage karta hoon. Aap sunayein, aaj kis project ya requirement par guidance chahiye?",
         mode: 'support',
         showLeadForm: false,
         action: {
@@ -495,8 +522,8 @@ function synthesizeConsultativeResponse(
 
     return {
       answer: isVoice
-        ? "I'm doing great, thanks for asking! I'm Sheharyar's AI Project Consultant. How are things with you, and what kind of project are you exploring today?"
-        : "I'm doing great, thanks for asking! I'm Sheharyar Siraj's official AI Project Consultant. We specialize in high-performance web systems and AI engineering — like sub-500ms WordPress VIP builds, sub-600ms AI voice agents, and self-hosted n8n clusters. How are things with you, and what brings you by today?",
+        ? "I'm doing great, thanks for asking! This is Zack, assistant to Sheharyar Siraj. How are things with you, and what kind of project are you exploring today?"
+        : "I'm doing great, thanks for asking! I am Zack, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, but I manage his schedule and technical inquiries. How are things with you, and what brings you by today?",
       mode: 'support',
       showLeadForm: false,
       action: {
@@ -515,14 +542,16 @@ function synthesizeConsultativeResponse(
     lower.includes('who made you') ||
     lower.includes('who created you') ||
     lower.includes('who developed you') ||
+    lower.includes('who are you') ||
+    lower.includes('who is zack') ||
     lower.includes('kis ne banaya');
 
   if (isWhoBuiltYou) {
     if (isUrdu) {
       return {
         answer: isVoice
-          ? "Mujhe Sheharyar Siraj ne architect kiya hai, jo Ansari Web Agency ke Principal Systems Architect hain with 5+ years experience and 1,200+ global deployments."
-          : "Mujhe Sheharyar Siraj ne develop kiya hai, jo Ansari Web Agency ke Founder aur Principal Systems Architect hain. Unke paas 5+ saal ka commercial experience, 1,200+ global deployments, aur Cisco CCNP wa Google Cloud Vertex AI certifications hain. Main unki services aur architectures ko represent karta hoon. Aapke project mein hum kaise madad kar sakte hain?",
+          ? "Mera naam Zack hai. Main Sheharyar Siraj ka professional Executive Assistant aur Technical Solutions Manager hoon. Main unka schedule aur technical inquiries manage karta hoon."
+          : "Mera naam Zack hai. Main Sheharyar Siraj ka professional Executive Assistant aur Technical Solutions Manager hoon. Sheharyar globally recognized Senior WordPress Developer aur Agentic AI Automation Engineer hain jin ke paas 5+ saal ka remote engineering experience aur 1,200+ global deployments hain. Main unki client inquiries aur calendar manage karta hoon. Aapke project mein hum kaise madad kar sakte hain?",
         mode: 'support',
         showLeadForm: false,
         action: {
@@ -538,8 +567,8 @@ function synthesizeConsultativeResponse(
 
     return {
       answer: isVoice
-        ? "I was built by Sheharyar Siraj, Principal Systems Architect at Ansari Web Agency, grounded directly in his 1,200+ global deployments and engineering blueprints. How can I assist you with your software architecture today?"
-        : "I was built by Sheharyar Siraj, Founder & Principal Systems Architect at Ansari Web Agency. He trained me directly on his 1,200+ commercial deployments, Cisco CCNP/CyberOps engineering credentials, and full service catalog. How can I help you with your web architecture, voice AI agents, or workflow automations today?",
+        ? "I'm Zack, the professional Executive Assistant and Technical Solutions Manager for Sheharyar Siraj. Sheharyar is in an engineering session at the moment, but I manage his schedule and technical inquiries. How can I assist you today?"
+        : "I am Zack, professional Executive Assistant and Technical Solutions Manager for Sheharyar Siraj. Sheharyar is a globally recognized Senior WordPress Developer and Agentic AI Automation Engineer with 5+ years of remote experience and 1,200+ completed deployments worldwide (100% Upwork JSS, 5.0 Star Top Rated). I manage his technical schedule, project qualification, and client inquiries. What brings you to us today?",
       mode: 'support',
       showLeadForm: false,
       action: {
@@ -646,8 +675,8 @@ function synthesizeConsultativeResponse(
   if (isCasualGreeting && history.length === 0) {
     return {
       answer: isVoice
-        ? "Hello! I am Sheharyar Siraj's Principal Architecture Consultant. We specialize in custom WordPress VIP systems, sub-600ms AI voice agents, and enterprise n8n automations. What bottleneck can I help you resolve today?"
-        : "Hello! I am Sheharyar Siraj's Principal Architecture Consultant. We specialize in high-performance web systems and AI engineering. What bottleneck can I help you resolve today?",
+        ? "Hi, thanks for calling! This is Zack, assistant to Sheharyar Siraj. Sheharyar is in an engineering session at the moment, but I manage his schedule and technical inquiries. How can I assist you today?"
+        : "Hello! I am Zack, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, but I am here to help answer your technical questions, look at your project scope, or get you scheduled on his calendar. What brings you to us today?",
       mode: 'support',
       showLeadForm: false,
       action: {
@@ -677,8 +706,8 @@ function synthesizeConsultativeResponse(
     if (isUrdu) {
       return {
         answer: isVoice
-          ? "Hum high-performance web systems aur AI engineering mein specialize karte hain: Custom WordPress VIP & WooCommerce HPOS, Vapi aur Twilio par autonomous voice agents, self-hosted n8n clusters, aur multi-agent AI. Aapko kis specific bottleneck ko solve karna hai?"
-          : `${CONSULTATIVE_URDU_MESSAGE}\n\n• **Custom WordPress VIP & WooCommerce HPOS**: Clean PHP 8.2 code, sub-500ms TTFB, aur 10k+ daily orders handling.\n• **Autonomous AI Voice Agents**: Sub-600ms latency phone receptionists via Vapi aur Twilio SIP with calendar booking.\n• **Self-Hosted n8n Clusters**: Private cloud Docker pipelines jo Zapier fees khatam karte hain with 0% data loss.\n• **Deterministic Multi-Agent AI**: Python & LangGraph workflows with strict schema tool calling.\n\nAre you looking to implement this for your own business or as a white-label partner for your agency?`,
+          ? "Sheharyar full-stack WordPress, WooCommerce HPOS architecture, 24/7 Vapi voice agents, n8n automations, aur Data Analytics solutions provide karte hain. Aapko kis project par help chahiye?"
+          : `${CONSULTATIVE_URDU_MESSAGE}\n\n• **Custom WordPress VIP & WooCommerce HPOS**: Clean PHP 8.2 code, sub-500ms TTFB, aur 10k+ daily orders handling.\n• **Autonomous AI Voice Agents**: Sub-600ms latency phone receptionists via Vapi aur Twilio SIP with calendar booking.\n• **Self-Hosted n8n Clusters**: Private cloud Docker pipelines jo Zapier fees khatam karte hain with 0% data loss.\n• **Deterministic Multi-Agent AI**: Python & LangGraph workflows with strict schema tool calling.\n• **Data Analytics & Data Science**: Power BI, Tableau, Advanced Excel dashboards, aur Python machine learning models.\n\nKya aap apne business ke liye implement karwana chahte hain ya agency white-label partner ke tor par?`,
         mode: 'sales',
         showLeadForm: false,
         action: {
@@ -694,8 +723,8 @@ function synthesizeConsultativeResponse(
 
     return {
       answer: isVoice
-        ? "We specialize in high-performance web systems and AI engineering. Our core pillars include Custom WordPress VIP and WooCommerce HPOS architecture, Autonomous AI Voice Agents via Vapi and Twilio, Self-Hosted n8n Automation clusters, and Deterministic Multi-Agent AI. Which specific bottleneck are you looking to solve?"
-        : `${CONSULTATIVE_CORE_MESSAGE}\n\n• **Custom WordPress VIP & WooCommerce HPOS**: Clean PHP 8.2 architecture, zero page-builder bloat, sub-500ms TTFB, and high-concurrency order storage.\n• **Autonomous AI Voice Agents**: Sub-600ms conversational telephony via Vapi and Twilio SIP with 24/7 calendar booking and CRM sync.\n• **Workflow Automation & n8n Clusters**: Self-hosted Docker clusters with Redis queues eliminating expensive Zapier fees with 0% data loss.\n• **Deterministic Multi-Agent AI**: Stateful LangGraph workflows executing autonomous tool-calling.\n\nAre you looking to implement this for your own company or as a white-label partner for your agency clients?`,
+        ? "Sheharyar specializes in full-stack WordPress, WooCommerce architecture, 24/7 Vapi Voice Agents, complex n8n automation pipelines, and Data Analytics solutions. How can I assist you today?"
+        : `${CONSULTATIVE_CORE_MESSAGE}\n\n• **Custom WordPress VIP & WooCommerce HPOS**: Clean PHP 8.2 architecture, zero page-builder bloat, sub-500ms TTFB, and high-concurrency order storage.\n• **Autonomous AI Voice Agents**: Sub-600ms conversational telephony via Vapi and Twilio SIP with 24/7 calendar booking and CRM sync.\n• **Workflow Automation & n8n Clusters**: Self-hosted Docker clusters with Redis queues eliminating expensive Zapier fees with 0% data loss.\n• **Deterministic Multi-Agent AI**: Stateful LangGraph workflows executing autonomous tool-calling.\n• **Data Analytics & Data Science**: Power BI, Tableau, Advanced Excel dashboards, SQL ETL pipelines, and Python ML models.\n\nCould you tell me a little about your timeline and requirements? Are you looking for your own company or as an agency white-label partner?`,
       mode: 'sales',
       showLeadForm: false,
       action: {
@@ -711,10 +740,8 @@ function synthesizeConsultativeResponse(
 
   // 4. Architect Identity & Bio ("Who is Sheharyar?", "About Sheharyar")
   if (
-    lower.includes('who are you') ||
     lower.includes('who is sheharyar') ||
     lower.includes('about sheharyar') ||
-    lower.includes('about you') ||
     lower.includes('kon hai') ||
     lower.includes('taruf') ||
     lower.includes('credentials') ||
@@ -723,8 +750,8 @@ function synthesizeConsultativeResponse(
     if (isUrdu) {
       return {
         answer: isVoice
-          ? "Sheharyar Siraj Ansari Web Agency ke Founder aur Principal Systems Architect hain. 5+ saal ke experience, 1,200+ global deployments, aur Cisco CCNP wa Google Cloud Vertex AI credentials ke sath 2-hour SLA provide karte hain."
-          : `Sheharyar Siraj Ansari Web Agency ke Founder aur Principal Systems Architect hain. Unke paas 5+ saal ka verified engineering experience aur 1,200+ global deployments ka track record hai, Top Rated on Upwork with 100% Job Success Score (JSS).\n\nVerified Credentials:\n• Cisco Certified Network Professional (CCNP Enterprise Infrastructure)\n• Cisco Certified CyberOps Associate\n• Google Cloud Vertex AI Certified Professional\n\nClients direct senior architect ke sath consult karte hain bina kisi junior account manager ke, protected by bilateral NDAs and a guaranteed 2-hour response SLA.`,
+          ? "Sheharyar Siraj globally recognized Senior WordPress Developer aur Agentic AI Automation Engineer hain jin ke paas 5+ saal ka remote experience aur 1,200+ global deployments hain."
+          : `Sheharyar Siraj Ansari Web Agency ke Founder aur Principal Systems Architect hain. Unke paas 5+ saal ka verified engineering experience aur 1,200+ global deployments ka track record hai, Top Rated on Upwork with 100% Job Success Score (JSS).\n\nVerified Credentials:\n• Cisco Certified Network Professional (CCNP Enterprise Infrastructure)\n• Cisco Certified CyberOps Associate\n• Google Cloud Vertex AI Certified Professional\n\nMain Zack hoon, unka Executive Assistant. Main unka technical schedule aur discovery calls coordinate karta hoon. Bilateral NDA aur guaranteed 2-hour scoping SLA ke tehat rabta kar sakte hain.`,
         mode: 'support',
         showLeadForm: false,
         action: {
@@ -740,8 +767,8 @@ function synthesizeConsultativeResponse(
 
     return {
       answer: isVoice
-        ? "Sheharyar Siraj is the Founder and Principal Systems Architect at Ansari Web Agency with 5+ years of experience, 1,200+ global deployments, and Cisco CCNP and Google Cloud Vertex AI credentials under a 2-hour SLA."
-        : `Sheharyar Siraj is the Founder & Principal Systems Architect at Ansari Web Agency with 5+ years of verified commercial engineering experience and 1,200+ completed client deployments worldwide (100% Upwork JSS, 5.0 Star Top Rated).\n\nVerified Credentials:\n• Cisco Certified Network Professional (CCNP Enterprise Infrastructure)\n• Cisco Certified CyberOps Associate\n• Google Cloud Vertex AI Certified Professional\n\nClients collaborate directly with Sheharyar with zero junior account manager friction, protected by bilateral NDAs and a guaranteed 2-hour technical scoping SLA.`,
+        ? "Sheharyar Siraj is a globally recognized Senior WordPress Developer and Agentic AI Automation Engineer with 5+ years of remote engineering experience, delivering 1,200+ high-converting websites and scalable automation systems."
+        : `Sheharyar Siraj is a globally recognized Senior WordPress Developer and Agentic AI Automation Engineer with 5+ years of remote engineering experience and 1,200+ completed client deployments worldwide (100% Upwork JSS, 5.0 Star Top Rated).\n\n• **Core Expertise**: Full-Stack WordPress, Custom Plugins, Core Web Vitals speed optimization, WooCommerce, n8n, Make.com, Vapi AI Voice Agents, and LLM multi-agent systems.\n• **Verified Credentials**: Cisco Certified Network Professional (CCNP Enterprise Infrastructure), Cisco Certified CyberOps Associate, Google Cloud Vertex AI Certified Professional.\n• **Positioning**: Independent Technical Partner for global enterprises and white-label engineering lead for high-growth digital agencies in the US, UK, UAE, and Europe.\n\nI manage his schedule and inquiries. Would you like to schedule a 10-minute discovery call or review his live portfolio at sheharyarsiraj.com?`,
       mode: 'support',
       showLeadForm: false,
       action: {
@@ -755,7 +782,7 @@ function synthesizeConsultativeResponse(
     };
   }
 
-  // 5. Autonomous AI Voice Agents & Telephony Queries
+  // 5. Autonomous AI Voice Agents & Telephony Queries (Phase 2 Discovery)
   if (
     lower.includes('voice') ||
     lower.includes('vapi') ||
@@ -770,8 +797,8 @@ function synthesizeConsultativeResponse(
     if (isUrdu) {
       return {
         answer: isVoice
-          ? "Hum sub-600ms latency ke autonomous AI voice agents engineer karte hain Vapi aur Twilio SIP par jo 24/7 phone attend karke calendar mein appointments schedule karte hain. Kya aapko inbound reception chahiye ya outbound lead qualification?"
-          : `Hum sub-600ms latency ke sath conversational AI Voice Telephony Agents engineer karte hain jo Vapi, Retell AI, Deepgram Nova-2 aur Twilio SIP par chalte hain:\n\n• **Sub-600ms Latency**: Natural human turn-taking aur interruption handling bina mechanical pauses ke.\n• **Real-Time Booking**: Live Google Calendar ya Cal.com check karke direct appointment schedule karta hai.\n• **Zero Hallucinations**: Strict state machine workflows jo CRM (HubSpot, GoHighLevel) mein call transcripts aur recordings auto-sync karte hain.\n\nKya aap inbound reception ke liye dekh rahe hain ya outbound sales qualification ke liye? Main Sheharyar se custom proposal tayar karwa sakta hoon within 2 hours.`,
+          ? "Sheharyar production-ready AI systems mein specialize karte hain, including 24/7 Vapi Voice Agents aur custom n8n workflows jo operational overhead khatam karte hain. Yeh internal operations ke liye hai ya agency client ke liye?"
+          : `Sheharyar production-ready AI systems mein specialize karte hain, including 24/7 Vapi Voice Agents aur custom n8n workflows jo operational overhead khatam karte hain:\n\n• **Sub-600ms Latency**: Vapi, Retell AI, aur Twilio SIP par natural human turn-taking bina pauses ke.\n• **Real-Time Booking**: Live Google Calendar ya Cal.com check karke direct appointment scheduling.\n• **CRM Integration**: Call transcripts aur qualified leads direct CRM (HubSpot, GoHighLevel) mein auto-sync.\n\nYeh internal operations ke liye hai ya agency client ke liye? Kya aap mujhe timeline aur requirements ke baare mein thora bata sakte hain?`,
         mode: 'sales',
         showLeadForm: false,
         action: {
@@ -787,8 +814,8 @@ function synthesizeConsultativeResponse(
 
     return {
       answer: isVoice
-        ? "We engineer sub-600ms conversational AI voice agents on Vapi and Twilio SIP that handle calls 24/7, book appointments into your calendar, and sync directly with your CRM. Are you looking for inbound reception or outbound lead qualification?"
-        : `We engineer autonomous conversational AI voice agents using Vapi, Retell AI, Deepgram Nova-2 speech-to-text, and ElevenLabs voice streaming over Twilio SIP trunks with sub-600ms end-to-end latency.\n\n• **Sub-600ms Natural Latency**: Human-like turn-taking with immediate interruption handling.\n• **Real-Time Appointment Scheduling**: Live tool-calling into Google Calendar or Cal.com during the call.\n• **Deterministic Logic**: Structured state machines that log recordings and qualified leads to HubSpot, GoHighLevel, or Salesforce with zero hallucinations.\n\nAre you looking to implement an inbound receptionist or an outbound qualification agent? Would you be implementing this for your own operations or as a white-label partner for agency clients?`,
+        ? "Sheharyar specializes in production-ready AI systems, including 24/7 Vapi Voice Agents and custom n8n workflows that eliminate operational overhead. Is this for internal operations or an agency client?"
+        : `Sheharyar specializes in production-ready AI systems, including 24/7 Vapi Voice Agents and custom n8n workflows that eliminate operational overhead.\n\n• **Sub-600ms Natural Latency**: Instant-response conversational telephony with human turn-taking and barge-in interruption handling.\n• **Live Calendar Scheduling**: Real-time tool-calling into Google Calendar or Cal.com during the call.\n• **Structured CRM Sync**: Automatic recording, transcription, and qualification into HubSpot, GoHighLevel, or Salesforce with zero hallucinations.\n\nIs this for internal operations or an agency client? Could you tell me a little about your timeline and requirements?`,
       mode: 'sales',
       showLeadForm: false,
       action: {
@@ -802,7 +829,7 @@ function synthesizeConsultativeResponse(
     };
   }
 
-  // 6. Custom WordPress VIP & WooCommerce HPOS Queries
+  // 6. Custom WordPress VIP & WooCommerce HPOS Queries (Phase 2 Discovery)
   if (
     lower.includes('wordpress') ||
     lower.includes('woocommerce') ||
@@ -817,8 +844,8 @@ function synthesizeConsultativeResponse(
     if (isUrdu) {
       return {
         answer: isVoice
-          ? "Hum clean PHP 8.2 VIP WordPress architectures build karte hain bina page-builder bloat ke, sub-500ms TTFB aur 95+ Core Web Vitals ke sath. Kya aapki website par speed issue hai ya naya custom build chahiye?"
-          : `Hum clean PHP 8.2/8.3 object-oriented WordPress VIP architecture build karte hain jisme Elementor ya Divi ka koi bloat nahi hota:\n\n• **Sub-500ms TTFB**: Custom Gutenberg blocks (React/JSX), lightweight themes, aur persistent Redis Object Caching.\n• **95+ Core Web Vitals**: Google Search Console ke Core Web Vitals metrics green pass hote hain mobile aur desktop par.\n• **WooCommerce HPOS**: Dedicated order tables migration jo 10,000+ daily orders handle karti hai without database deadlocks.\n\nKya aapki mojooda site par slow performance hai ya naya enterprise build scope kar rahe hain?`,
+          ? "Sheharyar ne 1,200 se zyada WordPress platforms architect kiye hain, specializing in custom plugin logic, Core Web Vitals optimization, aur high-conversion WooCommerce stores. Timeline aur requirements ke baare mein thora batayein?"
+          : `Sheharyar ne 1,200 se zyada WordPress platforms architect kiye hain, specializing in custom plugin logic, Core Web Vitals optimization, aur high-conversion WooCommerce stores:\n\n• **Zero Page-Builder Bloat**: Clean PHP 8.2 VIP engineering, bespoke Gutenberg blocks, aur persistent Redis caching.\n• **Ultra-Fast Speed**: 40%+ speed improvements, sub-500ms TTFB, aur 95+ Core Web Vitals.\n• **WooCommerce HPOS**: High-Performance Order Storage jo 10,000+ daily orders handle karta hai without database deadlocks.\n\nKya aap timeline aur requirements ke baare mein thora bata sakte hain? Naya build chahiye ya existing setup optimize karna hai?`,
         mode: 'sales',
         showLeadForm: false,
         action: {
@@ -834,8 +861,8 @@ function synthesizeConsultativeResponse(
 
     return {
       answer: isVoice
-        ? "We architect clean PHP 8.2 WordPress VIP systems without page-builder bloat, delivering sub-500ms TTFB and 95 plus Core Web Vitals. Is your current site experiencing performance bottlenecks, or are you planning a new build?"
-        : `We architect clean, zero-builder WordPress VIP systems on PHP 8.2/8.3 utilizing custom Gutenberg blocks (React/JSX) and Redis caching. This eliminates third-party page-builder drag, delivering sub-500ms TTFB and 95+ Core Web Vitals on mobile.\n\nFor eCommerce, we implement WooCommerce HPOS custom tables and Redis caching capable of scaling beyond 10,000 orders/day without database locks. Is your current site experiencing performance bottlenecks, or are you planning a greenfield architecture?`,
+        ? "Sheharyar has architected over 1,200 WordPress platforms, specializing in custom plugin logic, Core Web Vitals optimization, and high-conversion WooCommerce stores. Could you tell me a little about your timeline and requirements?"
+        : `Sheharyar has architected over 1,200 WordPress platforms, specializing in custom plugin logic, Core Web Vitals optimization, and high-conversion WooCommerce stores.\n\n• **Modern Zero-Builder WordPress**: Clean PHP 8.2 VIP architecture and custom Gutenberg blocks without bloated page builders.\n• **Speed & Performance**: 40%+ speed improvements, sub-500ms TTFB, and 95+ Core Web Vitals on mobile.\n• **WooCommerce High-Concurrency**: High-Performance Order Storage (HPOS) and Redis caching scaling beyond 10,000 orders/day without database locks.\n\nCould you tell me a little about your timeline and requirements? Are you looking to optimize an existing site or engineer a brand-new build?`,
       mode: 'sales',
       showLeadForm: false,
       action: {
@@ -849,7 +876,7 @@ function synthesizeConsultativeResponse(
     };
   }
 
-  // 7. Workflow Automation & n8n Clusters
+  // 7. Workflow Automation & n8n Clusters (Phase 2 Discovery)
   if (
     lower.includes('n8n') ||
     lower.includes('automation') ||
@@ -861,8 +888,8 @@ function synthesizeConsultativeResponse(
     if (isUrdu) {
       return {
         answer: isVoice
-          ? "Hum self-hosted n8n multi-worker Docker clusters deploy karte hain private VPS par Redis queues ke sath, jo Zapier ke monthly charges khatam kar dete hain with zero data loss. Kaun se tools connect karne hain?"
-          : `Hum self-hosted n8n multi-worker Docker clusters private cloud (Hetzner, AWS) par architect karte hain:\n\n• **Zero Zapier Fees**: Recurring task fees 100% khatam ho jati hain.\n• **Redis Queue & DLQ**: BullMQ workers aur Dead Letter Queues ensure karte hain ke webhook payload 0% loss ho.\n• **GDPR & Privacy**: Data aapke apne private server par rehta hai.\n\nKaun se business workflows ya CRMs automate karne hain? Are you deploying this for your own business or as an agency service?`,
+          ? "Sheharyar production-ready AI systems aur custom n8n workflows mein specialize karte hain jo operational overhead khatam karte hain. Yeh internal operations ke liye hai ya agency client ke liye?"
+          : `Sheharyar production-ready automation systems mein specialize karte hain, including self-hosted multi-worker n8n Docker clusters aur complex Make.com pipelines:\n\n• **Zero Zapier Fees**: Private VPS Docker clusters jo recurring task charges 100% khatam kar dete hain.\n• **0% Data Loss**: BullMQ workers aur Dead Letter Queue (DLQ) retry logic payload loss prevent karte hain.\n• **Full Data Privacy**: GDPR-compliant self-hosted private cloud infrastructure.\n\nYeh internal operations ke liye hai ya agency client ke liye? Kaun se tools connect karne hain?`,
         mode: 'sales',
         showLeadForm: false,
         action: {
@@ -878,8 +905,8 @@ function synthesizeConsultativeResponse(
 
     return {
       answer: isVoice
-        ? "We deploy self-hosted n8n multi-worker Docker clusters with Redis queues and DLQ fault tolerance, eliminating recurring Zapier subscription fees with 99.95% reliability. Which systems or CRMs do you need integrated?"
-        : `We architect enterprise, self-hosted n8n multi-worker Docker clusters on private cloud instances with Redis queue brokers and Dead Letter Queue (DLQ) retry logic. This guarantees 0% webhook data loss, 99.95% uptime, and full GDPR compliance while completely eliminating expensive recurring Zapier/Make task fees.\n\nWhich business workflows or CRMs are you looking to automate? Are you looking to implement this internally or for your agency clients?`,
+        ? "Sheharyar specializes in production-ready AI systems, including 24/7 Vapi Voice Agents and custom n8n workflows that eliminate operational overhead. Is this for internal operations or an agency client?"
+        : `Sheharyar specializes in production-ready AI systems and custom n8n workflows that eliminate operational overhead.\n\n• **Self-Hosted Multi-Worker Clusters**: Private VPS Docker clusters with Redis queues, eliminating expensive Zapier task fees.\n• **0% Data Loss**: Engineered with Dead Letter Queue (DLQ) retry architecture and 99.95% uptime.\n• **Enterprise Security**: Complete GDPR data privacy by running entirely on your private cloud.\n\nIs this for internal operations or an agency client? Which tools or workflows do you need integrated?`,
       mode: 'sales',
       showLeadForm: false,
       action: {
@@ -893,7 +920,7 @@ function synthesizeConsultativeResponse(
     };
   }
 
-  // 8. Pricing & Timelines (Grounded Multi-Turn Follow-Ups)
+  // 8. Pricing & Timelines (Phase 3: Handling Pricing & Rates)
   if (
     lower.includes('price') ||
     lower.includes('cost') ||
@@ -906,56 +933,21 @@ function synthesizeConsultativeResponse(
     lower.includes('timeline') ||
     lower.includes('how long')
   ) {
-    if (contextVoice) {
-      const ans = isUrdu
-        ? "Autonomous AI Voice Agent builds $1,500 se $4,000 ke darmiyan aate hain (timeline 1-2 weeks), jisme Vapi prompt state machines, Twilio SIP telephony, calendar booking webhooks aur CRM sync shamil hain. Main Sheharyar se custom proposal tayar karwa sakta hoon within 2 hours. Would you like to leave your details here, or connect directly with him on WhatsApp?"
-        : "Autonomous AI Voice Agent implementations typically range from $1,500 to $4,000 (1 to 2 weeks delivery), including Vapi state machine design, Twilio SIP telephony, calendar tool calling, and live CRM sync. I can have Sheharyar audit your architecture and send over a custom proposal within 2 hours. Would you like to leave your details here, or connect directly with him on WhatsApp?";
-      return {
-        answer: ans,
-        mode: 'sales',
-        showLeadForm: false,
-        action: {
-          type: 'whatsapp',
-          label: 'Get Scoped Voice Proposal on WhatsApp',
-          url: 'https://wa.me/923132080033?text=Hi%20Sheharyar,%20I%20want%20a%20proposal%20for%20an%20AI%20Voice%20Agent.'
-        },
-        sources: ['AI Voice Telephony Pricing Matrix'],
-        suggestedChips: ['🎯 AI Voice Telephony (Vapi)', '💬 Chat on WhatsApp'],
-        isOutOfScope: false
-      };
-    }
-
-    if (contextWp) {
-      const ans = isUrdu
-        ? "Custom WordPress VIP builds $1,200 se $3,500 ke darmiyan hote hain (timeline 1-3 weeks), jisme PHP 8.2 VIP code, custom Gutenberg blocks, Redis caching aur sub-500ms speed guarantee shamil hain. Main Sheharyar se custom proposal tayar karwa sakta hoon within 2 hours. Details yahan share kareinge ya WhatsApp par?"
-        : "Custom WordPress VIP builds typically range from $1,200 to $3,500 (1 to 3 weeks delivery), backed by clean PHP 8.2 VIP engineering, custom Gutenberg blocks, and 95+ Core Web Vitals. I can have Sheharyar audit your architecture and send over a custom proposal within 2 hours. Would you like to leave your details here, or connect directly with him on WhatsApp?";
-      return {
-        answer: ans,
-        mode: 'sales',
-        showLeadForm: false,
-        action: {
-          type: 'whatsapp',
-          label: 'Get WordPress VIP Proposal on WhatsApp',
-          url: 'https://wa.me/923132080033?text=Hi%20Sheharyar,%20I%20want%20a%20proposal%20for%20a%20Custom%20WordPress%20VIP%20build.'
-        },
-        sources: ['WordPress Architecture Pricing Matrix'],
-        suggestedChips: ['⚡ Custom WordPress VIP Build', '💬 Chat on WhatsApp'],
-        isOutOfScope: false
-      };
-    }
-
-    const generalPricing = isUrdu
-      ? "Engagement 2 models par hoti hai:\n1. **Fixed Milestone Contracts**: Custom WordPress VIP ($1,200–$3,500), AI Voice Telephony ($1,500–$4,000), aur n8n clusters ($800–$2,500).\n2. **White-Label Agency Retainers**: $1,500–$3,500/week dedicated senior engineering capacity under strict bilateral NDA.\n\nSheharyar 2 ghante ke andar tailored proposal bhej sakte hain. Kya aap yahan details chhorna chahte hain ya WhatsApp (+92 313 2080033) par rabta kareinge?"
-      : "We structure engagements across two transparent models:\n1. **Fixed-Price Milestone Contracts**: Custom WordPress VIP ($1,200–$3,500), AI Voice Telephony ($1,500–$4,000), and n8n Automations ($800–$2,500).\n2. **White-Label Agency Retainers**: Dedicated weekly sprint bandwidth for agencies at $1,500–$3,500/week under strict bilateral NDA.\n\nI can have Sheharyar audit your architecture and send over a custom proposal within 2 hours. Would you like to leave your details here, or connect directly with him on WhatsApp?";
+    const pricingUrdu = "Sheharyar har sprint ko architecture complexity aur business impact ke mutabiq customize karte hain. High-ticket project sprints aur retainer partnerships aam tor par $1,000 se $5,000 ke darmiyan hoti hain, depending on the deliverable. Accurate proposal ke liye, main Sheharyar ke sath 10 minute ka brief screen share schedule karwa sakta hoon. Kya kal dopahar ka waqt aapke liye theek rahega?";
+    const pricingEnglish = "Sheharyar customizes each sprint based on architecture complexity and business impact. High-ticket project sprints and retainer partnerships typically range between $1,000 and $5,000, depending on the deliverable. To get you an accurate proposal, I can schedule a brief 10-minute screen share with Sheharyar. Would tomorrow afternoon work for you?";
 
     return {
-      answer: generalPricing,
+      answer: isVoice
+        ? (isUrdu ? pricingUrdu : pricingEnglish)
+        : (isUrdu
+            ? `${pricingUrdu}\n\nAap details neeche form mein chhor sakte hain ya direct WhatsApp (+92 313 2080033) par bhi connect kar sakte hain.`
+            : `${pricingEnglish}\n\nYou can also leave your project scope below or connect directly on WhatsApp (+92 313 2080033).`),
       mode: 'sales',
       showLeadForm: false,
       action: {
         type: 'whatsapp',
-        label: 'Request Scoping Proposal on WhatsApp (+92 313 2080033)',
-        url: 'https://wa.me/923132080033?text=Hi%20Sheharyar,%20I%20would%20like%20to%20request%20a%20project%20pricing%20proposal.'
+        label: 'Schedule Screen Share on WhatsApp (+92 313 2080033)',
+        url: 'https://wa.me/923132080033?text=Hi%20Sheharyar,%20Zack%20suggested%20a%2010-minute%20screen%20share%20regarding%20project%20scoping.'
       },
       sources: ['Commercial Pricing Strategy & SLAs'],
       suggestedChips: DEFAULT_QUICK_CHIPS,
@@ -963,7 +955,7 @@ function synthesizeConsultativeResponse(
     };
   }
 
-  // 9. White-Label Agency Subcontracting
+  // 9. White-Label Agency Subcontracting (Phase 2 Discovery)
   if (
     lower.includes('agency') ||
     lower.includes('white-label') ||
@@ -975,8 +967,8 @@ function synthesizeConsultativeResponse(
     if (isUrdu) {
       return {
         answer: isVoice
-          ? "Hum USA, UK, aur UAE ki digital agencies ke sath dedicated white-label engineering partner ke tor par kaam karte hain under strict bilateral NDA ($1,500-$3,500/week)."
-          : `Hum USA, UK, UAE aur Europe ki marketing aur SEO agencies ke sath dedicated technical engineering partner ke tor par kaam karte hain:\n\n• **Strict Bilateral NDA**: 100% white-label confidentiality with zero agency client poaching.\n• **Direct Senior Collaboration**: Aapke agency Slack ya GitHub mein seamless integration bina junior management friction ke.\n• **Retainer Models**: Dedicated weekly sprints ($1,500–$3,500/week) ya fixed-price milestones.\n\nKya aapki agency high-value AI ya custom development projects ke liye technical capacity dekh rahi hai?`,
+          ? "Sheharyar frequently works behind the scenes as a dedicated white-label engineering partner for marketing and web agencies in the US, UK, and UAE. Would you like to see how he manages overflow dev capacity?"
+          : `Sheharyar frequently works behind the scenes as a dedicated white-label engineering partner for marketing and web agencies in the US, UK, and UAE under strict bilateral NDA:\n\n• **Strict Bilateral NDA**: 100% white-label confidentiality with zero agency client poaching.\n• **Direct Senior Collaboration**: Seamlessly embeds into your agency Slack, ClickUp, or GitHub with zero management overhead.\n• **Flexible Retainers**: Dedicated weekly sprint capacity ($1,000–$5,000/week depending on scope) or fixed milestone sprints.\n\nWould you like to see how he manages overflow dev capacity?`,
         mode: 'sales',
         showLeadForm: false,
         action: {
@@ -992,8 +984,8 @@ function synthesizeConsultativeResponse(
 
     return {
       answer: isVoice
-        ? "We partner with digital and marketing agencies under strict bilateral NDA as their dedicated white-label engineering team, handling complex WordPress and AI builds ($1,500 to $3,500 per week)."
-        : `We act as the dedicated technical engineering partner for digital, SEO, and marketing agencies across the USA, UK, UAE, and EU:\n\n• **Strict Bilateral NDA**: 100% white-label confidentiality with zero client poaching.\n• **Senior Engineer Integration**: Seamlessly embeds into your agency's Slack, ClickUp, or GitHub with zero management overhead.\n• **Predictable Retainers**: Transparent weekly sprint retainers ($1,500–$3,500/week) or fixed milestone contracts.\n\nIs your agency turning away complex AI or custom development projects due to in-house technical capacity?`,
+        ? "Sheharyar frequently works behind the scenes as a dedicated white-label engineering partner for marketing and web agencies in the US, UK, and UAE. Would you like to see how he manages overflow dev capacity?"
+        : `Sheharyar frequently works behind the scenes as a dedicated white-label engineering partner for marketing and web agencies in the US, UK, and UAE under strict bilateral NDA.\n\n• **Strict Bilateral NDA**: 100% white-label confidentiality with zero client poaching.\n• **Senior Engineer Integration**: Seamlessly embeds into your agency's Slack, ClickUp, or GitHub with zero management overhead.\n• **Predictable Retainers**: Transparent weekly sprint retainers or fixed milestone contracts ($1,000–$5,000 depending on deliverable).\n\nWould you like to see how he manages overflow dev capacity?`,
       mode: 'sales',
       showLeadForm: false,
       action: {
@@ -1183,8 +1175,8 @@ export async function processRagQuery(
   // 1. Guardrail evaluation
   if (!checkScope(trimmed)) {
     const fallbackText = isUrdu
-      ? 'Main sirf Sheharyar Siraj ki software engineering, custom WordPress architectures, aur AI automations ke hawale se madad kar sakta hoon. Website ke data se bahar mere paas information mojood nahi hai, lekin aap services ya kisi project ke mutabiq sawal pooch sakte hain!'
-      : 'I specialize exclusively in Sheharyar Siraj\'s technical portfolio, custom WordPress VIP systems, AI voice agents, and business automation pipelines. While I cannot answer questions outside of software engineering and business operations, I would be glad to help scope your web or automation project!';
+      ? 'Let me note that down so Sheharyar can review it personally on your call. Main sirf Sheharyar Siraj ke engineering systems, custom WordPress builds, aur AI automations par focus karta hoon.'
+      : 'Let me note that down so Sheharyar can review it personally on your call. I specialize in Sheharyar Siraj\'s technical portfolio, custom WordPress systems, AI voice agents, and business automation pipelines. How can I assist you with your project scoping today?';
 
     return {
       answer: fallbackText,

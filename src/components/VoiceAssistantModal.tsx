@@ -203,7 +203,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const [isMuted, setIsMuted] = useState(false);
   const [userTranscript, setUserTranscript] = useState('');
   const [aiTranscript, setAiTranscript] = useState(
-    "Hello! I am Sheharyar Siraj's Principal Architecture Consultant. We specialize in custom WordPress VIP architectures, sub-600ms AI voice agents, and enterprise n8n automations. What technical bottleneck can I help you scope today?"
+    "Hi, thanks for calling! This is Zack, assistant to Sheharyar Siraj. Sheharyar is in an engineering session at the moment, but I manage his schedule and technical inquiries. How can I assist you today?"
   );
   const [conversationHistory, setConversationHistory] = useState<ChatMessage[]>([]);
   const [audioLevel, setAudioLevel] = useState(0);
@@ -673,7 +673,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     // 2. Clear all session context & history (Session Out)
     setUserTranscript('');
     setAiTranscript(
-      "Hello! I am Sheharyar Siraj's Principal Architecture Consultant. We specialize in custom WordPress VIP architectures, sub-600ms AI voice agents, and enterprise n8n automations. What technical bottleneck can I help you scope today?"
+      "Hi, thanks for calling! This is Zack, assistant to Sheharyar Siraj. Sheharyar is in an engineering session at the moment, but I manage his schedule and technical inquiries. How can I assist you today?"
     );
     setConversationHistory([]);
     setIsLeadOverlayOpen(false);
@@ -714,7 +714,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       const greetingTimer = setTimeout(() => {
         if (isModalOpenRef.current) {
           speakResponse(
-            "Hello! I am Sheharyar Siraj's Principal Architecture Consultant. We specialize in custom WordPress VIP architectures, sub-600ms AI voice agents, and enterprise n8n automations. What technical bottleneck can I help you scope today?"
+            "Hi, thanks for calling! This is Zack, assistant to Sheharyar Siraj. Sheharyar is in an engineering session at the moment, but I manage his schedule and technical inquiries. How can I assist you today?"
           );
         }
       }, 400);
@@ -786,7 +786,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const handleResetConversation = () => {
     cleanupMedia();
     setUserTranscript('');
-    setAiTranscript('Conversation reset. What can Sheharyar build or automate for your business?');
+    setAiTranscript('Conversation reset. This is Zack, assistant to Sheharyar Siraj. How can I assist you today?');
     setConversationHistory([]);
     setIsLeadOverlayOpen(false);
     setVoiceLeadSubmitted(false);
@@ -794,7 +794,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     initMicrophoneAudioContext();
     setTimeout(() => {
       if (isModalOpenRef.current) {
-        speakResponse('Conversation reset. What can Sheharyar build or automate for your business?');
+        speakResponse('Conversation reset. This is Zack, assistant to Sheharyar Siraj. How can I assist you today?');
       }
     }, 200);
   };
@@ -842,14 +842,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     setVoiceLeadSubmitted(true);
 
     const confirmationSpeech =
-      'Thank you! Your inquiry and WhatsApp details have been dispatched directly to Sheharyar. He will get back to you within 2 hours.';
+      "Thank you! I will make sure Sheharyar reviews your project details directly. He will get back to you within 2 hours. You can also review Sheharyar's live work at sheharyarsiraj.com in the meantime. Have a wonderful day!";
 
     if (result.success) {
       setAiTranscript(confirmationSpeech);
       speakResponse(confirmationSpeech);
     } else {
       const fallbackNotice =
-        'Thank you! We registered your details, but encountered a network dispatch delay. You can connect immediately on WhatsApp at +92 313 2080033.';
+        "Thank you! I registered your details in our queue. To ensure Sheharyar gets this immediately without delay, please connect directly on WhatsApp at +92 313 2080033. Have a wonderful day!";
       setAiTranscript(fallbackNotice);
       speakResponse(fallbackNotice);
     }
@@ -873,13 +873,13 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           <button
             onClick={handleOpen}
             className="group relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-1/95 border border-brand-border/80 hover:border-emerald-400 text-emerald-400 shadow-2xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
-            aria-label="Open Autonomous Voice AI Assistant"
-            title="Talk to Voice AI Assistant"
+            aria-label="Talk to Zack (Voice Assistant)"
+            title="Talk to Zack (Voice Assistant)"
           >
             <Mic size={20} className="sm:w-[22px] sm:h-[22px] animate-pulse" />
             <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-surface-1 animate-ping" />
             <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-surface-2 border border-brand-border text-white text-xs font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 shadow-xl hidden sm:block">
-              Talk to AI Voice
+              Talk to Zack • Voice Assistant
             </span>
           </button>
         </div>
@@ -909,7 +909,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="font-heading font-bold text-xs sm:text-sm text-white">
-                      Sheharyar Siraj AI Voice
+                      Zack | Voice Assistant
                     </h3>
                     <span
                       className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 ${
@@ -935,7 +935,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                     </span>
                   </div>
                   <p className="text-[10px] font-mono text-brand-muted">
-                    Calm American Male Voice • Sub-2h SLA Scoping
+                    Executive Assistant to Sheharyar Siraj • Operations & Inquiries
                   </p>
                 </div>
               </div>
@@ -1000,7 +1000,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                             }`}
                           >
                             <div className="text-[9px] font-mono opacity-60 mb-0.5">
-                              {m.sender === 'user' ? 'You' : 'Sheharyar AI Voice'}
+                              {m.sender === 'user' ? 'You' : 'Zack • Executive Assistant'}
                             </div>
                             <div className="whitespace-pre-wrap leading-relaxed">{m.text}</div>
                           </div>
@@ -1094,7 +1094,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                       {voiceState === 'listening'
                         ? 'Listening... Speak now, or tap a topic below'
                         : voiceState === 'thinking'
-                        ? 'Consulting Sheharyar\'s verified engineering dossiers...'
+                        ? "Zack is consulting Sheharyar's technical portfolio..."
                         : voiceState === 'speaking'
                         ? 'Speaking • Tap orb or press Space to cut in'
                         : isMuted
@@ -1291,10 +1291,10 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                       <CheckCircle2 size={24} />
                     </div>
                     <h4 className="font-heading font-bold text-white text-base">
-                      Lead Brief Dispatched to Sheharyar Siraj!
+                      Project Brief Dispatched to Sheharyar Siraj!
                     </h4>
                     <p className="text-xs text-brand-secondary leading-relaxed">
-                      Thank you! Your inquiry and WhatsApp details have been dispatched directly to Sheharyar. He will get back to you within 2 hours.
+                      Thank you! I will make sure Sheharyar reviews your project details directly. He will get back to you within 2 hours. You can also review Sheharyar&apos;s live work at sheharyarsiraj.com in the meantime. Have a wonderful day!
                     </p>
                     <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2">
                       <a
