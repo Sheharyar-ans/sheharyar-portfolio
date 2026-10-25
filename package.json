@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && node scripts/prerender.js",
+    "prebuild": "node scripts/crawl-repository.js",
+    "crawl": "node scripts/crawl-repository.js",
+    "build": "node scripts/crawl-repository.js && tsc && vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && node scripts/prerender.js",
     "preview": "vite preview",
     "build:zip": "node scripts/create-hostinger-zip.js",
     "test:routes": "node scripts/verify-routes.js"
