@@ -21,7 +21,8 @@ import { LeadConfirmationModal } from './voice/LeadConfirmationModal';
 import {
   speakText,
   stopSpeaking,
-  setupAudioVisualizer
+  setupAudioVisualizer,
+  primeMobileSpeechEngine
 } from '../services/voiceSpeechEngine';
 import {
   sendVoiceTurnToGemini,
@@ -441,6 +442,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   };
 
   const handleOpen = () => {
+    primeMobileSpeechEngine();
     setInternalIsOpen(true);
   };
 

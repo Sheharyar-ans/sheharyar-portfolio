@@ -3,7 +3,10 @@
  * 
  * Features:
  * - Phonetic normalization pre-TTS cleaner
- * - Ultra-strict Soft Natural Male neural voice heuristic selection (zero female voice fallback)
+ * - Mobile & Desktop Deep Natural Male voice heuristic selection:
+ *   - Inspects both `voice.name` and `voice.voiceURI` (crucial for Android `#male_1-local` & iOS `Daniel`/`Alex`)
+ *   - Strict elimination of feminine voice profiles (including Android `#female`, Chrome default female, and iOS `Samantha`)
+ *   - Adaptive masculine pitch shift (0.80 pitch fallback if untagged on budget mobile devices)
  * - Safe audio muting & echo suppression during vocalization
  * - Web Audio API visualizer & hardware teardown
  */
@@ -16,12 +19,12 @@ export interface SpeechEngineConfig {
 
 // Soft, articulate, calm executive male resonance
 export const ZACK_VOICE_CONFIG: SpeechEngineConfig = {
-  pitch: 0.94,
+  pitch: 0.92,
   rate: 0.97,
   volume: 1.0
 };
 
-// Cached voices for instant availability
+// Cached voices for instant availability on mobile & desktop
 let cachedVoices: SpeechSynthesisVoice[] = [];
 
 if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -29,6 +32,15 @@ if (typeof window !== 'undefined' && window.speechSynthesis) {
   window.speechSynthesis.onvoiceschanged = () => {
     cachedVoices = window.speechSynthesis.getVoices();
   };
+}
+
+/**
+ * Primes mobile browser TTS engine on user touch gesture
+ */
+export function primeMobileSpeechEngine(): void {
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    cachedVoices = window.speechSynthesis.getVoices();
+  }
 }
 
 /**
@@ -107,32 +119,86 @@ export function normalizeTextForSpeech(rawText: string): string {
   return text.replace(/\s+/g, ' ').trim();
 }
 
+export interface VoiceSelectionResult {
+  voice: SpeechSynthesisVoice | null;
+  isVerifiedMale: boolean;
+}
+
 /**
- * Strict Soft Natural Male Voice Heuristic Selector
- * Explicitly excludes feminine voice profiles.
- * IMPORTANT: In Google Chrome, "Google US English" is a female voice. It is strictly excluded.
+ * Strict Mobile & Desktop Natural Male Voice Heuristic Selector
+ * 
+ * Crucial Mobile Fix:
+ * On Android (Google TTS / Samsung), the gender identifier is in `voice.voiceURI`
+ * (e.g., `en-us-x-sfg#male_1-local` vs `en-us-x-sfg#female_1-local`), while `voice.name`
+ * is just generic "English (United States)".
+ * We inspect both `v.name` AND `v.voiceURI` to guarantee male selection on mobile!
  */
-export function selectNeuralMaleVoice(voices?: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
-  const voiceList = (voices && voices.length > 0) ? voices : (cachedVoices.length > 0 ? cachedVoices : (typeof window !== 'undefined' && window.speechSynthesis ? window.speechSynthesis.getVoices() : []));
+export function selectNeuralMaleVoice(voices?: SpeechSynthesisVoice[]): VoiceSelectionResult {
+  const voiceList =
+    voices && voices.length > 0
+      ? voices
+      : cachedVoices.length > 0
+      ? cachedVoices
+      : typeof window !== 'undefined' && window.speechSynthesis
+      ? window.speechSynthesis.getVoices()
+      : [];
 
-  if (!voiceList || voiceList.length === 0) return null;
+  if (!voiceList || voiceList.length === 0) {
+    return { voice: null, isVerifiedMale: false };
+  }
 
-  // Strict list of female keywords and Chrome female defaults to block
+  // Strict list of female keywords across Android, iOS, Windows, Mac, and Chrome
   const feminineKeywords = [
-    'zira', 'jenny', 'aria', 'samantha', 'victoria', 'karen', 'susan', 
-    'hazel', 'catherine', 'linda', 'female', 'woman', 'girl', 'neerja',
-    'heera', 'helena', 'hortense', 'julie', 'hedda', 'elsa', 'alva',
-    'fiona', 'moira', 'tessa', 'veena', 'alice', 'sonia', 'amy', 'olivia',
-    'emma', 'ava', 'sophia', 'isabella', 'google us english', 'google uk english female'
+    'female',
+    '#female',
+    'woman',
+    'girl',
+    'zira',
+    'jenny',
+    'aria',
+    'samantha',
+    'victoria',
+    'karen',
+    'susan',
+    'hazel',
+    'catherine',
+    'linda',
+    'neerja',
+    'heera',
+    'helena',
+    'hortense',
+    'julie',
+    'hedda',
+    'elsa',
+    'alva',
+    'fiona',
+    'moira',
+    'tessa',
+    'veena',
+    'alice',
+    'sonia',
+    'amy',
+    'olivia',
+    'emma',
+    'ava',
+    'sophia',
+    'isabella',
+    'google us english',
+    'google uk english female'
   ];
 
-  const isFeminine = (name: string) => {
-    const lower = name.toLowerCase();
+  const isFeminine = (desc: string) => {
+    const lower = desc.toLowerCase();
     return feminineKeywords.some((kw) => lower.includes(kw));
   };
 
-  // Priority 1: High-Definition Soft & Natural Male Voices (Edge Natural / Neural)
-  const prioritySoftMaleVoices = [
+  // Priority 1: High-Definition Soft & Natural Male Voices (Android, iOS & Desktop)
+  const priorityMalePatterns = [
+    // Android mobile explicit male tags
+    '#male',
+    '-male',
+    '_male',
+    // High-definition neural male voices (Edge / Azure / Chrome)
     'guy online (natural)',
     'guyneural',
     'christopher online (natural)',
@@ -145,48 +211,56 @@ export function selectNeuralMaleVoice(voices?: SpeechSynthesisVoice[]): SpeechSy
     'brianneural',
     'ryan online (natural)',
     'steffan online (natural)',
+    // Windows & Mac desktop male voices
     'microsoft david desktop',
     'microsoft david',
     'microsoft mark desktop',
     'microsoft mark',
     'microsoft george',
     'google uk english male',
+    // iOS / Apple mobile male voices
     'daniel',
     'alex',
-    'fred'
+    'fred',
+    'aaron',
+    'arthur',
+    'oliver',
+    'nicky',
+    'gordon',
+    'rishi'
   ];
 
-  for (const prio of prioritySoftMaleVoices) {
+  for (const prio of priorityMalePatterns) {
     const match = voiceList.find((v) => {
-      const lower = v.name.toLowerCase();
-      return lower.includes(prio) && !isFeminine(lower);
+      const fullDesc = `${v.name || ''} ${v.voiceURI || ''}`.toLowerCase();
+      return fullDesc.includes(prio) && !isFeminine(fullDesc);
     });
-    if (match) return match;
+    if (match) return { voice: match, isVerifiedMale: true };
   }
 
-  // Priority 2: Any English voice with explicit "male" keyword
+  // Priority 2: Any English voice with explicit "male" keyword in name or URI
   const maleTagged = voiceList.find((v) => {
-    const lower = v.name.toLowerCase();
+    const fullDesc = `${v.name || ''} ${v.voiceURI || ''}`.toLowerCase();
     return (
       (v.lang.startsWith('en') || v.lang.startsWith('en-US') || v.lang.startsWith('en-GB')) &&
-      lower.includes('male') &&
-      !isFeminine(lower)
+      fullDesc.includes('male') &&
+      !isFeminine(fullDesc)
     );
   });
-  if (maleTagged) return maleTagged;
+  if (maleTagged) return { voice: maleTagged, isVerifiedMale: true };
 
-  // Priority 3: Non-feminine en-US / en-GB desktop voices
+  // Priority 3: Any en-US / en-GB voice that does NOT contain any feminine keywords
   const fallbackMale = voiceList.find((v) => {
-    const lower = v.name.toLowerCase();
-    return (v.lang === 'en-US' || v.lang.startsWith('en')) && !isFeminine(lower);
+    const fullDesc = `${v.name || ''} ${v.voiceURI || ''}`.toLowerCase();
+    return (v.lang === 'en-US' || v.lang.startsWith('en')) && !isFeminine(fullDesc);
   });
-  if (fallbackMale) return fallbackMale;
+  if (fallbackMale) return { voice: fallbackMale, isVerifiedMale: false };
 
-  return voiceList[0] || null;
+  return { voice: voiceList[0] || null, isVerifiedMale: false };
 }
 
 /**
- * Speaks text using window.speechSynthesis with anti-cut-off keepalive
+ * Speaks text using window.speechSynthesis with anti-cut-off keepalive and mobile masculine pitch enforcement
  */
 export function speakText(
   rawText: string,
@@ -199,7 +273,9 @@ export function speakText(
   if (typeof window === 'undefined' || !window.speechSynthesis) return null;
 
   // Cancel any prior speech immediately
-  window.speechSynthesis.cancel();
+  if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+    window.speechSynthesis.cancel();
+  }
 
   const normalized = normalizeTextForSpeech(rawText);
   if (!normalized) {
@@ -208,15 +284,19 @@ export function speakText(
   }
 
   const utterance = new SpeechSynthesisUtterance(normalized);
-  utterance.pitch = ZACK_VOICE_CONFIG.pitch;
+  const voices = window.speechSynthesis.getVoices();
+  const selection = selectNeuralMaleVoice(voices);
+
+  if (selection.voice) {
+    utterance.voice = selection.voice;
+  }
+
+  // Adaptive Masculine Pitch:
+  // If verified male voice (e.g. Guy, David, Android #male, Daniel): use soft, articulate 0.92 pitch.
+  // If unverified/fallback on budget mobile: lower pitch to 0.80 to ensure a distinctly deep male resonance!
+  utterance.pitch = selection.isVerifiedMale ? ZACK_VOICE_CONFIG.pitch : 0.80;
   utterance.rate = ZACK_VOICE_CONFIG.rate;
   utterance.volume = ZACK_VOICE_CONFIG.volume;
-
-  const voices = window.speechSynthesis.getVoices();
-  const maleVoice = selectNeuralMaleVoice(voices);
-  if (maleVoice) {
-    utterance.voice = maleVoice;
-  }
 
   let keepAliveTimer: any = null;
 
@@ -257,7 +337,7 @@ export function speakText(
 }
 
 /**
- * Immediate stop for active speech (used for Barge-in and manual cancellation)
+ * Immediate stop for active speech
  */
 export function stopSpeaking(): void {
   if (typeof window !== 'undefined' && window.speechSynthesis) {
