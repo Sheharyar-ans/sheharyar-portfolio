@@ -36,10 +36,24 @@ if (typeof window !== 'undefined' && window.speechSynthesis) {
 
 /**
  * Primes mobile browser TTS engine on user touch gesture
+ * Unlocks iOS Safari and Android Chrome audio policy with silent priming
  */
 export function primeMobileSpeechEngine(): void {
   if (typeof window !== 'undefined' && window.speechSynthesis) {
     cachedVoices = window.speechSynthesis.getVoices();
+    try {
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+      // Speak a blank micro-utterance synchronously on touch to unlock mobile audio output
+      const unlock = new SpeechSynthesisUtterance(' ');
+      unlock.volume = 0.01;
+      unlock.rate = 2.0;
+      unlock.lang = 'en-US';
+      window.speechSynthesis.speak(unlock);
+    } catch {
+      // safe fallback
+    }
   }
 }
 
@@ -254,9 +268,16 @@ export function speakText(
 ): SpeechSynthesisUtterance | null {
   if (typeof window === 'undefined' || !window.speechSynthesis) return null;
 
-  // Cancel any prior speech immediately
-  if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-    window.speechSynthesis.cancel();
+  try {
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+    }
+    // Cancel any prior speech immediately
+    if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+      window.speechSynthesis.cancel();
+    }
+  } catch {
+    // safe resume/cancel
   }
 
   const normalized = normalizeTextForSpeech(rawText);
@@ -266,6 +287,8 @@ export function speakText(
   }
 
   const utterance = new SpeechSynthesisUtterance(normalized);
+  utterance.lang = 'en-US'; // Strict English pronunciation across iOS & Android
+
   const voices = window.speechSynthesis.getVoices();
   const selection = selectNeuralFemaleVoice(voices);
 
@@ -278,16 +301,19 @@ export function speakText(
   utterance.rate = ELENA_VOICE_CONFIG.rate;
   utterance.volume = ELENA_VOICE_CONFIG.volume;
 
+  const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
   let keepAliveTimer: any = null;
 
   utterance.onstart = () => {
-    // Chrome keep-alive hack: pause & resume every 10 seconds to prevent silent engine sleep
-    keepAliveTimer = setInterval(() => {
-      if (window.speechSynthesis.speaking) {
-        window.speechSynthesis.pause();
-        window.speechSynthesis.resume();
-      }
-    }, 10000);
+    // Only run pause/resume keep-alive on desktop Chrome, NEVER on iOS (iOS freezes on pause)
+    if (!isIOS) {
+      keepAliveTimer = setInterval(() => {
+        if (window.speechSynthesis.speaking) {
+          window.speechSynthesis.pause();
+          window.speechSynthesis.resume();
+        }
+      }, 10000);
+    }
     callbacks.onStart?.();
   };
 
@@ -312,7 +338,16 @@ export function speakText(
     }
   };
 
-  window.speechSynthesis.speak(utterance);
+  try {
+    window.speechSynthesis.speak(utterance);
+    // Extra wake-up pulse for mobile browsers
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+    }
+  } catch (err) {
+    console.warn('Speech synthesis speak notice:', err);
+  }
+
   return utterance;
 }
 

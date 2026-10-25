@@ -11,7 +11,8 @@ import {
   RotateCcw,
   MessageSquare,
   Square,
-  AlertCircle
+  AlertCircle,
+  Send
 } from 'lucide-react';
 import {
   VoiceVisualizerOrb,
@@ -59,6 +60,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const [confirmedLead, setConfirmedLead] = useState<ClientInquiryArgs | null>(null);
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
   const [hasMicrophonePermission, setHasMicrophonePermission] = useState(true);
+  const [manualText, setManualText] = useState('');
 
   // Hardware Audio & Visualizer Refs
   const audioContextCloserRef = useRef<(() => void) | null>(null);
@@ -66,6 +68,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
   // Speech Recognition & State Machine Refs
   const recognitionRef = useRef<any>(null);
+  const isRecognitionActiveRef = useRef(false);
   const isBotSpeakingRef = useRef(false);
   const isMicMutedRef = useRef(false);
   const isModalOpenRef = useRef(isModalOpen);
@@ -76,40 +79,48 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const hasGreetedRef = useRef(false);
   const sessionMemoryRef = useRef<SessionClientMemory>({});
 
+  // Detect mobile user agent
+  const isMobileDevice =
+    typeof window !== 'undefined' &&
+    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      window.innerWidth < 768);
+
   // Keep live references in sync without triggering re-renders
   isMicMutedRef.current = isMicMuted;
   isModalOpenRef.current = isModalOpen;
 
-  // Safe microphone recognition restarter: strictly blocked if bot is speaking or thinking
+  // Safe microphone recognition restarter: non-blocking, mobile-compatible
   const restartRecognition = useCallback(() => {
     if (
       !recognitionRef.current ||
       isBotSpeakingRef.current ||
       isMicMutedRef.current ||
       !isModalOpenRef.current ||
-      isProcessingRef.current
+      isProcessingRef.current ||
+      isRecognitionActiveRef.current
     ) {
       return;
     }
     try {
-      recognitionRef.current.abort();
-      setTimeout(() => {
-        if (
-          !isBotSpeakingRef.current &&
-          !isMicMutedRef.current &&
-          isModalOpenRef.current &&
-          !isProcessingRef.current
-        ) {
-          try {
-            recognitionRef.current.start();
-            setVisualState('listening');
-          } catch (err) {
-            // Already active or busy
-          }
-        }
-      }, 150);
-    } catch {
-      // Abort safely
+      recognitionRef.current.start();
+      isRecognitionActiveRef.current = true;
+      setVisualState('listening');
+    } catch (err: any) {
+      if (err?.name === 'InvalidStateError') {
+        isRecognitionActiveRef.current = true;
+      } else {
+        isRecognitionActiveRef.current = false;
+      }
+    }
+  }, []);
+
+  // Safe microphone recognition stopper
+  const stopRecognition = useCallback(() => {
+    if (recognitionRef.current && isRecognitionActiveRef.current) {
+      try {
+        recognitionRef.current.abort();
+      } catch {}
+      isRecognitionActiveRef.current = false;
     }
   }, []);
 
@@ -140,12 +151,8 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     setVisualState('speaking');
     setAiTranscript(INITIAL_GREETING);
 
-    // Abort speech recognition so it cannot hear itself
-    if (recognitionRef.current) {
-      try {
-        recognitionRef.current.abort();
-      } catch {}
-    }
+    // Stop speech recognition so it cannot hear itself
+    stopRecognition();
 
     speakText(INITIAL_GREETING, {
       onStart: () => {
@@ -153,7 +160,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         setVisualState('speaking');
       },
       onEnd: () => {
-        // Post-speech echo dissipation delay: wait 450ms before opening mic
+        // Post-speech echo dissipation delay: wait slightly longer on mobile
         if (echoCooldownTimerRef.current) clearTimeout(echoCooldownTimerRef.current);
         echoCooldownTimerRef.current = setTimeout(() => {
           isBotSpeakingRef.current = false;
@@ -163,14 +170,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           } else {
             setVisualState('idle');
           }
-        }, 450);
+        }, isMobileDevice ? 550 : 400);
       },
       onError: () => {
         isBotSpeakingRef.current = false;
         setVisualState('idle');
       }
     });
-  }, [restartRecognition]);
+  }, [isMobileDevice, restartRecognition, stopRecognition]);
 
   // Process User Speech through Central LLM Brain (Gemini with RAG Fallback)
   const handleUserQuery = useCallback(
@@ -189,12 +196,8 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
       isProcessingRef.current = true;
 
-      // Abort speech recognition immediately so mic is completely OFF
-      if (recognitionRef.current) {
-        try {
-          recognitionRef.current.abort();
-        } catch {}
-      }
+      // Stop speech recognition immediately while processing and speaking
+      stopRecognition();
 
       setVisualState('thinking');
       setUserTranscript(speechQuery);
@@ -243,7 +246,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
             setVisualState('speaking');
           },
           onEnd: () => {
-            // Post-speech echo dissipation delay: wait 450ms for room echo to vanish before turning mic on
+            // Post-speech echo dissipation delay: wait slightly longer on mobile
             if (echoCooldownTimerRef.current) clearTimeout(echoCooldownTimerRef.current);
             echoCooldownTimerRef.current = setTimeout(() => {
               isBotSpeakingRef.current = false;
@@ -254,7 +257,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
               } else {
                 setVisualState('idle');
               }
-            }, 450);
+            }, isMobileDevice ? 550 : 400);
           },
           onError: () => {
             isBotSpeakingRef.current = false;
@@ -269,47 +272,37 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         setVisualState('idle');
       }
     },
-    [aiTranscript, handleInquirySubmission, restartRecognition]
+    [aiTranscript, handleInquirySubmission, isMobileDevice, restartRecognition, stopRecognition]
   );
 
   // Keep a stable ref to handleUserQuery so recognition doesn't re-instantiate
   const handleUserQueryRef = useRef(handleUserQuery);
   handleUserQueryRef.current = handleUserQuery;
 
-  // Initialize Hardware Audio Stream & Web Speech Recognition
-  const startHardwareSession = useCallback(async () => {
-    try {
-      // 1. Microphone Hardware Stream with aggressive echo cancellation
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true
-        }
-      });
-      mediaStreamRef.current = stream;
-      setHasMicrophonePermission(true);
+  // Initialize Hardware Audio Stream & Web Speech Recognition (Mobile Hardened)
+  const startHardwareSession = useCallback(() => {
+    // 1. Speech Recognition Initialization (runs independently without awaiting getUserMedia)
+    const SpeechRecognitionClass =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
-      const visualizer = setupAudioVisualizer(stream, (level) => {
-        setAudioLevel(level);
-      });
-      audioContextCloserRef.current = visualizer.stop;
-
-      // 2. Speech Recognition Initialization
-      const SpeechRecognitionClass =
-        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
-      if (SpeechRecognitionClass) {
+    if (SpeechRecognitionClass) {
+      try {
         const recognizer = new SpeechRecognitionClass();
-        recognizer.continuous = true;
+        // On mobile, continuous=false prevents Android engine lockups and dropped turns
+        recognizer.continuous = !isMobileDevice;
         recognizer.interimResults = true;
         recognizer.lang = 'en-US';
 
         let lastInterim = '';
 
+        recognizer.onstart = () => {
+          isRecognitionActiveRef.current = true;
+          if (!isBotSpeakingRef.current && !isProcessingRef.current) {
+            setVisualState('listening');
+          }
+        };
+
         recognizer.onresult = (event: any) => {
-          // STRICT ACOUSTIC MUTING GUARD:
-          // If the bot is speaking, thinking, or mic is muted, DROP all input immediately!
           if (isBotSpeakingRef.current || isMicMutedRef.current || isProcessingRef.current) {
             return;
           }
@@ -318,7 +311,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           let finalChunk = '';
 
           for (let i = event.resultIndex; i < event.results.length; ++i) {
-            const transcript = event.results[i][0].transcript;
+            const transcript = event.results[i][0]?.transcript || '';
             if (event.results[i].isFinal) {
               finalChunk += transcript;
             } else {
@@ -337,9 +330,8 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
             if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
             silenceTimerRef.current = setTimeout(() => {
               handleUserQueryRef.current(finalChunk.trim());
-            }, 500);
-          } else if (lastInterim && lastInterim.trim().length > 2) {
-            // Fallback for browsers that delay isFinal: trigger on silence pause
+            }, 350);
+          } else if (lastInterim && lastInterim.trim().length > 1) {
             if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
             silenceTimerRef.current = setTimeout(() => {
               if (lastInterim && !isBotSpeakingRef.current && !isProcessingRef.current) {
@@ -347,7 +339,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                 lastInterim = '';
                 handleUserQueryRef.current(query);
               }
-            }, 1000);
+            }, isMobileDevice ? 1200 : 900);
           }
         };
 
@@ -358,55 +350,76 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           if (e.error !== 'no-speech' && e.error !== 'aborted') {
             console.warn('Speech recognition notice:', e.error);
           }
+          if (e.error !== 'no-speech') {
+            isRecognitionActiveRef.current = false;
+          }
         };
 
         recognizer.onend = () => {
-          // Re-arm recognition ONLY if modal is open AND bot is NOT speaking or thinking
+          isRecognitionActiveRef.current = false;
+          // Re-arm recognition cleanly if modal is open and bot isn't speaking
           if (
             isModalOpenRef.current &&
             !isBotSpeakingRef.current &&
             !isMicMutedRef.current &&
             !isProcessingRef.current
           ) {
-            restartRecognition();
+            setTimeout(() => {
+              restartRecognition();
+            }, isMobileDevice ? 250 : 150);
           }
         };
 
         recognitionRef.current = recognizer;
+      } catch (err) {
+        console.warn('Speech recognition init notice:', err);
       }
-
-      // 3. Greet user strictly ONCE per modal session
-      if (!hasGreetedRef.current) {
-        hasGreetedRef.current = true;
-        speakInitialGreeting();
-      }
-    } catch (err) {
-      console.warn('Microphone access denied or unsupported:', err);
+    } else {
       setHasMicrophonePermission(false);
-      if (!hasGreetedRef.current) {
-        hasGreetedRef.current = true;
-        speakInitialGreeting();
-      }
     }
-  }, [restartRecognition, speakInitialGreeting]);
+
+    // 2. Greet user strictly ONCE per modal session
+    if (!hasGreetedRef.current) {
+      hasGreetedRef.current = true;
+      speakInitialGreeting();
+    }
+
+    // 3. Optional audio stream visualizer in background (isolated, non-blocking)
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          }
+        })
+        .then((stream) => {
+          mediaStreamRef.current = stream;
+          setHasMicrophonePermission(true);
+          const visualizer = setupAudioVisualizer(stream, (level) => {
+            setAudioLevel(level);
+          });
+          audioContextCloserRef.current = visualizer.stop;
+        })
+        .catch((err) => {
+          console.debug('Background visualizer stream notice:', err);
+        });
+    }
+  }, [isMobileDevice, restartRecognition, speakInitialGreeting]);
 
   // Clean Hardware Teardown
   const teardownHardwareSession = useCallback(() => {
-    // 1. Stop Speech Synthesis
     stopSpeaking();
+    stopRecognition();
     isBotSpeakingRef.current = false;
     isProcessingRef.current = false;
     hasGreetedRef.current = false;
 
-    // 2. Stop Web Speech Recognizer
     if (recognitionRef.current) {
-      try {
-        recognitionRef.current.abort();
-      } catch {}
       recognitionRef.current = null;
     }
 
-    // 3. Stop Hardware MediaStream Tracks to release browser recording dot
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach((track) => {
         try {
@@ -416,7 +429,6 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       mediaStreamRef.current = null;
     }
 
-    // 4. Close AudioContext
     if (audioContextCloserRef.current) {
       audioContextCloserRef.current();
       audioContextCloserRef.current = null;
@@ -434,7 +446,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
     setVisualState('idle');
     setAudioLevel(0);
-  }, []);
+  }, [stopRecognition]);
 
   // Handle Open / Close transitions strictly when isModalOpen toggles
   useEffect(() => {
@@ -467,11 +479,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     const nextMuted = !isMicMuted;
     setIsMicMuted(nextMuted);
     if (nextMuted) {
-      if (recognitionRef.current) {
-        try {
-          recognitionRef.current.abort();
-        } catch {}
-      }
+      stopRecognition();
       setVisualState('idle');
     } else {
       restartRecognition();
@@ -481,6 +489,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   // Immediate user interruption: stops bot speaking, resets flags, opens mic
   const handleStopSpeakingBargeIn = () => {
     stopSpeaking();
+    stopRecognition();
     isBotSpeakingRef.current = false;
     isProcessingRef.current = false;
     if (echoCooldownTimerRef.current) {
@@ -497,12 +506,22 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
   const handleResetConversation = () => {
     stopSpeaking();
+    stopRecognition();
     historyRef.current = [];
     sessionMemoryRef.current = {};
     setHistory([]);
     setUserTranscript('');
+    setManualText('');
     hasGreetedRef.current = false;
     speakInitialGreeting();
+  };
+
+  const handleManualSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!manualText.trim() || isProcessingRef.current || isBotSpeakingRef.current) return;
+    const query = manualText.trim();
+    setManualText('');
+    handleUserQuery(query);
   };
 
   return (
@@ -632,6 +651,29 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                   </div>
                 )}
               </div>
+
+              {/* Quick Input Box for Mobile & Noisy Environments */}
+              <form
+                onSubmit={handleManualSubmit}
+                className="w-full max-w-md mt-4 flex items-center gap-2"
+              >
+                <input
+                  type="text"
+                  value={manualText}
+                  onChange={(e) => setManualText(e.target.value)}
+                  placeholder="Type a message or speak..."
+                  className="flex-1 bg-zinc-900/90 border border-zinc-800 focus:border-emerald-500/50 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/40 transition-all"
+                />
+                <button
+                  type="submit"
+                  disabled={!manualText.trim()}
+                  className="px-3.5 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-30 disabled:pointer-events-none text-zinc-950 font-bold rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-md shrink-0"
+                  aria-label="Send message to Elena"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Send</span>
+                </button>
+              </form>
             </div>
 
             {/* Modal Bottom Controls Deck */}
