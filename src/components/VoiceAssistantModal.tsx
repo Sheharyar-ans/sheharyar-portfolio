@@ -21,6 +21,19 @@ import {
 } from 'lucide-react';
 import { processRagQuery, ChatMessage, isDirectInterestIntent } from '../utils/ragEngine';
 import { dispatchLeadNotification, isValidPhoneNumber } from '../utils/emailDispatch';
+import { 
+  normalizeTextForSpeech, 
+  formatSpokenResponse, 
+  selectCalmAmericanMaleVoice, 
+  SPEECH_SYNTHESIS_CONFIG 
+} from '../utils/speechNormalizer';
+import { 
+  ExtractedLead, 
+  parseAndMergeLead, 
+  autoDispatchLead, 
+  LEAD_CONFIRMATION_SPEECH, 
+  LEAD_FALLBACK_NOTICE 
+} from '../utils/entityExtractor';
 
 type VoiceState = 'idle' | 'listening' | 'thinking' | 'speaking' | 'permission_denied' | 'unsupported';
 
@@ -28,167 +41,6 @@ interface VoiceAssistantModalProps {
   onOpenInquiry?: () => void;
   isOpen?: boolean;
   onClose?: () => void;
-}
-
-// Clean markdown, bold tags, URLs, and emojis for crisp, natural speech synthesis
-function cleanTextForSpeech(text: string): string {
-  return text
-    .replace(/\*\*(.*?)\*\*/g, '$1')
-    .replace(/\*(.*?)\*/g, '$1')
-    .replace(/\[(.*?)\]\((.*?)\)/g, '$1')
-    .replace(/https?:\/\/\S+/g, '')
-    .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '')
-    .replace(/[#*_`~>]/g, '')
-    .replace(/•\s+/g, '')
-    .replace(/\+\d[\d\s-]{8,}\d/g, (match) => match.replace(/\s+/g, ' '))
-    .replace(/\n+/g, ' ')
-    .trim();
-}
-
-// Restrict speech synthesis output to 1-3 conversational, punchy sentences (20-45 words)
-function formatSpokenResponse(text: string): string {
-  const cleaned = cleanTextForSpeech(text);
-  if (!cleaned) return '';
-  const sentences = cleaned.match(/[^.!?]+[.!?]+(?:\s|$)/g);
-  if (!sentences || sentences.length <= 3) {
-    return cleaned;
-  }
-  return sentences.slice(0, 3).join(' ').trim();
-}
-
-// Comprehensive blacklist of female voice keywords across Windows, macOS, iOS, Android, and Linux
-const FEMALE_VOICE_KEYWORDS = [
-  'female', 'woman', 'girl', 'fem',
-  'samantha', 'zira', 'jenny', 'victoria', 'aria', 'karen', 'moira', 'fiona',
-  'tessa', 'susan', 'cynthia', 'hazel', 'heera', 'helena', 'hortense', 'huihui',
-  'ayumi', 'haruka', 'yuna', 'kyoko', 'ava', 'emma', 'olivia', 'sonia', 'natasha',
-  'stephanie', 'veena', 'linda', 'alice', 'catherine', 'salli', 'kimberly', 'kendra',
-  'joanna', 'ivy', 'allison', 'kate', 'serena', 'nicky', 'sandy', 'shelley', 'kathy',
-  'flo', 'grandma', 'bahh', 'alva', 'agnes', 'amira', 'charlotte', 'laura', 'anna',
-  'sarah', 'sara', 'clara', 'elena', 'monica', 'paulina', 'luciana', 'daria', 'ioana',
-  'miren', 'ellen', 'maja', 'dora', 'monika', 'helene', 'chloe', 'zoe', 'amelie',
-  'celeste', 'lea', 'manon', 'sin-ji', 'ting-ting', 'ya-ling', 'meijia', 'sinji',
-  '#female', 'female_1', 'female_2', '-tpc', 'sfg#female'
-];
-
-// Verified high-quality American Male voices in strict priority order
-const PREFERRED_MALE_IDENTIFIERS = [
-  // Edge / Azure Natural US English Male (Soft, human, calm tone)
-  'natural (male)',
-  'natural - english (united states)',
-  'guy',
-  'christopher',
-  'eric',
-  'brian',
-  'roger',
-  'steffan',
-  // Apple / iOS US English Male (Very warm, calm American male accents)
-  'alex',
-  'aaron',
-  'eddy',
-  'reed',
-  'rocko',
-  'fred',
-  'junior',
-  'grandpa',
-  // Android Google US English Male voices
-  'en-us-x-sfg#male',
-  'en-us-x-iom',
-  'en-us-x-iol',
-  'en-us-x-tpd',
-  // Windows Desktop US English Male
-  'microsoft david',
-  'microsoft mark',
-  'david',
-  'mark',
-  // Commonwealth English Male fallbacks
-  'daniel',
-  'george',
-  'oliver',
-  'arthur',
-  'ryan'
-];
-
-function selectCalmAmericanMaleVoice(customVoices?: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return null;
-  const voices = customVoices && customVoices.length > 0 ? customVoices : window.speechSynthesis.getVoices();
-  if (!voices || voices.length === 0) return null;
-
-  const isStrictlyNonFemale = (v: SpeechSynthesisVoice) => {
-    const name = v.name.toLowerCase();
-    const uri = (v.voiceURI || '').toLowerCase();
-    
-    // Check both name and voiceURI against blacklist
-    const hasFemaleTag = FEMALE_VOICE_KEYWORDS.some((kw) => name.includes(kw) || uri.includes(kw));
-    if (hasFemaleTag) return false;
-
-    // Filter out robotic synthesizers like Microsoft Zira or generic monotone engines
-    if (name.includes('zira') || uri.includes('zira')) return false;
-
-    return true;
-  };
-
-  const eligibleVoices = voices.filter(isStrictlyNonFemale);
-  if (eligibleVoices.length === 0) return voices[0];
-
-  // Priority 1: High-definition / Natural Neural Voices (Edge, Chrome, Windows 11 Natural)
-  const priority1NaturalPatterns = [
-    'microsoft guy online (natural)',
-    'microsoft christopher online',
-    'microsoft eric online',
-    'natural - english (united states)',
-    'natural (male)',
-    'online (natural)',
-    'natural',
-    'google us english',
-    'guy online',
-    'christopher online',
-    'eric online',
-    'neural'
-  ];
-
-  for (const identifier of priority1NaturalPatterns) {
-    const match = eligibleVoices.find((v) => {
-      const isEnglish = v.lang.startsWith('en');
-      const name = v.name.toLowerCase();
-      const uri = (v.voiceURI || '').toLowerCase();
-      return isEnglish && (name.includes(identifier) || uri.includes(identifier));
-    });
-    if (match) return match;
-  }
-
-  // Priority 2: High-quality English male voices with calm resonance
-  for (const identifier of PREFERRED_MALE_IDENTIFIERS) {
-    const match = eligibleVoices.find((v) => {
-      const isEnglish = v.lang.startsWith('en');
-      const name = v.name.toLowerCase();
-      const uri = (v.voiceURI || '').toLowerCase();
-      return isEnglish && (name.includes(identifier) || uri.includes(identifier));
-    });
-    if (match) return match;
-  }
-
-  // Priority 3: Any en-US voice explicitly tagged male
-  const usExplicitMale = eligibleVoices.find((v) => {
-    const isUsLang = v.lang === 'en-US' || v.lang.startsWith('en-US') || v.lang === 'en_US';
-    const name = v.name.toLowerCase();
-    const uri = (v.voiceURI || '').toLowerCase();
-    return isUsLang && (name.includes('male') || uri.includes('male'));
-  });
-  if (usExplicitMale) return usExplicitMale;
-
-  // Priority 4: Any English voice explicitly tagged male
-  const anyEnglishMale = eligibleVoices.find((v) => {
-    const isEnglish = v.lang.startsWith('en');
-    const name = v.name.toLowerCase();
-    const uri = (v.voiceURI || '').toLowerCase();
-    return isEnglish && (name.includes('male') || uri.includes('male'));
-  });
-  if (anyEnglishMale) return anyEnglishMale;
-
-  // Fallback to first non-female English voice
-  const englishNonFemale = eligibleVoices.find((v) => v.lang.startsWith('en'));
-  return englishNonFemale || eligibleVoices[0];
 }
 
 export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
@@ -211,6 +63,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   // Dynamic Sales Intent & Lead Capture Overlay State
   const [isLeadOverlayOpen, setIsLeadOverlayOpen] = useState(false);
   const [showTranscriptLog, setShowTranscriptLog] = useState(false);
+  const [extractedLead, setExtractedLead] = useState<ExtractedLead>({ source: 'Voice Bot' });
   const [voiceLeadForm, setVoiceLeadForm] = useState({
     name: '',
     whatsapp: '',
@@ -218,6 +71,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     details: ''
   });
   const [voiceLeadSubmitted, setVoiceLeadSubmitted] = useState(false);
+  const [voiceAutoDispatched, setVoiceAutoDispatched] = useState(false);
   const [isSubmittingVoiceLead, setIsSubmittingVoiceLead] = useState(false);
   const [voiceLeadError, setVoiceLeadError] = useState('');
 
@@ -231,9 +85,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   // Web Speech API Refs & Turn-Taking Loop Synchronization
   const recognitionRef = useRef<any>(null);
   const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const ttsKeepAliveTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isModalOpenRef = useRef(isModalOpen);
   const isMutedRef = useRef(isMuted);
   const isSpeakingRef = useRef(false);
+  const isBotSpeakingRef = useRef(false);
+  const activeUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const speechStartTimeRef = useRef<number>(0);
+  const dispatchedContactKeyRef = useRef<string>('');
   const isThinkingRef = useRef(false);
   const isListeningRef = useRef(false);
   const startListeningRef = useRef<() => void>(() => {});
@@ -312,7 +171,11 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       recognitionRef.current = null;
     }
 
-    // 4. Cancel active SpeechSynthesis utterances
+    // 4. Cancel active SpeechSynthesis utterances and keepalive timers
+    if (ttsKeepAliveTimerRef.current) {
+      clearInterval(ttsKeepAliveTimerRef.current);
+      ttsKeepAliveTimerRef.current = null;
+    }
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
@@ -330,8 +193,11 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
     // 6. Reset states and control refs
     isSpeakingRef.current = false;
+    isBotSpeakingRef.current = false;
     isThinkingRef.current = false;
     isListeningRef.current = false;
+    activeUtteranceRef.current = null;
+    speechStartTimeRef.current = 0;
     setVoiceState('idle');
     setAudioLevel(0);
   }, []);
@@ -388,7 +254,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     }
   }, []);
 
-  // Speak AI response using soft American male voice in strictly half-duplex turn-taking mode
+  // Speak AI response using strict natural male voice in half-duplex state machine mode
   const speakResponse = useCallback(
     (textToSpeak: string, onFinish?: () => void) => {
       if (typeof window === 'undefined' || !window.speechSynthesis) {
@@ -396,19 +262,34 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         return;
       }
 
-      // 1. Immediately abort recognizer so it never transcribes the bot's own voice
+      // 1. Immediately abort recognizer so it never transcribes or self-interrupts from the bot's own voice
       if (recognitionRef.current) {
         try {
+          recognitionRef.current.onresult = null;
           recognitionRef.current.onend = null;
+          recognitionRef.current.onerror = null;
           recognitionRef.current.abort();
         } catch {}
         recognitionRef.current = null;
       }
       isListeningRef.current = false;
 
+      // 2. Set State Machine Lock: Bot is speaking!
+      isBotSpeakingRef.current = true;
+      isSpeakingRef.current = true;
+      setVoiceState('speaking');
+
+      // Clear any prior keepalive timer
+      if (ttsKeepAliveTimerRef.current) {
+        clearInterval(ttsKeepAliveTimerRef.current);
+        ttsKeepAliveTimerRef.current = null;
+      }
+
       window.speechSynthesis.cancel();
-      const cleanText = formatSpokenResponse(textToSpeak);
+      const cleanText = normalizeTextForSpeech(textToSpeak);
       if (!cleanText || !isModalOpenRef.current) {
+        isBotSpeakingRef.current = false;
+        isSpeakingRef.current = false;
         if (onFinish) {
           onFinish();
         } else if (isModalOpenRef.current && !isMutedRef.current) {
@@ -419,8 +300,9 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       }
 
       const utterance = new SpeechSynthesisUtterance(cleanText);
+      activeUtteranceRef.current = utterance; // Prevent GC mid-speech
       
-      // Dynamic live voice resolution for mobile & desktop engines
+      // Dynamic live voice resolution with strict natural male selection
       const liveVoices = window.speechSynthesis.getVoices();
       const voiceList = liveVoices && liveVoices.length > 0 ? liveVoices : availableVoices;
       const voice = selectCalmAmericanMaleVoice(voiceList);
@@ -428,29 +310,48 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         utterance.voice = voice;
       }
       
-      // Calibrated tone & cadence: warm, natural, deliberate male pitch (0.96) and pacing (0.98)
-      utterance.pitch = 0.96;
-      utterance.rate = 0.98;
-      utterance.volume = 1.0;
+      // Calibrated parameters: calm, deeper resonance (0.95), measured cadence (0.98), full volume (1.0)
+      utterance.pitch = SPEECH_SYNTHESIS_CONFIG.pitch;
+      utterance.rate = SPEECH_SYNTHESIS_CONFIG.rate;
+      utterance.volume = SPEECH_SYNTHESIS_CONFIG.volume;
 
       utterance.onstart = () => {
+        isBotSpeakingRef.current = true;
         isSpeakingRef.current = true;
         setVoiceState('speaking');
-        // STRICT HALF-DUPLEX: Keep microphone OFF while speaking to completely eliminate acoustic feedback!
       };
 
+      // Keepalive ticker to prevent Chromium from dropping utterances > 12s
+      ttsKeepAliveTimerRef.current = setInterval(() => {
+        if (typeof window !== 'undefined' && window.speechSynthesis?.speaking) {
+          window.speechSynthesis.pause();
+          window.speechSynthesis.resume();
+        } else if (ttsKeepAliveTimerRef.current) {
+          clearInterval(ttsKeepAliveTimerRef.current);
+          ttsKeepAliveTimerRef.current = null;
+        }
+      }, 8000);
+
       const handleSpeechComplete = () => {
+        if (ttsKeepAliveTimerRef.current) {
+          clearInterval(ttsKeepAliveTimerRef.current);
+          ttsKeepAliveTimerRef.current = null;
+        }
+        activeUtteranceRef.current = null;
+        isBotSpeakingRef.current = false;
         isSpeakingRef.current = false;
+
         if (onFinish) {
           onFinish();
         } else if (isModalOpenRef.current && !isMutedRef.current && !isThinkingRef.current) {
-          // Immediately switch to listening state and resume SpeechRecognition
+          // Normal flow: wait until utterance.onend fires cleanly before calling recognition.start()
           setVoiceState('listening');
+          // 350ms buffer to dissipate speaker echo in the room
           setTimeout(() => {
-            if (isModalOpenRef.current && !isSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
+            if (isModalOpenRef.current && !isBotSpeakingRef.current && !isSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
               startListeningRef.current();
             }
-          }, 150);
+          }, 350);
         } else {
           setVoiceState('idle');
         }
@@ -467,7 +368,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     [availableVoices]
   );
 
-  // Execute AI query with Grounded Knowledge Engine, LLM models, and Sales Trigger
+  // Execute AI query with Grounded Knowledge Engine, Conversational Lead Extraction, and Auto-Dispatch
   const processVoiceInput = useCallback(
     async (spokenQuery: string) => {
       if (!spokenQuery.trim() || !isModalOpenRef.current) return;
@@ -475,6 +376,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       // Abort recognizer during processing to prevent self-transcription
       if (recognitionRef.current) {
         try {
+          recognitionRef.current.onresult = null;
           recognitionRef.current.onend = null;
           recognitionRef.current.abort();
         } catch {}
@@ -495,12 +397,77 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       const updatedHistory = [...conversationHistory, userMsg];
       setConversationHistory(updatedHistory);
 
+      // TASK 1 & 2: Conversational Entity Extraction & Background Lead Dispatch
+      const { mergedLead, hasContactInfo, isNewContact } = parseAndMergeLead(
+        spokenQuery,
+        extractedLead,
+        'Voice Bot'
+      );
+      setExtractedLead(mergedLead);
+
+      // Pre-fill visual lead confirmation form state immediately
+      setVoiceLeadForm((prev) => ({
+        name: mergedLead.name || prev.name,
+        whatsapp: mergedLead.phone || prev.whatsapp,
+        email: mergedLead.email || prev.email,
+        details: mergedLead.projectDetails || prev.details
+      }));
+
+      const contactKey = `${mergedLead.email || ''}___${mergedLead.phone || ''}`;
+      const shouldAutoDispatch = hasContactInfo && isNewContact && dispatchedContactKeyRef.current !== contactKey;
+
+      if (shouldAutoDispatch) {
+        dispatchedContactKeyRef.current = contactKey;
+        setIsLeadOverlayOpen(true);
+        setIsSubmittingVoiceLead(true);
+
+        const transcriptExcerpt = updatedHistory
+          .slice(-4)
+          .map((m) => `${m.sender.toUpperCase()}: ${m.text}`)
+          .join('\n');
+
+        const dispatchResult = await autoDispatchLead(mergedLead, transcriptExcerpt);
+        setIsSubmittingVoiceLead(false);
+
+        if (dispatchResult.success) {
+          setVoiceAutoDispatched(true);
+          setVoiceLeadError('');
+          isThinkingRef.current = false;
+          setAiTranscript(LEAD_CONFIRMATION_SPEECH);
+          const botMsg: ChatMessage = {
+            id: `voice-ai-${Date.now()}`,
+            sender: 'assistant',
+            text: LEAD_CONFIRMATION_SPEECH,
+            timestamp: 'Just now',
+            leadCaptured: true
+          };
+          setConversationHistory([...updatedHistory, botMsg]);
+          speakResponse(LEAD_CONFIRMATION_SPEECH);
+          return;
+        } else {
+          // Gracefully fallback to showing the visual form immediately with pre-filled inputs
+          setVoiceAutoDispatched(false);
+          setVoiceLeadError('Direct auto-dispatch experienced a network delay. Please review your pre-filled details below and tap Confirm.');
+          isThinkingRef.current = false;
+          setAiTranscript(LEAD_FALLBACK_NOTICE);
+          const botMsg: ChatMessage = {
+            id: `voice-ai-${Date.now()}`,
+            sender: 'assistant',
+            text: LEAD_FALLBACK_NOTICE,
+            timestamp: 'Just now'
+          };
+          setConversationHistory([...updatedHistory, botMsg]);
+          speakResponse(LEAD_FALLBACK_NOTICE);
+          return;
+        }
+      }
+
       try {
         // Query Gemini / Grounded RAG with isVoice = true for spoken brevity
         const result = await processRagQuery(spokenQuery, updatedHistory, true);
         isThinkingRef.current = false;
 
-        const spokenAnswer = formatSpokenResponse(result.answer);
+        const spokenAnswer = normalizeTextForSpeech(result.answer);
         setAiTranscript(spokenAnswer);
 
         if (result.showLeadForm) {
@@ -531,10 +498,10 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         speakResponse(fallback);
       }
     },
-    [conversationHistory, speakResponse]
+    [conversationHistory, extractedLead, speakResponse]
   );
 
-  // Web Speech API User Listening Loop with Strict Turn-Taking
+  // Web Speech API User Listening Loop with Strict Turn-Taking and State Machine Lock
   const startListening = useCallback(() => {
     if (typeof window === 'undefined') return;
 
@@ -546,14 +513,21 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       return;
     }
 
-    // Do NOT listen if modal closed, muted, AI is speaking, or AI is thinking
-    if (!isModalOpenRef.current || isMutedRef.current || isThinkingRef.current || isSpeakingRef.current) {
+    // Do NOT listen if modal closed, muted, AI is speaking (isBotSpeakingRef), or AI is thinking
+    if (
+      !isModalOpenRef.current ||
+      isMutedRef.current ||
+      isThinkingRef.current ||
+      isBotSpeakingRef.current ||
+      isSpeakingRef.current
+    ) {
       return;
     }
 
     // Abort existing instance cleanly
     if (recognitionRef.current) {
       try {
+        recognitionRef.current.onresult = null;
         recognitionRef.current.onend = null;
         recognitionRef.current.abort();
       } catch {}
@@ -567,7 +541,12 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     recognition.lang = 'en-US';
 
     recognition.onstart = () => {
-      if (!isModalOpenRef.current || isThinkingRef.current || isSpeakingRef.current) {
+      if (
+        !isModalOpenRef.current ||
+        isThinkingRef.current ||
+        isBotSpeakingRef.current ||
+        isSpeakingRef.current
+      ) {
         try { recognition.abort(); } catch {}
         return;
       }
@@ -576,7 +555,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     };
 
     recognition.onresult = (event: any) => {
-      if (isThinkingRef.current || isSpeakingRef.current || !isModalOpenRef.current) {
+      // STRICT AUDIO MUTING & STATE MACHINE LOCK:
+      // When bot is speaking, completely ignore recognizer events to prevent acoustic feedback!
+      if (
+        isBotSpeakingRef.current ||
+        isSpeakingRef.current ||
+        isThinkingRef.current ||
+        !isModalOpenRef.current
+      ) {
         return;
       }
 
@@ -591,10 +577,16 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         }
       }
 
-      const activeText = finalSpeech || interim;
-      if (activeText && activeText.trim()) {
-        setUserTranscript(activeText.trim());
+      const activeText = (finalSpeech || interim).trim();
+      if (!activeText) return;
+
+      const now = Date.now();
+      if (!speechStartTimeRef.current) {
+        speechStartTimeRef.current = now;
       }
+      const speechDuration = now - speechStartTimeRef.current;
+
+      setUserTranscript(activeText);
 
       if (silenceTimerRef.current) {
         clearTimeout(silenceTimerRef.current);
@@ -602,18 +594,32 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       }
 
       // STATE: User finished speaking -> transition to thinking and process
+      // Debounce false mic triggers / background breath noise (<400ms duration with single word)
       if (finalSpeech.trim()) {
-        try {
-          recognition.stop();
-        } catch {}
-        isListeningRef.current = false;
-        isThinkingRef.current = true;
-        setVoiceState('thinking');
-        processVoiceInput(finalSpeech.trim());
+        const wordCount = finalSpeech.trim().split(/\s+/).length;
+        if (speechDuration >= 400 || wordCount >= 2) {
+          speechStartTimeRef.current = 0;
+          try {
+            recognition.stop();
+          } catch {}
+          isListeningRef.current = false;
+          isThinkingRef.current = true;
+          setVoiceState('thinking');
+          processVoiceInput(finalSpeech.trim());
+        } else {
+          speechStartTimeRef.current = 0;
+        }
       } else if (interim.trim()) {
-        // Auto-commit interim transcript after 1200ms pause
+        // Auto-commit interim transcript after 1200ms pause with debounce
         silenceTimerRef.current = setTimeout(() => {
-          if (isModalOpenRef.current && !isThinkingRef.current && !isSpeakingRef.current && interim.trim()) {
+          if (
+            isModalOpenRef.current &&
+            !isBotSpeakingRef.current &&
+            !isThinkingRef.current &&
+            !isSpeakingRef.current &&
+            interim.trim()
+          ) {
+            speechStartTimeRef.current = 0;
             try {
               recognition.stop();
             } catch {}
@@ -636,8 +642,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
     recognition.onend = () => {
       isListeningRef.current = false;
-      // Re-trigger listening ONLY if modal is active, not speaking, not thinking, and not muted
-      if (isModalOpenRef.current && !isSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
+      // Re-trigger listening ONLY if modal is active, bot is NOT speaking, NOT thinking, and NOT muted
+      if (
+        isModalOpenRef.current &&
+        !isBotSpeakingRef.current &&
+        !isSpeakingRef.current &&
+        !isThinkingRef.current &&
+        !isMutedRef.current
+      ) {
         try {
           recognition.start();
           isListeningRef.current = true;
@@ -676,8 +688,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       "Hi, thanks for calling! This is Zack, assistant to Sheharyar Siraj. Sheharyar is in an engineering session at the moment, but I manage his schedule and technical inquiries. How can I assist you today?"
     );
     setConversationHistory([]);
+    setExtractedLead({ source: 'Voice Bot' });
+    dispatchedContactKeyRef.current = '';
+    isBotSpeakingRef.current = false;
+    activeUtteranceRef.current = null;
+    speechStartTimeRef.current = 0;
     setIsLeadOverlayOpen(false);
     setVoiceLeadSubmitted(false);
+    setVoiceAutoDispatched(false);
     setVoiceLeadError('');
     setVoiceLeadForm({
       name: '',
@@ -764,16 +782,24 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     }
   };
 
-  // Interrupt / Stop bot from speaking
+  // User-Intentional Interruption: Stop bot from speaking immediately and resume clean listening
   const handleInterrupt = () => {
+    if (ttsKeepAliveTimerRef.current) {
+      clearInterval(ttsKeepAliveTimerRef.current);
+      ttsKeepAliveTimerRef.current = null;
+    }
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
+    activeUtteranceRef.current = null;
+    isBotSpeakingRef.current = false;
     isSpeakingRef.current = false;
+    speechStartTimeRef.current = 0;
+
     if (!isMutedRef.current && isModalOpenRef.current) {
       setVoiceState('listening');
       setTimeout(() => {
-        if (!isSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
+        if (!isBotSpeakingRef.current && !isThinkingRef.current && !isMutedRef.current) {
           startListeningRef.current();
         }
       }, 200);
@@ -788,6 +814,11 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     setUserTranscript('');
     setAiTranscript('Conversation reset. This is Zack, assistant to Sheharyar Siraj. How can I assist you today?');
     setConversationHistory([]);
+    setExtractedLead({ source: 'Voice Bot' });
+    dispatchedContactKeyRef.current = '';
+    isBotSpeakingRef.current = false;
+    activeUtteranceRef.current = null;
+    speechStartTimeRef.current = 0;
     setIsLeadOverlayOpen(false);
     setVoiceLeadSubmitted(false);
     setVoiceState('idle');
@@ -799,24 +830,24 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     }, 200);
   };
 
-  // Lead submission dispatcher
+  // Lead submission dispatcher from visual form modal
   const handleVoiceLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setVoiceLeadError('');
 
-    if (!voiceLeadForm.name.trim()) {
-      setVoiceLeadError('Please enter your full name.');
+    const cleanName = voiceLeadForm.name.trim() || 'Valued Client';
+    const cleanWhatsapp = voiceLeadForm.whatsapp.trim();
+    const cleanEmail = voiceLeadForm.email.trim();
+
+    if (!cleanWhatsapp && !cleanEmail) {
+      setVoiceLeadError('Please provide either a WhatsApp / Phone number or an Email address.');
       return;
     }
-    if (!voiceLeadForm.whatsapp.trim()) {
-      setVoiceLeadError('WhatsApp number is required for 2-hour SLA response.');
+    if (cleanWhatsapp && !isValidPhoneNumber(cleanWhatsapp)) {
+      setVoiceLeadError('Please enter a valid phone number with country code (e.g. +92 313 2080033).');
       return;
     }
-    if (!isValidPhoneNumber(voiceLeadForm.whatsapp)) {
-      setVoiceLeadError('Please enter a valid phone number with country code (e.g. +1 555 0192 or +92 313 2080033).');
-      return;
-    }
-    if (!voiceLeadForm.email.trim() || !voiceLeadForm.email.includes('@')) {
+    if (cleanEmail && !cleanEmail.includes('@')) {
       setVoiceLeadError('Please enter a valid email address.');
       return;
     }
@@ -829,11 +860,12 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       .join('\n');
 
     const result = await dispatchLeadNotification({
-      source: 'Interactive Voice Bot',
-      name: voiceLeadForm.name,
-      email: voiceLeadForm.email,
-      whatsapp: voiceLeadForm.whatsapp,
-      service: 'AI Voice / Architecture Scoping',
+      source: 'Zack Voice Assistant',
+      name: cleanName,
+      email: cleanEmail,
+      whatsapp: cleanWhatsapp,
+      phone: cleanWhatsapp,
+      service: voiceLeadForm.details || 'AI Voice / Architecture Scoping',
       details: voiceLeadForm.details || `Voice inquiry: ${userTranscript || 'Direct Voice Scoping'}`,
       transcriptExcerpt
     });
@@ -841,17 +873,12 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     setIsSubmittingVoiceLead(false);
     setVoiceLeadSubmitted(true);
 
-    const confirmationSpeech =
-      "Thank you! I will make sure Sheharyar reviews your project details directly. He will get back to you within 2 hours. You can also review Sheharyar's live work at sheharyarsiraj.com in the meantime. Have a wonderful day!";
-
     if (result.success) {
-      setAiTranscript(confirmationSpeech);
-      speakResponse(confirmationSpeech);
+      setAiTranscript(LEAD_CONFIRMATION_SPEECH);
+      speakResponse(LEAD_CONFIRMATION_SPEECH);
     } else {
-      const fallbackNotice =
-        "Thank you! I registered your details in our queue. To ensure Sheharyar gets this immediately without delay, please connect directly on WhatsApp at +92 313 2080033. Have a wonderful day!";
-      setAiTranscript(fallbackNotice);
-      speakResponse(fallbackNotice);
+      setAiTranscript(LEAD_FALLBACK_NOTICE);
+      speakResponse(LEAD_FALLBACK_NOTICE);
     }
   };
 
@@ -1191,6 +1218,16 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                       Leave your WhatsApp &amp; Email below for Sheharyar&apos;s direct calendar invite.
                     </p>
 
+                    {voiceAutoDispatched && (
+                      <div className="p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center gap-2">
+                        <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
+                        <div className="text-[11px] text-emerald-300">
+                          <span className="font-bold">Contact Details Dispatched: </span>
+                          Sent to Sheharyar Siraj. You can review or update your pre-filled info below.
+                        </div>
+                      </div>
+                    )}
+
                     {voiceLeadError && (
                       <p className="text-[11px] font-mono text-red-400 bg-red-500/10 p-2 rounded border border-red-500/20">
                         {voiceLeadError}
@@ -1266,23 +1303,38 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                       </div>
                     </div>
 
-                    <button
-                      type="submit"
-                      disabled={isSubmittingVoiceLead}
-                      className="w-full py-2.5 rounded-lg bg-accent text-black font-mono font-bold text-xs hover:bg-white transition-colors shadow-md shadow-accent/20 flex items-center justify-center gap-1.5 mt-1 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
-                    >
-                      {isSubmittingVoiceLead ? (
-                        <>
-                          <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                          <span>DISPATCHING LEAD BRIEF...</span>
-                        </>
-                      ) : (
-                        <>
-                          <CheckCircle2 size={13} />
-                          <span>Lock In Scoping Call &amp; Direct Calendar Invite</span>
-                        </>
-                      )}
-                    </button>
+                    <div className="space-y-2 pt-1">
+                      <button
+                        type="submit"
+                        disabled={isSubmittingVoiceLead}
+                        className="w-full py-2.5 rounded-lg bg-accent text-black font-mono font-bold text-xs hover:bg-white transition-colors shadow-md shadow-accent/20 flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
+                      >
+                        {isSubmittingVoiceLead ? (
+                          <>
+                            <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                            <span>DISPATCHING LEAD BRIEF...</span>
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle2 size={13} />
+                            <span>{voiceAutoDispatched ? 'Update & Re-send Details' : 'Confirm & Send Project Brief'}</span>
+                          </>
+                        )}
+                      </button>
+
+                      <a
+                        href={`https://wa.me/923132080033?text=${encodeURIComponent(
+                          `Hi Sheharyar, I was speaking with Zack and wanted to discuss a project: ${voiceLeadForm.details || 'WordPress & AI Architecture Scoping'}`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-mono font-bold text-xs transition-colors shadow-md shadow-emerald-500/20 flex items-center justify-center gap-1.5 active:scale-95 text-center"
+                      >
+                        <Phone size={13} className="fill-current" />
+                        <span>Chat Instantly on WhatsApp (+92 313 2080033)</span>
+                        <ArrowUpRight size={13} />
+                      </a>
+                    </div>
                   </form>
                 ) : (
                   /* Confirmed State */

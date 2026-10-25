@@ -18,6 +18,13 @@ import {
 import { processRagQuery, ChatMessage, ChatBotMode, DEFAULT_QUICK_CHIPS } from '../../utils/ragEngine';
 import { saveLead } from '../../utils/leadStorage';
 import { dispatchLeadNotification, isValidPhoneNumber } from '../../utils/emailDispatch';
+import { 
+  ExtractedLead, 
+  parseAndMergeLead, 
+  autoDispatchLead, 
+  LEAD_CONFIRMATION_SPEECH, 
+  LEAD_FALLBACK_NOTICE 
+} from '../../utils/entityExtractor';
 import { LeadManagementModal } from '../modals/LeadManagementModal';
 
 interface AiChatbotWidgetProps {
@@ -32,6 +39,10 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
   const [currentMode, setCurrentMode] = useState<ChatBotMode>('support');
   const [isLeadVaultOpen, setIsLeadVaultOpen] = useState(false);
 
+  // Conversational Entity Extraction & Lead State
+  const [extractedLead, setExtractedLead] = useState<ExtractedLead>({ source: 'Chatbot' });
+  const dispatchedContactKeyRef = useRef<string>('');
+
   // Lead Form State
   const [leadForm, setLeadForm] = useState({
     name: '',
@@ -40,6 +51,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
     details: ''
   });
   const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const [leadAutoDispatched, setLeadAutoDispatched] = useState(false);
   const [isSubmittingLead, setIsSubmittingLead] = useState(false);
   const [leadError, setLeadError] = useState('');
 
@@ -179,6 +191,78 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
 
     setMessages((prev) => [...prev, userMsg]);
     if (!textToSend) setInputValue('');
+
+    // TASK 1 & 2: Conversational Entity Extraction & Background Lead Dispatch
+    const { mergedLead, hasContactInfo, isNewContact } = parseAndMergeLead(
+      text,
+      extractedLead,
+      'Chatbot'
+    );
+    setExtractedLead(mergedLead);
+
+    // Pre-fill leadForm inputs
+    setLeadForm((prev) => ({
+      name: mergedLead.name || prev.name,
+      whatsapp: mergedLead.phone || prev.whatsapp,
+      email: mergedLead.email || prev.email,
+      details: mergedLead.projectDetails || prev.details
+    }));
+
+    const contactKey = `${mergedLead.email || ''}___${mergedLead.phone || ''}`;
+    const shouldAutoDispatch = hasContactInfo && isNewContact && dispatchedContactKeyRef.current !== contactKey;
+
+    if (shouldAutoDispatch) {
+      dispatchedContactKeyRef.current = contactKey;
+      setIsTyping(true);
+
+      const transcriptExcerpt = [...messages, userMsg]
+        .slice(-4)
+        .map((m) => `${m.sender.toUpperCase()}: ${m.text}`)
+        .join('\n');
+
+      const dispatchResult = await autoDispatchLead(mergedLead, transcriptExcerpt);
+      setIsTyping(false);
+
+      if (dispatchResult.success) {
+        setLeadAutoDispatched(true);
+        const confirmMsg: ChatMessage = {
+          id: `assistant-confirm-${Date.now()}`,
+          sender: 'assistant',
+          text: LEAD_CONFIRMATION_SPEECH,
+          timestamp: 'Just now',
+          showLeadForm: true,
+          action: {
+            type: 'whatsapp',
+            label: 'Chat Instantly on WhatsApp (+92 313 2080033)',
+            url: `https://wa.me/923132080033?text=${encodeURIComponent(
+              `Hi Sheharyar, my name is ${mergedLead.name || 'Valued Client'}. I just submitted my project inquiry regarding: ${mergedLead.projectDetails || 'WordPress & AI Architecture'}`
+            )}`
+          }
+        };
+        setMessages((prev) => [...prev, confirmMsg]);
+        return;
+      } else {
+        setLeadAutoDispatched(false);
+        setLeadError('Direct auto-dispatch experienced a network delay. Please verify your details below and tap Confirm.');
+        const fallbackMsg: ChatMessage = {
+          id: `assistant-fallback-${Date.now()}`,
+          sender: 'assistant',
+          text: LEAD_FALLBACK_NOTICE,
+          timestamp: 'Just now',
+          showLeadForm: true,
+          action: {
+            type: 'whatsapp',
+            label: 'Chat Instantly on WhatsApp (+92 313 2080033)',
+            url: `https://wa.me/923132080033?text=${encodeURIComponent(
+              `Hi Sheharyar, I wanted to discuss a project: ${mergedLead.projectDetails || 'Project inquiry'}`
+            )}`
+          }
+        };
+        setMessages((prev) => [...prev, fallbackMsg]);
+        return;
+      }
+    }
+
     setIsTyping(true);
 
     try {
@@ -222,20 +306,20 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
     e.preventDefault();
     setLeadError('');
 
-    if (!leadForm.name.trim()) {
-      setLeadError('Please enter your name.');
+    const cleanName = leadForm.name.trim() || 'Valued Client';
+    const cleanWhatsapp = leadForm.whatsapp.trim();
+    const cleanEmail = leadForm.email.trim();
+
+    if (!cleanWhatsapp && !cleanEmail) {
+      setLeadError('Please provide either a WhatsApp / Phone number or an Email address.');
       return;
     }
-    if (!leadForm.whatsapp.trim()) {
-      setLeadError('WhatsApp number is mandatory for instant communication.');
+    if (cleanWhatsapp && !isValidPhoneNumber(cleanWhatsapp)) {
+      setLeadError('Please enter a valid WhatsApp / Phone number with country code (e.g. +92 313 2080033).');
       return;
     }
-    if (!isValidPhoneNumber(leadForm.whatsapp)) {
-      setLeadError('Please enter a valid WhatsApp / Phone number with country code (e.g. +1 555 0192 or +92 313 2080033).');
-      return;
-    }
-    if (!leadForm.email.trim() || !leadForm.email.includes('@')) {
-      setLeadError('A valid email address is mandatory for project scope documentation.');
+    if (cleanEmail && !cleanEmail.includes('@')) {
+      setLeadError('Please enter a valid email address.');
       return;
     }
 
@@ -248,11 +332,12 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
       .join('\n');
 
     const result = await dispatchLeadNotification({
-      source: 'AI Chatbot Assistant',
-      name: leadForm.name,
-      email: leadForm.email,
-      whatsapp: leadForm.whatsapp,
-      service: 'Custom Architecture Scoping',
+      source: 'On-Site Chatbot',
+      name: cleanName,
+      email: cleanEmail,
+      whatsapp: cleanWhatsapp,
+      phone: cleanWhatsapp,
+      service: leadForm.details || 'Custom Architecture Scoping',
       details: leadForm.details || 'Submitted via Chatbot Scoping Form',
       transcriptExcerpt
     });
@@ -265,13 +350,13 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
       const confirmMsg: ChatMessage = {
         id: `assistant-confirm-${Date.now()}`,
         sender: 'assistant',
-        text: `Thank you! I will make sure Sheharyar reviews your project details directly. You will receive a response within 2 hours. You can also review Sheharyar's live work at sheharyarsiraj.com in the meantime. Have a wonderful day!`,
+        text: LEAD_CONFIRMATION_SPEECH,
         timestamp: 'Just now',
         leadCaptured: true,
         action: {
           type: 'whatsapp',
-          label: 'Message Sheharyar Directly on WhatsApp',
-          url: `https://wa.me/923132080033?text=Hi%20Sheharyar,%20my%20name%20is%20${encodeURIComponent(leadForm.name)}.%20I%20just%20submitted%20my%20project%20details%20via%20your%20website:%20${encodeURIComponent(leadForm.details || 'Ready to scope project')}`
+          label: 'Chat Instantly on WhatsApp (+92 313 2080033)',
+          url: `https://wa.me/923132080033?text=Hi%20Sheharyar,%20my%20name%20is%20${encodeURIComponent(cleanName)}.%20I%20just%20submitted%20my%20project%20details%20via%20your%20website:%20${encodeURIComponent(leadForm.details || 'Ready to scope project')}`
         }
       };
       setMessages((prev) => [...prev, confirmMsg]);
@@ -280,12 +365,12 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
       const fallbackMsg: ChatMessage = {
         id: `assistant-fallback-${Date.now()}`,
         sender: 'assistant',
-        text: `Thank you, ${leadForm.name}! I registered your project details in our queue. To ensure Sheharyar gets this immediately without delay, please connect directly on WhatsApp (+92 313 2080033) for an immediate 2-hour response!`,
+        text: `Thank you, ${cleanName}! I registered your project details in our queue. To ensure Sheharyar gets this immediately without delay, please connect directly on WhatsApp (+92 313 2080033) for an immediate 2-hour response!`,
         timestamp: 'Just now',
         action: {
           type: 'whatsapp',
           label: 'Connect Directly on WhatsApp (+92 313 2080033)',
-          url: `https://wa.me/923132080033?text=Hi%20Sheharyar,%20my%20name%20is%20${encodeURIComponent(leadForm.name)}.%20I%20wanted%20to%20discuss%20a%20project:%20${encodeURIComponent(leadForm.details || 'Project inquiry')}`
+          url: `https://wa.me/923132080033?text=Hi%20Sheharyar,%20my%20name%20is%20${encodeURIComponent(cleanName)}.%20I%20wanted%20to%20discuss%20a%20project:%20${encodeURIComponent(leadForm.details || 'Project inquiry')}`
         }
       };
       setMessages((prev) => [...prev, fallbackMsg]);
@@ -302,6 +387,9 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
   const resetChat = () => {
     setCurrentMode('support');
     setLeadSubmitted(false);
+    setLeadAutoDispatched(false);
+    setExtractedLead({ source: 'Chatbot' });
+    dispatchedContactKeyRef.current = '';
     setMessages([
       {
         id: `welcome-${Date.now()}`,
@@ -520,6 +608,13 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
                         <span>Instant Project Scoping Form</span>
                       </div>
 
+                      {leadAutoDispatched && (
+                        <div className="p-2 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center gap-1.5 text-emerald-300 font-mono text-[11px]">
+                          <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
+                          <span>Auto-Dispatched to Sheharyar • Verified Details Below</span>
+                        </div>
+                      )}
+
                       {leadError && (
                         <p className="text-[11px] font-mono text-red-400 bg-red-500/10 p-1.5 rounded border border-red-500/20">
                           {leadError}
@@ -595,24 +690,66 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
                         </div>
                       </div>
 
-                      <button
-                        type="submit"
-                        disabled={isSubmittingLead}
-                        className="w-full py-2.5 rounded-lg bg-accent text-black font-mono font-bold text-xs hover:bg-white transition-colors shadow-md shadow-accent/20 flex items-center justify-center gap-1.5 mt-1 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
-                      >
-                        {isSubmittingLead ? (
-                          <>
-                            <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                            <span>DISPATCHING BRIEF...</span>
-                          </>
-                        ) : (
-                          <>
-                            <CheckCircle2 size={13} />
-                            <span>Lock In Scoping Call & Quote</span>
-                          </>
-                        )}
-                      </button>
+                      <div className="space-y-2 pt-1">
+                        <button
+                          type="submit"
+                          disabled={isSubmittingLead}
+                          className="w-full py-2.5 rounded-lg bg-accent text-black font-mono font-bold text-xs hover:bg-white transition-colors shadow-md shadow-accent/20 flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                          {isSubmittingLead ? (
+                            <>
+                              <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                              <span>DISPATCHING PROJECT BRIEF...</span>
+                            </>
+                          ) : (
+                            <>
+                              <CheckCircle2 size={13} />
+                              <span>{leadAutoDispatched ? 'Update & Re-send Details' : 'Confirm & Send Project Brief'}</span>
+                            </>
+                          )}
+                        </button>
+
+                        <a
+                          href={`https://wa.me/923132080033?text=${encodeURIComponent(
+                            `Hi Sheharyar, I wanted to discuss a project: ${leadForm.details || 'WordPress & AI Architecture Scoping'}`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-mono font-bold text-xs transition-colors shadow-md shadow-emerald-500/20 flex items-center justify-center gap-1.5 active:scale-95 text-center"
+                        >
+                          <Phone size={13} className="fill-current" />
+                          <span>Chat Instantly on WhatsApp (+92 313 2080033)</span>
+                          <ArrowUpRight size={13} />
+                        </a>
+                      </div>
                     </form>
+                  )}
+
+                  {/* Confirmed State Card when lead captured */}
+                  {msg.leadCaptured && (
+                    <div className="mt-3 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-2">
+                      <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                        <CheckCircle2 size={18} />
+                      </div>
+                      <div className="text-xs font-bold text-emerald-300 font-heading">
+                        Project Brief Dispatched to Sheharyar Siraj!
+                      </div>
+                      <p className="text-[11px] text-brand-secondary leading-relaxed font-body">
+                        Sheharyar will review your project and get back to you within 2 hours.
+                      </p>
+                      <a
+                        href={`https://wa.me/923132080033?text=${encodeURIComponent(
+                          `Hi Sheharyar, my name is ${leadForm.name || 'Valued Client'}. I just submitted my project inquiry via your website: ${leadForm.details || 'Ready to scope project'}`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 text-black font-mono font-bold text-xs hover:bg-emerald-400 transition-all shadow-md shadow-emerald-500/20 active:scale-95"
+                      >
+                        <Phone size={12} className="fill-current" />
+                        <span>Chat Instantly on WhatsApp (+92 313 2080033)</span>
+                        <ArrowUpRight size={12} />
+                      </a>
+                    </div>
                   )}
                 </div>
                 <span className="text-[9px] font-mono text-brand-muted mt-1 px-1">

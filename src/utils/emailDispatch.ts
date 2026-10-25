@@ -46,8 +46,8 @@ export function isValidPhoneNumber(phone: string): boolean {
 export async function dispatchLeadNotification(
   payload: LeadDispatchPayload
 ): Promise<DispatchResult> {
-  const cleanName = payload.name.trim();
-  const cleanEmail = payload.email.trim();
+  const cleanName = (payload.name || 'Prospective Client').trim();
+  const cleanEmail = (payload.email || '').trim();
   const rawPhone = payload.whatsapp || payload.phone || '';
   const cleanWhatsapp = sanitizePhoneNumber(rawPhone);
   const cleanService = payload.service?.trim() || 'Custom Architecture Scoping';
@@ -65,7 +65,7 @@ export async function dispatchLeadNotification(
     saveLead({
       name: cleanName,
       whatsapp: cleanWhatsapp || 'N/A',
-      email: cleanEmail,
+      email: cleanEmail || 'N/A',
       service: cleanService,
       details: cleanDetails || (payload.transcriptExcerpt ? `Transcript excerpt: ${payload.transcriptExcerpt}` : 'Direct Lead Brief'),
       source: payload.source
@@ -75,12 +75,16 @@ export async function dispatchLeadNotification(
   }
 
   // 2. Prepare FormSubmit outgoing payload
-  const subjectPrefix =
-    payload.source === 'AI Chatbot Assistant'
-      ? `[New Lead via AI Chatbot] - ${cleanName}`
-      : payload.source === 'Interactive Voice Bot' || payload.source === 'Voice AI Assistant'
-      ? `[New Lead via Voice AI Assistant] - ${cleanName}`
-      : `[New Project Inquiry] - ${cleanName} (${cleanService})`;
+  // Subject format: [New Lead Captured via ${source}] - ${lead.email || lead.phone}
+  const leadIdentifier = cleanEmail || cleanWhatsapp || cleanName;
+  const isConversationalSource =
+    payload.source.toLowerCase().includes('voice') ||
+    payload.source.toLowerCase().includes('chatbot') ||
+    payload.source.toLowerCase().includes('bot');
+
+  const subjectPrefix = isConversationalSource
+    ? `[New Lead Captured via ${payload.source}] - ${leadIdentifier}`
+    : `[New Project Inquiry] - ${cleanName} (${cleanService})`;
 
   const formBody: Record<string, string> = {
     _subject: subjectPrefix,
