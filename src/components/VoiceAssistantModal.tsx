@@ -21,8 +21,7 @@ import { LeadConfirmationModal } from './voice/LeadConfirmationModal';
 import {
   speakText,
   stopSpeaking,
-  setupAudioVisualizer,
-  selectNeuralMaleVoice
+  setupAudioVisualizer
 } from '../services/voiceSpeechEngine';
 import {
   sendVoiceTurnToGemini,
@@ -70,6 +69,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const isModalOpenRef = useRef(isModalOpen);
   const isProcessingRef = useRef(false);
   const silenceTimerRef = useRef<any>(null);
+  const echoCooldownTimerRef = useRef<any>(null);
   const historyRef = useRef<VoiceMessageTurn[]>([]);
   const hasGreetedRef = useRef(false);
 
@@ -77,10 +77,11 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   isMicMutedRef.current = isMicMuted;
   isModalOpenRef.current = isModalOpen;
 
-  // Safe microphone recognition restarter
+  // Safe microphone recognition restarter: strictly blocked if bot is speaking or thinking
   const restartRecognition = useCallback(() => {
     if (
       !recognitionRef.current ||
+      isBotSpeakingRef.current ||
       isMicMutedRef.current ||
       !isModalOpenRef.current ||
       isProcessingRef.current
@@ -91,15 +92,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       recognitionRef.current.abort();
       setTimeout(() => {
         if (
+          !isBotSpeakingRef.current &&
           !isMicMutedRef.current &&
           isModalOpenRef.current &&
           !isProcessingRef.current
         ) {
           try {
             recognitionRef.current.start();
-            if (!isBotSpeakingRef.current) {
-              setVisualState('listening');
-            }
+            setVisualState('listening');
           } catch (err) {
             // Already active or busy
           }
@@ -131,11 +131,18 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     }
   }, []);
 
-  // Speak initial greeting strictly once per session
+  // Speak initial greeting: mic is completely silenced while bot speaks
   const speakInitialGreeting = useCallback(() => {
     isBotSpeakingRef.current = true;
     setVisualState('speaking');
     setAiTranscript(INITIAL_GREETING);
+
+    // Abort speech recognition so it cannot hear itself
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.abort();
+      } catch {}
+    }
 
     speakText(INITIAL_GREETING, {
       onStart: () => {
@@ -143,13 +150,17 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         setVisualState('speaking');
       },
       onEnd: () => {
-        isBotSpeakingRef.current = false;
-        if (isModalOpenRef.current && !isMicMutedRef.current) {
-          setVisualState('listening');
-          restartRecognition();
-        } else {
-          setVisualState('idle');
-        }
+        // Post-speech echo dissipation delay: wait 450ms before opening mic
+        if (echoCooldownTimerRef.current) clearTimeout(echoCooldownTimerRef.current);
+        echoCooldownTimerRef.current = setTimeout(() => {
+          isBotSpeakingRef.current = false;
+          if (isModalOpenRef.current && !isMicMutedRef.current) {
+            setVisualState('listening');
+            restartRecognition();
+          } else {
+            setVisualState('idle');
+          }
+        }, 450);
       },
       onError: () => {
         isBotSpeakingRef.current = false;
@@ -161,8 +172,26 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   // Process User Speech through Central LLM Brain (Gemini with RAG Fallback)
   const handleUserQuery = useCallback(
     async (speechQuery: string) => {
-      if (!speechQuery || !speechQuery.trim() || isProcessingRef.current) return;
+      if (!speechQuery || !speechQuery.trim() || isProcessingRef.current || isBotSpeakingRef.current) {
+        return;
+      }
+
+      // Self-Echo Guard: Check if the speech query is a stray echo of what the bot just vocalized
+      const cleanInput = speechQuery.toLowerCase().replace(/[^a-z0-9]/g, ' ').trim();
+      const cleanBot = aiTranscript.toLowerCase().replace(/[^a-z0-9]/g, ' ').trim();
+      if (cleanInput.length > 8 && cleanBot.includes(cleanInput)) {
+        console.warn('[Acoustic Echo Guard]: Dropped speaker echo feedback:', speechQuery);
+        return;
+      }
+
       isProcessingRef.current = true;
+
+      // Abort speech recognition immediately so mic is completely OFF
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch {}
+      }
 
       setVisualState('thinking');
       setUserTranscript(speechQuery);
@@ -186,17 +215,9 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           handleInquirySubmission(brainResult.toolCall.args);
         }
 
-        // Vocalize response with full-duplex interruption support
+        // Vocalize response with mic completely shut off
         isBotSpeakingRef.current = true;
-        isProcessingRef.current = false;
         setVisualState('speaking');
-
-        // Ensure recognition is listening in background for user interruptions
-        if (recognitionRef.current && !isMicMutedRef.current) {
-          try {
-            recognitionRef.current.start();
-          } catch {}
-        }
 
         speakText(brainResult.replyText, {
           onStart: () => {
@@ -204,14 +225,18 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
             setVisualState('speaking');
           },
           onEnd: () => {
-            isBotSpeakingRef.current = false;
-            isProcessingRef.current = false;
-            if (isModalOpenRef.current && !isMicMutedRef.current) {
-              setVisualState('listening');
-              restartRecognition();
-            } else {
-              setVisualState('idle');
-            }
+            // Post-speech echo dissipation delay: wait 450ms for room echo to vanish before turning mic on
+            if (echoCooldownTimerRef.current) clearTimeout(echoCooldownTimerRef.current);
+            echoCooldownTimerRef.current = setTimeout(() => {
+              isBotSpeakingRef.current = false;
+              isProcessingRef.current = false;
+              if (isModalOpenRef.current && !isMicMutedRef.current) {
+                setVisualState('listening');
+                restartRecognition();
+              } else {
+                setVisualState('idle');
+              }
+            }, 450);
           },
           onError: () => {
             isBotSpeakingRef.current = false;
@@ -226,7 +251,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         setVisualState('idle');
       }
     },
-    [handleInquirySubmission, restartRecognition]
+    [aiTranscript, handleInquirySubmission, restartRecognition]
   );
 
   // Keep a stable ref to handleUserQuery so recognition doesn't re-instantiate
@@ -236,7 +261,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   // Initialize Hardware Audio Stream & Web Speech Recognition
   const startHardwareSession = useCallback(async () => {
     try {
-      // 1. Microphone Hardware Stream for Visualizer
+      // 1. Microphone Hardware Stream with aggressive echo cancellation
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
@@ -265,7 +290,11 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         let lastInterim = '';
 
         recognizer.onresult = (event: any) => {
-          if (isMicMutedRef.current) return;
+          // STRICT ACOUSTIC MUTING GUARD:
+          // If the bot is speaking, thinking, or mic is muted, DROP all input immediately!
+          if (isBotSpeakingRef.current || isMicMutedRef.current || isProcessingRef.current) {
+            return;
+          }
 
           let interimChunk = '';
           let finalChunk = '';
@@ -278,23 +307,6 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
               interimChunk += transcript;
             }
           }
-
-          const rawSpoken = (finalChunk || interimChunk).trim();
-
-          // ============================================================
-          // 🛑 REAL-TIME BARGE-IN INTERRUPTION ENGINE
-          // If the bot is vocalizing and user speaks, immediately cut off speech!
-          // ============================================================
-          if (isBotSpeakingRef.current && rawSpoken.length > 1) {
-            stopSpeaking();
-            isBotSpeakingRef.current = false;
-            isProcessingRef.current = false;
-            setVisualState('listening');
-            setUserTranscript(rawSpoken);
-          }
-
-          // If thinking, ignore until query processing finishes
-          if (isProcessingRef.current) return;
 
           if (interimChunk) {
             lastInterim = interimChunk;
@@ -331,9 +343,10 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         };
 
         recognizer.onend = () => {
-          // Re-arm recognition automatically if modal is still open
+          // Re-arm recognition ONLY if modal is open AND bot is NOT speaking or thinking
           if (
             isModalOpenRef.current &&
+            !isBotSpeakingRef.current &&
             !isMicMutedRef.current &&
             !isProcessingRef.current
           ) {
@@ -342,9 +355,6 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
         };
 
         recognitionRef.current = recognizer;
-        try {
-          recognizer.start();
-        } catch {}
       }
 
       // 3. Greet user strictly ONCE per modal session
@@ -399,6 +409,11 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       silenceTimerRef.current = null;
     }
 
+    if (echoCooldownTimerRef.current) {
+      clearTimeout(echoCooldownTimerRef.current);
+      echoCooldownTimerRef.current = null;
+    }
+
     setVisualState('idle');
     setAudioLevel(0);
   }, []);
@@ -444,10 +459,15 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     }
   };
 
+  // Immediate user interruption: stops bot speaking, resets flags, opens mic
   const handleStopSpeakingBargeIn = () => {
     stopSpeaking();
     isBotSpeakingRef.current = false;
     isProcessingRef.current = false;
+    if (echoCooldownTimerRef.current) {
+      clearTimeout(echoCooldownTimerRef.current);
+      echoCooldownTimerRef.current = null;
+    }
     if (isModalOpenRef.current && !isMicMutedRef.current) {
       setVisualState('listening');
       restartRecognition();
@@ -515,7 +535,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                     </span>
                   </div>
                   <p className="text-xs text-zinc-400">
-                    Full-Duplex Interruption & Multi-Service Scoping
+                    Acoustic Muted While Speaking • Zero Echo Loop
                   </p>
                 </div>
               </div>
@@ -559,13 +579,15 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                       : 'bg-zinc-600'
                   }`}
                 />
-                <span className="capitalize">{visualState}</span>
+                <span className="capitalize">
+                  {visualState === 'speaking' ? 'Zack Speaking (Mic Muted)' : visualState}
+                </span>
                 {visualState === 'speaking' && (
                   <button
                     onClick={handleStopSpeakingBargeIn}
                     className="ml-2 text-xs text-cyan-400 hover:underline flex items-center gap-1"
                   >
-                    <Square className="w-3 h-3 fill-current" /> Tap or Speak to Interrupt
+                    <Square className="w-3 h-3 fill-current" /> Tap Orb to Interrupt
                   </button>
                 )}
               </div>
