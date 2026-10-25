@@ -39,7 +39,7 @@ interface VoiceAssistantModalProps {
 }
 
 const INITIAL_GREETING =
-  "Hi, thanks for calling! This is Zack, assistant to Sheharyar Siraj. Sheharyar is in an active engineering session, but I manage his scoping across AI agents, data science, and web systems. How can I assist you with your project today?";
+  "Hi, thanks for calling! This is Elena, assistant to Sheharyar Siraj. Sheharyar is in an active engineering session, but I manage his scoping across AI agents, data science, and web systems. How can I assist you with your project today?";
 
 export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   onOpenInquiry,
@@ -118,7 +118,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
     try {
       await dispatchLeadNotification({
-        source: 'Consultative Voice Assistant (Zack)',
+        source: 'Consultative Voice Assistant (Elena)',
         name: leadArgs.clientName || 'Voice Lead',
         email: leadArgs.email,
         whatsapp: leadArgs.phoneOrWhatsApp,
@@ -493,7 +493,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       {!isModalOpen && (
         <button
           onClick={handleOpen}
-          aria-label="Talk to Zack Voice Assistant"
+          aria-label="Talk to Elena Voice Assistant"
           className="fixed bottom-6 right-20 z-40 flex items-center gap-2.5 px-4 py-3 bg-zinc-950/90 hover:bg-zinc-900 border border-emerald-500/40 hover:border-emerald-400 text-white rounded-full shadow-2xl shadow-emerald-950/50 backdrop-blur-md transition-all hover:scale-105 group"
         >
           <span className="relative flex h-3 w-3">
@@ -503,7 +503,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           <div className="flex items-center gap-1.5 font-medium text-xs sm:text-sm">
             <Phone className="w-4 h-4 text-emerald-400 group-hover:rotate-12 transition-transform" />
             <span className="hidden sm:inline">Voice Agent:</span>
-            <span className="text-emerald-400 font-semibold">Talk to Zack</span>
+            <span className="text-emerald-400 font-semibold">Talk to Elena</span>
           </div>
         </button>
       )}
@@ -530,7 +530,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                 <div>
                   <div className="flex items-center gap-2">
                     <h2 id="voice-assistant-title" className="text-base sm:text-lg font-bold tracking-tight text-white">
-                      Zack
+                      Elena
                     </h2>
                     <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
                       AI Solutions Architect
@@ -582,7 +582,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
                   }`}
                 />
                 <span className="capitalize">
-                  {visualState === 'speaking' ? 'Zack Speaking (Mic Muted)' : visualState}
+                  {visualState === 'speaking' ? 'Elena Speaking (Mic Muted)' : visualState}
                 </span>
                 {visualState === 'speaking' && (
                   <button
@@ -596,10 +596,10 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
               {/* Transcript Speech Bubbles */}
               <div className="w-full mt-6 space-y-3 max-w-md">
-                {/* Zack's Vocal Response */}
+                {/* Elena's Vocal Response */}
                 <div className="p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800/90 text-left backdrop-blur-sm">
                   <div className="text-[11px] font-mono text-emerald-400 font-semibold mb-1 flex items-center gap-1.5">
-                    <Volume2 className="w-3 h-3" /> Zack:
+                    <Volume2 className="w-3 h-3" /> Elena:
                   </div>
                   <p className="text-sm text-zinc-200 leading-relaxed font-sans">{aiTranscript}</p>
                 </div>

@@ -101,9 +101,9 @@ export const GEMINI_TOOLS_DECLARATION = [
   }
 ];
 
-// System Prompt for Zack Solutions Architect
-export const ZACK_SOLUTIONS_ARCHITECT_SYSTEM_PROMPT = `[IDENTITY & ROLE]
-Your name is Zack. You are the professional Executive Solutions Architect and Technical Operations Manager for Sheharyar Siraj.
+// System Prompt for Elena Solutions Architect
+export const ELENA_SOLUTIONS_ARCHITECT_SYSTEM_PROMPT = `[IDENTITY & ROLE]
+Your name is Elena. You are the professional Executive Solutions Architect and Technical Operations Manager for Sheharyar Siraj.
 You represent Sheharyar Siraj (${ARCHITECT_IDENTITY.portfolioUrl}).
 Always speak about Sheharyar in the third person (he, him, Sheharyar). You are his dedicated technical voice assistant.
 
@@ -201,7 +201,7 @@ export async function sendVoiceTurnToGemini(
         const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
         const payload = {
           systemInstruction: {
-            parts: [{ text: ZACK_SOLUTIONS_ARCHITECT_SYSTEM_PROMPT }]
+            parts: [{ text: ELENA_SOLUTIONS_ARCHITECT_SYSTEM_PROMPT }]
           },
           contents: geminiContents,
           tools: GEMINI_TOOLS_DECLARATION,
@@ -576,14 +576,19 @@ export function runAutonomousSolutionsBrain(
   ) {
     return {
       replyText:
-        "I'm doing great, thanks for asking! This is Zack, assistant to Sheharyar Siraj. What kind of project or technical challenge are you exploring today?"
+        "I'm doing great, thanks for asking! This is Elena, assistant to Sheharyar Siraj. What kind of project or technical challenge are you exploring today?"
     };
   }
 
-  if (clean.includes('who are you') || clean.includes('who is zack') || clean.includes('what do you do')) {
+  if (
+    clean.includes('who are you') ||
+    clean.includes('who is elena') ||
+    clean.includes('who is zack') ||
+    clean.includes('what do you do')
+  ) {
     return {
       replyText:
-        "I am Zack, Executive Solutions Architect for Sheharyar Siraj. I help qualify technical architectures, compare project trade-offs, and manage Sheharyar's engineering schedule. How can I assist you with your project today?"
+        "I am Elena, Executive Solutions Architect for Sheharyar Siraj. I help qualify technical architectures, compare project trade-offs, and manage Sheharyar's engineering schedule. How can I assist you with your project today?"
     };
   }
 
@@ -598,7 +603,7 @@ export function runAutonomousSolutionsBrain(
   ) {
     return {
       replyText:
-        "Hi, thanks for calling! This is Zack, assistant to Sheharyar Siraj. How can I assist you with your project scoping today?"
+        "Hi, thanks for calling! This is Elena, assistant to Sheharyar Siraj. How can I assist you with your project scoping today?"
     };
   }
 

@@ -21,7 +21,7 @@ export const LeadConfirmationModal: React.FC<LeadConfirmationModalProps> = ({
   if (!isOpen) return null;
 
   const whatsappMessage = encodeURIComponent(
-    `Hi Sheharyar, I discussed a project with Zack regarding: ${lead.recommendedArchitecture || 'Custom Architecture Scoping'}.\n\nMy details:\nEmail: ${lead.email}\nPhone: ${lead.phoneOrWhatsApp}`
+    `Hi Sheharyar, I discussed a project with Elena regarding: ${lead.recommendedArchitecture || 'Custom Architecture Scoping'}.\n\nMy details:\nEmail: ${lead.email}\nPhone: ${lead.phoneOrWhatsApp}`
   );
 
   const whatsappUrl = `https://wa.me/923132080033?text=${whatsappMessage}`;
@@ -69,7 +69,7 @@ export const LeadConfirmationModal: React.FC<LeadConfirmationModalProps> = ({
         </div>
 
         <p className="text-sm text-zinc-300 mb-6 leading-relaxed">
-          Zack has compiled your technical parameters and dispatched them directly under bilateral NDA. Sheharyar reviews all incoming briefs with a guaranteed 2-hour SLA.
+          Elena has compiled your technical parameters and dispatched them directly under bilateral NDA. Sheharyar reviews all incoming briefs with a guaranteed 2-hour SLA.
         </p>
 
         {/* Pre-Filled Details Card */}

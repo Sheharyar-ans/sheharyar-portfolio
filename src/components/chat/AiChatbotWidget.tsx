@@ -59,7 +59,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
     {
       id: 'welcome-1',
       sender: 'assistant',
-      text: "Hello! I am Zack, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, but I am here to help answer your technical questions, look at your project scope, or get you scheduled on his calendar. What brings you to us today?",
+      text: "Hello! I am Elena, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, but I am here to help answer your technical questions, look at your project scope, or get you scheduled on his calendar. What brings you to us today?",
       timestamp: 'Just now',
       mode: 'support',
       suggestedChips: DEFAULT_QUICK_CHIPS,
@@ -394,7 +394,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
       {
         id: `welcome-${Date.now()}`,
         sender: 'assistant',
-        text: 'Conversation reset. I am Zack, Executive Assistant to Sheharyar Siraj. How can I assist you with your project today?',
+        text: 'Conversation reset. I am Elena, Executive Assistant to Sheharyar Siraj. How can I assist you with your project today?',
         timestamp: 'Just now',
         mode: 'support',
         suggestedChips: DEFAULT_QUICK_CHIPS,
@@ -421,13 +421,13 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
           <button
             onClick={() => setIsOpen(true)}
             className="group relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-1/95 border border-brand-border/80 hover:border-accent text-accent shadow-2xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
-            aria-label="Chat with Zack (Executive Assistant)"
-            title="Chat with Zack (Executive Assistant)"
+            aria-label="Chat with Elena (Executive Assistant)"
+            title="Chat with Elena (Executive Assistant)"
           >
             <MessageSquare size={20} className="sm:w-[22px] sm:h-[22px]" />
             <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-surface-1 animate-pulse" />
             <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-surface-2 border border-brand-border text-white text-xs font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 shadow-xl hidden sm:block">
-              Zack • Executive Assistant
+              Elena • Executive Assistant
             </span>
           </button>
         </div>
@@ -461,7 +461,7 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="font-heading font-bold text-xs sm:text-sm text-white">
-                    Zack | Executive Assistant
+                    Elena | Executive Assistant
                   </h3>
                   {/* Adaptive Mode Badge */}
                   <span
