@@ -3,7 +3,7 @@
  * 
  * Features:
  * - Phonetic normalization pre-TTS cleaner
- * - Natural American Male neural voice heuristic selection
+ * - Ultra-strict Soft Natural Male neural voice heuristic selection (zero female voice fallback)
  * - Safe audio muting & echo suppression during vocalization
  * - Web Audio API visualizer & hardware teardown
  */
@@ -14,11 +14,22 @@ export interface SpeechEngineConfig {
   volume: number;
 }
 
+// Soft, articulate, calm executive male resonance
 export const ZACK_VOICE_CONFIG: SpeechEngineConfig = {
-  pitch: 0.95,
-  rate: 0.98,
+  pitch: 0.94,
+  rate: 0.97,
   volume: 1.0
 };
+
+// Cached voices for instant availability
+let cachedVoices: SpeechSynthesisVoice[] = [];
+
+if (typeof window !== 'undefined' && window.speechSynthesis) {
+  cachedVoices = window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = () => {
+    cachedVoices = window.speechSynthesis.getVoices();
+  };
+}
 
 /**
  * Phonetic pre-TTS normalizer:
@@ -39,6 +50,8 @@ export function normalizeTextForSpeech(rawText: string): string {
   // 2. Acronyms & Pronunciation corrections
   text = text.replace(/\bPower\s*BI\b/gi, 'Power B. I.');
   text = text.replace(/\bn8n\b/gi, 'n eight n');
+  text = text.replace(/\bLangGraph\b/gi, 'Lang Graph');
+  text = text.replace(/\bRAG\b/gi, 'Rag');
   text = text.replace(/\bSQL\b/gi, 'S. Q. L.');
   text = text.replace(/\bAPI\b/gi, 'A. P. I.');
   text = text.replace(/\bAPIs\b/gi, 'A. P. I.s');
@@ -48,6 +61,8 @@ export function normalizeTextForSpeech(rawText: string): string {
   text = text.replace(/\bUX\b/gi, 'U. X.');
   text = text.replace(/\bMVP\b/gi, 'M. V. P.');
   text = text.replace(/\bSaaS\b/gi, 'Sass');
+  text = text.replace(/\bML\b/gi, 'M. L.');
+  text = text.replace(/\bUGC\b/gi, 'U. G. C.');
   text = text.replace(/\bCCNP\b/gi, 'C. C. N. P.');
   text = text.replace(/\bNDA\b/gi, 'N. D. A.');
   text = text.replace(/\bCRM\b/gi, 'C. R. M.');
@@ -62,7 +77,6 @@ export function normalizeTextForSpeech(rawText: string): string {
   });
 
   // 4. Phone Numbers & Long Digit Sequences:
-  // Convert digits into comma-separated single words so TTS never says "nine billion..."
   const digitWords: Record<string, string> = {
     '0': 'zero',
     '1': 'one',
@@ -76,7 +90,6 @@ export function normalizeTextForSpeech(rawText: string): string {
     '9': 'nine'
   };
 
-  // Replace international phone sequences (+92 313 2080033 or +923132080033)
   text = text.replace(/\+?(\d[\d\s-]{6,}\d)/g, (match) => {
     const hasPlus = match.startsWith('+');
     const digitsOnly = match.replace(/\D/g, '');
@@ -95,15 +108,22 @@ export function normalizeTextForSpeech(rawText: string): string {
 }
 
 /**
- * Aggressive American Male Neural Voice Heuristic Selector
- * Explicitly excludes feminine voice profiles (Zira, Jenny, Aria, Samantha, etc.)
+ * Strict Soft Natural Male Voice Heuristic Selector
+ * Explicitly excludes feminine voice profiles.
+ * IMPORTANT: In Google Chrome, "Google US English" is a female voice. It is strictly excluded.
  */
-export function selectNeuralMaleVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
-  if (!voices || voices.length === 0) return null;
+export function selectNeuralMaleVoice(voices?: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
+  const voiceList = (voices && voices.length > 0) ? voices : (cachedVoices.length > 0 ? cachedVoices : (typeof window !== 'undefined' && window.speechSynthesis ? window.speechSynthesis.getVoices() : []));
 
+  if (!voiceList || voiceList.length === 0) return null;
+
+  // Strict list of female keywords and Chrome female defaults to block
   const feminineKeywords = [
     'zira', 'jenny', 'aria', 'samantha', 'victoria', 'karen', 'susan', 
-    'hazel', 'catherine', 'linda', 'female', 'woman', 'girl'
+    'hazel', 'catherine', 'linda', 'female', 'woman', 'girl', 'neerja',
+    'heera', 'helena', 'hortense', 'julie', 'hedda', 'elsa', 'alva',
+    'fiona', 'moira', 'tessa', 'veena', 'alice', 'sonia', 'amy', 'olivia',
+    'emma', 'ava', 'sophia', 'isabella', 'google us english', 'google uk english female'
   ];
 
   const isFeminine = (name: string) => {
@@ -111,27 +131,41 @@ export function selectNeuralMaleVoice(voices: SpeechSynthesisVoice[]): SpeechSyn
     return feminineKeywords.some((kw) => lower.includes(kw));
   };
 
-  // Tier 1: High-Definition Neural / Natural American Male Voices
-  const tier1Priority = [
+  // Priority 1: High-Definition Soft & Natural Male Voices (Edge Natural / Neural)
+  const prioritySoftMaleVoices = [
     'guy online (natural)',
+    'guyneural',
     'christopher online (natural)',
+    'christopherneural',
     'eric online (natural)',
-    'google us english male',
-    'google us english',
+    'ericneural',
+    'andrew online (natural)',
+    'andrewneural',
+    'brian online (natural)',
+    'brianneural',
+    'ryan online (natural)',
+    'steffan online (natural)',
+    'microsoft david desktop',
     'microsoft david',
-    'daniel'
+    'microsoft mark desktop',
+    'microsoft mark',
+    'microsoft george',
+    'google uk english male',
+    'daniel',
+    'alex',
+    'fred'
   ];
 
-  for (const prio of tier1Priority) {
-    const match = voices.find((v) => {
+  for (const prio of prioritySoftMaleVoices) {
+    const match = voiceList.find((v) => {
       const lower = v.name.toLowerCase();
       return lower.includes(prio) && !isFeminine(lower);
     });
     if (match) return match;
   }
 
-  // Tier 2: Any English voice with explicit "male" tag not in feminine list
-  const maleTagged = voices.find((v) => {
+  // Priority 2: Any English voice with explicit "male" keyword
+  const maleTagged = voiceList.find((v) => {
     const lower = v.name.toLowerCase();
     return (
       (v.lang.startsWith('en') || v.lang.startsWith('en-US') || v.lang.startsWith('en-GB')) &&
@@ -141,15 +175,14 @@ export function selectNeuralMaleVoice(voices: SpeechSynthesisVoice[]): SpeechSyn
   });
   if (maleTagged) return maleTagged;
 
-  // Tier 3: Any en-US voice not matching feminine blacklist
-  const anyUsNonFeminine = voices.find((v) => {
+  // Priority 3: Non-feminine en-US / en-GB desktop voices
+  const fallbackMale = voiceList.find((v) => {
     const lower = v.name.toLowerCase();
     return (v.lang === 'en-US' || v.lang.startsWith('en')) && !isFeminine(lower);
   });
-  if (anyUsNonFeminine) return anyUsNonFeminine;
+  if (fallbackMale) return fallbackMale;
 
-  // Fallback: first voice
-  return voices[0] || null;
+  return voiceList[0] || null;
 }
 
 /**
@@ -212,7 +245,6 @@ export function speakText(
 
   utterance.onerror = (e) => {
     cleanUp();
-    // Ignore canceled errors from user interruptions
     if (e.error !== 'canceled' && e.error !== 'interrupted') {
       callbacks.onError?.(e);
     } else {
@@ -225,7 +257,7 @@ export function speakText(
 }
 
 /**
- * Immediate stop for active speech
+ * Immediate stop for active speech (used for Barge-in and manual cancellation)
  */
 export function stopSpeaking(): void {
   if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -262,7 +294,6 @@ export function setupAudioVisualizer(
       sum += dataArray[i];
     }
     const average = sum / dataArray.length;
-    // Normalize to 0..1 scale
     const normalized = Math.min(1, average / 100);
     onVolume(normalized);
 

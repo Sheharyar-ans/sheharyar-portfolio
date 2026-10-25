@@ -1,15 +1,34 @@
 /**
  * Central LLM Brain & Multi-Turn Conversation Engine for Zack Voice Assistant
  * 
- * Powered by Google Gemini with native Function Calling (`submitClientInquiry`),
- * dynamic Ground Truth Knowledge ingestion, zero-pricing protection, and strict Anti-CV guardrails.
+ * Comprehensive Technical Solutions Advisor for sheharyarsiraj.com:
+ * - Agentic AI & Autonomous Multi-Agent Applications (LangGraph)
+ * - Contextual AI Chatbots & RAG Systems
+ * - Data Science & Predictive ML Pipelines
+ * - Data Analytics & Business Intelligence (Power BI, Excel, SQL)
+ * - Production Vibe Coding & Rapid React MVPs (2-Day turnaround)
+ * - Autonomous AI Voice Telephony (Vapi/Twilio)
+ * - Workflow Automation & Self-Hosted n8n Clusters
+ * - Custom SaaS Architecture & MVP Development
+ * - WooCommerce HPOS & High-Concurrency E-Commerce
+ * - Custom WordPress VIP Systems Engineering
+ * - AI Video Ads & Synthetic UGC
+ * - White-Label Agency Subcontracting Retainers
+ * - Interactive Code Arcade (Boss Fighter & Puzzle modes at /arcade/)
+ * - 20 Interactive Developer Tools at /tools/
+ * 
+ * Strict Compliance:
+ * 1. Zero Pricing Disclosures (Always ask for budget; direct to WhatsApp/Email)
+ * 2. 2-Day Urgency -> Vibe Coding & React MVP
+ * 3. 2-3 Sentences per turn (Voice Pacing)
  */
 
 import {
   GROUND_TRUTH_SYSTEM_CONTEXT,
   ARCHITECT_IDENTITY,
   CORE_CAPABILITIES,
-  TECHNICAL_TRADE_OFFS
+  CODE_ARCADE_METADATA,
+  CRAWLED_INTERACTIVE_TOOLS
 } from '../data/groundTruthKnowledge.ts';
 
 export interface VoiceMessageTurn {
@@ -86,42 +105,43 @@ export const GEMINI_TOOLS_DECLARATION = [
 export const ZACK_SOLUTIONS_ARCHITECT_SYSTEM_PROMPT = `[IDENTITY & ROLE]
 Your name is Zack. You are the professional Executive Solutions Architect and Technical Operations Manager for Sheharyar Siraj.
 You represent Sheharyar Siraj (${ARCHITECT_IDENTITY.portfolioUrl}).
-Always speak about Sheharyar in the third person (he, him, Sheharyar). You are his dedicated technical assistant.
+Always speak about Sheharyar in the third person (he, him, Sheharyar). You are his dedicated technical voice assistant.
 
 [CRITICAL VOICE PACING & BREVITY - STRICT RULE]
 - Voice Pacing: Keep every response strictly between 2 to 3 natural, articulate sentences.
 - Never give long, lecture-like paragraphs.
-- Speak in fluid conversational English. You can also understand and naturally address Urdu/Hindi inquiries.
+- Speak in fluid conversational English. You understand and naturally converse with Urdu/Hindi inquiries as well.
 - NEVER use markdown asterisks (*), hashtags (#), or bullet points in your speech output.
 
+[COMPREHENSIVE WEBSITE CAPABILITIES - NEVER RESTRICT TO JUST WEBSITES]
+Sheharyar Siraj engineers a wide spectrum of advanced technical solutions. You must consult on whatever the prospect needs:
+1. Agentic AI & Multi-Agent Systems: Stateful LangGraph cycles, autonomous tool-calling, multi-step research.
+2. Contextual AI Chatbots & RAG Systems: Pinecone/Qdrant vector databases, document search, zero hallucination.
+3. Data Science & Predictive ML: Churn forecasting, customer segmentation, ML pipelines.
+4. Data Analytics & Business Intelligence: Executive Power BI dashboards, automated Excel models, dynamic pivot analysis, SQL ETL.
+5. Production Vibe Coding & Rapid React MVPs: Urgent 2-day to 1-week launches, interactive web tools.
+6. Autonomous AI Voice Telephony: 24/7 phone receptionists, sub-600ms latency, Google Calendar/Cal.com booking.
+7. Workflow Automation: Self-hosted n8n Docker clusters, Make.com, Redis queues, zero monthly Zapier fees.
+8. Custom SaaS Architecture & MVP Development: Next.js/React, multi-tenant DB, Stripe subscriptions.
+9. WooCommerce HPOS & High-Concurrency E-Commerce: 10,000+ daily orders, Redis cache, zero DB deadlocks.
+10. Custom WordPress VIP: Clean PHP 8.2 VIP code, React Gutenberg blocks, sub-500ms TTFB.
+11. AI Video Ads & Synthetic UGC: Automated script-to-video creative production.
+12. White-Label Agency Retainers: Dedicated dev partner for USA, UK, UAE, EU marketing and SEO agencies under NDA.
+13. Interactive Code Arcade (/arcade/): Developer gaming arena with Boss Fighter Mode (battling algorithms with HP & special attacks) and Puzzle Mode across JS, Python, React, HTML/CSS, API/JSON.
+14. Interactive Developer Tools (/tools/): 20 live tools including Schema Generator, Database Bloat Estimator, CPT Exporter, Voice Agent ROI Calculator, Webhook Tester, etc.
+
 [STRICT ZERO-PRICING GUARDRAIL - ABSOLUTE RULE]
-- NEVER state prices, rates, costs, or fee ranges (do NOT mention any dollar amounts or figures).
+- NEVER state prices, rates, costs, or fee ranges under ANY circumstances.
 - Always ask the client for their target budget: "What budget range do you have in mind for this project?"
-- If the client specifically asks for pricing or rates ("how much do you charge?", "what does it cost?", "kitne paise honge?"):
-  Respond strictly: "Project pricing depends on your exact technical scope and architecture. You can connect directly with Sheharyar on WhatsApp at +92 313 2080033 or via email at sherryansari870@gmail.com for a quote. In the meantime, what target budget do you have in mind?"
+- If the client asks for pricing or rates ("how much do you charge?", "what does it cost?", "kitne paise honge?"):
+  Respond strictly: "Project pricing depends strictly on your custom technical scope and architecture. You can connect directly with Sheharyar on WhatsApp at +92 313 2080033 or via email at sherryansari870@gmail.com for a quote. In the meantime, what target budget do you have in mind?"
 
 [2-DAY LAUNCH / URGENT TIMELINE - VIBE CODING RULE]
 - If the client mentions needing a website in 2 days, urgently, or on a very fast turnaround:
-  Recommend Vibe Coding with React: "If you need a website ready in 2 days, we recommend our rapid Vibe Coding architecture with modern React for instant deployment. What target budget do you have in mind for this fast turnaround?"
+  Recommend Vibe Coding with React: "If you need a website ready in 2 days, we recommend our rapid Vibe Coding architecture with modern React for immediate deployment. What target budget do you have in mind for this fast turnaround?"
 
 [STRICT ANTI-CV GUARDRAIL - CRITICAL]
-- NEVER recite Sheharyar's biography, university degrees, or lists of certificates (CCNP, CyberOps, Vertex AI) unless the user EXPLICITLY asks: "What are his credentials?", "Who is Sheharyar?", or "Why should I trust you?".
-- Prospects need consultative solutions, not resume boasting. Keep the focus 100% on diagnosing their technical goals.
-
-[CONVERSATIONAL SOLUTIONS ADVISOR WORKFLOW]
-1. Active Discovery:
-   - When the user shares a goal (e.g., "I need a website", "We have Excel files", "I want an AI caller"):
-   - Validate their need and ask clarifying questions on:
-     a) Core technical goal or bottleneck
-     b) Launch urgency (e.g., if 2 days, suggest Vibe Coding; otherwise custom WordPress VIP or React)
-     c) Target budget range (ask client for their budget; never quote pricing).
-2. Dynamic Trade-Off Guidance:
-   - Rapid Prototypes vs. Content Platforms: Guide between fast AI-assisted Vibe Coding / React frontends (ideal for 2-day to 1-week validation) vs. Custom WordPress VIP setups (ideal when marketing teams need independent content editing).
-   - Reporting vs. Enterprise Intelligence: Guide between automated Excel models (localized audits) vs. dynamic Power BI / SQL data pipelines (multi-department automated sync).
-   - Real-Time Calling vs. Chatbots: Guide between autonomous Voice Telephony (inbound phone reception via Vapi/Twilio) vs. On-site conversational chatbots (browsing visitors).
-3. Tool Execution:
-   - As soon as the user provides their email, phone/WhatsApp number, or requests a proposal/consultation:
-   - IMMEDIATELY call the function 'submitClientInquiry' with the clientName, email, phoneOrWhatsApp, recommendedArchitecture, budgetRange, timeline, and projectSummary.
+- NEVER recite Sheharyar's biography, university degrees, or lists of certificates unless the user EXPLICITLY asks: "What are his credentials?", "Who is Sheharyar?", or "Why should I trust you?".
 
 ${GROUND_TRUTH_SYSTEM_CONTEXT}
 `;
@@ -250,8 +270,8 @@ function cleanSpeechOutput(text: string): string {
 
 /**
  * Autonomous Grounded Solutions Brain (Zero-Key Autonomy)
- * Implements Active Discovery, Trade-Off Guidance, Zero-Pricing Guardrail,
- * and 2-Day Vibe Coding recommendation directly derived from `groundTruthKnowledge.ts`.
+ * Implements Active Discovery, Multi-Service Knowledge, Interactive Tools,
+ * Code Arcade Games, and Zero-Pricing Protection directly derived from `groundTruthKnowledge.ts`.
  */
 export function runAutonomousSolutionsBrain(
   history: VoiceMessageTurn[],
@@ -324,7 +344,211 @@ export function runAutonomousSolutionsBrain(
     };
   }
 
-  // 4. Buying Intent Phrases
+  // 4. Interactive Code Arcade & Mini-Games Queries
+  if (
+    clean.includes('game') ||
+    clean.includes('arcade') ||
+    clean.includes('boss fight') ||
+    clean.includes('puzzle') ||
+    clean.includes('khel') ||
+    clean.includes('play')
+  ) {
+    return {
+      replyText:
+        "Yes, our website features an interactive Code Arcade at /arcade/. You can play Puzzle Mode for grid-based code logic or Boss Fighter Mode where you battle algorithmic bosses with real-time code execution across JavaScript, Python, and React. Have you checked it out yet?"
+    };
+  }
+
+  // 5. Interactive Developer Tools Queries
+  if (
+    clean.includes('tool') ||
+    clean.includes('tools') ||
+    clean.includes('schema generator') ||
+    clean.includes('bloat') ||
+    clean.includes('cpt exporter') ||
+    clean.includes('roi calculator') ||
+    clean.includes('webhook tester')
+  ) {
+    return {
+      replyText:
+        "We have 20 free interactive developer tools live at /tools/, including our Local Schema Generator, WordPress Database Bloat Estimator, Voice Agent ROI Calculator, and n8n Webhook Tester. Which specific utility or engineering task are you trying to test?"
+    };
+  }
+
+  // 6. Agentic AI & Autonomous Multi-Agent Applications
+  if (
+    clean.includes('agentic') ||
+    clean.includes('agentic ai') ||
+    clean.includes('multi agent') ||
+    clean.includes('langgraph') ||
+    clean.includes('autonomous agent') ||
+    clean.includes('ai agents')
+  ) {
+    return {
+      replyText:
+        "Yes, we build deterministic multi-agent AI systems and autonomous workflows using LangGraph and advanced LLM tool-calling. These stateful agents handle multi-step research, automated decision making, and self-correcting error recovery. What specific autonomous workflow or agent task are you looking to automate?"
+    };
+  }
+
+  // 7. Contextual AI Chatbots & RAG Systems
+  if (
+    clean.includes('rag') ||
+    clean.includes('vector database') ||
+    clean.includes('pinecone') ||
+    clean.includes('qdrant') ||
+    clean.includes('document search') ||
+    clean.includes('knowledge base')
+  ) {
+    return {
+      replyText:
+        "Yes, we engineer contextual RAG systems and intelligent chatbots with zero hallucination. We connect your enterprise documents, knowledge bases, and vector databases like Pinecone and Qdrant to deliver instant, factual search for customers. What type of documents or customer data do you want your bot to answer from?"
+    };
+  }
+
+  // 8. Data Science & Predictive ML
+  if (
+    clean.includes('data science') ||
+    clean.includes('machine learning') ||
+    clean.includes('predictive') ||
+    clean.includes('churn') ||
+    clean.includes('clustering')
+  ) {
+    return {
+      replyText:
+        "Yes, we develop production Data Science pipelines and predictive machine learning models in Python. From customer churn forecasting and lifetime value modeling to automated feature stores and ML inference APIs, we turn your raw data into predictive intelligence. What machine learning or data science outcome are you aiming for?"
+    };
+  }
+
+  // 9. Data Analytics & Business Intelligence (Power BI, Excel, SQL)
+  if (
+    clean.includes('excel') ||
+    clean.includes('sheet') ||
+    clean.includes('power bi') ||
+    clean.includes('tableau') ||
+    clean.includes('pivot table') ||
+    clean.includes('data analytics') ||
+    clean.includes('reporting') ||
+    clean.includes('dashboard')
+  ) {
+    return {
+      replyText:
+        "Yes, we transform raw spreadsheets and numbers into automated executive dashboards and clean reporting models. We build interactive Power BI dashboards, automated Excel reports with dynamic pivot analysis, and automated SQL query pipelines. What kind of spreadsheet data or business metrics are you looking to track and visualize?"
+    };
+  }
+
+  // 10. Autonomous AI Voice Telephony
+  if (
+    clean.includes('voice agent') ||
+    clean.includes('phone bot') ||
+    clean.includes('calling') ||
+    clean.includes('call handling') ||
+    clean.includes('receptionist') ||
+    clean.includes('vapi') ||
+    clean.includes('telephony')
+  ) {
+    return {
+      replyText:
+        "Yes, we deploy conversational AI phone agents that answer incoming calls 24/7 with natural, sub-600ms latency. They handle customer inquiries, book appointments directly into Google Calendar or Cal.com, and sync notes to your CRM. Are you looking for an inbound phone receptionist or outbound automated calling?"
+    };
+  }
+
+  // 11. Workflow Automation & n8n Clusters
+  if (
+    clean.includes('n8n') ||
+    clean.includes('automation') ||
+    clean.includes('zapier') ||
+    clean.includes('make.com') ||
+    clean.includes('workflow')
+  ) {
+    return {
+      replyText:
+        "Yes, we engineer robust automated workflows using self-hosted n8n Docker clusters and Make.com to eliminate manual repetitive work. We connect your apps, CRMs, and databases with zero data loss while eliminating expensive monthly Zapier fees. Which tools or tasks are you looking to connect and automate?"
+    };
+  }
+
+  // 12. Custom SaaS Architecture & MVP Development
+  if (
+    clean.includes('saas') ||
+    clean.includes('build a saas') ||
+    clean.includes('mvp') ||
+    clean.includes('software product') ||
+    clean.includes('web app')
+  ) {
+    return {
+      replyText:
+        "Yes, we build custom full-stack SaaS applications and scalable MVPs using Next.js, React, and PostgreSQL. We architect multi-tenant database isolation, Stripe recurring subscription billing, and secure authentication. What is the core functionality of the SaaS platform you are planning to build?"
+    };
+  }
+
+  // 13. WooCommerce HPOS & High-Concurrency E-Commerce
+  if (
+    clean.includes('woocommerce') ||
+    clean.includes('ecommerce') ||
+    clean.includes('online store') ||
+    clean.includes('shop') ||
+    clean.includes('hpos') ||
+    clean.includes('shopify')
+  ) {
+    return {
+      replyText:
+        "Yes, we engineer high-concurrency e-commerce stores designed for seamless checkout and high conversion. We specialize in WooCommerce HPOS architecture, Stripe and PayPal integrations, and database tuning that easily handles over 10,000 orders a day. Are you launching a new online store, or looking to scale an existing shop?"
+    };
+  }
+
+  // 14. Custom WordPress VIP Systems
+  if (
+    clean.includes('wordpress') ||
+    clean.includes('wp') ||
+    clean.includes('gutenberg') ||
+    clean.includes('cms')
+  ) {
+    return {
+      replyText:
+        "Yes, we build custom, high-speed websites designed to convert visitors into clients. Whether you need a fresh WordPress VIP build with sub-500ms TTFB or a modern React platform, we ensure 95+ Core Web Vitals and zero page builder bloat. Are you looking to launch urgently or build an ongoing content platform?"
+    };
+  }
+
+  // 15. AI Video Ads & Synthetic UGC
+  if (
+    clean.includes('video ad') ||
+    clean.includes('ugc') ||
+    clean.includes('ai video') ||
+    clean.includes('synthetic video')
+  ) {
+    return {
+      replyText:
+        "Yes, we produce automated, high-converting AI video ads and synthetic UGC creatives for TikTok, Instagram Reels, and YouTube Shorts. We handle automated scriptwriting, synthetic voice cloning, and realistic avatar generation to scale your ad testing. What product or offer are you looking to create video ads for?"
+    };
+  }
+
+  // 16. White-Label Agency Subcontracting
+  if (
+    clean.includes('white label') ||
+    clean.includes('agency') ||
+    clean.includes('subcontract') ||
+    clean.includes('overflow') ||
+    clean.includes('retainer')
+  ) {
+    return {
+      replyText:
+        "Yes, we act as a dedicated behind-the-scenes engineering partner for digital and marketing agencies under strict bilateral NDA. We handle complex WordPress VIP builds, AI voice telephony, and n8n automations with zero junior management overhead. What kind of overflow development capacity is your agency looking for?"
+    };
+  }
+
+  // 17. Web Scraping & Data Pipelines
+  if (
+    clean.includes('scraping') ||
+    clean.includes('scraper') ||
+    clean.includes('extract data') ||
+    clean.includes('pipeline')
+  ) {
+    return {
+      replyText:
+        "Yes, we build resilient web scraping pipelines and automated database ETL with headless browser execution and anti-bot bypass. From harvesting competitor pricing to market intelligence extraction, we turn web data into revenue assets. What data sources or websites are you looking to extract?"
+    };
+  }
+
+  // 18. Buying Intent Phrases
   const isBuyingPhrase =
     clean.includes('hire') ||
     clean.includes('start project') ||
@@ -343,7 +567,7 @@ export function runAutonomousSolutionsBrain(
     };
   }
 
-  // 5. Small Talk & Greetings (Anti-CV: Max 2 Sentences, zero credentials)
+  // 19. Small Talk & Greetings
   if (
     clean.includes('how are you') ||
     clean.includes("how's it going") ||
@@ -385,7 +609,7 @@ export function runAutonomousSolutionsBrain(
     };
   }
 
-  // 6. Explicit Credentials Query (ONLY volunteer CV info if user explicitly asks)
+  // 20. Explicit Credentials Query (ONLY volunteer CV info if user explicitly asks)
   if (
     clean.includes('credential') ||
     clean.includes('qualification') ||
@@ -399,7 +623,7 @@ export function runAutonomousSolutionsBrain(
     };
   }
 
-  // 7. "Who is Sheharyar?" (Strict Anti-CV Rule: No degrees or certificate list)
+  // 21. "Who is Sheharyar?"
   if (clean.includes('who is sheharyar') || clean.includes('about sheharyar')) {
     return {
       replyText:
@@ -407,97 +631,7 @@ export function runAutonomousSolutionsBrain(
     };
   }
 
-  // 8. Dynamic Trade-Off Queries
-  // Dimension 1: Rapid Prototypes vs Content Platforms
-  if (
-    (clean.includes('react') && (clean.includes('wordpress') || clean.includes('wp'))) ||
-    clean.includes('wordpress vs') ||
-    clean.includes('react vs')
-  ) {
-    return {
-      replyText:
-        "If you need rapid validation or a 2-day MVP, a fast React build allows immediate launch. But if your marketing team needs independent content publishing with sub-500ms speeds, Custom WordPress VIP is the better foundation. Are you prioritizing rapid user testing or ongoing editorial management?"
-    };
-  }
-
-  // Dimension 2: Reporting vs Enterprise Intelligence
-  if (
-    (clean.includes('excel') || clean.includes('sheet') || clean.includes('spreadsheet')) &&
-    (clean.includes('power bi') || clean.includes('powerbi') || clean.includes('sql') || clean.includes('tableau') || clean.includes('bi'))
-  ) {
-    return {
-      replyText:
-        "For localized spreadsheets under 50,000 rows, automated Excel models with dynamic formulas work effectively. But for multi-channel business metrics and real-time executive visibility, Power BI with automated SQL pipelines eliminates manual errors. How large is your dataset, and where does your raw data originate?"
-    };
-  }
-
-  // Dimension 3: Real-Time Calling vs Chatbots
-  if (
-    (clean.includes('voice') || clean.includes('phone') || clean.includes('call') || clean.includes('telephony')) &&
-    (clean.includes('chat') || clean.includes('chatbot') || clean.includes('website bot') || clean.includes('site'))
-  ) {
-    return {
-      replyText:
-        "Deploy an autonomous voice agent if inbound phone reception, instant appointment scheduling, or urgent call triage are your main bottlenecks. But if your traffic is browsing on-site, a conversational chatbot captures visitor inquiries more seamlessly. Are your prospective clients calling by phone or browsing your website?"
-    };
-  }
-
-  // 9. Capability Mapping (Fuzzy match against CORE_CAPABILITIES)
-  for (const cap of CORE_CAPABILITIES) {
-    const matchesPhrase = cap.commonUserPhrases.some((phrase) => clean.includes(phrase));
-    if (matchesPhrase) {
-      if (cap.id === 'vibe-coding-rapid-mvp') {
-        return {
-          replyText:
-            "If you need a website ready in 2 days, we recommend our rapid Vibe Coding architecture with modern React for immediate deployment. It allows us to deliver a fast, production-ready website on an urgent turnaround. What target budget do you have in mind for this project?"
-        };
-      }
-      if (cap.id === 'custom-wordpress') {
-        return {
-          replyText:
-            "Yes, we build custom, high-speed websites designed to convert visitors into clients. Whether you need a fresh WordPress VIP build or a modern React platform, we ensure sub-500ms load speeds and zero page builder bloat. Are you looking to launch urgently or build an ongoing content platform?"
-        };
-      }
-      if (cap.id === 'voice-telephony') {
-        return {
-          replyText:
-            "Yes, we deploy conversational AI phone agents that answer calls 24/7 with natural, sub-600ms latency. They handle incoming inquiries, book appointments directly into your calendar, and sync notes straight to your CRM. Are you looking for an inbound phone receptionist or automated outbound calling?"
-        };
-      }
-      if (cap.id === 'n8n-automation') {
-        return {
-          replyText:
-            "Yes, we engineer robust automated workflows using self-hosted n8n clusters and Make.com to eliminate manual repetitive work. We connect your apps, CRMs, and databases with zero data loss while eliminating expensive monthly Zapier fees. Which tools or tasks are you looking to connect and automate?"
-        };
-      }
-      if (cap.id === 'woocommerce-hpos') {
-        return {
-          replyText:
-            "Yes, we engineer high-concurrency e-commerce stores designed for seamless checkout and high conversion. We specialize in WooCommerce HPOS architecture, Stripe and PayPal integrations, and database tuning that easily handles over 10,000 orders a day. Are you launching a new online store, or looking to scale an existing shop?"
-        };
-      }
-      if (cap.id === 'data-analytics-bi') {
-        return {
-          replyText:
-            "Yes, we turn raw spreadsheets and numbers into automated executive dashboards and clean reporting models. We build custom Power BI dashboards, automated Excel reports with dynamic pivot analysis, and SQL query pipelines. What kind of spreadsheet data or business metrics are you looking to track and visualize?"
-        };
-      }
-      if (cap.id === 'white-label-subcontracting') {
-        return {
-          replyText:
-            "Yes, we act as a dedicated behind-the-scenes engineering partner for digital and marketing agencies under strict bilateral NDA. We handle complex WordPress VIP builds, AI voice telephony, and n8n automations with zero junior management overhead. What kind of overflow development capacity is your agency looking for?"
-        };
-      }
-      if (cap.id === 'data-pipelines-scraping') {
-        return {
-          replyText:
-            "Yes, we build custom predictive machine learning models and resilient web scraping pipelines with anti-bot bypass. From forecasting customer churn to harvesting market competitor data, we turn web data into revenue assets. What data sources or websites are you looking to extract?"
-        };
-      }
-    }
-  }
-
-  // 10. General Discovery Ask (Max 2 sentences)
+  // 22. General Discovery Fallback
   return {
     replyText:
       "I hear you! Could you share a bit more about what you're aiming to build, your target timeline, and what budget range you have in mind? Sheharyar provides architectural scoping with a guaranteed 2-hour review."
@@ -511,20 +645,32 @@ function inferBudget(query: string): string {
 
 function inferRecommendedArchitecture(history: VoiceMessageTurn[], userQuery: string): string {
   const combined = (history.map((h) => h.text).join(' ') + ' ' + userQuery).toLowerCase();
+  if (combined.includes('agentic') || combined.includes('langgraph')) {
+    return 'Agentic AI & Multi-Agent Applications';
+  }
+  if (combined.includes('rag') || combined.includes('vector')) {
+    return 'Contextual RAG Chatbots & Vector Search';
+  }
+  if (combined.includes('data science') || combined.includes('machine learning')) {
+    return 'Data Science & Predictive ML Pipelines';
+  }
   if (combined.includes('2 day') || combined.includes('vibe coding') || combined.includes('urgent')) {
     return 'Rapid Vibe Coding & React MVP';
   }
   if (combined.includes('voice') || combined.includes('phone') || combined.includes('vapi')) {
     return 'Autonomous AI Voice Telephony (Vapi/Twilio)';
   }
-  if (combined.includes('wordpress') || combined.includes('website') || combined.includes('woo')) {
-    return 'Custom WordPress VIP & WooCommerce HPOS';
+  if (combined.includes('wordpress') || combined.includes('website')) {
+    return 'Custom WordPress VIP Systems Engineering';
   }
   if (combined.includes('excel') || combined.includes('power bi') || combined.includes('data')) {
     return 'Data Analytics & Power BI Dashboards';
   }
   if (combined.includes('n8n') || combined.includes('automation') || combined.includes('zapier')) {
     return 'Self-Hosted n8n Workflow Clusters';
+  }
+  if (combined.includes('saas') || combined.includes('mvp')) {
+    return 'Custom SaaS Architecture & MVP Development';
   }
   if (combined.includes('agency') || combined.includes('white-label')) {
     return 'White-Label Agency Subcontracting Retainer';
