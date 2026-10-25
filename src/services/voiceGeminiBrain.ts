@@ -1,5 +1,5 @@
 /**
- * Central LLM Brain & Multi-Turn Conversation Engine for Zack Voice Assistant
+ * Central LLM Brain & Multi-Turn Conversation Engine for Elena Voice Assistant
  * 
  * Comprehensive Technical Solutions Advisor for sheharyarsiraj.com:
  * - Agentic AI & Autonomous Multi-Agent Applications (LangGraph)
@@ -18,9 +18,12 @@
  * - 20 Interactive Developer Tools at /tools/
  * 
  * Strict Compliance:
- * 1. Zero Pricing Disclosures (Always ask for budget; direct to WhatsApp/Email)
- * 2. 2-Day Urgency -> Vibe Coding & React MVP
- * 3. 2-3 Sentences per turn (Voice Pacing)
+ * 1. Zero Pricing Disclosures (Always direct to WhatsApp/Email; ask for budget)
+ * 2. Ask Client Name First & Address by Name Across Turns
+ * 3. Session Memory Tracking (Name, Scope, Budget, Timeline, Email, WhatsApp)
+ * 4. Contact Collection -> Auto-open Pre-filled Inquiry Form
+ * 5. 2-Day Urgency -> Vibe Coding & React MVP
+ * 6. 2-3 Sentences per turn (Voice Pacing)
  */
 
 import {
@@ -46,12 +49,23 @@ export interface ClientInquiryArgs {
   projectSummary?: string;
 }
 
+export interface SessionClientMemory {
+  clientName?: string;
+  email?: string;
+  phoneOrWhatsApp?: string;
+  recommendedArchitecture?: string;
+  budgetRange?: string;
+  timeline?: string;
+  projectSummary?: string;
+}
+
 export interface BrainTurnResult {
   replyText: string;
   toolCall?: {
     name: 'submitClientInquiry';
     args: ClientInquiryArgs;
   };
+  updatedMemory?: SessionClientMemory;
 }
 
 // Native Gemini Tool Declaration
@@ -113,6 +127,22 @@ Always speak about Sheharyar in the third person (he, him, Sheharyar). You are h
 - Speak in fluid conversational English. You understand and naturally converse with Urdu/Hindi inquiries as well.
 - NEVER use markdown asterisks (*), hashtags (#), or bullet points in your speech output.
 
+[CLIENT NAME FIRST & PERSONALIZATION - STRICT RULE]
+- Always know the client's name. If the client has not shared their name yet, politely ask: "Before we begin, may I have your name please?"
+- When the client shares their name, greet them warmly: "Nice to meet you, [Name]! How can I assist you with your project today?"
+- Address the client by their name across all subsequent conversational turns (e.g., "[Name], project pricing depends strictly...", "Got it, [Name]! I have noted your budget...").
+
+[STRICT ZERO-PRICING GUARDRAIL - ABSOLUTE RULE]
+- NEVER state prices, rates, costs, or fee ranges under ANY circumstances.
+- If the client asks for pricing or rates ("how much do you charge?", "what does it cost?", "kitne paise honge?", "WordPress website ka price batao"):
+  Respond strictly: "Project pricing depends strictly on your custom technical scope and architecture. You can connect directly with Sheharyar on WhatsApp at +92 313 2080033 or via email at sherryansari870@gmail.com for exact rates. In the meantime, what target budget do you have in mind?"
+
+[BUDGET, TIMELINE & CONTACT DISCOVERY -> AUTO FORM TRIGGER]
+- As you discuss requirements, note the client's budget and target timeline.
+- Once scope and budget are discussed, ask for contact details: "To finalize your technical brief for Sheharyar, could you please share your email and WhatsApp number?"
+- As soon as the client provides their email or phone/WhatsApp number, IMMEDIATELY call the function "submitClientInquiry" with all accumulated parameters (clientName, email, phoneOrWhatsApp, recommendedArchitecture, budgetRange, timeline, projectSummary).
+- Confirm to the client: "Thank you, [Name]! I have documented your requirements with your budget of [Budget] and opened the project confirmation form on your screen. Sheharyar will review your brief within 2 hours."
+
 [COMPREHENSIVE WEBSITE CAPABILITIES - NEVER RESTRICT TO JUST WEBSITES]
 Sheharyar Siraj engineers a wide spectrum of advanced technical solutions. You must consult on whatever the prospect needs:
 1. Agentic AI & Multi-Agent Systems: Stateful LangGraph cycles, autonomous tool-calling, multi-step research.
@@ -130,12 +160,6 @@ Sheharyar Siraj engineers a wide spectrum of advanced technical solutions. You m
 13. Interactive Code Arcade (/arcade/): Developer gaming arena with Boss Fighter Mode (battling algorithms with HP & special attacks) and Puzzle Mode across JS, Python, React, HTML/CSS, API/JSON.
 14. Interactive Developer Tools (/tools/): 20 live tools including Schema Generator, Database Bloat Estimator, CPT Exporter, Voice Agent ROI Calculator, Webhook Tester, etc.
 
-[STRICT ZERO-PRICING GUARDRAIL - ABSOLUTE RULE]
-- NEVER state prices, rates, costs, or fee ranges under ANY circumstances.
-- Always ask the client for their target budget: "What budget range do you have in mind for this project?"
-- If the client asks for pricing or rates ("how much do you charge?", "what does it cost?", "kitne paise honge?"):
-  Respond strictly: "Project pricing depends strictly on your custom technical scope and architecture. You can connect directly with Sheharyar on WhatsApp at +92 313 2080033 or via email at sherryansari870@gmail.com for a quote. In the meantime, what target budget do you have in mind?"
-
 [2-DAY LAUNCH / URGENT TIMELINE - VIBE CODING RULE]
 - If the client mentions needing a website in 2 days, urgently, or on a very fast turnaround:
   Recommend Vibe Coding with React: "If you need a website ready in 2 days, we recommend our rapid Vibe Coding architecture with modern React for immediate deployment. What target budget do you have in mind for this fast turnaround?"
@@ -151,9 +175,26 @@ ${GROUND_TRUTH_SYSTEM_CONTEXT}
  */
 function formatGeminiContents(
   history: VoiceMessageTurn[],
-  currentUserMessage: string
+  currentUserMessage: string,
+  currentMemory?: SessionClientMemory
 ): Array<{ role: 'user' | 'model'; parts: Array<{ text: string }> }> {
   const contents: Array<{ role: 'user' | 'model'; parts: Array<{ text: string }> }> = [];
+
+  // Memory preamble if memory exists
+  if (currentMemory && (currentMemory.clientName || currentMemory.budgetRange || currentMemory.recommendedArchitecture)) {
+    contents.push({
+      role: 'user',
+      parts: [
+        {
+          text: `[System Context - Accumulated Client Memory]: Name=${currentMemory.clientName || 'Unknown'}, RecommendedArchitecture=${currentMemory.recommendedArchitecture || 'None'}, Budget=${currentMemory.budgetRange || 'Unspecified'}, Timeline=${currentMemory.timeline || 'Standard'}`
+        }
+      ]
+    });
+    contents.push({
+      role: 'model',
+      parts: [{ text: 'Understood. I will address the client appropriately using this context.' }]
+    });
+  }
 
   for (const turn of history) {
     if (!turn.text || !turn.text.trim()) continue;
@@ -181,7 +222,8 @@ function formatGeminiContents(
  */
 export async function sendVoiceTurnToGemini(
   history: VoiceMessageTurn[],
-  currentUserMessage: string
+  currentUserMessage: string,
+  currentMemory: SessionClientMemory = {}
 ): Promise<BrainTurnResult> {
   const apiKey =
     (import.meta as any).env?.VITE_GEMINI_API_KEY ||
@@ -191,7 +233,7 @@ export async function sendVoiceTurnToGemini(
   // If Gemini API Key is available, dispatch live to Gemini
   if (apiKey && apiKey.trim()) {
     const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-2.5-flash'];
-    const geminiContents = formatGeminiContents(history, currentUserMessage);
+    const geminiContents = formatGeminiContents(history, currentUserMessage, currentMemory);
 
     for (const model of models) {
       try {
@@ -230,20 +272,43 @@ export async function sendVoiceTurnToGemini(
             const funcCall = part.functionCall;
             if (funcCall.name === 'submitClientInquiry') {
               const args: ClientInquiryArgs = funcCall.args || {};
+              const mergedMemory: SessionClientMemory = {
+                ...currentMemory,
+                clientName: args.clientName || currentMemory.clientName,
+                email: args.email || currentMemory.email,
+                phoneOrWhatsApp: args.phoneOrWhatsApp || currentMemory.phoneOrWhatsApp,
+                recommendedArchitecture: args.recommendedArchitecture || currentMemory.recommendedArchitecture,
+                budgetRange: args.budgetRange || currentMemory.budgetRange,
+                timeline: args.timeline || currentMemory.timeline,
+                projectSummary: args.projectSummary || currentMemory.projectSummary
+              };
+
+              const nameGreeting = mergedMemory.clientName ? `, ${mergedMemory.clientName}` : '';
               return {
-                replyText:
-                  "I have documented your project scope and dispatched the brief directly to Sheharyar's desk. You will receive an architectural review within 2 hours. I have also opened your project confirmation on screen.",
+                replyText: `Thank you${nameGreeting}! I have documented your requirements with your budget of ${mergedMemory.budgetRange || 'your target tier'} and opened the project confirmation form on your screen. Sheharyar will review your brief within 2 hours.`,
                 toolCall: {
                   name: 'submitClientInquiry',
-                  args
-                }
+                  args: {
+                    clientName: mergedMemory.clientName || 'Valued Client',
+                    email: mergedMemory.email || 'Provided on Call',
+                    phoneOrWhatsApp: mergedMemory.phoneOrWhatsApp || '+92 313 2080033',
+                    recommendedArchitecture: mergedMemory.recommendedArchitecture || 'Custom Engineering Scoping',
+                    budgetRange: mergedMemory.budgetRange || 'Unspecified',
+                    timeline: mergedMemory.timeline || 'Standard',
+                    projectSummary: mergedMemory.projectSummary || currentUserMessage
+                  }
+                },
+                updatedMemory: mergedMemory
               };
             }
           }
 
           if (part?.text && part.text.trim()) {
+            // Also passively update memory from user turn
+            const updatedMemory = passivelyUpdateMemory(currentUserMessage, history, currentMemory);
             return {
-              replyText: cleanSpeechOutput(part.text.trim())
+              replyText: cleanSpeechOutput(part.text.trim()),
+              updatedMemory
             };
           }
         }
@@ -254,7 +319,7 @@ export async function sendVoiceTurnToGemini(
   }
 
   // Autonomous Grounded Knowledge Fallback
-  return runAutonomousSolutionsBrain(history, currentUserMessage);
+  return runAutonomousSolutionsBrain(history, currentUserMessage, currentMemory);
 }
 
 /**
@@ -269,43 +334,206 @@ function cleanSpeechOutput(text: string): string {
 }
 
 /**
+ * Extracts client name from user query
+ */
+export function extractClientName(
+  query: string,
+  lastModelTurn?: string,
+  existingName?: string
+): string | undefined {
+  if (existingName && existingName.trim()) return existingName.trim();
+
+  // Pattern 1: "My name is [Name]", "I am [Name]", "Call me [Name]", "This is [Name]"
+  const match = query.match(/(?:my name is|i am|i'm|call me|this is)\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)/i);
+  const stopWords = [
+    'interested', 'looking', 'here', 'developer', 'calling', 'asking',
+    'fine', 'good', 'ready', 'happy', 'trying', 'seeking', 'wondering',
+    'someone', 'a client', 'client'
+  ];
+  if (match && !stopWords.includes(match[1].toLowerCase())) {
+    return match[1].trim();
+  }
+
+  // Pattern 2: Elena just asked for the name in previous turn
+  if (
+    lastModelTurn &&
+    (lastModelTurn.toLowerCase().includes('name please') ||
+      lastModelTurn.toLowerCase().includes('your name') ||
+      lastModelTurn.toLowerCase().includes('may i have your name') ||
+      lastModelTurn.toLowerCase().includes('aapka naam'))
+  ) {
+    const words = query.trim().split(/\s+/);
+    if (words.length <= 3 && /^[A-Za-z\s.]+$/.test(query.trim())) {
+      const lower = query.toLowerCase();
+      if (!['yes', 'no', 'hi', 'hello', 'hey', 'ok', 'okay', 'sure', 'fine', 'yeah'].includes(lower)) {
+        return query.trim();
+      }
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Extracts budget amount from user query
+ */
+export function extractBudget(query: string): string | undefined {
+  const match =
+    query.match(/(?:[\$]|usd|rs\.?|pkr|eur|£)\s*(\d[\d,]*(?:\.\d+)?\s*(?:k|thousand|million)?)/i) ||
+    query.match(/(\d[\d,]*(?:\.\d+)?\s*(?:k|usd|dollars|bucks|pkr|rs))/i) ||
+    query.match(/(?:budget is|budget of|around|under|about|upto|up to)\s*(?:about|around)?\s*(\$?\d[\d,]*(?:\.\d+)?\s*(?:k|thousand|million|usd|dollars)?)/i) ||
+    query.match(/\b(\d{3,6})\b/);
+  return match ? match[0].trim() : undefined;
+}
+
+/**
+ * Passively extracts data from user message to update memory
+ */
+function passivelyUpdateMemory(
+  userQuery: string,
+  history: VoiceMessageTurn[],
+  currentMemory: SessionClientMemory = {}
+): SessionClientMemory {
+  const memory: SessionClientMemory = { ...currentMemory };
+  const lastModelTurn = history.length > 0 && history[history.length - 1].role === 'model'
+    ? history[history.length - 1].text
+    : undefined;
+
+  // Name
+  if (!memory.clientName) {
+    const name = extractClientName(userQuery, lastModelTurn, memory.clientName);
+    if (name) memory.clientName = name;
+  }
+
+  // Budget
+  const budget = extractBudget(userQuery);
+  if (budget) memory.budgetRange = budget;
+
+  // Timeline
+  const clean = userQuery.toLowerCase();
+  if (clean.includes('2 day') || clean.includes('urgent') || clean.includes('asap')) {
+    memory.timeline = '2 Days (Urgent)';
+  } else if (clean.includes('1 week') || clean.includes('one week')) {
+    memory.timeline = '1 Week';
+  } else if (clean.includes('month')) {
+    memory.timeline = '1 Month';
+  }
+
+  // Architecture
+  const arch = inferRecommendedArchitecture(history, clean);
+  if (arch && arch !== 'Enterprise Architectural Consultation & Scoping') {
+    memory.recommendedArchitecture = arch;
+  }
+
+  // Email & Phone
+  const emailMatch = userQuery.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
+  if (emailMatch) memory.email = emailMatch[1];
+
+  const phoneMatch = userQuery.match(/(\+?\d[\d\s-]{7,}\d)/);
+  if (phoneMatch) memory.phoneOrWhatsApp = phoneMatch[1];
+
+  return memory;
+}
+
+/**
  * Autonomous Grounded Solutions Brain (Zero-Key Autonomy)
- * Implements Active Discovery, Multi-Service Knowledge, Interactive Tools,
- * Code Arcade Games, and Zero-Pricing Protection directly derived from `groundTruthKnowledge.ts`.
+ * Implements:
+ * 1. Client Name Capture & Personalization Across All Turns
+ * 2. Strict Pricing Guardrail (Zero prices; direct to WhatsApp/Email; ask for budget)
+ * 3. Session Memory (Name, Scope, Budget, Timeline, Email, WhatsApp)
+ * 4. Automatic Form Launch on Contact Submission
+ * 5. Comprehensive Knowledge of All Site Services, Tools & Games
  */
 export function runAutonomousSolutionsBrain(
   history: VoiceMessageTurn[],
-  userQuery: string
+  userQuery: string,
+  currentMemory: SessionClientMemory = {}
 ): BrainTurnResult {
   const clean = userQuery.toLowerCase().trim();
+  const memory: SessionClientMemory = { ...currentMemory };
 
-  // 1. Detect Contact Extraction & Buying Intent for submitClientInquiry Tool Trigger
+  const lastModelTurn = history.length > 0 && history[history.length - 1].role === 'model'
+    ? history[history.length - 1].text
+    : undefined;
+
+  // 1. Extract & Track Client Name
+  let nameWasJustDiscovered = false;
+  if (!memory.clientName) {
+    const discoveredName = extractClientName(userQuery, lastModelTurn);
+    if (discoveredName) {
+      memory.clientName = discoveredName;
+      nameWasJustDiscovered = true;
+    }
+  }
+
+  const namePrefix = memory.clientName ? `${memory.clientName}, ` : '';
+
+  // 2. Extract & Track Budget
+  const detectedBudget = extractBudget(userQuery);
+  if (detectedBudget) {
+    memory.budgetRange = detectedBudget;
+  }
+
+  // 3. Extract & Track Timeline
+  if (clean.includes('2 day') || clean.includes('urgent') || clean.includes('asap')) {
+    memory.timeline = '2 Days (Urgent)';
+  } else if (clean.includes('1 week') || clean.includes('one week')) {
+    memory.timeline = '1 Week';
+  } else if (clean.includes('month')) {
+    memory.timeline = '1 Month';
+  }
+
+  // 4. Extract & Track Technical Architecture
+  const detectedArch = inferRecommendedArchitecture(history, clean);
+  if (detectedArch && detectedArch !== 'Enterprise Architectural Consultation & Scoping') {
+    memory.recommendedArchitecture = detectedArch;
+  }
+
+  // 5. Contact Extraction & Buying Intent -> Auto-Open Lead Form
   const emailMatch = userQuery.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
   const phoneMatch = userQuery.match(/(\+?\d[\d\s-]{7,}\d)/);
 
   if (emailMatch || phoneMatch) {
-    const email = emailMatch ? emailMatch[1] : '';
-    const phoneOrWhatsApp = phoneMatch ? phoneMatch[1] : '';
+    if (emailMatch) memory.email = emailMatch[1];
+    if (phoneMatch) memory.phoneOrWhatsApp = phoneMatch[1];
+
+    const finalClientName = memory.clientName || 'Valued Client';
+    const finalEmail = memory.email || 'Provided on Call';
+    const finalPhone = memory.phoneOrWhatsApp || '+92 313 2080033';
+    const finalArch = memory.recommendedArchitecture || inferRecommendedArchitecture(history, clean);
+    const finalBudget = memory.budgetRange || inferBudget(userQuery);
+    const finalTimeline = memory.timeline || (clean.includes('2 day') || clean.includes('urgent') ? '2 Days' : 'Standard');
 
     return {
-      replyText:
-        "I have documented your project scope and dispatched the brief directly to Sheharyar's desk. You will receive an architectural review within 2 hours. I have also opened your project confirmation on screen.",
+      replyText: `Thank you${memory.clientName ? ', ' + memory.clientName : ''}! I have documented your requirements with your budget of ${finalBudget !== 'Unspecified' ? finalBudget : 'your target tier'} and opened the project confirmation form on your screen. Sheharyar will review your brief within 2 hours.`,
       toolCall: {
         name: 'submitClientInquiry',
         args: {
-          clientName: 'Prospective Client',
-          email: email || 'sherryansari870@gmail.com',
-          phoneOrWhatsApp: phoneOrWhatsApp || '+92 313 2080033',
-          recommendedArchitecture: inferRecommendedArchitecture(history, clean),
-          budgetRange: inferBudget(userQuery),
-          timeline: clean.includes('2 day') || clean.includes('urgent') ? '2 Days' : 'Standard',
+          clientName: finalClientName,
+          email: finalEmail,
+          phoneOrWhatsApp: finalPhone,
+          recommendedArchitecture: finalArch,
+          budgetRange: finalBudget,
+          timeline: finalTimeline,
           projectSummary: userQuery
         }
-      }
+      },
+      updatedMemory: memory
     };
   }
 
-  // 2. Strict Pricing Guardrail - Never quote prices! Always ask for budget or refer to WhatsApp/Email
+  // 6. If Name was just provided by the user in this turn without additional service query:
+  if (nameWasJustDiscovered) {
+    const isOnlyName = clean.length < 35 && !clean.includes('website') && !clean.includes('price') && !clean.includes('excel') && !clean.includes('ai');
+    if (isOnlyName) {
+      return {
+        replyText: `Nice to meet you, ${memory.clientName}! How can I assist you with your project today?`,
+        updatedMemory: memory
+      };
+    }
+  }
+
+  // 7. Strict Pricing Guardrail - Never quote prices! Always direct to WhatsApp/Email & ask for budget
   const isPricingQuery =
     clean.includes('price') ||
     clean.includes('pricing') ||
@@ -320,12 +548,24 @@ export function runAutonomousSolutionsBrain(
 
   if (isPricingQuery) {
     return {
-      replyText:
-        "Project pricing depends strictly on your custom technical requirements and timeline. You can discuss exact rates directly with Sheharyar via WhatsApp at +92 313 2080033 or email at sherryansari870@gmail.com. In the meantime, what target budget range do you have in mind?"
+      replyText: `${namePrefix}project pricing depends strictly on your custom technical requirements and scope. You can discuss exact rates directly with Sheharyar via WhatsApp at +92 313 2080033 or email at sherryansari870@gmail.com. In the meantime, what target budget range do you have in mind?`,
+      updatedMemory: memory
     };
   }
 
-  // 3. 2-Day Website / Urgent Launch Rule -> Recommend Vibe Coding
+  // 8. If user JUST stated a budget (e.g. "$1500", "my budget is 2k", "under 1000 dollars"):
+  const isBudgetTurn =
+    detectedBudget &&
+    (clean.includes('budget') || clean.startsWith('$') || clean.match(/^\d+/) || clean.includes('dollars') || clean.includes('usd') || clean.includes('around') || clean.includes('under'));
+
+  if (isBudgetTurn && !clean.includes('website') && !clean.includes('excel') && !clean.includes('agent')) {
+    return {
+      replyText: `Got it${memory.clientName ? ', ' + memory.clientName : ''}! I have noted your budget of ${memory.budgetRange}. To prepare your project brief and schedule Sheharyar's review, could you please share your email and WhatsApp number?`,
+      updatedMemory: memory
+    };
+  }
+
+  // 9. 2-Day Website / Urgent Launch Rule -> Recommend Vibe Coding
   const isUrgentWebsite =
     (clean.includes('2 day') ||
       clean.includes('two day') ||
@@ -339,12 +579,12 @@ export function runAutonomousSolutionsBrain(
 
   if (isUrgentWebsite || clean.includes('vibe coding')) {
     return {
-      replyText:
-        "If you need a website ready in 2 days, we recommend our rapid Vibe Coding architecture with modern React for immediate deployment. It allows us to deliver a fast, production-ready website on an urgent turnaround. What target budget do you have in mind for this project?"
+      replyText: `${namePrefix}if you need a website ready in 2 days, we recommend our rapid Vibe Coding architecture with modern React for immediate deployment. It allows us to deliver a fast, production-ready website on an urgent turnaround. What target budget do you have in mind for this project?`,
+      updatedMemory: memory
     };
   }
 
-  // 4. Interactive Code Arcade & Mini-Games Queries
+  // 10. Interactive Code Arcade & Mini-Games Queries
   if (
     clean.includes('game') ||
     clean.includes('arcade') ||
@@ -354,12 +594,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('play')
   ) {
     return {
-      replyText:
-        "Yes, our website features an interactive Code Arcade at /arcade/. You can play Puzzle Mode for grid-based code logic or Boss Fighter Mode where you battle algorithmic bosses with real-time code execution across JavaScript, Python, and React. Have you checked it out yet?"
+      replyText: `${namePrefix}our website features an interactive Code Arcade at /arcade/. You can play Puzzle Mode for grid-based code logic or Boss Fighter Mode where you battle algorithmic bosses with real-time code execution across JavaScript, Python, and React. Have you checked it out yet?`,
+      updatedMemory: memory
     };
   }
 
-  // 5. Interactive Developer Tools Queries
+  // 11. Interactive Developer Tools Queries
   if (
     clean.includes('tool') ||
     clean.includes('tools') ||
@@ -370,12 +610,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('webhook tester')
   ) {
     return {
-      replyText:
-        "We have 20 free interactive developer tools live at /tools/, including our Local Schema Generator, WordPress Database Bloat Estimator, Voice Agent ROI Calculator, and n8n Webhook Tester. Which specific utility or engineering task are you trying to test?"
+      replyText: `${namePrefix}we have 20 free interactive developer tools live at /tools/, including our Local Schema Generator, WordPress Database Bloat Estimator, Voice Agent ROI Calculator, and n8n Webhook Tester. Which specific utility or engineering task are you trying to test?`,
+      updatedMemory: memory
     };
   }
 
-  // 6. Agentic AI & Autonomous Multi-Agent Applications
+  // 12. Agentic AI & Autonomous Multi-Agent Applications
   if (
     clean.includes('agentic') ||
     clean.includes('agentic ai') ||
@@ -385,12 +625,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('ai agents')
   ) {
     return {
-      replyText:
-        "Yes, we build deterministic multi-agent AI systems and autonomous workflows using LangGraph and advanced LLM tool-calling. These stateful agents handle multi-step research, automated decision making, and self-correcting error recovery. What specific autonomous workflow or agent task are you looking to automate?"
+      replyText: `${namePrefix}we build deterministic multi-agent AI systems and autonomous workflows using LangGraph and advanced LLM tool-calling. These stateful agents handle multi-step research, automated decision making, and self-correcting error recovery. What specific autonomous workflow or agent task are you looking to automate?`,
+      updatedMemory: memory
     };
   }
 
-  // 7. Contextual AI Chatbots & RAG Systems
+  // 13. Contextual AI Chatbots & RAG Systems
   if (
     clean.includes('rag') ||
     clean.includes('vector database') ||
@@ -400,12 +640,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('knowledge base')
   ) {
     return {
-      replyText:
-        "Yes, we engineer contextual RAG systems and intelligent chatbots with zero hallucination. We connect your enterprise documents, knowledge bases, and vector databases like Pinecone and Qdrant to deliver instant, factual search for customers. What type of documents or customer data do you want your bot to answer from?"
+      replyText: `${namePrefix}we engineer contextual RAG systems and intelligent chatbots with zero hallucination. We connect your enterprise documents, knowledge bases, and vector databases like Pinecone and Qdrant to deliver instant, factual search for customers. What type of documents or customer data do you want your bot to answer from?`,
+      updatedMemory: memory
     };
   }
 
-  // 8. Data Science & Predictive ML
+  // 14. Data Science & Predictive ML
   if (
     clean.includes('data science') ||
     clean.includes('machine learning') ||
@@ -414,12 +654,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('clustering')
   ) {
     return {
-      replyText:
-        "Yes, we develop production Data Science pipelines and predictive machine learning models in Python. From customer churn forecasting and lifetime value modeling to automated feature stores and ML inference APIs, we turn your raw data into predictive intelligence. What machine learning or data science outcome are you aiming for?"
+      replyText: `${namePrefix}we develop production Data Science pipelines and predictive machine learning models in Python. From customer churn forecasting and lifetime value modeling to automated feature stores and ML inference APIs, we turn your raw data into predictive intelligence. What machine learning or data science outcome are you aiming for?`,
+      updatedMemory: memory
     };
   }
 
-  // 9. Data Analytics & Business Intelligence (Power BI, Excel, SQL)
+  // 15. Data Analytics & Business Intelligence (Power BI, Excel, SQL)
   if (
     clean.includes('excel') ||
     clean.includes('sheet') ||
@@ -431,12 +671,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('dashboard')
   ) {
     return {
-      replyText:
-        "Yes, we transform raw spreadsheets and numbers into automated executive dashboards and clean reporting models. We build interactive Power BI dashboards, automated Excel reports with dynamic pivot analysis, and automated SQL query pipelines. What kind of spreadsheet data or business metrics are you looking to track and visualize?"
+      replyText: `${namePrefix}we transform raw spreadsheets and numbers into automated executive dashboards and clean reporting models. We build interactive Power BI dashboards, automated Excel reports with dynamic pivot analysis, and automated SQL query pipelines. What kind of spreadsheet data or business metrics are you looking to track and visualize?`,
+      updatedMemory: memory
     };
   }
 
-  // 10. Autonomous AI Voice Telephony
+  // 16. Autonomous AI Voice Telephony
   if (
     clean.includes('voice agent') ||
     clean.includes('phone bot') ||
@@ -447,12 +687,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('telephony')
   ) {
     return {
-      replyText:
-        "Yes, we deploy conversational AI phone agents that answer incoming calls 24/7 with natural, sub-600ms latency. They handle customer inquiries, book appointments directly into Google Calendar or Cal.com, and sync notes to your CRM. Are you looking for an inbound phone receptionist or outbound automated calling?"
+      replyText: `${namePrefix}we deploy conversational AI phone agents that answer incoming calls 24/7 with natural, sub-600ms latency. They handle customer inquiries, book appointments directly into Google Calendar or Cal.com, and sync notes to your CRM. Are you looking for an inbound phone receptionist or outbound automated calling?`,
+      updatedMemory: memory
     };
   }
 
-  // 11. Workflow Automation & n8n Clusters
+  // 17. Workflow Automation & n8n Clusters
   if (
     clean.includes('n8n') ||
     clean.includes('automation') ||
@@ -461,12 +701,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('workflow')
   ) {
     return {
-      replyText:
-        "Yes, we engineer robust automated workflows using self-hosted n8n Docker clusters and Make.com to eliminate manual repetitive work. We connect your apps, CRMs, and databases with zero data loss while eliminating expensive monthly Zapier fees. Which tools or tasks are you looking to connect and automate?"
+      replyText: `${namePrefix}we engineer robust automated workflows using self-hosted n8n Docker clusters and Make.com to eliminate manual repetitive work. We connect your apps, CRMs, and databases with zero data loss while eliminating expensive monthly Zapier fees. Which tools or tasks are you looking to connect and automate?`,
+      updatedMemory: memory
     };
   }
 
-  // 12. Custom SaaS Architecture & MVP Development
+  // 18. Custom SaaS Architecture & MVP Development
   if (
     clean.includes('saas') ||
     clean.includes('build a saas') ||
@@ -475,12 +715,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('web app')
   ) {
     return {
-      replyText:
-        "Yes, we build custom full-stack SaaS applications and scalable MVPs using Next.js, React, and PostgreSQL. We architect multi-tenant database isolation, Stripe recurring subscription billing, and secure authentication. What is the core functionality of the SaaS platform you are planning to build?"
+      replyText: `${namePrefix}we build custom full-stack SaaS applications and scalable MVPs using Next.js, React, and PostgreSQL. We architect multi-tenant database isolation, Stripe recurring subscription billing, and secure authentication. What is the core functionality of the SaaS platform you are planning to build?`,
+      updatedMemory: memory
     };
   }
 
-  // 13. WooCommerce HPOS & High-Concurrency E-Commerce
+  // 19. WooCommerce HPOS & High-Concurrency E-Commerce
   if (
     clean.includes('woocommerce') ||
     clean.includes('ecommerce') ||
@@ -490,25 +730,26 @@ export function runAutonomousSolutionsBrain(
     clean.includes('shopify')
   ) {
     return {
-      replyText:
-        "Yes, we engineer high-concurrency e-commerce stores designed for seamless checkout and high conversion. We specialize in WooCommerce HPOS architecture, Stripe and PayPal integrations, and database tuning that easily handles over 10,000 orders a day. Are you launching a new online store, or looking to scale an existing shop?"
+      replyText: `${namePrefix}we engineer high-concurrency e-commerce stores designed for seamless checkout and high conversion. We specialize in WooCommerce HPOS architecture, Stripe and PayPal integrations, and database tuning that easily handles over 10,000 orders a day. Are you launching a new online store, or looking to scale an existing shop?`,
+      updatedMemory: memory
     };
   }
 
-  // 14. Custom WordPress VIP Systems
+  // 20. Custom WordPress VIP Systems
   if (
     clean.includes('wordpress') ||
     clean.includes('wp') ||
     clean.includes('gutenberg') ||
-    clean.includes('cms')
+    clean.includes('cms') ||
+    clean.includes('website')
   ) {
     return {
-      replyText:
-        "Yes, we build custom, high-speed websites designed to convert visitors into clients. Whether you need a fresh WordPress VIP build with sub-500ms TTFB or a modern React platform, we ensure 95+ Core Web Vitals and zero page builder bloat. Are you looking to launch urgently or build an ongoing content platform?"
+      replyText: `${namePrefix}we build custom, high-speed websites designed to convert visitors into clients. Whether you need a fresh WordPress VIP build with sub-500ms TTFB or a modern React platform, we ensure 95+ Core Web Vitals and zero page builder bloat. Are you looking to launch urgently or build an ongoing content platform?`,
+      updatedMemory: memory
     };
   }
 
-  // 15. AI Video Ads & Synthetic UGC
+  // 21. AI Video Ads & Synthetic UGC
   if (
     clean.includes('video ad') ||
     clean.includes('ugc') ||
@@ -516,12 +757,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('synthetic video')
   ) {
     return {
-      replyText:
-        "Yes, we produce automated, high-converting AI video ads and synthetic UGC creatives for TikTok, Instagram Reels, and YouTube Shorts. We handle automated scriptwriting, synthetic voice cloning, and realistic avatar generation to scale your ad testing. What product or offer are you looking to create video ads for?"
+      replyText: `${namePrefix}we produce automated, high-converting AI video ads and synthetic UGC creatives for TikTok, Instagram Reels, and YouTube Shorts. We handle automated scriptwriting, synthetic voice cloning, and realistic avatar generation to scale your ad testing. What product or offer are you looking to create video ads for?`,
+      updatedMemory: memory
     };
   }
 
-  // 16. White-Label Agency Subcontracting
+  // 22. White-Label Agency Subcontracting
   if (
     clean.includes('white label') ||
     clean.includes('agency') ||
@@ -530,12 +771,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('retainer')
   ) {
     return {
-      replyText:
-        "Yes, we act as a dedicated behind-the-scenes engineering partner for digital and marketing agencies under strict bilateral NDA. We handle complex WordPress VIP builds, AI voice telephony, and n8n automations with zero junior management overhead. What kind of overflow development capacity is your agency looking for?"
+      replyText: `${namePrefix}we act as a dedicated behind-the-scenes engineering partner for digital and marketing agencies under strict bilateral NDA. We handle complex WordPress VIP builds, AI voice telephony, and n8n automations with zero junior management overhead. What kind of overflow development capacity is your agency looking for?`,
+      updatedMemory: memory
     };
   }
 
-  // 17. Web Scraping & Data Pipelines
+  // 23. Web Scraping & Data Pipelines
   if (
     clean.includes('scraping') ||
     clean.includes('scraper') ||
@@ -543,12 +784,12 @@ export function runAutonomousSolutionsBrain(
     clean.includes('pipeline')
   ) {
     return {
-      replyText:
-        "Yes, we build resilient web scraping pipelines and automated database ETL with headless browser execution and anti-bot bypass. From harvesting competitor pricing to market intelligence extraction, we turn web data into revenue assets. What data sources or websites are you looking to extract?"
+      replyText: `${namePrefix}we build resilient web scraping pipelines and automated database ETL with headless browser execution and anti-bot bypass. From harvesting competitor pricing to market intelligence extraction, we turn web data into revenue assets. What data sources or websites are you looking to extract?`,
+      updatedMemory: memory
     };
   }
 
-  // 18. Buying Intent Phrases
+  // 24. Buying Intent Phrases
   const isBuyingPhrase =
     clean.includes('hire') ||
     clean.includes('start project') ||
@@ -562,12 +803,12 @@ export function runAutonomousSolutionsBrain(
 
   if (isBuyingPhrase) {
     return {
-      replyText:
-        "We would love to help you build this! What target budget and timeline do you have in mind, and what is the best email or WhatsApp number to reach you?"
+      replyText: `${namePrefix}we would love to help you build this! What target budget and timeline do you have in mind, and what is the best email or WhatsApp number to reach you?`,
+      updatedMemory: memory
     };
   }
 
-  // 19. Small Talk & Greetings
+  // 25. Small Talk & Greetings
   if (
     clean.includes('how are you') ||
     clean.includes("how's it going") ||
@@ -575,8 +816,8 @@ export function runAutonomousSolutionsBrain(
     clean.includes('kya haal')
   ) {
     return {
-      replyText:
-        "I'm doing great, thanks for asking! This is Elena, assistant to Sheharyar Siraj. What kind of project or technical challenge are you exploring today?"
+      replyText: `I'm doing great, thanks for asking! This is Elena, assistant to Sheharyar Siraj. What kind of project or technical challenge are you exploring today?`,
+      updatedMemory: memory
     };
   }
 
@@ -587,8 +828,8 @@ export function runAutonomousSolutionsBrain(
     clean.includes('what do you do')
   ) {
     return {
-      replyText:
-        "I am Elena, Executive Solutions Architect for Sheharyar Siraj. I help qualify technical architectures, compare project trade-offs, and manage Sheharyar's engineering schedule. How can I assist you with your project today?"
+      replyText: `I am Elena, Executive Solutions Architect for Sheharyar Siraj. I help qualify technical architectures, compare project trade-offs, and manage Sheharyar's engineering schedule. How can I assist you with your project today?`,
+      updatedMemory: memory
     };
   }
 
@@ -601,20 +842,26 @@ export function runAutonomousSolutionsBrain(
     clean === 'salam' ||
     clean.startsWith('assalam')
   ) {
+    if (!memory.clientName) {
+      return {
+        replyText: `Hi, thanks for calling! This is Elena, assistant to Sheharyar Siraj. Before we begin, may I have your name please?`,
+        updatedMemory: memory
+      };
+    }
     return {
-      replyText:
-        "Hi, thanks for calling! This is Elena, assistant to Sheharyar Siraj. How can I assist you with your project scoping today?"
+      replyText: `Hi ${memory.clientName}! How can I assist you with your project scoping today?`,
+      updatedMemory: memory
     };
   }
 
   if (clean.includes('thank you') || clean.includes('thanks') || clean.includes('shukriya')) {
     return {
-      replyText:
-        "You're very welcome! Feel free to ask about any specific architecture, or reach Sheharyar directly on WhatsApp at +92 313 2080033."
+      replyText: `You're very welcome${memory.clientName ? ', ' + memory.clientName : ''}! Feel free to ask about any specific architecture, or reach Sheharyar directly on WhatsApp at +92 313 2080033.`,
+      updatedMemory: memory
     };
   }
 
-  // 20. Explicit Credentials Query (ONLY volunteer CV info if user explicitly asks)
+  // 26. Explicit Credentials Query (ONLY volunteer CV info if user explicitly asks)
   if (
     clean.includes('credential') ||
     clean.includes('qualification') ||
@@ -623,23 +870,23 @@ export function runAutonomousSolutionsBrain(
     clean.includes('degree')
   ) {
     return {
-      replyText:
-        "Sheharyar holds Cisco Certified Network Professional, Cisco CyberOps, and Google Cloud Vertex AI credentials, backed by over 5 years of remote engineering and 1,200+ completed deployments. All client projects are executed under bilateral NDA with a 30-day warranty. Would you like to discuss your project requirements?"
+      replyText: `Sheharyar holds Cisco Certified Network Professional, Cisco CyberOps, and Google Cloud Vertex AI credentials, backed by over 5 years of remote engineering and 1,200+ completed deployments. All client projects are executed under bilateral NDA with a 30-day warranty. Would you like to discuss your project requirements?`,
+      updatedMemory: memory
     };
   }
 
-  // 21. "Who is Sheharyar?"
+  // 27. "Who is Sheharyar?"
   if (clean.includes('who is sheharyar') || clean.includes('about sheharyar')) {
     return {
-      replyText:
-        "Sheharyar Siraj is a Senior Web Systems Architect and Agentic AI Engineer who builds high-speed web platforms, autonomous AI voice bots, and automated business workflows. He works directly with enterprise clients and digital agencies worldwide under bilateral NDA. What kind of project are you looking to build?"
+      replyText: `Sheharyar Siraj is a Senior Web Systems Architect and Agentic AI Engineer who builds high-speed web platforms, autonomous AI voice bots, and automated business workflows. He works directly with enterprise clients and digital agencies worldwide under bilateral NDA. What kind of project are you looking to build?`,
+      updatedMemory: memory
     };
   }
 
-  // 22. General Discovery Fallback
+  // 28. General Discovery Fallback
   return {
-    replyText:
-      "I hear you! Could you share a bit more about what you're aiming to build, your target timeline, and what budget range you have in mind? Sheharyar provides architectural scoping with a guaranteed 2-hour review."
+    replyText: `${namePrefix}could you share a bit more about what you're aiming to build, your target timeline, and what budget range you have in mind? Sheharyar provides architectural scoping with a guaranteed 2-hour review.`,
+    updatedMemory: memory
   };
 }
 
@@ -665,17 +912,23 @@ function inferRecommendedArchitecture(history: VoiceMessageTurn[], userQuery: st
   if (combined.includes('voice') || combined.includes('phone') || combined.includes('vapi')) {
     return 'Autonomous AI Voice Telephony (Vapi/Twilio)';
   }
-  if (combined.includes('wordpress') || combined.includes('website')) {
-    return 'Custom WordPress VIP Systems Engineering';
-  }
-  if (combined.includes('excel') || combined.includes('power bi') || combined.includes('data')) {
+  if (combined.includes('excel') || combined.includes('power bi') || combined.includes('reporting') || combined.includes('sheet') || combined.includes('dashboard')) {
     return 'Data Analytics & Power BI Dashboards';
+  }
+  if (combined.includes('woocommerce') || combined.includes('ecommerce') || combined.includes('shop') || combined.includes('store')) {
+    return 'WooCommerce HPOS & High-Concurrency E-Commerce';
+  }
+  if (combined.includes('wordpress') || combined.includes('website') || combined.includes('web')) {
+    return 'Custom WordPress VIP Systems Engineering';
   }
   if (combined.includes('n8n') || combined.includes('automation') || combined.includes('zapier')) {
     return 'Self-Hosted n8n Workflow Clusters';
   }
   if (combined.includes('saas') || combined.includes('mvp')) {
     return 'Custom SaaS Architecture & MVP Development';
+  }
+  if (combined.includes('video ad') || combined.includes('ugc')) {
+    return 'AI Video Ads & Synthetic UGC';
   }
   if (combined.includes('agency') || combined.includes('white-label')) {
     return 'White-Label Agency Subcontracting Retainer';

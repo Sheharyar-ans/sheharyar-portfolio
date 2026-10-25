@@ -27,7 +27,8 @@ import {
 import {
   sendVoiceTurnToGemini,
   VoiceMessageTurn,
-  ClientInquiryArgs
+  ClientInquiryArgs,
+  SessionClientMemory
 } from '../services/voiceGeminiBrain';
 import { dispatchLeadNotification } from '../utils/emailDispatch';
 import { ARCHITECT_IDENTITY } from '../data/groundTruthKnowledge';
@@ -39,7 +40,7 @@ interface VoiceAssistantModalProps {
 }
 
 const INITIAL_GREETING =
-  "Hi, thanks for calling! This is Elena, assistant to Sheharyar Siraj. Sheharyar is in an active engineering session, but I manage his scoping across AI agents, data science, and web systems. How can I assist you with your project today?";
+  "Hi, thanks for calling! This is Elena, assistant to Sheharyar Siraj. Sheharyar is in an active engineering session, but I manage his scoping across AI agents, data science, and web systems. Before we begin, may I have your name please?";
 
 export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   onOpenInquiry,
@@ -73,6 +74,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const echoCooldownTimerRef = useRef<any>(null);
   const historyRef = useRef<VoiceMessageTurn[]>([]);
   const hasGreetedRef = useRef(false);
+  const sessionMemoryRef = useRef<SessionClientMemory>({});
 
   // Keep live references in sync without triggering re-renders
   isMicMutedRef.current = isMicMuted;
@@ -203,7 +205,15 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       setHistory(updatedHistory);
 
       try {
-        const brainResult = await sendVoiceTurnToGemini(historyRef.current, speechQuery);
+        const brainResult = await sendVoiceTurnToGemini(historyRef.current, speechQuery, sessionMemoryRef.current);
+
+        // Update session memory
+        if (brainResult.updatedMemory) {
+          sessionMemoryRef.current = {
+            ...sessionMemoryRef.current,
+            ...brainResult.updatedMemory
+          };
+        }
 
         setAiTranscript(brainResult.replyText);
 
@@ -213,7 +223,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
         // If native function calling was triggered, auto-fill modal & dispatch email
         if (brainResult.toolCall?.name === 'submitClientInquiry') {
-          handleInquirySubmission(brainResult.toolCall.args);
+          const finalLeadArgs: ClientInquiryArgs = {
+            ...brainResult.toolCall.args,
+            clientName: brainResult.toolCall.args.clientName || sessionMemoryRef.current.clientName,
+            recommendedArchitecture: brainResult.toolCall.args.recommendedArchitecture || sessionMemoryRef.current.recommendedArchitecture,
+            budgetRange: brainResult.toolCall.args.budgetRange || sessionMemoryRef.current.budgetRange,
+            timeline: brainResult.toolCall.args.timeline || sessionMemoryRef.current.timeline
+          };
+          handleInquirySubmission(finalLeadArgs);
         }
 
         // Vocalize response with mic completely shut off
@@ -481,6 +498,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const handleResetConversation = () => {
     stopSpeaking();
     historyRef.current = [];
+    sessionMemoryRef.current = {};
     setHistory([]);
     setUserTranscript('');
     hasGreetedRef.current = false;
