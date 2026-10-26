@@ -361,15 +361,18 @@ export function extractClientName(
 ): string | undefined {
   if (existingName && existingName.trim()) return existingName.trim();
 
-  // Pattern 1: "My name is [Name]", "I am [Name]", "Call me [Name]", "This is [Name]"
-  const match = query.match(/(?:my name is|i am|i'm|call me|this is)\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)/i);
+  // Pattern 1: English & Roman Urdu: "My name is [Name]", "Mera naam [Name] hai", "I am [Name]", "Call me [Name]", "Main hoon [Name]"
+  const match = query.match(/(?:my name is|i am|i'm|call me|this is|mera naam|naam hai|main hoon|mai hoon)\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)/i);
   const stopWords = [
     'interested', 'looking', 'here', 'developer', 'calling', 'asking',
     'fine', 'good', 'ready', 'happy', 'trying', 'seeking', 'wondering',
-    'someone', 'a client', 'client'
+    'someone', 'a client', 'client', 'ek', 'aik', 'theek', 'acha', 'acha hoon'
   ];
-  if (match && !stopWords.includes(match[1].toLowerCase())) {
-    return match[1].trim();
+  if (match) {
+    const cleanName = match[1].trim().replace(/\s+(?:hai|hon|hoon)$/i, '');
+    if (!stopWords.includes(cleanName.toLowerCase()) && cleanName.length >= 2) {
+      return cleanName;
+    }
   }
 
   // Pattern 2: Elena just asked for the name in previous turn
@@ -380,11 +383,12 @@ export function extractClientName(
       lastModelTurn.toLowerCase().includes('may i have your name') ||
       lastModelTurn.toLowerCase().includes('aapka naam'))
   ) {
-    const words = query.trim().split(/\s+/);
-    if (words.length <= 3 && /^[A-Za-z\s.]+$/.test(query.trim())) {
-      const lower = query.toLowerCase();
-      if (!['yes', 'no', 'hi', 'hello', 'hey', 'ok', 'okay', 'sure', 'fine', 'yeah'].includes(lower)) {
-        return query.trim();
+    const candidate = query.trim().replace(/^(?:mera naam|my name is|i am|main hoon)\s+/i, '').replace(/\s+(?:hai|hoon)$/i, '').trim();
+    const words = candidate.split(/\s+/);
+    if (words.length <= 3 && /^[A-Za-z\s.]+$/.test(candidate)) {
+      const lower = candidate.toLowerCase();
+      if (!['yes', 'no', 'hi', 'hello', 'hey', 'ok', 'okay', 'sure', 'fine', 'yeah', 'theek', 'acha', 'salam', 'assalam'].includes(lower)) {
+        return candidate;
       }
     }
   }
@@ -542,10 +546,10 @@ export function runAutonomousSolutionsBrain(
 
   // 6. If Name was just provided by the user in this turn without additional service query:
   if (nameWasJustDiscovered) {
-    const isOnlyName = clean.length < 35 && !clean.includes('website') && !clean.includes('price') && !clean.includes('excel') && !clean.includes('ai');
+    const isOnlyName = clean.length < 45 && !clean.includes('website') && !clean.includes('price') && !clean.includes('excel') && !clean.includes('ai') && !clean.includes('agent');
     if (isOnlyName) {
       return {
-        replyText: `Nice to meet you, ${memory.clientName}! How can I assist you with your project today?`,
+        replyText: `Nice to meet you, ${memory.clientName}! Sheharyar specializes in custom WordPress VIP platforms, autonomous AI bots, and automated data pipelines. What kind of project are you looking to build?`,
         updatedMemory: memory
       };
     }

@@ -73,12 +73,15 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const isMicMutedRef = useRef(false);
   const isModalOpenRef = useRef(isModalOpen);
   const isProcessingRef = useRef(false);
+  const isExecutingTurnRef = useRef(false);
+  const turnWatchdogTimerRef = useRef<any>(null);
   const silenceTimerRef = useRef<any>(null);
   const echoCooldownTimerRef = useRef<any>(null);
   const historyRef = useRef<VoiceMessageTurn[]>([]);
   const hasGreetedRef = useRef(false);
   const sessionMemoryRef = useRef<SessionClientMemory>({});
   const isInquiryCompletedRef = useRef(false);
+  const handleCloseRef = useRef<() => void>(() => {});
 
   // Detect mobile user agent
   const isMobileDevice =
@@ -90,31 +93,6 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   isMicMutedRef.current = isMicMuted;
   isModalOpenRef.current = isModalOpen;
 
-  // Safe microphone recognition restarter: non-blocking, mobile-compatible
-  const restartRecognition = useCallback(() => {
-    if (
-      !recognitionRef.current ||
-      isBotSpeakingRef.current ||
-      isMicMutedRef.current ||
-      !isModalOpenRef.current ||
-      isProcessingRef.current ||
-      isRecognitionActiveRef.current
-    ) {
-      return;
-    }
-    try {
-      recognitionRef.current.start();
-      isRecognitionActiveRef.current = true;
-      setVisualState('listening');
-    } catch (err: any) {
-      if (err?.name === 'InvalidStateError') {
-        isRecognitionActiveRef.current = true;
-      } else {
-        isRecognitionActiveRef.current = false;
-      }
-    }
-  }, []);
-
   // Safe microphone recognition stopper
   const stopRecognition = useCallback(() => {
     if (recognitionRef.current && isRecognitionActiveRef.current) {
@@ -124,6 +102,167 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       isRecognitionActiveRef.current = false;
     }
   }, []);
+
+  // Safe factory for creating and starting a fresh SpeechRecognition instance (Mobile Resilient)
+  const createAndStartRecognizer = useCallback(() => {
+    if (
+      isBotSpeakingRef.current ||
+      isMicMutedRef.current ||
+      !isModalOpenRef.current ||
+      isProcessingRef.current ||
+      isExecutingTurnRef.current
+    ) {
+      return;
+    }
+
+    const SpeechRecognitionClass =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognitionClass) {
+      setHasMicrophonePermission(false);
+      return;
+    }
+
+    // Clean up any stale instance
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.abort();
+      } catch {}
+      recognitionRef.current = null;
+    }
+
+    try {
+      const recognizer = new SpeechRecognitionClass();
+      recognizer.continuous = !isMobileDevice;
+      recognizer.interimResults = true;
+      recognizer.lang = 'en-US';
+
+      let lastInterim = '';
+
+      recognizer.onstart = () => {
+        isRecognitionActiveRef.current = true;
+        if (!isBotSpeakingRef.current && !isProcessingRef.current && !isExecutingTurnRef.current) {
+          setVisualState('listening');
+        }
+      };
+
+      recognizer.onresult = (event: any) => {
+        if (isBotSpeakingRef.current || isMicMutedRef.current || isProcessingRef.current || isExecutingTurnRef.current) {
+          return;
+        }
+
+        let interimChunk = '';
+        let finalChunk = '';
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const transcript = event.results[i][0]?.transcript || '';
+          if (event.results[i].isFinal) {
+            finalChunk += transcript;
+          } else {
+            interimChunk += transcript;
+          }
+        }
+
+        if (interimChunk) {
+          lastInterim = interimChunk;
+          setUserTranscript(interimChunk);
+        }
+
+        if (finalChunk && finalChunk.trim()) {
+          lastInterim = '';
+          setUserTranscript(finalChunk.trim());
+          // Halt recognizer and queue query with thinking state
+          isProcessingRef.current = true;
+          stopRecognition();
+          setVisualState('thinking');
+          if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+          silenceTimerRef.current = setTimeout(() => {
+            handleUserQueryRef.current(finalChunk.trim());
+          }, 200);
+        } else if (lastInterim && lastInterim.trim().length > 1) {
+          if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+          silenceTimerRef.current = setTimeout(() => {
+            if (lastInterim && !isBotSpeakingRef.current && !isProcessingRef.current && !isExecutingTurnRef.current) {
+              const query = lastInterim.trim();
+              lastInterim = '';
+              isProcessingRef.current = true;
+              stopRecognition();
+              setVisualState('thinking');
+              handleUserQueryRef.current(query);
+            }
+          }, isMobileDevice ? 1100 : 800);
+        }
+      };
+
+      recognizer.onerror = (e: any) => {
+        if (e.error === 'not-allowed') {
+          setHasMicrophonePermission(false);
+        }
+        if (e.error !== 'no-speech' && e.error !== 'aborted') {
+          console.warn('Speech recognition notice:', e.error);
+        }
+        if (e.error !== 'no-speech') {
+          isRecognitionActiveRef.current = false;
+        }
+      };
+
+      recognizer.onend = () => {
+        isRecognitionActiveRef.current = false;
+        // On mobile or desktop, if modal is open and bot isn't speaking, re-arm cleanly
+        if (
+          isModalOpenRef.current &&
+          !isBotSpeakingRef.current &&
+          !isMicMutedRef.current &&
+          !isProcessingRef.current &&
+          !isExecutingTurnRef.current
+        ) {
+          setTimeout(() => {
+            restartRecognition();
+          }, isMobileDevice ? 250 : 150);
+        }
+      };
+
+      recognitionRef.current = recognizer;
+      recognizer.start();
+      isRecognitionActiveRef.current = true;
+      if (!isBotSpeakingRef.current && !isProcessingRef.current && !isExecutingTurnRef.current) {
+        setVisualState('listening');
+      }
+    } catch (err) {
+      console.warn('Speech recognition start notice:', err);
+      isRecognitionActiveRef.current = false;
+    }
+  }, [isMobileDevice, stopRecognition]);
+
+  // Safe microphone recognition restarter: non-blocking, mobile-compatible
+  const restartRecognition = useCallback(() => {
+    if (
+      isBotSpeakingRef.current ||
+      isMicMutedRef.current ||
+      !isModalOpenRef.current ||
+      isProcessingRef.current ||
+      isExecutingTurnRef.current ||
+      isRecognitionActiveRef.current
+    ) {
+      return;
+    }
+
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.start();
+        isRecognitionActiveRef.current = true;
+        setVisualState('listening');
+        return;
+      } catch (err: any) {
+        if (err?.name === 'InvalidStateError') {
+          isRecognitionActiveRef.current = true;
+          return;
+        }
+        isRecognitionActiveRef.current = false;
+      }
+    }
+
+    createAndStartRecognizer();
+  }, [createAndStartRecognizer]);
 
   // Dispatch Inquiry & Save to Lead System
   const handleInquirySubmission = useCallback(async (leadArgs: ClientInquiryArgs) => {
@@ -183,33 +322,64 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   // Process User Speech through Central LLM Brain (Gemini with RAG Fallback)
   const handleUserQuery = useCallback(
     async (speechQuery: string) => {
-      if (!speechQuery || !speechQuery.trim() || isProcessingRef.current || isBotSpeakingRef.current) {
+      const trimmed = speechQuery?.trim();
+      if (!trimmed || isExecutingTurnRef.current || isBotSpeakingRef.current) {
+        if (!isExecutingTurnRef.current && !isBotSpeakingRef.current) {
+          isProcessingRef.current = false;
+          if (isModalOpenRef.current && !isMicMutedRef.current) {
+            setVisualState('listening');
+            restartRecognition();
+          }
+        }
         return;
       }
+
+      // Mark executing turn and prevent re-entrance
+      isProcessingRef.current = true;
+      isExecutingTurnRef.current = true;
+      stopRecognition();
+      setVisualState('thinking');
+      setUserTranscript(trimmed);
 
       // Self-Echo Guard: Check if the speech query is a stray echo of what the bot just vocalized
-      const cleanInput = speechQuery.toLowerCase().replace(/[^a-z0-9]/g, ' ').trim();
+      const cleanInput = trimmed.toLowerCase().replace(/[^a-z0-9]/g, ' ').trim();
       const cleanBot = aiTranscript.toLowerCase().replace(/[^a-z0-9]/g, ' ').trim();
       if (cleanInput.length > 8 && cleanBot.includes(cleanInput)) {
-        console.warn('[Acoustic Echo Guard]: Dropped speaker echo feedback:', speechQuery);
+        console.warn('[Acoustic Echo Guard]: Dropped speaker echo feedback:', trimmed);
+        isProcessingRef.current = false;
+        isExecutingTurnRef.current = false;
+        if (isModalOpenRef.current && !isMicMutedRef.current) {
+          setVisualState('listening');
+          restartRecognition();
+        } else {
+          setVisualState('idle');
+        }
         return;
       }
 
-      isProcessingRef.current = true;
+      // 7-Second Turn Watchdog: Guarantees that visualState and locks auto-recover if backend/TTS stalls
+      if (turnWatchdogTimerRef.current) clearTimeout(turnWatchdogTimerRef.current);
+      turnWatchdogTimerRef.current = setTimeout(() => {
+        if (isExecutingTurnRef.current && !isBotSpeakingRef.current) {
+          console.warn('[Turn Watchdog] Auto-recovered stalled voice turn.');
+          isProcessingRef.current = false;
+          isExecutingTurnRef.current = false;
+          if (isModalOpenRef.current && !isMicMutedRef.current) {
+            setVisualState('listening');
+            restartRecognition();
+          } else {
+            setVisualState('idle');
+          }
+        }
+      }, 7000);
 
-      // Stop speech recognition immediately while processing and speaking
-      stopRecognition();
-
-      setVisualState('thinking');
-      setUserTranscript(speechQuery);
-
-      const currentTurn: VoiceMessageTurn = { role: 'user', text: speechQuery };
+      const currentTurn: VoiceMessageTurn = { role: 'user', text: trimmed };
       const updatedHistory = [...historyRef.current, currentTurn];
       historyRef.current = updatedHistory;
       setHistory(updatedHistory);
 
       try {
-        const brainResult = await sendVoiceTurnToGemini(historyRef.current, speechQuery, sessionMemoryRef.current);
+        const brainResult = await sendVoiceTurnToGemini(historyRef.current, trimmed, sessionMemoryRef.current);
 
         // Update session memory
         if (brainResult.updatedMemory) {
@@ -244,17 +414,22 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
         speakText(brainResult.replyText, {
           onStart: () => {
+            if (turnWatchdogTimerRef.current) clearTimeout(turnWatchdogTimerRef.current);
             isBotSpeakingRef.current = true;
+            isExecutingTurnRef.current = false;
             setVisualState('speaking');
           },
           onEnd: () => {
+            if (turnWatchdogTimerRef.current) clearTimeout(turnWatchdogTimerRef.current);
+            isExecutingTurnRef.current = false;
+
             // If project scope was confirmed and inquiry dispatched: automatically disconnect call
             if (isInquiryCompletedRef.current) {
               setVisualState('idle');
               isBotSpeakingRef.current = false;
               isProcessingRef.current = false;
               setTimeout(() => {
-                handleClose();
+                handleCloseRef.current();
               }, 1800);
               return;
             }
@@ -273,16 +448,30 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
             }, isMobileDevice ? 550 : 400);
           },
           onError: () => {
+            if (turnWatchdogTimerRef.current) clearTimeout(turnWatchdogTimerRef.current);
             isBotSpeakingRef.current = false;
             isProcessingRef.current = false;
-            setVisualState('idle');
+            isExecutingTurnRef.current = false;
+            if (isModalOpenRef.current && !isMicMutedRef.current) {
+              setVisualState('listening');
+              restartRecognition();
+            } else {
+              setVisualState('idle');
+            }
           }
         });
       } catch (err) {
         console.error('Error in voice turn processing:', err);
+        if (turnWatchdogTimerRef.current) clearTimeout(turnWatchdogTimerRef.current);
         isProcessingRef.current = false;
+        isExecutingTurnRef.current = false;
         isBotSpeakingRef.current = false;
-        setVisualState('idle');
+        if (isModalOpenRef.current && !isMicMutedRef.current) {
+          setVisualState('listening');
+          restartRecognition();
+        } else {
+          setVisualState('idle');
+        }
       }
     },
     [aiTranscript, handleInquirySubmission, isMobileDevice, restartRecognition, stopRecognition]
@@ -294,109 +483,8 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
   // Initialize Hardware Audio Stream & Web Speech Recognition (Mobile Hardened)
   const startHardwareSession = useCallback(() => {
-    // 1. Speech Recognition Initialization (runs independently without awaiting getUserMedia)
-    const SpeechRecognitionClass =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
-    if (SpeechRecognitionClass) {
-      try {
-        const recognizer = new SpeechRecognitionClass();
-        // On mobile, continuous=false prevents Android engine lockups and dropped turns
-        recognizer.continuous = !isMobileDevice;
-        recognizer.interimResults = true;
-        recognizer.lang = 'en-US';
-
-        let lastInterim = '';
-
-        recognizer.onstart = () => {
-          isRecognitionActiveRef.current = true;
-          if (!isBotSpeakingRef.current && !isProcessingRef.current) {
-            setVisualState('listening');
-          }
-        };
-
-        recognizer.onresult = (event: any) => {
-          if (isBotSpeakingRef.current || isMicMutedRef.current || isProcessingRef.current) {
-            return;
-          }
-
-          let interimChunk = '';
-          let finalChunk = '';
-
-          for (let i = event.resultIndex; i < event.results.length; ++i) {
-            const transcript = event.results[i][0]?.transcript || '';
-            if (event.results[i].isFinal) {
-              finalChunk += transcript;
-            } else {
-              interimChunk += transcript;
-            }
-          }
-
-          if (interimChunk) {
-            lastInterim = interimChunk;
-            setUserTranscript(interimChunk);
-          }
-
-          if (finalChunk && finalChunk.trim()) {
-            lastInterim = '';
-            setUserTranscript(finalChunk.trim());
-            // Immediately lock processing and halt recognizer to eliminate mobile onend race condition
-            isProcessingRef.current = true;
-            stopRecognition();
-            setVisualState('thinking');
-            if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
-            silenceTimerRef.current = setTimeout(() => {
-              handleUserQueryRef.current(finalChunk.trim());
-            }, 250);
-          } else if (lastInterim && lastInterim.trim().length > 1) {
-            if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
-            silenceTimerRef.current = setTimeout(() => {
-              if (lastInterim && !isBotSpeakingRef.current && !isProcessingRef.current) {
-                const query = lastInterim.trim();
-                lastInterim = '';
-                isProcessingRef.current = true;
-                stopRecognition();
-                setVisualState('thinking');
-                handleUserQueryRef.current(query);
-              }
-            }, isMobileDevice ? 1200 : 900);
-          }
-        };
-
-        recognizer.onerror = (e: any) => {
-          if (e.error === 'not-allowed') {
-            setHasMicrophonePermission(false);
-          }
-          if (e.error !== 'no-speech' && e.error !== 'aborted') {
-            console.warn('Speech recognition notice:', e.error);
-          }
-          if (e.error !== 'no-speech') {
-            isRecognitionActiveRef.current = false;
-          }
-        };
-
-        recognizer.onend = () => {
-          isRecognitionActiveRef.current = false;
-          // Re-arm recognition cleanly if modal is open and bot isn't speaking
-          if (
-            isModalOpenRef.current &&
-            !isBotSpeakingRef.current &&
-            !isMicMutedRef.current &&
-            !isProcessingRef.current
-          ) {
-            setTimeout(() => {
-              restartRecognition();
-            }, isMobileDevice ? 250 : 150);
-          }
-        };
-
-        recognitionRef.current = recognizer;
-      } catch (err) {
-        console.warn('Speech recognition init notice:', err);
-      }
-    } else {
-      setHasMicrophonePermission(false);
-    }
+    // 1. Speech Recognition Initialization
+    createAndStartRecognizer();
 
     // 2. Greet user strictly ONCE per modal session
     if (!hasGreetedRef.current) {
@@ -426,7 +514,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           console.debug('Background visualizer stream notice:', err);
         });
     }
-  }, [isMobileDevice, restartRecognition, speakInitialGreeting]);
+  }, [createAndStartRecognizer, speakInitialGreeting]);
 
   // Clean Hardware Teardown
   const teardownHardwareSession = useCallback(() => {
@@ -434,7 +522,13 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     stopRecognition();
     isBotSpeakingRef.current = false;
     isProcessingRef.current = false;
+    isExecutingTurnRef.current = false;
     hasGreetedRef.current = false;
+
+    if (turnWatchdogTimerRef.current) {
+      clearTimeout(turnWatchdogTimerRef.current);
+      turnWatchdogTimerRef.current = null;
+    }
 
     if (recognitionRef.current) {
       recognitionRef.current = null;
@@ -482,13 +576,15 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isModalOpen]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (controlledOnClose) {
       controlledOnClose();
     } else {
       setInternalIsOpen(false);
     }
-  };
+  }, [controlledOnClose]);
+
+  handleCloseRef.current = handleClose;
 
   const handleOpen = () => {
     primeMobileSpeechEngine();
@@ -512,6 +608,11 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     stopRecognition();
     isBotSpeakingRef.current = false;
     isProcessingRef.current = false;
+    isExecutingTurnRef.current = false;
+    if (turnWatchdogTimerRef.current) {
+      clearTimeout(turnWatchdogTimerRef.current);
+      turnWatchdogTimerRef.current = null;
+    }
     if (echoCooldownTimerRef.current) {
       clearTimeout(echoCooldownTimerRef.current);
       echoCooldownTimerRef.current = null;

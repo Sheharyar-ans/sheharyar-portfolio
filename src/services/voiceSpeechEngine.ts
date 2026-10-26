@@ -268,12 +268,13 @@ export function speakText(
 ): SpeechSynthesisUtterance | null {
   if (typeof window === 'undefined' || !window.speechSynthesis) return null;
 
+  const wasSpeaking = window.speechSynthesis.speaking || window.speechSynthesis.pending;
   try {
     if (window.speechSynthesis.paused) {
       window.speechSynthesis.resume();
     }
-    // Cancel any prior speech immediately
-    if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+    // Cancel any prior speech
+    if (wasSpeaking) {
       window.speechSynthesis.cancel();
     }
   } catch {
@@ -303,6 +304,26 @@ export function speakText(
 
   const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
   let keepAliveTimer: any = null;
+  let safetyFallbackTimer: any = null;
+  let hasCompleted = false;
+
+  const cleanUp = () => {
+    if (keepAliveTimer) {
+      clearInterval(keepAliveTimer);
+      keepAliveTimer = null;
+    }
+    if (safetyFallbackTimer) {
+      clearTimeout(safetyFallbackTimer);
+      safetyFallbackTimer = null;
+    }
+  };
+
+  const notifyEndOnce = () => {
+    if (hasCompleted) return;
+    hasCompleted = true;
+    cleanUp();
+    callbacks.onEnd?.();
+  };
 
   utterance.onstart = () => {
     // Only run pause/resume keep-alive on desktop Chrome, NEVER on iOS (iOS freezes on pause)
@@ -317,35 +338,45 @@ export function speakText(
     callbacks.onStart?.();
   };
 
-  const cleanUp = () => {
-    if (keepAliveTimer) {
-      clearInterval(keepAliveTimer);
-      keepAliveTimer = null;
-    }
-  };
-
   utterance.onend = () => {
-    cleanUp();
-    callbacks.onEnd?.();
+    notifyEndOnce();
   };
 
   utterance.onerror = (e) => {
-    cleanUp();
     if (e.error !== 'canceled' && e.error !== 'interrupted') {
+      cleanUp();
       callbacks.onError?.(e);
     } else {
-      callbacks.onEnd?.();
+      notifyEndOnce();
     }
   };
 
-  try {
-    window.speechSynthesis.speak(utterance);
-    // Extra wake-up pulse for mobile browsers
-    if (window.speechSynthesis.paused) {
-      window.speechSynthesis.resume();
+  // Safety Fallback Watchdog: If onend is dropped by mobile browser engine, auto-resolve
+  const estimatedSeconds = Math.max(4, Math.ceil(normalized.split(/\s+/).length / 2.2) + 3);
+  safetyFallbackTimer = setTimeout(() => {
+    if (!hasCompleted) {
+      console.warn(`[TTS Safety Watchdog] Triggered fallback after ${estimatedSeconds}s.`);
+      notifyEndOnce();
     }
-  } catch (err) {
-    console.warn('Speech synthesis speak notice:', err);
+  }, estimatedSeconds * 1000);
+
+  // Buffer speak execution by 40ms if previous speech was cancelled to prevent iOS WebKit dropped utterance bug
+  const executeSpeak = () => {
+    try {
+      window.speechSynthesis.speak(utterance);
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+    } catch (err) {
+      console.warn('Speech synthesis speak notice:', err);
+      notifyEndOnce();
+    }
+  };
+
+  if (wasSpeaking) {
+    setTimeout(executeSpeak, 40);
+  } else {
+    executeSpeak();
   }
 
   return utterance;
