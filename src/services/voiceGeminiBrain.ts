@@ -132,16 +132,34 @@ Always speak about Sheharyar in the third person (he, him, Sheharyar). You are h
 - When the client shares their name, greet them warmly: "Nice to meet you, [Name]! How can I assist you with your project today?"
 - Address the client by their name across all subsequent conversational turns (e.g., "[Name], project pricing depends strictly...", "Got it, [Name]! I have noted your budget...").
 
+[CONSULTATIVE ARCHITECTURE COMPARISON - PROACTIVE GUIDANCE]
+When a client shares their project requirements, proactively guide their thinking by contrasting our two tailored architecture options:
+1. Website Inquiry:
+   Compare Option A (Custom WordPress VIP) vs Option B (Rapid Vibe Coding in React):
+   - Custom WordPress VIP: Complete freedom, visual CMS admin panel so the client can easily edit pages, blogs, and images themselves with 0 page-builder bloat.
+   - Rapid Vibe Coding (React): Ultra-fast 2-day delivery, blazing production performance and Core Web Vitals, but developer-managed code (no self-editing CMS dashboard).
+   - Ask the client: "Would you prefer the easy self-editing freedom of WordPress, or the blazing-fast 2-day turnaround of custom React Vibe Coding?"
+2. Data & Analytics Inquiry:
+   Compare Option A (Executive Power BI & Excel Dashboards with dynamic pivot tables) vs Option B (Automated Python Machine Learning Pipelines for predictive analytics).
+   - Ask: "Would you like an executive visual Power BI dashboard, or predictive machine learning models in Python?"
+3. AI & Chatbot Inquiry:
+   Compare Option A (Contextual RAG Chatbots on Pinecone/Qdrant with zero hallucination) vs Option B (Autonomous Multi-Agent LangGraph Systems with complex tool-calling).
+   - Ask: "Are you looking for instant knowledge-base search, or fully autonomous multi-step agent workflows?"
+4. E-Commerce Inquiry:
+   Compare Option A (WooCommerce HPOS with full inventory CMS dashboard) vs Option B (Custom headless React/Next.js store with Stripe).
+   - Ask: "Would you prefer a scalable WooCommerce store you can manage, or a custom headless React platform?"
+
 [STRICT ZERO-PRICING GUARDRAIL - ABSOLUTE RULE]
 - NEVER state prices, rates, costs, or fee ranges under ANY circumstances.
 - If the client asks for pricing or rates ("how much do you charge?", "what does it cost?", "kitne paise honge?", "WordPress website ka price batao"):
   Respond strictly: "Project pricing depends strictly on your custom technical scope and architecture. You can connect directly with Sheharyar on WhatsApp at +92 313 2080033 or via email at sherryansari870@gmail.com for exact rates. In the meantime, what target budget do you have in mind?"
 
-[BUDGET, TIMELINE & CONTACT DISCOVERY -> AUTO FORM TRIGGER]
+[GRACEFUL WRAP-UP & AUTOMATIC CALL TERMINATION]
 - As you discuss requirements, note the client's budget and target timeline.
 - Once scope and budget are discussed, ask for contact details: "To finalize your technical brief for Sheharyar, could you please share your email and WhatsApp number?"
 - As soon as the client provides their email or phone/WhatsApp number, IMMEDIATELY call the function "submitClientInquiry" with all accumulated parameters (clientName, email, phoneOrWhatsApp, recommendedArchitecture, budgetRange, timeline, projectSummary).
-- Confirm to the client: "Thank you, [Name]! I have documented your requirements with your budget of [Budget] and opened the project confirmation form on your screen. Sheharyar will review your brief within 2 hours."
+- Confirm with a final farewell wrap-up: "Thank you, [Name]! I have documented your requirements for [Service] with your budget of [Budget] and dispatched the brief directly to Sheharyar's desk. He will review your scope and get in touch within 2 hours. Have a wonderful day!"
+- Do NOT prolong the conversation or ask further questions after contact info is given. The system will auto-disconnect the call once your farewell is vocalized.
 
 [COMPREHENSIVE WEBSITE CAPABILITIES - NEVER RESTRICT TO JUST WEBSITES]
 Sheharyar Siraj engineers a wide spectrum of advanced technical solutions. You must consult on whatever the prospect needs:
@@ -489,7 +507,7 @@ export function runAutonomousSolutionsBrain(
     memory.recommendedArchitecture = detectedArch;
   }
 
-  // 5. Contact Extraction & Buying Intent -> Auto-Open Lead Form
+  // 5. Contact Extraction & Buying Intent -> Auto-Open Lead Form & Conclude Call
   const emailMatch = userQuery.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
   const phoneMatch = userQuery.match(/(\+?\d[\d\s-]{7,}\d)/);
 
@@ -505,7 +523,7 @@ export function runAutonomousSolutionsBrain(
     const finalTimeline = memory.timeline || (clean.includes('2 day') || clean.includes('urgent') ? '2 Days' : 'Standard');
 
     return {
-      replyText: `Thank you${memory.clientName ? ', ' + memory.clientName : ''}! I have documented your requirements with your budget of ${finalBudget !== 'Unspecified' ? finalBudget : 'your target tier'} and opened the project confirmation form on your screen. Sheharyar will review your brief within 2 hours.`,
+      replyText: `Thank you, ${finalClientName}! I have documented your requirements for ${finalArch} with your budget of ${finalBudget !== 'Unspecified' ? finalBudget : 'your target tier'} and dispatched your brief directly to Sheharyar's desk. He will review your scope and get in touch within 2 hours. Have a wonderful day!`,
       toolCall: {
         name: 'submitClientInquiry',
         args: {
@@ -565,21 +583,103 @@ export function runAutonomousSolutionsBrain(
     };
   }
 
-  // 9. 2-Day Website / Urgent Launch Rule -> Recommend Vibe Coding
-  const isUrgentWebsite =
-    (clean.includes('2 day') ||
-      clean.includes('two day') ||
-      clean.includes('2 din') ||
-      clean.includes('urgent') ||
-      clean.includes('emergency') ||
-      clean.includes('asap') ||
-      clean.includes('fast') ||
-      clean.includes('jaldi')) &&
-    (clean.includes('website') || clean.includes('site') || clean.includes('web') || clean.includes('page') || clean.includes('app'));
-
-  if (isUrgentWebsite || clean.includes('vibe coding')) {
+  // 9. Specific Architecture Choices & Consultative Selection
+  // A. WordPress Selection
+  if (
+    clean.includes('wordpress') ||
+    clean.includes('wp') ||
+    clean.includes('cms') ||
+    clean.includes('edit myself') ||
+    clean.includes('customization') ||
+    clean.includes('option a') && (history.map(h => h.text).join(' ').toLowerCase().includes('wordpress'))
+  ) {
+    memory.recommendedArchitecture = 'Custom WordPress VIP Systems Engineering';
     return {
-      replyText: `${namePrefix}if you need a website ready in 2 days, we recommend our rapid Vibe Coding architecture with modern React for immediate deployment. It allows us to deliver a fast, production-ready website on an urgent turnaround. What target budget do you have in mind for this project?`,
+      replyText: `${namePrefix}excellent choice! Custom WordPress VIP gives you full visual admin editing freedom and sub-500ms speed with zero page builder bloat. What target budget range do you have in mind for this project?`,
+      updatedMemory: memory
+    };
+  }
+
+  // B. Vibe Coding / React Selection
+  if (
+    clean.includes('vibe coding') ||
+    clean.includes('vibe') ||
+    clean.includes('2 day') ||
+    clean.includes('urgent') ||
+    clean.includes('option b') && (history.map(h => h.text).join(' ').toLowerCase().includes('vibe coding'))
+  ) {
+    memory.recommendedArchitecture = 'Rapid Vibe Coding & React MVP';
+    return {
+      replyText: `${namePrefix}great choice! Rapid Vibe Coding in React gives you ultra-fast production performance and a guaranteed 2-day delivery. What target budget range do you have in mind for this project?`,
+      updatedMemory: memory
+    };
+  }
+
+  // C. Power BI / Excel Selection
+  if (clean.includes('power bi') || clean.includes('excel') || clean.includes('pivot table') || clean.includes('dashboard')) {
+    memory.recommendedArchitecture = 'Data Analytics & Power BI Dashboards';
+    return {
+      replyText: `${namePrefix}excellent choice! We build automated executive Power BI dashboards and dynamic Excel models with automated data refresh. What target budget range do you have in mind?`,
+      updatedMemory: memory
+    };
+  }
+
+  // D. Machine Learning / Python Selection
+  if (clean.includes('data science') || clean.includes('machine learning') || clean.includes('predictive') || clean.includes('churn')) {
+    memory.recommendedArchitecture = 'Data Science & Predictive ML Pipelines';
+    return {
+      replyText: `${namePrefix}great choice! We engineer production Python ML inference and predictive customer models. What target budget range do you have in mind?`,
+      updatedMemory: memory
+    };
+  }
+
+  // E. RAG Chatbot Selection
+  if (clean.includes('rag') || clean.includes('vector') || clean.includes('pinecone') || clean.includes('qdrant') || clean.includes('document search')) {
+    memory.recommendedArchitecture = 'Contextual RAG Chatbots & Vector Search';
+    return {
+      replyText: `${namePrefix}excellent choice! We connect vector databases like Pinecone and Qdrant to your documents for zero-hallucination answers. What target budget range do you have in mind?`,
+      updatedMemory: memory
+    };
+  }
+
+  // F. Multi-Agent / LangGraph Selection
+  if (clean.includes('agentic') || clean.includes('langgraph') || clean.includes('multi agent') || clean.includes('autonomous agent')) {
+    memory.recommendedArchitecture = 'Agentic AI & Multi-Agent Applications';
+    return {
+      replyText: `${namePrefix}great choice! We develop deterministic multi-agent systems with LangGraph for autonomous research and tool execution. What target budget range do you have in mind?`,
+      updatedMemory: memory
+    };
+  }
+
+  // 10. General Service Scoping with Consultative 2-Option Comparisons
+  // A. General Website Inquiries -> Proactive Comparison
+  if (clean.includes('website') || clean.includes('site') || clean.includes('web page') || clean.includes('portfolio') || clean.includes('web')) {
+    return {
+      replyText: `${namePrefix}for website development, we offer two distinct engineering paths: Custom WordPress VIP, where you get complete freedom and an easy visual admin panel to edit pages and content yourself; or Rapid Vibe Coding in React, which delivers an ultra-fast production website in just 2 days without a CMS. Which direction would you prefer for your project?`,
+      updatedMemory: memory
+    };
+  }
+
+  // B. General Data & Analytics Inquiries -> Proactive Comparison
+  if (clean.includes('data') || clean.includes('analytics') || clean.includes('reporting') || clean.includes('numbers') || clean.includes('sheet')) {
+    return {
+      replyText: `${namePrefix}for data solutions, we engineer two tailored paths: Executive Power BI and automated Excel dashboards with dynamic pivot reporting for your team; or automated Python ML pipelines for predictive customer analytics. Which of these fits your business needs?`,
+      updatedMemory: memory
+    };
+  }
+
+  // C. General AI & Chatbot Inquiries -> Proactive Comparison
+  if (clean.includes('ai') || clean.includes('bot') || clean.includes('chatbot') || clean.includes('assistant')) {
+    return {
+      replyText: `${namePrefix}for AI systems, we engineer two tailored tiers: Contextual RAG Chatbots connected to your knowledge base with zero hallucination; or Autonomous Agentic AI using LangGraph for multi-step tasks and tool-calling. Are you looking for instant knowledge search, or autonomous task execution?`,
+      updatedMemory: memory
+    };
+  }
+
+  // D. General E-Commerce Inquiries -> Proactive Comparison
+  if (clean.includes('ecommerce') || clean.includes('shop') || clean.includes('store') || clean.includes('selling') || clean.includes('woocommerce')) {
+    return {
+      replyText: `${namePrefix}for e-commerce, we build high-concurrency WooCommerce HPOS stores with an easy product management dashboard; or custom headless React storefronts with Stripe for bespoke subscription models. Which option aligns best with your store?`,
       updatedMemory: memory
     };
   }

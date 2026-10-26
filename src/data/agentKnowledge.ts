@@ -564,18 +564,18 @@ export const INTENT_MAPPINGS: IntentMapping[] = [
       'online presence', 'need a site', 'build a site', 'new site', 'web design',
       'landing page', 'redesign site', 'company site', 'business website', 'develop a website'
     ],
-    serviceTitle: 'Custom WordPress & High-Speed Web Development',
+    serviceTitle: 'Custom WordPress VIP & Rapid Vibe Coding Architecture',
     focus: 'Fast loading, mobile-ready, clean UI, easy to manage, zero page builder bloat.',
     responseTemplate: {
-      validate: 'Yes, we build custom, high-speed websites designed to convert visitors into clients.',
-      differentiate: 'Whether you need a fresh WordPress platform or a modern React build, we prioritize fast performance, zero page builder bloat, and easy content editing.',
-      ask: 'Are you looking to build a new website from scratch, or upgrade an existing one?',
-      fullVoice: 'Yes, we build custom, high-speed websites designed to convert visitors into clients. Whether you need a fresh WordPress platform or a complete redesign, we ensure fast performance and easy content management. Are you looking to build a new website from scratch, or upgrade an existing one?',
-      fullText: 'Yes, we build custom, high-speed websites designed to convert visitors into clients.\n\nWhether you need a fresh WordPress platform or a complete redesign, we ensure sub-500ms load speeds, zero page builder bloat, and easy content management.\n\nAre you looking to build a new website from scratch, or upgrade an existing one?'
+      validate: 'Yes, we engineer high-performance web systems tailored to your technical requirements.',
+      differentiate: 'We offer two tailored engineering paths: Custom WordPress VIP with an intuitive visual CMS admin dashboard to edit content and images yourself with zero bloat, or Rapid Vibe Coding in React for ultra-fast 2-day delivery with modern React and high production speed.',
+      ask: 'Which direction would you prefer for your project — WordPress VIP or Rapid Vibe Coding React?',
+      fullVoice: 'We offer two tailored engineering paths for websites: Custom WordPress VIP with an easy visual CMS admin to edit content and images yourself with zero bloat, or Rapid Vibe Coding in React for ultra-fast 2-day delivery with high production speed. Which direction would you prefer for your project?',
+      fullText: 'We offer two tailored engineering paths for websites:\n\n1. **Custom WordPress VIP**: Complete freedom with an intuitive visual CMS admin dashboard to edit your own content and images without coding, sub-500ms speed, and zero page-builder bloat.\n2. **Rapid Vibe Coding in React**: Ultra-fast 2-day delivery, high-concurrency production speed, and modern React/Vite architecture (developer-managed code).\n\nWhich direction would you prefer for your project — WordPress VIP or Rapid Vibe Coding in React?'
     },
     urduResponseTemplate: {
-      fullVoice: 'Ji haan, hum custom aur fast loading websites banate hain jo visitors ko clients mein convert karti hain. Zero builder bloat aur easy management ke sath. Kya aap naya build chahte hain ya existing site upgrade karni hai?',
-      fullText: 'Ji haan, hum custom aur high-speed websites develop karte hain jo visitors ko clients mein convert karti hain.\n\nHum clean PHP 8.2 VIP code aur modern React use karte hain bina kisi page builder bloat ke, sub-500ms speed aur 95+ Core Web Vitals ke sath.\n\nKya aap naya website scratch se banana chahte hain ya existing site upgrade karni hai?'
+      fullVoice: 'Hum websites ke liye do options offer karte hain: Pehla Custom WordPress VIP, jis mein aapko easy visual admin dashboard milta hai taake aap khud bina coding content edit kar sakein, sub-500ms speed ke sath. Doosra Rapid Vibe Coding in React, jo ultra-fast 2 din mein deliver hota hai. Aap kis taraf jana chahenge — WordPress VIP ya Vibe Coding React?',
+      fullText: 'Hum websites ke liye do specific engineering directions offer karte hain:\n\n1. **Custom WordPress VIP**: Complete freedom with an easy visual CMS admin dashboard to edit content and images yourself without coding, sub-500ms speed, aur zero page-builder bloat.\n2. **Rapid Vibe Coding in React**: Ultra-fast 2 din mein production delivery, high-concurrency speed, aur modern React/Vite architecture (developer-managed code).\n\nAap apne project ke liye kis taraf jana chahenge — WordPress VIP ya Vibe Coding React?'
     }
   },
 
@@ -594,14 +594,14 @@ export const INTENT_MAPPINGS: IntentMapping[] = [
     focus: 'Power BI dashboards, automated Excel reports, dynamic pivot analysis, and SQL query pipelines.',
     responseTemplate: {
       validate: 'Yes, we turn raw spreadsheets and numbers into automated executive dashboards and clean reporting models.',
-      differentiate: 'We build custom Power BI dashboards, automated Excel reports with dynamic pivot analysis, and SQL pipelines to eliminate hours of manual calculation.',
-      ask: 'What kind of spreadsheet data or business metrics are you looking to track and visualize?',
-      fullVoice: 'Yes, we turn raw spreadsheets and numbers into automated executive dashboards and clean reporting models. We build custom Power BI dashboards, automated Excel reports, dynamic pivot analysis, and SQL query pipelines. What kind of spreadsheet data or business metrics are you looking to track and visualize?',
-      fullText: 'Yes, we turn raw spreadsheets and numbers into automated executive dashboards and clean reporting models.\n\nWe build custom Power BI dashboards, automated Excel reports with dynamic pivot analysis, and SQL pipelines to eliminate hours of manual work.\n\nWhat kind of spreadsheet data or business metrics are you looking to track and visualize?'
+      differentiate: 'We provide two distinct data solutions: Executive Power BI & Excel Dashboards for dynamic visual KPI reporting and daily automated refresh, or Predictive Python ML Pipelines for customer churn forecasting and demand modeling.',
+      ask: 'Which approach are you looking to explore — executive dashboards or predictive machine learning?',
+      fullVoice: 'For data systems, we offer two distinct approaches: Executive Power BI and Excel Dashboards with dynamic visual KPI reports and automated daily refresh, or Predictive Python ML Pipelines for churn forecasting and demand modeling. Which approach are you looking to explore?',
+      fullText: 'For data systems, we offer two distinct engineering approaches:\n\n1. **Executive Power BI & Excel Dashboards**: Interactive visual KPI reports, automated pivot pipelines, and daily automated refresh for leadership.\n2. **Predictive Python ML Pipelines**: Custom machine learning models forecasting customer churn, customer lifetime value, and demand trends.\n\nWhich approach are you looking to explore — executive dashboards or predictive machine learning?'
     },
     urduResponseTemplate: {
-      fullVoice: 'Ji haan, hum raw spreadsheets aur data ko automated executive dashboards aur reporting models mein convert karte hain via Power BI aur Excel. Aapko kis tarah ka data analyze ya track karna hai?',
-      fullText: 'Ji haan, hum raw spreadsheets aur numbers ko automated business dashboards aur reporting models mein convert karte hain:\n\n• **Power BI & Tableau**: Live executive dashboards with real-time KPI tracking.\n• **Automated Excel Models**: Dynamic pivot tables aur automated formula pipelines.\n• **SQL ETL**: Multi-source data ko unify aur clean karne ke pipelines.\n\nAapko kis tarah ka spreadsheet data ya metrics analyze aur visualize karna hai?'
+      fullVoice: 'Data solutions mein hum do options provide karte hain: Executive Power BI aur Excel Dashboards dynamic visual KPI reports aur automated refresh ke sath, ya Predictive Python ML Pipelines churn forecasting ke liye. Aapko executive dashboards chahiye ya predictive ML pipelines?',
+      fullText: 'Hum data solutions mein do options provide karte hain:\n\n1. **Executive Power BI & Excel Dashboards**: Dynamic visual KPI reports, automated formula pipelines, aur daily automated refreshes for decision-makers.\n2. **Predictive Python ML Pipelines**: Machine learning models jo customer churn aur sales demand forecast karte hain.\n\nAapko executive dashboards chahiye ya predictive machine learning pipelines?'
     }
   },
 
@@ -619,14 +619,14 @@ export const INTENT_MAPPINGS: IntentMapping[] = [
     focus: 'High-concurrency checkout, payment gateway setups (Stripe/PayPal), and inventory scaling.',
     responseTemplate: {
       validate: 'Yes, we engineer high-concurrency e-commerce stores designed for seamless checkout and high conversion.',
-      differentiate: 'We specialize in WooCommerce HPOS architecture, Stripe and PayPal payment gateways, and inventory caching that scales past 10,000 daily orders without slowdowns.',
-      ask: 'Are you launching a new online store, or looking to scale and speed up an existing shop?',
-      fullVoice: 'Yes, we engineer high-concurrency e-commerce stores designed for seamless checkout and high conversion. We specialize in WooCommerce HPOS architecture, payment gateway setups, and inventory caching that handles over 10,000 orders a day. Are you launching a new online store, or looking to scale an existing shop?',
-      fullText: 'Yes, we engineer high-concurrency e-commerce stores designed for seamless checkout and high conversion.\n\nWe specialize in WooCommerce HPOS architecture, Stripe and PayPal payment integrations, and database tuning that easily handles over 10,000 orders a day without crashes.\n\nAre you launching a new online store, or looking to scale and speed up an existing shop?'
+      differentiate: 'We offer two scalable paths: WooCommerce HPOS Architecture with an intuitive visual store dashboard handling 10,000+ daily orders, or Custom Headless Next.js Stores with Stripe integration.',
+      ask: 'Would you prefer WooCommerce HPOS or a Custom Headless Store?',
+      fullVoice: 'We offer two scalable paths for e-commerce: WooCommerce HPOS Architecture with an easy visual store dashboard handling over 10,000 daily orders, or a Custom Headless Next.js Store with Stripe integration. Which direction fits your business best?',
+      fullText: 'We offer two scalable paths for e-commerce architecture:\n\n1. **WooCommerce HPOS Architecture**: High-Performance Order Storage scaling past 10,000 orders/day with an easy visual dashboard to manage products and orders.\n2. **Custom Headless Next.js Store**: Ultra-fast headless storefront with modern React architecture and Stripe checkout.\n\nWhich direction fits your online store better?'
     },
     urduResponseTemplate: {
-      fullVoice: 'Ji haan, hum high-concurrency WooCommerce aur e-commerce stores build karte hain jo flash sales par bhi crash nahi hoti. Kya aap naya store launch kar rahe hain ya existing shop scale karni hai?',
-      fullText: 'Ji haan, hum high-concurrency E-Commerce aur WooCommerce systems engineer karte hain:\n\n• **HPOS Architecture**: 10,000+ daily orders smoothly process karne ke liye dedicated order tables.\n• **Stripe & PayPal**: Frictionless checkout funnels with 1-click upsells.\n• **Catalog Scaling**: Database index tuning aur Redis caching for 100k+ SKUs.\n\nKya aap naya store launch kar rahe hain ya existing shop scale karni hai?'
+      fullVoice: 'Hum e-commerce ke liye do options deliver karte hain: WooCommerce HPOS jo 10,000 daily orders process karta hai easy visual dashboard ke sath, ya Custom Headless Next.js store Stripe ke sath. Aap kaun sa prefer karenge?',
+      fullText: 'Hum E-Commerce ke liye do options deliver karte hain:\n\n1. **WooCommerce HPOS Architecture**: 10,000+ daily orders scaling with an easy visual store dashboard to manage products, coupons, and orders.\n2. **Custom Headless Next.js Store**: Ultra-fast headless storefront with modern React architecture aur Stripe checkout.\n\nAap WooCommerce HPOS prefer karenge ya Custom Headless Store?'
     }
   },
 
@@ -705,7 +705,31 @@ export const INTENT_MAPPINGS: IntentMapping[] = [
     }
   },
 
-  // 7. Agency White-Label / Subcontracting / Partner
+  // 7. AI Bot / Chatbot / Agentic AI / RAG / Assistant
+  {
+    id: 'intent-ai-agents',
+    category: 'agentic-ai',
+    serviceKey: 'agentic-ai',
+    clientKeywords: [
+      'ai bot', 'chatbot', 'chat bot', 'ai agent', 'agentic ai', 'agentic',
+      'rag', 'ai system', 'ai assistant', 'custom bot', 'chatgpt bot', 'langgraph'
+    ],
+    serviceTitle: 'Autonomous AI Agents & Enterprise RAG Systems',
+    focus: 'Grounded document search chatbots, tool-calling agents, and LangGraph multi-agent systems.',
+    responseTemplate: {
+      validate: 'Yes, we engineer production AI systems tailored directly to your operational workflows.',
+      differentiate: 'We offer two tailored AI architectures: Contextual RAG Chatbots for zero-hallucination private document search, or Autonomous Agentic AI workflows with tool-calling via LangGraph.',
+      ask: 'Which AI architecture aligns with your project — a document search RAG chatbot or an autonomous agent workflow?',
+      fullVoice: 'We offer two tailored AI architectures: Contextual RAG Chatbots with zero hallucination private document search, or Autonomous Agentic AI workflows using LangGraph with tool-calling capabilities. Which of these aligns with your project goals?',
+      fullText: 'We offer two tailored AI architectures for enterprise operations:\n\n1. **Contextual RAG Chatbots**: Zero-hallucination document search grounded strictly in your private PDFs, manuals, and databases via vector embeddings.\n2. **Autonomous Agentic AI**: Stateful LangGraph multi-agent workflows with tool-calling capabilities that interact directly with your APIs and CRMs.\n\nWhich of these aligns with what you want to build?'
+    },
+    urduResponseTemplate: {
+      fullVoice: 'Hum AI systems ke liye do tailored options offer karte hain: Pehla Contextual RAG Chatbots jo private documents se zero-hallucination answers dete hain, aur doosra Autonomous Agentic AI jo LangGraph ke zariye tools call kar ke tasks complete karta hai. Aap kis taraf jana chahenge?',
+      fullText: 'Hum AI systems ke liye do tailored architectures deliver karte hain:\n\n1. **Contextual RAG Chatbots**: Zero-hallucination private document retrieval (PDFs, docs) via vector search.\n2. **Autonomous Agentic AI**: Stateful LangGraph multi-agent systems with tool-calling capabilities jo real-world tasks autonomously execute karte hain.\n\nAapko document search RAG bot chahiye ya tool-calling Autonomous AI Agent?'
+    }
+  },
+
+  // 8. Agency White-Label / Subcontracting / Partner
   {
     id: 'intent-agency-whitelabel',
     category: 'agency-partners',

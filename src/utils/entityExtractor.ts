@@ -177,7 +177,7 @@ export async function autoDispatchLead(
   lead: ExtractedLead,
   conversationHistorySummary: string = ''
 ): Promise<DispatchResult> {
-  const sourceLabel = lead.source === 'Voice Bot' ? 'Zack Voice Assistant' : 'On-Site Chatbot';
+  const sourceLabel = lead.source === 'Voice Bot' ? 'Elena Voice Assistant' : 'On-Site Chatbot';
   const cleanName = lead.name?.trim() || 'Prospective Client';
   const cleanEmail = lead.email?.trim() || '';
   const cleanPhone = lead.phone?.trim() || '';

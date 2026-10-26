@@ -78,6 +78,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   const historyRef = useRef<VoiceMessageTurn[]>([]);
   const hasGreetedRef = useRef(false);
   const sessionMemoryRef = useRef<SessionClientMemory>({});
+  const isInquiryCompletedRef = useRef(false);
 
   // Detect mobile user agent
   const isMobileDevice =
@@ -226,6 +227,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
         // If native function calling was triggered, auto-fill modal & dispatch email
         if (brainResult.toolCall?.name === 'submitClientInquiry') {
+          isInquiryCompletedRef.current = true;
           const finalLeadArgs: ClientInquiryArgs = {
             ...brainResult.toolCall.args,
             clientName: brainResult.toolCall.args.clientName || sessionMemoryRef.current.clientName,
@@ -246,6 +248,17 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
             setVisualState('speaking');
           },
           onEnd: () => {
+            // If project scope was confirmed and inquiry dispatched: automatically disconnect call
+            if (isInquiryCompletedRef.current) {
+              setVisualState('idle');
+              isBotSpeakingRef.current = false;
+              isProcessingRef.current = false;
+              setTimeout(() => {
+                handleClose();
+              }, 1800);
+              return;
+            }
+
             // Post-speech echo dissipation delay: wait slightly longer on mobile
             if (echoCooldownTimerRef.current) clearTimeout(echoCooldownTimerRef.current);
             echoCooldownTimerRef.current = setTimeout(() => {
@@ -327,16 +340,23 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           if (finalChunk && finalChunk.trim()) {
             lastInterim = '';
             setUserTranscript(finalChunk.trim());
+            // Immediately lock processing and halt recognizer to eliminate mobile onend race condition
+            isProcessingRef.current = true;
+            stopRecognition();
+            setVisualState('thinking');
             if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
             silenceTimerRef.current = setTimeout(() => {
               handleUserQueryRef.current(finalChunk.trim());
-            }, 350);
+            }, 250);
           } else if (lastInterim && lastInterim.trim().length > 1) {
             if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
             silenceTimerRef.current = setTimeout(() => {
               if (lastInterim && !isBotSpeakingRef.current && !isProcessingRef.current) {
                 const query = lastInterim.trim();
                 lastInterim = '';
+                isProcessingRef.current = true;
+                stopRecognition();
+                setVisualState('thinking');
                 handleUserQueryRef.current(query);
               }
             }, isMobileDevice ? 1200 : 900);
@@ -509,6 +529,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     stopRecognition();
     historyRef.current = [];
     sessionMemoryRef.current = {};
+    isInquiryCompletedRef.current = false;
     setHistory([]);
     setUserTranscript('');
     setManualText('');
@@ -734,6 +755,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           onConfirm={() => {
             onOpenInquiry?.();
           }}
+          onDisconnectCall={handleClose}
         />
       )}
     </>

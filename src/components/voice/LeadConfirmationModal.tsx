@@ -8,13 +8,15 @@ interface LeadConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  onDisconnectCall?: () => void;
 }
 
 export const LeadConfirmationModal: React.FC<LeadConfirmationModalProps> = ({
   lead,
   isOpen,
   onClose,
-  onConfirm
+  onConfirm,
+  onDisconnectCall
 }) => {
   const [confirmed, setConfirmed] = useState(false);
 
@@ -31,7 +33,13 @@ export const LeadConfirmationModal: React.FC<LeadConfirmationModalProps> = ({
     onConfirm();
     setTimeout(() => {
       onClose();
-    }, 1800);
+      onDisconnectCall?.();
+    }, 1500);
+  };
+
+  const handleCloseModal = () => {
+    onClose();
+    onDisconnectCall?.();
   };
 
   return (
@@ -44,7 +52,7 @@ export const LeadConfirmationModal: React.FC<LeadConfirmationModalProps> = ({
       >
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={handleCloseModal}
           className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800/60 transition-colors"
           aria-label="Close confirmation modal"
         >

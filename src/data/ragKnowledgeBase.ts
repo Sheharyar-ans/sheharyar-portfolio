@@ -61,7 +61,7 @@ export const RAG_KNOWLEDGE_BASE: KnowledgeChunk[] = [
       'hi', 'hello', 'hey', 'salam', 'assalam', 'aoa', 'kaise ho', 'kaisa hai', 
       'how are you', 'good morning', 'good evening', 'greetings', 'adaab', 'kese ho'
     ],
-    content: 'Hello! I am Zack, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, but I am here to help answer your technical questions, look at your project scope, or get you scheduled on his calendar. What brings you to us today?',
+    content: 'Hello! I am Elena, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, but I am here to help answer your technical questions, look at your project scope, or get you scheduled on his calendar. What brings you to us today?',
     suggestedAction: {
       type: 'inquiry',
       label: 'Explore Services & Projects'

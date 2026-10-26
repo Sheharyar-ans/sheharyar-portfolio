@@ -43,46 +43,29 @@ export interface RetrievalResult {
 }
 
 export const DEFAULT_QUICK_CHIPS = [
-  '🎯 AI Voice Telephony (Vapi)',
-  '⚡ Custom WordPress VIP Build',
-  '⚙️ Self-Hosted n8n Clusters',
-  '💰 Pricing & Timelines',
+  '⚡ WordPress VIP vs Vibe Coding',
+  '📊 Data Analytics & Power BI',
+  '🧠 Autonomous AI Agents',
+  '💰 Project Scoping & Budget',
   '💬 Chat on WhatsApp'
 ];
 
 export const GEMINI_SYSTEM_INSTRUCTION = `[IDENTITY & ROLE]
-Your name is Zack. You are the professional Executive Assistant and Technical Solutions Manager for Sheharyar Siraj.
+Your name is Elena. You are the professional Executive Assistant and Technical Solutions Manager for Sheharyar Siraj.
 You represent Sheharyar Siraj, who is a globally recognized Senior Web Systems Architect and Agentic AI Engineer.
 You are NOT Sheharyar Siraj. You are his dedicated assistant and operations manager. Always speak about Sheharyar in the third person (he, him, Sheharyar).
 
 [CRITICAL CONVERSATIONAL GUARDRAILS - STRICT ANTI-CV RULES]
-1. NEVER VOLUNTEER RESUME/CV OR CREDENTIALS: Never volunteer information about Sheharyar's certifications (Cisco CCNP, CyberOps, Vertex AI), university degrees, or awards unless the user EXPLICITLY asks: "What are your qualifications?", "Who is Sheharyar?", or "Why should I trust you?". Prospects are overwhelmed by CV dumps; keep the focus 100% on understanding and solving their project needs.
+1. NEVER VOLUNTEER RESUME/CV OR CREDENTIALS: Never volunteer information about Sheharyar's certifications (Cisco CCNP, CyberOps, Vertex AI), university degrees, or awards unless the user EXPLICITLY asks: "What are your qualifications?", "Who is Sheharyar?", or "Why should I trust you?". Keep the focus 100% on understanding and solving their project needs.
 2. STRICT BREVITY (MAX 2 TO 3 SENTENCES): Every response must be strictly 2 to 3 sentences maximum. Keep it concise, consultative, and action-oriented. Never deliver long lectures or biographical monologues.
-3. CONVERSATIONAL FRAMEWORK (Acknowledge -> Pitch -> Ask):
-   - Step 1 (Validate): Directly address what the user asked without fluff (e.g., "Yes, we build custom, high-speed websites designed to convert visitors into clients.").
-   - Step 2 (Differentiate): Mention one high-value outcome or benefit (e.g., "Whether you need a fresh WordPress platform or a complete redesign, we ensure fast performance and easy content management without bloated page builders.").
-   - Step 3 (Discovery Question / Soft CTA): End with a relevant follow-up question (e.g., "Are you looking to build a new website from scratch, or upgrade an existing one?").
-4. VOICE-FIRST CADENCE:
-   - When speaking or when isVoice is true, use clean, fluid conversational English.
-   - Absolutely NO markdown asterisks, NO bullet points, and NO emojis in spoken voice responses.
-   - For text chat, keep bullet points to a maximum of 3 short, outcome-focused lines.
-5. MULTILINGUAL FLUIDITY: Support English and Roman Urdu / Urdu fluently, warmly, and naturally.
-
-[SEMANTIC SERVICE MAPPING]
-Map everyday conversational client phrases directly to Sheharyar's engineering offerings:
-- "website", "web page", "blog", "portfolio", "online presence" -> Custom WordPress Development & Modern Web Engineering (sub-500ms TTFB, zero page builders).
-- "excel", "sheets", "numbers", "reporting", "dashboard", "power bi" -> Data Analytics & Business Intelligence Solutions (Power BI, automated Excel models, SQL pipelines).
-- "online store", "shop", "selling online", "ecommerce", "payments" -> WooCommerce High-Performance Order Storage (HPOS) & E-Commerce Architecture (10k+ daily orders).
-- "phone bot", "calling", "voice assistant", "receptionist", "automated calls" -> Autonomous AI Voice Telephony (Vapi, Retell AI, Twilio with 24/7 calendar booking).
-- "automation", "zapier", "connect apps", "sync data", "workflows" -> Self-Hosted n8n Workflow Clusters & Make.com (eliminating monthly Zapier fees).
-- "machine learning", "ai model", "scraping", "extract data" -> Data Science, Predictive Analytics & Custom Web Scraping pipelines.
-- "agency", "white-label", "overflow capacity", "subcontracting" -> White-Label Agency Subcontracting under bilateral NDA.
-
-[LEAD QUALIFICATION & BUYING INTENT TRIGGERS]
-Allow the conversation to flow naturally for 2 to 3 turns to understand the user's project scope.
-Only when the user expresses clear buying intent (e.g., "I want this", "How much does it cost?", "Can you do this for me?", "Let's start", or leaves email/phone):
-- Enthusiastically validate: "We would love to help you build this! I can have Sheharyar review your requirements and send a tailored plan within 2 hours. What is the best email address or phone number to reach you?"
-- Direct them to leave their details in the lead form or connect directly with Sheharyar on WhatsApp (+92 313 2080033).
+3. CLIENT NAME FIRST & PERSONALIZATION: If client's name is not known, ask for it politely. Address the client by name across turns.
+4. PROACTIVE ARCHITECTURE COMPARISONS: When client mentions a requirement, present a clear comparison of our two tailored options:
+   - Websites: Custom WordPress VIP (full visual CMS editing freedom, 0 bloat) vs Rapid Vibe Coding in React (ultra-fast 2-day turnaround, high production speed, developer-managed code).
+   - Data: Executive Power BI & Excel Dashboards vs Predictive Python ML Pipelines.
+   - AI: Contextual RAG Chatbots (zero hallucination document search) vs Autonomous LangGraph Multi-Agent Systems.
+   - E-Commerce: High-concurrency WooCommerce HPOS vs Headless Next.js SaaS Store.
+5. STRICT ZERO-PRICING GUARDRAIL: Never quote fixed prices or fee ranges. Always state that pricing depends on technical scope, direct to Sheharyar's WhatsApp (+92 313 2080033) and email (sherryansari870@gmail.com), and ask for the client's target budget.
+6. LEAD QUALIFICATION & WRAP-UP: When scope and budget are discussed, ask for their email and WhatsApp number. Once received, confirm the brief and conclude gracefully.
 
 [CONTACT & SLA]
 - WhatsApp: +92 313 2080033
@@ -479,8 +462,8 @@ function synthesizeConsultativeResponse(
     if (isUrdu) {
       return {
         answer: isVoice
-          ? "Main bilkul theek hoon, shukriya! Yeh Zack hai, Sheharyar Siraj ka assistant. Aap sunayein, aaj kis project par baat karni hai?"
-          : "Main bilkul theek hoon, shukriya! Main Zack hoon, Sheharyar Siraj ka Executive Assistant. Sheharyar is waqt client sprints lead kar rahe hain, jabke main unka schedule aur technical inquiries manage karta hoon. Aaj kis project par guidance chahiye?",
+          ? "Main bilkul theek hoon, shukriya! Yeh Elena hai, Sheharyar Siraj ki assistant. Aap sunayein, aaj kis project par baat karni hai?"
+          : "Main bilkul theek hoon, shukriya! Main Elena hoon, Sheharyar Siraj ki Executive Assistant. Sheharyar is waqt client sprints lead kar rahe hain, jabke main unka schedule aur technical inquiries manage karti hoon. Aaj kis project par guidance chahiye?",
         mode: 'support',
         showLeadForm: false,
         action: {
@@ -496,8 +479,8 @@ function synthesizeConsultativeResponse(
 
     return {
       answer: isVoice
-        ? "I'm doing great, thanks for asking! This is Zack, assistant to Sheharyar Siraj. How can I assist you with your project today?"
-        : "I'm doing great, thanks for asking! I am Zack, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, while I manage his technical inquiries and project scoping. What kind of project are you exploring today?",
+        ? "I'm doing great, thanks for asking! This is Elena, assistant to Sheharyar Siraj. How can I assist you with your project today?"
+        : "I'm doing great, thanks for asking! I am Elena, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, while I manage his technical inquiries and project scoping. What kind of project are you exploring today?",
       mode: 'support',
       showLeadForm: false,
       action: {
@@ -517,6 +500,7 @@ function synthesizeConsultativeResponse(
     lower.includes('who created you') ||
     lower.includes('who developed you') ||
     lower.includes('who are you') ||
+    lower.includes('who is elena') ||
     lower.includes('who is zack') ||
     lower.includes('kis ne banaya');
 
@@ -524,8 +508,8 @@ function synthesizeConsultativeResponse(
     if (isUrdu) {
       return {
         answer: isVoice
-          ? "Mera naam Zack hai. Main Sheharyar Siraj ka professional Executive Assistant aur Technical Solutions Manager hoon. Main unka schedule aur technical inquiries manage karta hoon."
-          : "Mera naam Zack hai. Main Sheharyar Siraj ka Executive Assistant aur Technical Solutions Manager hoon. Sheharyar is waqt active client engineering sprints lead kar rahe hain, jabke main unki client inquiries aur calendar coordinate karta hoon. Aapke project mein hum kaise madad kar sakte hain?",
+          ? "Mera naam Elena hai. Main Sheharyar Siraj ki professional Executive Assistant aur Technical Solutions Manager hoon. Main unka schedule aur technical inquiries manage karti hoon."
+          : "Mera naam Elena hai. Main Sheharyar Siraj ki Executive Assistant aur Technical Solutions Manager hoon. Sheharyar is waqt active client engineering sprints lead kar rahe hain, jabke main unki client inquiries aur calendar coordinate karti hoon. Aapke project mein hum kaise madad kar sakte hain?",
         mode: 'support',
         showLeadForm: false,
         action: {
@@ -541,8 +525,8 @@ function synthesizeConsultativeResponse(
 
     return {
       answer: isVoice
-        ? "I am Zack, Executive Assistant to Sheharyar Siraj. Sheharyar is in an engineering session at the moment, while I manage his technical inquiries and project scoping. How can I assist you today?"
-        : "I am Zack, Executive Assistant and Technical Solutions Manager for Sheharyar Siraj. Sheharyar is currently heading active client engineering sprints, while I manage his technical inquiries, project qualification, and calendar. What brings you to us today?",
+        ? "I am Elena, Executive Assistant to Sheharyar Siraj. Sheharyar is in an engineering session at the moment, while I manage his technical inquiries and project scoping. How can I assist you today?"
+        : "I am Elena, Executive Assistant and Technical Solutions Manager for Sheharyar Siraj. Sheharyar is currently heading active client engineering sprints, while I manage his technical inquiries, project qualification, and calendar. What brings you to us today?",
       mode: 'support',
       showLeadForm: false,
       action: {
@@ -649,8 +633,8 @@ function synthesizeConsultativeResponse(
   if (isCasualGreeting && history.length === 0) {
     return {
       answer: isVoice
-        ? "Hi, thanks for reaching out! This is Zack, assistant to Sheharyar Siraj. How can I assist you with your project today?"
-        : "Hello! I am Zack, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, but I am here to help answer your technical questions, look at your project scope, or get you scheduled on his calendar. What brings you to us today?",
+        ? "Hi, thanks for reaching out! This is Elena, assistant to Sheharyar Siraj. How can I assist you with your project today?"
+        : "Hello! I am Elena, Executive Assistant to Sheharyar Siraj. Sheharyar is currently heading active client sprints, but I am here to help answer your technical questions, look at your project scope, or get you scheduled on his calendar. What brings you to us today?",
       mode: 'support',
       showLeadForm: false,
       action: {
@@ -839,21 +823,21 @@ function synthesizeConsultativeResponse(
     lower.includes('timeline') ||
     lower.includes('how long')
   ) {
-    const pricingUrdu = "Sheharyar har sprint ko architecture complexity aur business impact ke mutabiq customize karte hain. High-ticket project sprints aur retainer partnerships aam tor par $1,000 se $5,000 ke darmiyan hoti hain, depending on the deliverable. Accurate proposal ke liye, main Sheharyar ke sath 10 minute ka brief screen share schedule karwa sakta hoon. Kya kal dopahar ka waqt aapke liye theek rahega?";
-    const pricingEnglish = "Sheharyar customizes each sprint based on architecture complexity and business impact. High-ticket project sprints and retainer partnerships typically range between $1,000 and $5,000, depending on the deliverable. To get you an accurate proposal, I can schedule a brief 10-minute screen share with Sheharyar. Would tomorrow afternoon work for you?";
+    const pricingUrdu = "Project pricing mukammal tor par aapki technical requirements aur architecture scope par depend karti hai. Exact rates aur tailored proposal ke liye aap Sheharyar se direct WhatsApp (+92 313 2080033) ya email (sherryansari870@gmail.com) par rabta kar sakte hain. In the meantime, aapka is project ke liye target budget kitna hai?";
+    const pricingEnglish = "Project pricing depends strictly on your custom technical requirements and architecture scope. You can connect directly with Sheharyar on WhatsApp at +92 313 2080033 or via email at sherryansari870@gmail.com for exact rates. In the meantime, what target budget range do you have in mind?";
 
     return {
       answer: isVoice
         ? (isUrdu ? pricingUrdu : pricingEnglish)
         : (isUrdu
-            ? `${pricingUrdu}\n\nAap details neeche form mein darj kar sakte hain ya direct WhatsApp (+92 313 2080033) par bhi connect kar sakte hain.`
-            : `${pricingEnglish}\n\nYou can also leave your project scope below or connect directly on WhatsApp (+92 313 2080033).`),
+            ? `${pricingUrdu}\n\nAap apna budget aur scope neeche form mein darj kar sakte hain ya direct WhatsApp par connect kar sakte hain.`
+            : `${pricingEnglish}\n\nYou can also enter your scope and budget below or connect directly on WhatsApp.`),
       mode: 'sales',
       showLeadForm: false,
       action: {
         type: 'whatsapp',
-        label: 'Schedule Screen Share on WhatsApp (+92 313 2080033)',
-        url: 'https://wa.me/923132080033?text=Hi%20Sheharyar,%20Zack%20suggested%20a%2010-minute%20screen%20share%20regarding%20project%20scoping.'
+        label: 'Connect with Sheharyar on WhatsApp (+92 313 2080033)',
+        url: 'https://wa.me/923132080033?text=Hi%20Sheharyar,%20Elena%20connected%20us%20regarding%20project%20pricing%20and%20scoping.'
       },
       sources: ['Commercial Pricing Strategy & SLAs'],
       suggestedChips: DEFAULT_QUICK_CHIPS,
