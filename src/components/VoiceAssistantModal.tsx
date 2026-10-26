@@ -207,6 +207,24 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
       recognizer.onend = () => {
         isRecognitionActiveRef.current = false;
+
+        // If user spoke interim chunks that didn't get a finalChunk before onend (frequent on mobile Safari/Android), submit it now!
+        if (
+          lastInterim &&
+          lastInterim.trim().length > 1 &&
+          !isBotSpeakingRef.current &&
+          !isProcessingRef.current &&
+          !isExecutingTurnRef.current
+        ) {
+          if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+          const query = lastInterim.trim();
+          lastInterim = '';
+          isProcessingRef.current = true;
+          setVisualState('thinking');
+          handleUserQueryRef.current(query);
+          return;
+        }
+
         // On mobile or desktop, if modal is open and bot isn't speaking, re-arm cleanly
         if (
           isModalOpenRef.current &&
@@ -244,21 +262,6 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       isRecognitionActiveRef.current
     ) {
       return;
-    }
-
-    if (recognitionRef.current) {
-      try {
-        recognitionRef.current.start();
-        isRecognitionActiveRef.current = true;
-        setVisualState('listening');
-        return;
-      } catch (err: any) {
-        if (err?.name === 'InvalidStateError') {
-          isRecognitionActiveRef.current = true;
-          return;
-        }
-        isRecognitionActiveRef.current = false;
-      }
     }
 
     createAndStartRecognizer();
@@ -314,7 +317,12 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       },
       onError: () => {
         isBotSpeakingRef.current = false;
-        setVisualState('idle');
+        if (isModalOpenRef.current && !isMicMutedRef.current) {
+          setVisualState('listening');
+          restartRecognition();
+        } else {
+          setVisualState('idle');
+        }
       }
     });
   }, [isMobileDevice, restartRecognition, stopRecognition]);
@@ -483,13 +491,12 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
   // Initialize Hardware Audio Stream & Web Speech Recognition (Mobile Hardened)
   const startHardwareSession = useCallback(() => {
-    // 1. Speech Recognition Initialization
-    createAndStartRecognizer();
-
-    // 2. Greet user strictly ONCE per modal session
+    // 1. Greet user strictly ONCE per modal session (speech output first, mic opens onEnd)
     if (!hasGreetedRef.current) {
       hasGreetedRef.current = true;
       speakInitialGreeting();
+    } else {
+      createAndStartRecognizer();
     }
 
     // 3. Optional audio stream visualizer in background (isolated, non-blocking)

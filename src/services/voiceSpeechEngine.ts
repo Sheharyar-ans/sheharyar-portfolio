@@ -27,6 +27,12 @@ export const ELENA_VOICE_CONFIG: SpeechEngineConfig = {
 // Cached voices for instant availability on mobile & desktop
 let cachedVoices: SpeechSynthesisVoice[] = [];
 
+// Module-level global reference protecting active utterance from V8 garbage collection
+let activeSpeechUtterance: SpeechSynthesisUtterance | null = null;
+if (typeof window !== 'undefined') {
+  (window as any).__activeSpeechUtterance = null;
+}
+
 if (typeof window !== 'undefined' && window.speechSynthesis) {
   cachedVoices = window.speechSynthesis.getVoices();
   window.speechSynthesis.onvoiceschanged = () => {
@@ -36,7 +42,7 @@ if (typeof window !== 'undefined' && window.speechSynthesis) {
 
 /**
  * Primes mobile browser TTS engine on user touch gesture
- * Unlocks iOS Safari and Android Chrome audio policy with silent priming
+ * Unlocks iOS Safari and Android Chrome audio policy without polluting speech queue
  */
 export function primeMobileSpeechEngine(): void {
   if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -45,12 +51,6 @@ export function primeMobileSpeechEngine(): void {
       if (window.speechSynthesis.paused) {
         window.speechSynthesis.resume();
       }
-      // Speak a blank micro-utterance synchronously on touch to unlock mobile audio output
-      const unlock = new SpeechSynthesisUtterance(' ');
-      unlock.volume = 0.01;
-      unlock.rate = 2.0;
-      unlock.lang = 'en-US';
-      window.speechSynthesis.speak(unlock);
     } catch {
       // safe fallback
     }
@@ -302,12 +302,28 @@ export function speakText(
   utterance.rate = ELENA_VOICE_CONFIG.rate;
   utterance.volume = ELENA_VOICE_CONFIG.volume;
 
-  const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  // Retain active utterance reference across entire playback to protect from V8 garbage collection
+  activeSpeechUtterance = utterance;
+  if (typeof window !== 'undefined') {
+    (window as any).__activeSpeechUtterance = utterance;
+  }
+
+  const isMobile =
+    typeof navigator !== 'undefined' &&
+    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      (typeof window !== 'undefined' && window.innerWidth < 768));
+
   let keepAliveTimer: any = null;
   let safetyFallbackTimer: any = null;
   let hasCompleted = false;
 
   const cleanUp = () => {
+    if (activeSpeechUtterance === utterance) {
+      activeSpeechUtterance = null;
+    }
+    if (typeof window !== 'undefined' && (window as any).__activeSpeechUtterance === utterance) {
+      (window as any).__activeSpeechUtterance = null;
+    }
     if (keepAliveTimer) {
       clearInterval(keepAliveTimer);
       keepAliveTimer = null;
@@ -326,8 +342,8 @@ export function speakText(
   };
 
   utterance.onstart = () => {
-    // Only run pause/resume keep-alive on desktop Chrome, NEVER on iOS (iOS freezes on pause)
-    if (!isIOS) {
+    // Only run pause/resume keep-alive on desktop Chrome, NEVER on mobile (mobile TTS aborts on pause)
+    if (!isMobile) {
       keepAliveTimer = setInterval(() => {
         if (window.speechSynthesis.speaking) {
           window.speechSynthesis.pause();
@@ -352,7 +368,7 @@ export function speakText(
   };
 
   // Safety Fallback Watchdog: If onend is dropped by mobile browser engine, auto-resolve
-  const estimatedSeconds = Math.max(4, Math.ceil(normalized.split(/\s+/).length / 2.2) + 3);
+  const estimatedSeconds = Math.max(3.5, Math.ceil(normalized.split(/\s+/).length / 2.2) + 2.5);
   safetyFallbackTimer = setTimeout(() => {
     if (!hasCompleted) {
       console.warn(`[TTS Safety Watchdog] Triggered fallback after ${estimatedSeconds}s.`);
@@ -386,8 +402,12 @@ export function speakText(
  * Immediate stop for active speech
  */
 export function stopSpeaking(): void {
-  if (typeof window !== 'undefined' && window.speechSynthesis) {
-    window.speechSynthesis.cancel();
+  activeSpeechUtterance = null;
+  if (typeof window !== 'undefined') {
+    (window as any).__activeSpeechUtterance = null;
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
   }
 }
 
