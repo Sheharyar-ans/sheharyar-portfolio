@@ -41,7 +41,7 @@ interface VoiceAssistantModalProps {
 }
 
 const INITIAL_GREETING =
-  "Hi, thanks for calling! This is Elena, assistant to Sheharyar Siraj. Sheharyar is in an active engineering session, but I manage his scoping across AI agents, data science, and web systems. Before we begin, may I have your name please?";
+  "Hi, thanks for calling! This is Elena, assistant to Sheharyar Siraj. Before we begin, may I have your name please?";
 
 export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
   onOpenInquiry,
@@ -499,8 +499,11 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
       createAndStartRecognizer();
     }
 
-    // 3. Optional audio stream visualizer in background (isolated, non-blocking)
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // 3. Optional audio stream visualizer in background (Desktop only)
+    // NOTE: On mobile (Android & iOS), the hardware microphone is exclusive.
+    // If getUserMedia runs, webkitSpeechRecognition is starved of mic input!
+    // Therefore, getUserMedia visualizer is enabled on desktop only.
+    if (!isMobileDevice && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices
         .getUserMedia({
           audio: {
@@ -521,7 +524,7 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
           console.debug('Background visualizer stream notice:', err);
         });
     }
-  }, [createAndStartRecognizer, speakInitialGreeting]);
+  }, [createAndStartRecognizer, isMobileDevice, speakInitialGreeting]);
 
   // Clean Hardware Teardown
   const teardownHardwareSession = useCallback(() => {

@@ -29,6 +29,9 @@ let cachedVoices: SpeechSynthesisVoice[] = [];
 
 // Module-level global reference protecting active utterance from V8 garbage collection
 let activeSpeechUtterance: SpeechSynthesisUtterance | null = null;
+let activeQueueTimer: any = null;
+let activeChunkSafetyTimer: any = null;
+let isPlaybackCancelled = false;
 if (typeof window !== 'undefined') {
   (window as any).__activeSpeechUtterance = null;
 }
@@ -256,7 +259,21 @@ export function selectNeuralFemaleVoice(voices?: SpeechSynthesisVoice[]): VoiceS
 }
 
 /**
- * Speaks text using window.speechSynthesis with anti-cut-off keepalive and soft feminine pitch
+ * Splits normalized text into discrete sentence chunks.
+ * This ensures that on Android Chrome and iOS Safari, no single SpeechSynthesisUtterance
+ * exceeds ~120 characters / 10 seconds, eliminating mobile TTS buffer timeouts and dropped callbacks.
+ */
+export function splitIntoSentenceChunks(text: string): string[] {
+  if (!text) return [];
+  // Match sentences ending in ., !, or ? or up to the end of string
+  const chunks = text.match(/[^.!?]+(?:[.!?]+|$)/g);
+  if (!chunks) return [text];
+  return chunks.map((c) => c.trim()).filter((c) => c.length > 0);
+}
+
+/**
+ * Speaks text using window.speechSynthesis with sentence chunking (anti-cutoff on mobile),
+ * anti-garbage-collection retention, and soft feminine neural voice.
  */
 export function speakText(
   rawText: string,
@@ -265,119 +282,125 @@ export function speakText(
     onEnd?: () => void;
     onError?: (err: any) => void;
   } = {}
-): SpeechSynthesisUtterance | null {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return null;
-
-  const wasSpeaking = window.speechSynthesis.speaking || window.speechSynthesis.pending;
-  try {
-    if (window.speechSynthesis.paused) {
-      window.speechSynthesis.resume();
-    }
-    // Cancel any prior speech
-    if (wasSpeaking) {
-      window.speechSynthesis.cancel();
-    }
-  } catch {
-    // safe resume/cancel
+): void {
+  if (typeof window === 'undefined' || !window.speechSynthesis) {
+    callbacks.onEnd?.();
+    return;
   }
+
+  // Cancel any prior speech and timers immediately
+  stopSpeaking();
+  isPlaybackCancelled = false;
 
   const normalized = normalizeTextForSpeech(rawText);
   if (!normalized) {
     callbacks.onEnd?.();
-    return null;
+    return;
   }
 
-  const utterance = new SpeechSynthesisUtterance(normalized);
-  utterance.lang = 'en-US'; // Strict English pronunciation across iOS & Android
+  const chunks = splitIntoSentenceChunks(normalized);
+  if (chunks.length === 0) {
+    callbacks.onEnd?.();
+    return;
+  }
 
   const voices = window.speechSynthesis.getVoices();
   const selection = selectNeuralFemaleVoice(voices);
 
-  if (selection.voice) {
-    utterance.voice = selection.voice;
-  }
+  let currentChunkIndex = 0;
+  let hasStarted = false;
+  let isCompleted = false;
 
-  // Feminine Natural Cadence: soft, crystal-clear 1.0 pitch, measured 0.98 rate
-  utterance.pitch = ELENA_VOICE_CONFIG.pitch;
-  utterance.rate = ELENA_VOICE_CONFIG.rate;
-  utterance.volume = ELENA_VOICE_CONFIG.volume;
-
-  // Retain active utterance reference across entire playback to protect from V8 garbage collection
-  activeSpeechUtterance = utterance;
-  if (typeof window !== 'undefined') {
-    (window as any).__activeSpeechUtterance = utterance;
-  }
-
-  const isMobile =
-    typeof navigator !== 'undefined' &&
-    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-      (typeof window !== 'undefined' && window.innerWidth < 768));
-
-  let keepAliveTimer: any = null;
-  let safetyFallbackTimer: any = null;
-  let hasCompleted = false;
-
-  const cleanUp = () => {
-    if (activeSpeechUtterance === utterance) {
-      activeSpeechUtterance = null;
-    }
-    if (typeof window !== 'undefined' && (window as any).__activeSpeechUtterance === utterance) {
-      (window as any).__activeSpeechUtterance = null;
-    }
-    if (keepAliveTimer) {
-      clearInterval(keepAliveTimer);
-      keepAliveTimer = null;
-    }
-    if (safetyFallbackTimer) {
-      clearTimeout(safetyFallbackTimer);
-      safetyFallbackTimer = null;
+  const cleanupActiveChunk = () => {
+    if (activeChunkSafetyTimer) {
+      clearTimeout(activeChunkSafetyTimer);
+      activeChunkSafetyTimer = null;
     }
   };
 
   const notifyEndOnce = () => {
-    if (hasCompleted) return;
-    hasCompleted = true;
-    cleanUp();
+    if (isCompleted) return;
+    isCompleted = true;
+    cleanupActiveChunk();
+    activeSpeechUtterance = null;
+    if (typeof window !== 'undefined') {
+      (window as any).__activeSpeechUtterance = null;
+    }
     callbacks.onEnd?.();
   };
 
-  utterance.onstart = () => {
-    // Only run pause/resume keep-alive on desktop Chrome, NEVER on mobile (mobile TTS aborts on pause)
-    if (!isMobile) {
-      keepAliveTimer = setInterval(() => {
-        if (window.speechSynthesis.speaking) {
-          window.speechSynthesis.pause();
-          window.speechSynthesis.resume();
-        }
-      }, 10000);
-    }
-    callbacks.onStart?.();
-  };
+  const playChunk = (index: number) => {
+    if (isPlaybackCancelled || isCompleted) return;
 
-  utterance.onend = () => {
-    notifyEndOnce();
-  };
-
-  utterance.onerror = (e) => {
-    if (e.error !== 'canceled' && e.error !== 'interrupted') {
-      cleanUp();
-      callbacks.onError?.(e);
-    } else {
+    if (index >= chunks.length) {
       notifyEndOnce();
+      return;
     }
-  };
 
-  // Safety Fallback Watchdog: If onend is dropped by mobile browser engine, auto-resolve
-  const estimatedSeconds = Math.max(3.5, Math.ceil(normalized.split(/\s+/).length / 2.2) + 2.5);
-  safetyFallbackTimer = setTimeout(() => {
-    if (!hasCompleted) {
-      console.warn(`[TTS Safety Watchdog] Triggered fallback after ${estimatedSeconds}s.`);
-      notifyEndOnce();
+    const chunkText = chunks[index];
+    const utterance = new SpeechSynthesisUtterance(chunkText);
+    utterance.lang = 'en-US';
+
+    if (selection.voice) {
+      utterance.voice = selection.voice;
     }
-  }, estimatedSeconds * 1000);
 
-  // Buffer speak execution by 40ms if previous speech was cancelled to prevent iOS WebKit dropped utterance bug
-  const executeSpeak = () => {
+    utterance.pitch = ELENA_VOICE_CONFIG.pitch;
+    utterance.rate = ELENA_VOICE_CONFIG.rate;
+    utterance.volume = ELENA_VOICE_CONFIG.volume;
+
+    // Retain active utterance reference across playback to protect from V8 garbage collection
+    activeSpeechUtterance = utterance;
+    if (typeof window !== 'undefined') {
+      (window as any).__activeSpeechUtterance = utterance;
+    }
+
+    let chunkHandled = false;
+    const advanceToNextChunk = () => {
+      if (chunkHandled || isPlaybackCancelled || isCompleted) return;
+      chunkHandled = true;
+      cleanupActiveChunk();
+
+      const nextIndex = index + 1;
+      if (nextIndex < chunks.length) {
+        // Natural 40ms pause between sentences
+        activeQueueTimer = setTimeout(() => {
+          playChunk(nextIndex);
+        }, 40);
+      } else {
+        notifyEndOnce();
+      }
+    };
+
+    utterance.onstart = () => {
+      if (!hasStarted) {
+        hasStarted = true;
+        callbacks.onStart?.();
+      }
+    };
+
+    utterance.onend = () => {
+      advanceToNextChunk();
+    };
+
+    utterance.onerror = (e) => {
+      if (e.error !== 'canceled' && e.error !== 'interrupted') {
+        console.warn('[TTS Chunk Error]:', e.error);
+        callbacks.onError?.(e);
+      }
+      advanceToNextChunk();
+    };
+
+    // Safety fallback per chunk: if onend is swallowed by mobile WebKit/Android TTS
+    const words = chunkText.split(/\s+/).length;
+    const chunkTimeoutSec = Math.max(3.0, Math.ceil(words / 2.0) + 2.5);
+    activeChunkSafetyTimer = setTimeout(() => {
+      if (!chunkHandled && !isPlaybackCancelled && !isCompleted) {
+        console.warn(`[TTS Safety Chunk Watchdog] Auto-advanced chunk ${index} after ${chunkTimeoutSec}s`);
+        advanceToNextChunk();
+      }
+    }, chunkTimeoutSec * 1000);
+
     try {
       window.speechSynthesis.speak(utterance);
       if (window.speechSynthesis.paused) {
@@ -385,28 +408,33 @@ export function speakText(
       }
     } catch (err) {
       console.warn('Speech synthesis speak notice:', err);
-      notifyEndOnce();
+      advanceToNextChunk();
     }
   };
 
-  if (wasSpeaking) {
-    setTimeout(executeSpeak, 40);
-  } else {
-    executeSpeak();
-  }
-
-  return utterance;
+  playChunk(0);
 }
 
 /**
- * Immediate stop for active speech
+ * Immediate stop for active speech and chunked queues
  */
 export function stopSpeaking(): void {
+  isPlaybackCancelled = true;
   activeSpeechUtterance = null;
+  if (activeQueueTimer) {
+    clearTimeout(activeQueueTimer);
+    activeQueueTimer = null;
+  }
+  if (activeChunkSafetyTimer) {
+    clearTimeout(activeChunkSafetyTimer);
+    activeChunkSafetyTimer = null;
+  }
   if (typeof window !== 'undefined') {
     (window as any).__activeSpeechUtterance = null;
     if (window.speechSynthesis) {
-      window.speechSynthesis.cancel();
+      try {
+        window.speechSynthesis.cancel();
+      } catch {}
     }
   }
 }
