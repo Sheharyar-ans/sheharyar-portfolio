@@ -121,7 +121,10 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ onOpenInquiry }) => 
     }
   };
 
-  const relatedPosts = BLOG_POSTS.filter((p) => p.slug !== post.slug && (p.category === post.category || p.tags.some(t => post.tags.includes(t)))).slice(0, 3);
+  const relatedPosts = [...BLOG_POSTS]
+    .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
+    .filter((p) => p.slug !== post.slug && (p.category === post.category || p.tags.some(t => post.tags.includes(t))))
+    .slice(0, 3);
 
   // Full BlogPosting Schema for Google & AEO
   const blogPostingSchema = {

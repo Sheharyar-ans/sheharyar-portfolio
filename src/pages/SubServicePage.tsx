@@ -23,6 +23,55 @@ export const SubServicePage: React.FC<SubServicePageProps> = ({ onOpenInquiry })
   const data = SUB_SERVICES[serviceSlug];
   const serviceSchema = generateSchemaGraph(`/services/${data.slug}/`);
 
+  const getServiceHeroImage = (slug: string) => {
+    switch (slug) {
+      case 'custom-wordpress-development':
+        return {
+          src: '/assets/images/blog/wordpress-php-vip-sub-1s-lcp.webp',
+          alt: 'Custom WordPress VIP architecture with PHP 8.2 and Redis object caching'
+        };
+      case 'ai-voice-agents':
+        return {
+          src: '/assets/images/blog/autonomous-ai-voice-telephony-sub-600ms-latency-enterprise.webp',
+          alt: 'Autonomous sub-600ms AI voice agents with Twilio SIP trunking and real-time WebSockets'
+        };
+      case 'woocommerce-systems-architecture':
+        return {
+          src: '/assets/images/blog/woocommerce-hpos-high-concurrency-checkout.webp',
+          alt: 'High-concurrency WooCommerce HPOS checkout architecture handling 10,000+ daily orders'
+        };
+      case 'workflow-automation-n8n':
+        return {
+          src: '/assets/images/blog/n8n-self-hosted-cluster-automation.webp',
+          alt: 'Self-hosted n8n production automation cluster with Redis queue orchestration'
+        };
+      case 'ai-chatbots-rag':
+        return {
+          src: '/assets/images/blog/enterprise-rag-vector-hybrid-search.webp',
+          alt: 'Enterprise contextual RAG chatbot architecture with hybrid vector retrieval'
+        };
+      case 'agentic-ai-applications':
+        return {
+          src: '/assets/images/blog/agentic-ai-langgraph-multi-agent.webp',
+          alt: 'Deterministic multi-agent execution graphs engineered with LangGraph and Python'
+        };
+      case 'data-science-analytics':
+      case 'data-analytics-data-science':
+        return {
+          src: '/assets/images/blog/b2b-executive-bi-etl-pipeline-dashboards.webp',
+          alt: 'Event-driven data analytics and executive business intelligence ETL pipelines'
+        };
+      default:
+        return {
+          src: '/assets/images/services-enterprise-architecture-cloud.webp',
+          alt: 'Enterprise decoupled cloud architecture matrix linking WordPress core and AI models'
+        };
+    }
+  };
+
+  const serviceHeroImage = getServiceHeroImage(data.slug);
+
+
   const getServiceIcon = () => {
     switch (data.slug) {
       case 'custom-wordpress-development':
@@ -92,6 +141,25 @@ export const SubServicePage: React.FC<SubServicePageProps> = ({ onOpenInquiry })
         keyTakeaways={data.keyTakeaways}
         badge={`AEO ANSWER: ${data.title.toUpperCase()}`}
       />
+
+      {/* Service Architecture Visual Showcase (0 CLS / Responsive 16:9) */}
+      <div className="my-10 w-full aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden border border-brand-border/80 shadow-2xl relative bg-surface-1 group">
+        <img
+          src={serviceHeroImage.src}
+          alt={serviceHeroImage.alt}
+          width="1200"
+          height="675"
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />
+        <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 flex items-center gap-2">
+          <span className="px-3 py-1 rounded-lg bg-surface-1/90 border border-accent/40 text-accent font-mono text-[11px] font-bold uppercase tracking-wider backdrop-blur-md">
+            ARCHITECTURE MATRIX • {data.badge}
+          </span>
+        </div>
+      </div>
 
       {/* Benchmarks Metrics Strip */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-12">

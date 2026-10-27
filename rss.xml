@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sheharyar Siraj | Systems Engineering &amp; AI Telephony Blog</title>
+    <link>https://sheharyarsiraj.com/blog/</link>
+    <description>In-depth architectural guides on custom WordPress VIP engineering, low-latency AI voice telephony, WooCommerce HPOS scaling, and deterministic agentic AI.</description>
+    <language>en-US</language>
+    <lastBuildDate>Tue, 27 Oct 2026 12:57:51 GMT</lastBuildDate>
+    <atom:link href="https://sheharyarsiraj.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Architecture of Sub-600ms Autonomous AI Voice Telephony: Replacing Legacy Call Queues in Enterprise Systems</title>
+      <link>https://sheharyarsiraj.com/blog/autonomous-ai-voice-telephony-sub-600ms-latency-enterprise/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/autonomous-ai-voice-telephony-sub-600ms-latency-enterprise/</guid>
+      <description>Traditional enterprise interactive voice response (IVR) systems and overseas call queues bleed high-intent inbound leads through catastrophic latency and rigid touch-tone trees. Here is the comprehensive architectural blueprint for deploying autonomous, sub-600ms AI voice agents using Twilio SIP trunking, low-latency WebSocket orchestration, real-time function calling, and deterministic CRM lead injection.</description>
+      <category>AI Voice Telephony</category>
+      <pubDate>Tue, 27 Oct 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+    <item>
+      <title>PHP2Shell: How AI Discovered a Decade-Old Core Flaw &amp; The Enterprise WordPress Hardening Blueprint</title>
+      <link>https://sheharyarsiraj.com/blog/php2shell-core-vulnerability-wordpress-hardening-guide/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/php2shell-core-vulnerability-wordpress-hardening-guide/</guid>
+      <description>A catastrophic heap layout corruption flaw in PHP stream wrappers (CVE-2026-109618 &amp; CVE-2026-109619) dubbed PHP2Shell exposed millions of enterprise WordPress installations to remote code execution. Here is the architectural post-mortem and the zero-trust systemd, WAF, and runtime hardening blueprint.</description>
+      <category>Security & Hardening</category>
+      <pubDate>Sat, 24 Oct 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+    <item>
+      <title>Decoupled Custom WordPress &amp; PHP 8.2 VIP: Engineering for Sub-1s LCP</title>
+      <link>https://sheharyarsiraj.com/blog/decoupled-custom-wordpress-php-vip-architecture/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/decoupled-custom-wordpress-php-vip-architecture/</guid>
+      <description>Heavy multi-purpose WordPress themes and visual page builders cripple Largest Contentful Paint (LCP) and Cumulative Layout Shift (CLS). Here is the exact architectural blueprint to build enterprise WordPress systems using PHP 8.2, object-oriented custom themes, and Redis object caching.</description>
+      <category>WordPress Architecture</category>
+      <pubDate>Mon, 12 Oct 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+    <item>
+      <title>Architecting Sub-600ms Conversational AI Voice Agents Using Vapi, Twilio SIP, and Webhooks</title>
+      <link>https://sheharyarsiraj.com/blog/building-sub-600ms-conversational-ai-voice-agents-vapi-twilio/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/building-sub-600ms-conversational-ai-voice-agents-vapi-twilio/</guid>
+      <description>Latency is the single critical factor in conversational voice AI. If a caller pauses and waits more than 800ms for a response, the human brain detects a robotic disconnect. Here is how we engineer sub-600ms voice agents with Vapi, Deepgram Nova-2, and event-driven webhooks.</description>
+      <category>AI Voice Telephony</category>
+      <pubDate>Sat, 10 Oct 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+    <item>
+      <title>Scaling WooCommerce HPOS Beyond 10,000 Daily Orders: High-Concurrency Checkout Optimization</title>
+      <link>https://sheharyarsiraj.com/blog/scaling-woocommerce-hpos-10000-daily-orders-architecture/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/scaling-woocommerce-hpos-10000-daily-orders-architecture/</guid>
+      <description>When e-commerce brands hit seasonal flash sales or scale past 5,000 orders per day, default WooCommerce architectures grind to a halt. Traditional postmeta table storage causes row lock contention that freezes checkout carts. Here is the engineering strategy to scale WooCommerce HPOS.</description>
+      <category>WooCommerce Systems</category>
+      <pubDate>Thu, 08 Oct 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+    <item>
+      <title>Self-Hosted n8n Production Clusters vs Zapier: Architecting Resilient B2B Data Pipelines</title>
+      <link>https://sheharyarsiraj.com/blog/self-hosted-n8n-production-clusters-vs-zapier-enterprise-automation/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/self-hosted-n8n-production-clusters-vs-zapier-enterprise-automation/</guid>
+      <description>Paying thousands of dollars per month for Zapier task limits while streaming proprietary customer data to third-party US clouds creates severe security risks and cost scaling headaches. Here is how we deploy self-hosted n8n clusters with automated retries and dead-letter queues.</description>
+      <category>Workflow Automation</category>
+      <pubDate>Tue, 06 Oct 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+    <item>
+      <title>Production-Grade Retrieval-Augmented Generation (RAG): Zero-Hallucination Vector Architecture with Hybrid Search</title>
+      <link>https://sheharyarsiraj.com/blog/production-rag-zero-hallucination-vector-architecture-hybrid-search/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/production-rag-zero-hallucination-vector-architecture-hybrid-search/</guid>
+      <description>Standard vector search using naive cosine similarity frequently fails in production. It misses exact technical part numbers, dates, and domain-specific acronyms. Here is how we engineer production RAG architectures using hybrid BM25 + dense vector embeddings and cross-encoder rerankers.</description>
+      <category>Contextual RAG & Chatbots</category>
+      <pubDate>Sun, 04 Oct 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+    <item>
+      <title>Generative Engine Optimization (GEO): How to Structure Schema and Entity Graphs for Perplexity and Google AI Overviews</title>
+      <link>https://sheharyarsiraj.com/blog/generative-engine-optimization-geo-schema-knowledge-graphs-ai-search/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/generative-engine-optimization-geo-schema-knowledge-graphs-ai-search/</guid>
+      <description>Traditional keyword-stuffing SEO is obsolete. AI answer engines like Perplexity, ChatGPT Search, and Google AI Overviews crawl websites as knowledge graphs, extracting authoritative factual claims rather than counting blue links. Here is how to engineer your website for Generative Engine Optimization.</description>
+      <category>Generative Engine Optimization</category>
+      <pubDate>Fri, 02 Oct 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+    <item>
+      <title>Deterministic Agentic AI: Building Tool-Calling Multi-Agent Workflows with LangGraph and Python</title>
+      <link>https://sheharyarsiraj.com/blog/deterministic-agentic-ai-multi-agent-workflows-langgraph-python/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/deterministic-agentic-ai-multi-agent-workflows-langgraph-python/</guid>
+      <description>Single-prompt AI agents hallucinate and drift into infinite loops when assigned complex, multi-step business objectives. Here is how we build production multi-agent systems using LangGraph state graphs, cyclical human-in-the-loop validation, and strict JSON Schema tool calling.</description>
+      <category>Agentic AI Systems</category>
+      <pubDate>Mon, 28 Sep 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+    <item>
+      <title>The Invisible Technical Partner: How Digital Marketing &amp; SEO Agencies Scale Without In-House Senior Devs</title>
+      <link>https://sheharyarsiraj.com/blog/the-invisible-technical-partner-how-digital-agencies-scale-development/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/the-invisible-technical-partner-how-digital-agencies-scale-development/</guid>
+      <description>Hiring full-time senior software engineers in London, New York, or Sydney costs $120,000+ per year plus recruitment overhead and downtime. Here is how progressive digital agencies leverage dedicated white-label engineering partnerships to boost client retention and profit margins.</description>
+      <category>White-Label Agency</category>
+      <pubDate>Thu, 24 Sep 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+    <item>
+      <title>Eliminating WordPress Database Bloat: Autoload Profiling, Transient Garbage Collection, and Security Hardening</title>
+      <link>https://sheharyarsiraj.com/blog/eliminating-wordpress-database-bloat-autoload-optimization-security/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/eliminating-wordpress-database-bloat-autoload-optimization-security/</guid>
+      <description>Is your WordPress site taking 2+ seconds to respond even on high-end hosting? The culprit is almost always bloated wp_options autoload size and millions of orphaned transients. Here is how to profile, clean, and permanently optimize your WordPress database for sub-10ms query execution.</description>
+      <category>Database & Performance</category>
+      <pubDate>Sun, 20 Sep 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+    <item>
+      <title>Automating B2B Executive Intelligence: Event-Driven ETL Pipelines from Stripe and CRM into BI Dashboards</title>
+      <link>https://sheharyarsiraj.com/blog/automating-b2b-executive-intelligence-event-driven-etl-pipelines-bi/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/automating-b2b-executive-intelligence-event-driven-etl-pipelines-bi/</guid>
+      <description>Executive leadership teams waste dozens of hours every month manually exporting CSVs from Stripe, WooCommerce, and HubSpot into spreadsheet Frankenstein models. Here is how we build automated event-driven ETL pipelines into real-time business intelligence dashboards.</description>
+      <category>Data Pipelines & BI</category>
+      <pubDate>Tue, 15 Sep 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
+  </channel>
+</rss>

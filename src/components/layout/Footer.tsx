@@ -168,7 +168,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
             <ul className="space-y-2 text-xs font-mono text-brand-secondary">
               <li>
                 <Link to="/blog/" className="hover:text-accent transition-colors block py-0.5 text-accent font-bold">
-                  → Technical Blog & Deep Dives (10)
+                  → Technical Blog & Deep Dives (12)
                 </Link>
               </li>
               <li>

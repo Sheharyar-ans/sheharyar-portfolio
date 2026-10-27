@@ -24,8 +24,14 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({ onOpenInquiry 
   const [selectedCategory, setSelectedCategory] = useState<string>('All Articles');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
+  const sortedBlogs = useMemo(() => {
+    return [...BLOG_POSTS].sort(
+      (a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
+    );
+  }, []);
+
   const filteredPosts = useMemo(() => {
-    return BLOG_POSTS.filter((post) => {
+    return sortedBlogs.filter((post) => {
       const matchesCategory = selectedCategory === 'All Articles' || post.category === selectedCategory;
       const matchesSearch = 
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -33,9 +39,9 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({ onOpenInquiry 
         post.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [sortedBlogs, selectedCategory, searchQuery]);
 
-  const featuredPost = BLOG_POSTS[0];
+  const featuredPost = sortedBlogs[0];
 
   const listingSchema = {
     '@context': 'https://schema.org',

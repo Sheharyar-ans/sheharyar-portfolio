@@ -129,9 +129,13 @@ async function prerender() {
     // Ignore cleanup error
   }
 
-  // Generate & sync fresh sitemap with all routes
-  const { generateSitemap } = await import('./generate-sitemap.js');
-  generateSitemap();
+  // Generate & sync fresh sitemap and RSS feed with all routes
+  const { generateFeeds, generateSitemap } = await import('./generate-sitemap.js');
+  if (generateFeeds) {
+    await generateFeeds();
+  } else {
+    generateSitemap();
+  }
 
   console.log('\n✨ All routes successfully pre-rendered into static HTML with full AEO/GEO Schema!');
 }

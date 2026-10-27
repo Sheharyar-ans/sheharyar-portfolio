@@ -186,6 +186,25 @@ export const ToolsHubPage: React.FC<ToolsHubPageProps> = ({ onOpenInquiry }) => 
       />
 
       {/* Filter Category Chips (Clean interactive tags, NO dropdowns!) */}
+      {/* Developer Tools Suite Visual (0 CLS / Responsive 16:9) */}
+      <div className="my-10 w-full aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden border border-brand-border/80 shadow-2xl relative bg-surface-1 group">
+        <img
+          src="/assets/images/developer-tools-code-profiler.webp"
+          alt="Automated developer tools suite profiling SQL queries, JSON-LD schemas, and real-time voice latency benchmarks"
+          width="1200"
+          height="675"
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />
+        <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 flex items-center gap-2">
+          <span className="px-3 py-1 rounded-lg bg-surface-1/90 border border-accent/40 text-accent font-mono text-[11px] font-bold uppercase tracking-wider backdrop-blur-md">
+            INTERACTIVE DEVELOPER UTILITIES • ZERO-LATENCY PROFILING
+          </span>
+        </div>
+      </div>
+
       <section className="my-8" aria-label="Tool Category Filters">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
           <span className="text-xs font-mono text-accent tracking-widest uppercase font-bold">

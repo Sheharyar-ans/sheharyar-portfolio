@@ -57,6 +57,7 @@ export const ROUTES = [
   '/tools/tailwind-cwv-purge-analyzer/',
   '/tools/agentic-ai-schema-validator/',
   '/blog/',
+  '/blog/autonomous-ai-voice-telephony-sub-600ms-latency-enterprise/',
   '/blog/decoupled-custom-wordpress-php-vip-architecture/',
   '/blog/building-sub-600ms-conversational-ai-voice-agents-vapi-twilio/',
   '/blog/scaling-woocommerce-hpos-10000-daily-orders-architecture/',
@@ -338,12 +339,45 @@ export function getRouteMetadata(url: string) {
     const slug = cleanUrl.replace('/blog/', '');
     const post = BLOG_POSTS.find(p => p.slug === slug);
     if (post) {
+      const blogPostingSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        '@id': `https://sheharyarsiraj.com/blog/${post.slug}/#article`,
+        url: `https://sheharyarsiraj.com/blog/${post.slug}/`,
+        headline: post.title,
+        description: post.metaDescription,
+        datePublished: `${post.publishedDate}T09:00:00+05:00`,
+        dateModified: `${post.updatedDate}T12:00:00+05:00`,
+        inLanguage: 'en-US',
+        mainEntityOfPage: `https://sheharyarsiraj.com/blog/${post.slug}/`,
+        image: {
+          '@type': 'ImageObject',
+          url: `https://sheharyarsiraj.com${post.featuredImage}`,
+          width: 1200,
+          height: 675
+        },
+        author: {
+          '@type': 'Person',
+          '@id': 'https://sheharyarsiraj.com/#person',
+          name: post.author.name,
+          jobTitle: post.author.role,
+          url: 'https://sheharyarsiraj.com/'
+        },
+        publisher: {
+          '@type': 'ProfessionalService',
+          '@id': 'https://sheharyarsiraj.com/#business',
+          name: 'Sheharyar Siraj - AI Systems & Web Architecture',
+          url: 'https://sheharyarsiraj.com/'
+        },
+        keywords: post.tags.join(', ')
+      };
+
       return {
         title: post.seoTitle,
         description: post.metaDescription,
         canonical: `https://sheharyarsiraj.com/blog/${post.slug}/`,
         image: `https://sheharyarsiraj.com${post.featuredImage}`,
-        schema
+        schema: blogPostingSchema
       };
     }
   }

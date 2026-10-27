@@ -205,6 +205,25 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenInquiry }) => {
         badge="AEO PROFILE SUMMARY: SHEHARYAR SIRAJ"
       />
 
+      {/* Visual Workstation & Engineering Laboratory Banner (0 CLS / Responsive 16:9) */}
+      <div className="my-10 w-full aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden border border-brand-border/80 shadow-2xl relative bg-surface-1 group">
+        <img
+          src="/assets/images/sheharyar-engineering-lab-workstation.webp"
+          alt="Sheharyar Siraj systems engineering workstation and development laboratory with dual code editors and enterprise monitoring terminals"
+          width="1200"
+          height="675"
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />
+        <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 flex items-center gap-2">
+          <span className="px-3 py-1 rounded-lg bg-surface-1/90 border border-accent/40 text-accent font-mono text-[11px] font-bold uppercase tracking-wider backdrop-blur-md">
+            ENGINEERING LAB • 1,200+ GLOBAL DEPLOYMENTS
+          </span>
+        </div>
+      </div>
+
       {/* Real Results Delivered Highlight Strip */}
       <div className="my-16">
         <div className="mb-8">

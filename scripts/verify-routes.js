@@ -60,6 +60,7 @@ const ROUTES_TO_TEST = [
   '/tools/tailwind-cwv-purge-analyzer/',
   '/tools/agentic-ai-schema-validator/',
   '/blog/',
+  '/blog/autonomous-ai-voice-telephony-sub-600ms-latency-enterprise/',
   '/blog/php2shell-core-vulnerability-wordpress-hardening-guide/',
   '/about/',
   '/certifications/',

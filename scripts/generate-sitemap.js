@@ -8,7 +8,7 @@ const rootDir = path.resolve(__dirname, '..');
 const publicDir = path.resolve(rootDir, 'public');
 const distDir = path.resolve(rootDir, 'dist');
 
-// Definitive Route Taxonomy & Priority Strategy
+// Definitive Route Taxonomy & Priority Strategy (Sorted chronologically for blogs)
 const SITEMAP_CONFIG = [
   { url: '/', priority: '1.0', changefreq: 'daily' },
   
@@ -69,8 +69,10 @@ const SITEMAP_CONFIG = [
   { url: '/tools/tailwind-cwv-purge-analyzer/', priority: '0.8', changefreq: 'weekly' },
   { url: '/tools/agentic-ai-schema-validator/', priority: '0.8', changefreq: 'weekly' },
 
-  // Engineering Blog & Deep Technical Pillar Guides
+  // Engineering Blog & Deep Technical Pillar Guides (Newest to Oldest)
   { url: '/blog/', priority: '0.9', changefreq: 'weekly' },
+  { url: '/blog/autonomous-ai-voice-telephony-sub-600ms-latency-enterprise/', priority: '0.85', changefreq: 'monthly' },
+  { url: '/blog/php2shell-core-vulnerability-wordpress-hardening-guide/', priority: '0.85', changefreq: 'monthly' },
   { url: '/blog/decoupled-custom-wordpress-php-vip-architecture/', priority: '0.85', changefreq: 'monthly' },
   { url: '/blog/building-sub-600ms-conversational-ai-voice-agents-vapi-twilio/', priority: '0.85', changefreq: 'monthly' },
   { url: '/blog/scaling-woocommerce-hpos-10000-daily-orders-architecture/', priority: '0.85', changefreq: 'monthly' },
@@ -81,7 +83,6 @@ const SITEMAP_CONFIG = [
   { url: '/blog/the-invisible-technical-partner-how-digital-agencies-scale-development/', priority: '0.85', changefreq: 'monthly' },
   { url: '/blog/eliminating-wordpress-database-bloat-autoload-optimization-security/', priority: '0.85', changefreq: 'monthly' },
   { url: '/blog/automating-b2b-executive-intelligence-event-driven-etl-pipelines-bi/', priority: '0.85', changefreq: 'monthly' },
-  { url: '/blog/php2shell-core-vulnerability-wordpress-hardening-guide/', priority: '0.85', changefreq: 'monthly' },
 
   // Interactive 3D Code Arcade Gaming Arena
   { url: '/code-arcade/', priority: '0.9', changefreq: 'weekly' },
@@ -93,6 +94,63 @@ const SITEMAP_CONFIG = [
   { url: '/privacy-policy/', priority: '0.6', changefreq: 'monthly' },
   { url: '/terms/', priority: '0.6', changefreq: 'monthly' }
 ];
+
+export async function generateRssFeed() {
+  const domain = 'https://sheharyarsiraj.com';
+  let blogPosts = [];
+  
+  try {
+    const { BLOG_POSTS } = await import('../src/data/blogData.ts');
+    blogPosts = [...BLOG_POSTS].sort(
+      (a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
+    );
+  } catch (err) {
+    console.warn('Could not load BLOG_POSTS for RSS feed directly, using fallback.', err);
+  }
+
+  const itemsXml = blogPosts.map((post) => {
+    const pubDate = new Date(`${post.publishedDate}T09:00:00+05:00`).toUTCString();
+    const cleanExcerpt = post.excerpt.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const cleanTitle = post.title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return `    <item>
+      <title>${cleanTitle}</title>
+      <link>${domain}/blog/${post.slug}/</link>
+      <guid isPermaLink="true">${domain}/blog/${post.slug}/</guid>
+      <description>${cleanExcerpt}</description>
+      <category>${post.category}</category>
+      <pubDate>${pubDate}</pubDate>
+      <author>sherryansari870@gmail.com (${post.author.name})</author>
+    </item>`;
+  }).join('\n');
+
+  const rssContent = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sheharyar Siraj | Systems Engineering &amp; AI Telephony Blog</title>
+    <link>${domain}/blog/</link>
+    <description>In-depth architectural guides on custom WordPress VIP engineering, low-latency AI voice telephony, WooCommerce HPOS scaling, and deterministic agentic AI.</description>
+    <language>en-US</language>
+    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+    <atom:link href="${domain}/rss.xml" rel="self" type="application/rss+xml" />
+${itemsXml}
+  </channel>
+</rss>
+`;
+
+  const publicRssPath = path.resolve(publicDir, 'rss.xml');
+  fs.writeFileSync(publicRssPath, rssContent, 'utf-8');
+  console.log(`✓ Generated RSS Feed at ${publicRssPath} (${blogPosts.length} items, newest first)`);
+
+  const rootRssPath = path.resolve(rootDir, 'rss.xml');
+  fs.writeFileSync(rootRssPath, rssContent, 'utf-8');
+  console.log(`✓ Synchronized root RSS Feed at ${rootRssPath}`);
+
+  if (fs.existsSync(distDir)) {
+    const distRssPath = path.resolve(distDir, 'rss.xml');
+    fs.writeFileSync(distRssPath, rssContent, 'utf-8');
+    console.log(`✓ Mirrored RSS Feed to ${distRssPath}`);
+  }
+}
 
 export function generateSitemap() {
   const currentDate = new Date().toISOString().split('T')[0];
@@ -130,6 +188,11 @@ ${urlsXml}
   }
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+export async function generateFeeds() {
   generateSitemap();
+  await generateRssFeed();
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  generateFeeds();
 }
