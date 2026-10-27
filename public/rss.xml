@@ -5,7 +5,7 @@
     <link>https://sheharyarsiraj.com/blog/</link>
     <description>In-depth architectural guides on custom WordPress VIP engineering, low-latency AI voice telephony, WooCommerce HPOS scaling, and deterministic agentic AI.</description>
     <language>en-US</language>
-    <lastBuildDate>Tue, 27 Oct 2026 12:57:51 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 13:24:12 GMT</lastBuildDate>
     <atom:link href="https://sheharyarsiraj.com/rss.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Architecture of Sub-600ms Autonomous AI Voice Telephony: Replacing Legacy Call Queues in Enterprise Systems</title>

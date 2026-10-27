@@ -80,7 +80,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenInquiry }) => {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-7 text-xs font-mono tracking-widest text-brand-secondary">
+        <nav className="hidden lg:flex items-center lg:gap-3.5 xl:gap-5 2xl:gap-7 text-[11px] xl:text-xs font-mono tracking-wider xl:tracking-widest text-brand-secondary">
           
           {/* Services Menu with Mega Dropdown */}
           <div
@@ -290,11 +290,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenInquiry }) => {
         </nav>
 
         {/* Action Button */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-3">
           <button
             type="button"
             onClick={onOpenInquiry}
-            className="px-5 py-2.5 rounded-full text-xs font-bold font-mono tracking-wider bg-accent text-black hover:bg-white transition-all shadow-[0_0_20px_rgba(183,255,60,0.3)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] flex items-center gap-1.5 active:scale-95"
+            className="px-3.5 py-2 xl:px-5 xl:py-2.5 rounded-full text-[11px] xl:text-xs font-bold font-mono tracking-wider bg-accent text-black hover:bg-white transition-all shadow-[0_0_20px_rgba(183,255,60,0.3)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] flex items-center gap-1.5 active:scale-95 shrink-0"
           >
             <span>BUILD MY AI SYSTEM</span>
             <ArrowUpRight size={14} />
