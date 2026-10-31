@@ -233,8 +233,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenInquiry }) => {
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white">
             Real Quantified Results Delivered
           </h2>
-          <p className="text-brand-secondary text-xs sm:text-sm mt-1 font-body">
-            Measurable operational improvements achieved across production deployments worldwide.
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+            Sheharyar Siraj delivers measurable enterprise software benchmarks worldwide, achieving up to 60% manual process automation, 40% page speed acceleration, and sub-1-second Largest Contentful Paint across 1,200+ completed deployments for clients in North America, Europe, and the Middle East.
           </p>
         </div>
 
@@ -289,6 +289,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenInquiry }) => {
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white">
             Engineering & Architecture Philosophy
           </h2>
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+            Modern software architecture demands clean, custom engineering over brittle plugin dependencies. Every web application and AI pipeline is built with deterministic TypeScript, decoupled WordPress VIP APIs, strict asynchronous queueing, and enterprise-grade security to ensure long-term scalability and zero operational downtime.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -384,6 +387,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenInquiry }) => {
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white">
             Core Technical Capabilities
           </h2>
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+            Core technical competencies span enterprise decoupled WordPress engineering, sub-600ms conversational AI voice agents, contextual RAG vector pipelines, self-hosted n8n cluster automations, and high-concurrency WooCommerce infrastructure. Every component is rigorously tested for sub-second latency, security hardening, and high-volume transaction throughput.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -417,8 +423,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenInquiry }) => {
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white">
             Professional Timeline & Work History
           </h2>
-          <p className="text-brand-secondary text-xs sm:text-sm mt-1 font-body">
-            Comprehensive track record across international enterprise contracts, agency leadership, and platform deliveries.
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+            Spanning more than five years of production software engineering, this timeline details progressive milestones from high-volume freelance client delivery to senior architectural leadership, international enterprise consulting, and white-label development partnerships across North America, the United Kingdom, Europe, and GCC regions.
           </p>
         </div>
 
@@ -464,6 +470,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenInquiry }) => {
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white">
             Education & Academic Degrees
           </h2>
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+            Academic foundations in Computer Science and Software Systems Engineering provide theoretical grounding in algorithmic complexity, distributed systems architecture, relational database normalization, and network protocol design, reinforcing practical production code deployed across hundreds of global high-traffic web environments.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -507,8 +516,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenInquiry }) => {
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white">
             Professional Certifications
           </h2>
-          <p className="text-brand-secondary text-xs sm:text-sm mt-1 font-body">
-            Formally completed technical certifications across enterprise networking, artificial intelligence, and systems engineering.
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+            Industry certifications from Cisco Systems and global artificial intelligence programs validate deep domain mastery across enterprise computer networking, secure routing infrastructure, advanced machine learning workflows, and data-driven systems automation, providing enterprise clients with audited, verifiable technical credibility.
           </p>
         </div>
 

@@ -141,6 +141,9 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenInquiry }) => {
             <h2 className="font-mono text-xs font-bold text-white uppercase tracking-wider pb-3 border-b border-brand-border/40">
               DIRECT VERIFIED CHANNELS
             </h2>
+            <p className="content-capsule text-xs text-white/95 font-medium leading-relaxed p-3.5 rounded-xl bg-accent/[0.04] border border-accent/20">
+              Direct verified communication channels provide instant access to Sheharyar Siraj via WhatsApp and direct email for urgent enterprise production support, white-label agency partnerships, or scheduled high-level system architecture reviews.
+            </p>
 
             {/* WhatsApp */}
             <a
@@ -230,8 +233,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenInquiry }) => {
             <h2 className="font-heading text-xl sm:text-2xl font-bold text-white mb-1">
               Submit Project Scoping Brief
             </h2>
-            <p className="text-xs sm:text-sm text-brand-secondary font-body">
-              Fill out the details below to receive a guaranteed response within 2 hours.
+            <p className="content-capsule text-xs sm:text-sm text-white/95 font-medium leading-relaxed my-2 p-3.5 rounded-xl bg-accent/[0.04] border border-accent/20">
+              Submit your technical project scoping brief directly to Principal Systems Architect Sheharyar Siraj. All inquiries receive an initial architectural evaluation, milestone breakdown, and transparent timeline estimate within 2 business hours under mutual non-disclosure protection.
             </p>
           </div>
 

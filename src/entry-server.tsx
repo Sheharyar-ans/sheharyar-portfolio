@@ -57,6 +57,7 @@ export const ROUTES = [
   '/tools/tailwind-cwv-purge-analyzer/',
   '/tools/agentic-ai-schema-validator/',
   '/blog/',
+  '/blog/production-model-context-protocol-mcp-servers-agentic-ai-architecture/',
   '/blog/autonomous-ai-voice-telephony-sub-600ms-latency-enterprise/',
   '/blog/decoupled-custom-wordpress-php-vip-architecture/',
   '/blog/building-sub-600ms-conversational-ai-voice-agents-vapi-twilio/',

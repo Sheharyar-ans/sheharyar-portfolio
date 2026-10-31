@@ -323,8 +323,8 @@ export const ToolsHubPage: React.FC<ToolsHubPageProps> = ({ onOpenInquiry }) => 
           <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-white mb-4">
             Need a proprietary utility tool engineered for your agency or SaaS?
           </h2>
-          <p className="text-sm sm:text-base text-brand-secondary font-medium leading-relaxed mb-6 font-body">
-            In addition to these open utilities, we architect dedicated internal tooling, including multi-tenant client onboarding portals, real-time telephony dashboards, automated CRM reconcilers, and proprietary AI agent evaluation benches.
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+            We engineer bespoke developer tooling and multi-tenant SaaS internal utilities, including automated CRM data reconcilers, real-time telephony observability dashboards, and agentic AI prompt evaluation suites, providing software engineering teams and digital agencies with proprietary workflow automation tailored to their exact enterprise infrastructure.
           </p>
 
           <div className="flex flex-wrap gap-4">
@@ -356,8 +356,8 @@ export const ToolsHubPage: React.FC<ToolsHubPageProps> = ({ onOpenInquiry }) => 
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white mb-2">
             Frequently Asked Questions Regarding Utility Tools
           </h2>
-          <p className="text-sm text-brand-secondary font-body">
-            Technical answers concerning non-destructive execution, API limits, and deployment workflows.
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20 max-w-3xl mx-auto text-left">
+            These verified technical answers explain client-side sandboxing, non-destructive read execution, schema generation standards, and zero-storage data privacy policies across all interactive developer utilities engineered by Sheharyar Siraj for software engineers and digital agencies.
           </p>
         </div>
 

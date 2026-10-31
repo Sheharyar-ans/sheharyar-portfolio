@@ -219,8 +219,8 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
         <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-white mb-3">
           Have a Complex Technical Challenge?
         </h2>
-        <p className="text-xs sm:text-sm text-brand-secondary max-w-xl mx-auto mb-8 font-body">
-          We engineer bespoke solutions for high-stakes business requirements. Reach out to discuss your specific infrastructure needs.
+        <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed max-w-2xl mx-auto my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+          Sheharyar Siraj architects custom enterprise digital systems, high-concurrency database optimizations, and autonomous AI telephony agents for international founders and digital agencies requiring senior technical leadership under strict bilateral NDAs and guaranteed sprint timelines.
         </p>
         <button
           onClick={onOpenInquiry}

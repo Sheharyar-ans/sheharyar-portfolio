@@ -304,7 +304,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ onOpenInquiry }) => 
 
         {/* Main Article Body */}
         <article className="prose prose-invert max-w-none font-body leading-relaxed text-brand-secondary space-y-6 text-sm sm:text-base">
-          {post.content.split('\n\n').map((paragraph, idx) => {
+          {post.content.split('\n\n').map((paragraph, idx, arr) => {
             if (paragraph.startsWith('### ') || paragraph.startsWith('## ')) {
               const headingText = paragraph.replace(/^#{2,3}\s+/, '');
               const matchingToc = post.tableOfContents.find(t => headingText.toLowerCase().includes(t.title.toLowerCase().slice(0, 10)));
@@ -422,6 +422,24 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ onOpenInquiry }) => 
                     </li>
                   ))}
                 </ul>
+              );
+            }
+
+            // Check if this paragraph immediately follows an H2 or H3 heading
+            const prevItem = idx > 0 ? arr[idx - 1] : '';
+            const isFollowsHeading = prevItem.startsWith('## ') || prevItem.startsWith('### ');
+            
+            if (isFollowsHeading) {
+              return (
+                <div key={idx} className="my-5 p-4 sm:p-5 rounded-2xl bg-accent/[0.04] border-l-4 border-accent border-y border-r border-accent/20 shadow-lg">
+                  <div className="flex items-center gap-1.5 text-[11px] font-mono font-bold tracking-wider text-accent uppercase mb-2">
+                    <Sparkles size={13} className="text-accent shrink-0" />
+                    <span>CONCISE DEFINITION / AI ANSWER CAPSULE</span>
+                  </div>
+                  <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed m-0" itemProp="abstract">
+                    {renderFormattedText(paragraph)}
+                  </p>
+                </div>
               );
             }
 

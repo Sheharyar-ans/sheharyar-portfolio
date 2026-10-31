@@ -71,6 +71,7 @@ const SITEMAP_CONFIG = [
 
   // Engineering Blog & Deep Technical Pillar Guides (Newest to Oldest)
   { url: '/blog/', priority: '0.9', changefreq: 'weekly' },
+  { url: '/blog/production-model-context-protocol-mcp-servers-agentic-ai-architecture/', priority: '0.85', changefreq: 'monthly' },
   { url: '/blog/autonomous-ai-voice-telephony-sub-600ms-latency-enterprise/', priority: '0.85', changefreq: 'monthly' },
   { url: '/blog/php2shell-core-vulnerability-wordpress-hardening-guide/', priority: '0.85', changefreq: 'monthly' },
   { url: '/blog/decoupled-custom-wordpress-php-vip-architecture/', priority: '0.85', changefreq: 'monthly' },

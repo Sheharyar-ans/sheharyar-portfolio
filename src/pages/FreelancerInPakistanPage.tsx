@@ -278,8 +278,8 @@ export const FreelancerInPakistanPage: React.FC<FreelancerInPakistanPageProps> =
           <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
             Why Global Businesses Hire Top Technical Talent from Pakistan
           </h2>
-          <p className="text-brand-secondary text-sm sm:text-base max-w-3xl mt-3 font-body">
-            International founders, enterprise teams, and digital agencies choose Pakistani engineers for their deep technical foundations, strong work ethic, and exceptional value. Here is why hiring top-tier technical talent from Pakistan accelerates growth.
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+            International founders, enterprise teams, and digital agencies choose Pakistani software engineers for deep computer science foundations, rigorous work ethic, and exceptional cost-to-performance value, delivering world-class engineering execution without the exorbitant overhead of domestic coastal tech agencies.
           </p>
         </div>
 
@@ -311,8 +311,8 @@ export const FreelancerInPakistanPage: React.FC<FreelancerInPakistanPageProps> =
           <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
             Core Expertise & Technical Stack
           </h2>
-          <p className="text-brand-secondary text-sm sm:text-base max-w-3xl mt-3 font-body">
-            I build resilient digital architectures using modern software standards. No bloated page builders, no unstable third-party plugins, and no fragile shortcuts.
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+            Core technical capabilities focus on building resilient digital architectures using modern software standards. Every system is developed with clean TypeScript, headless CMS frameworks, high-concurrency database schemas, and autonomous AI agents, eliminating fragile third-party plugins and unstable developer shortcuts.
           </p>
         </div>
 
@@ -368,8 +368,8 @@ export const FreelancerInPakistanPage: React.FC<FreelancerInPakistanPageProps> =
           <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
             Proven Track Record & Global Reach
           </h2>
-          <p className="text-brand-secondary text-sm sm:text-base max-w-3xl mt-3 font-body">
-            Headquartered in Karachi, Pakistan, I provide uninterrupted engineering execution for international founders and enterprise teams across four continents.
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+            Headquartered in Karachi, Pakistan, Sheharyar Siraj provides uninterrupted engineering execution across North America, Europe, Australia, and the Middle East, delivering sub-second response times, verified milestone escrow security, and full operational overlap across major global business timezones.
           </p>
         </div>
 
@@ -450,8 +450,8 @@ export const FreelancerInPakistanPage: React.FC<FreelancerInPakistanPageProps> =
           <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
             White-Label Agency Partnerships
           </h2>
-          <p className="text-brand-secondary text-sm sm:text-base max-w-3xl mt-3 font-body">
-            I act as an invisible technical director and lead developer for digital marketing agencies, SEO consultancies, and design studios across the US, UK, and Australia. You handle client acquisition and strategy; I deliver flawless code and automated systems.
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
+            White-label agency subcontracting provides digital marketing and web agencies with senior technical execution under strict bilateral non-disclosure agreements, allowing partner firms to scale client capacity without recruiting overhead, full-time payroll risk, or junior management friction.
           </p>
         </div>
 
@@ -499,8 +499,8 @@ export const FreelancerInPakistanPage: React.FC<FreelancerInPakistanPageProps> =
           <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
             Frequently Asked Questions
           </h2>
-          <p className="text-brand-secondary text-sm sm:text-base font-body">
-            Everything international clients need to know about remote contracts, timezone synchronization, and project workflows with a top freelancer in Pakistan.
+          <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed my-3 p-4 rounded-xl bg-accent/[0.04] border border-accent/20 max-w-3xl mx-auto text-left">
+            These verified answers clarify international contract execution, timezone synchronization, payment workflows, and intellectual property transfers when hiring Sheharyar Siraj as an elite systems engineer and technical freelancer based in Pakistan.
           </p>
         </div>
 

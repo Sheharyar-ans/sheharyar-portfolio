@@ -5,8 +5,17 @@
     <link>https://sheharyarsiraj.com/blog/</link>
     <description>In-depth architectural guides on custom WordPress VIP engineering, low-latency AI voice telephony, WooCommerce HPOS scaling, and deterministic agentic AI.</description>
     <language>en-US</language>
-    <lastBuildDate>Tue, 27 Oct 2026 16:51:37 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 31 Oct 2026 20:41:34 GMT</lastBuildDate>
     <atom:link href="https://sheharyarsiraj.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Production Model Context Protocol (MCP): Architecting Secure, Real-Time Tool Servers for Autonomous Multi-Agent Systems</title>
+      <link>https://sheharyarsiraj.com/blog/production-model-context-protocol-mcp-servers-agentic-ai-architecture/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/production-model-context-protocol-mcp-servers-agentic-ai-architecture/</guid>
+      <description>Proprietary LLM function calling and brittle JSON schemas are breaking down under multi-agent enterprise workloads. Here is the comprehensive architectural blueprint for designing, securing, and deploying production Model Context Protocol (MCP) servers using Python FastMCP, Server-Sent Events (SSE) transport, zero-trust token isolation, and deterministic LangGraph agent orchestration.</description>
+      <category>Agentic AI & Systems</category>
+      <pubDate>Sun, 01 Nov 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
     <item>
       <title>The Architecture of Sub-600ms Autonomous AI Voice Telephony: Replacing Legacy Call Queues in Enterprise Systems</title>
       <link>https://sheharyarsiraj.com/blog/autonomous-ai-voice-telephony-sub-600ms-latency-enterprise/</link>
