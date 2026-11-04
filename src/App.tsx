@@ -38,9 +38,11 @@ import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { TermsPage } from './pages/TermsPage';
 import { BlogListingPage } from './pages/BlogListingPage';
 import { BlogPostPage } from './pages/BlogPostPage';
+import { ArchitectureGuidePage } from './pages/ArchitectureGuidePage';
 import { CodeArcadePage } from './pages/CodeArcadePage';
 import { AiChatbotWidget } from './components/chat/AiChatbotWidget';
 import { VoiceAssistantModal } from './components/VoiceAssistantModal';
+import { FloatingScopingCta } from './components/layout/FloatingScopingCta';
 
 const CaseStudyModal = React.lazy(() =>
   import('./components/modals/CaseStudyModal').then((m) => ({ default: m.CaseStudyModal }))
@@ -407,6 +409,16 @@ export const App: React.FC = () => {
             element={<BlogPostPage onOpenInquiry={() => setIsConnectOpen(true)} />}
           />
 
+          {/* Deep Technical Engineering Hubs & Production Blueprints */}
+          <Route
+            path="/architecture/:slug"
+            element={<ArchitectureGuidePage onOpenInquiry={() => setIsConnectOpen(true)} />}
+          />
+          <Route
+            path="/architecture/:slug/"
+            element={<ArchitectureGuidePage onOpenInquiry={() => setIsConnectOpen(true)} />}
+          />
+
           {/* 3D Code Arcade Practice Game */}
           <Route
             path="/code-arcade"
@@ -433,6 +445,9 @@ export const App: React.FC = () => {
 
       {/* Autonomous Voice AI Telephony Assistant (Zero-Cost Client Speech Pipeline) */}
       <VoiceAssistantModal onOpenInquiry={() => setIsConnectOpen(true)} />
+
+      {/* Floating Accessible 15-Minute Technical Scoping Call Pill */}
+      <FloatingScopingCta onOpenInquiry={() => setIsConnectOpen(true)} />
 
       {/* Floating RAG AI Chatbot Widget */}
       <AiChatbotWidget onOpenInquiry={() => setIsConnectOpen(true)} />

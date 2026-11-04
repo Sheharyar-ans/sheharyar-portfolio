@@ -32,9 +32,11 @@
 
 - [White-Label for Marketing Agencies](https://sheharyarsiraj.com/white-label/marketing-agencies/): Behind-the-scenes WordPress & AI development for growth and digital marketing agencies under strict NDA
 - [White-Label for SEO Agencies](https://sheharyarsiraj.com/white-label/seo-agencies/): Code-level technical SEO execution, Core Web Vitals remediation, programmatic SEO engine development
+- [White-Label WordPress & Headless Engineering for UK & European Agencies](https://sheharyarsiraj.com/services/white-label-agency-automation/): Sub-second headless WordPress & WooCommerce API backbones, dedicated capacity for digital, SEO, and marketing agencies in the UK and Netherlands under strict bilateral NDA
 
 ## Regional Engineering Hubs
 
+- [UAE & Saudi Arabia AI Automation Hub](https://sheharyarsiraj.com/locations/uae-saudi-ai-automation/): Autonomous AI voice agents, sub-500ms inbound/outbound telephony, Saudi building automation strategy consulting, and self-hosted n8n workflows for Dubai, Riyadh, and Jeddah enterprises
 - [United States Hub](https://sheharyarsiraj.com/locations/usa/): United States B2B: EST/PST overlap, CCPA/SOC-2 compliance, USD settlement
 - [United Kingdom Hub](https://sheharyarsiraj.com/locations/uk/): United Kingdom B2B: GMT business hours, UK GDPR/DPA 2018 compliance, GBP settlement
 - [Germany & EU Hub](https://sheharyarsiraj.com/locations/germany/): Germany & EU B2B: CET alignment, EU GDPR compliance, EUR settlement
@@ -46,6 +48,11 @@
 - [Australia Hub](https://sheharyarsiraj.com/locations/australia/): Australia B2B: AEST/AWST coverage, Australian Privacy Act compliance, AUD settlement
 - [Netherlands Hub](https://sheharyarsiraj.com/locations/netherlands/): Netherlands & EU B2B: CET alignment, EU GDPR/AVG compliance, EUR settlement
 - [Worldwide Locations Index](https://sheharyarsiraj.com/locations/): Global coverage map and regional systems engineering directory
+
+## Technical Architecture Blueprints & Engineering Hubs
+
+- [Deterministic Runtime for AI Agents](https://sheharyarsiraj.com/architecture/deterministic-ai-agent-runtimes/): Production architecture blueprint for deterministic AI agents. State-machine boundaries, idempotency keys, WAL database locks, LangGraph vs Temporal, and sub-200ms voice RAG menu retrieval
+- [Sub-500ms Voice AI Telephony & SIP Trunking](https://sheharyarsiraj.com/architecture/sub-500ms-voice-ai-sip-telephony/): Sub-500ms voice AI telephony architecture. Deepgram Nova-2 streaming STT vs Cartesia Sonic, Twilio Elastic SIP trunking, full-duplex WebSockets, and horizontal concurrency scaling
 
 ## Verification & Case Studies
 

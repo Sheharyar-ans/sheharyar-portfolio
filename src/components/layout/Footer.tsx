@@ -96,6 +96,11 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
                 </Link>
               </li>
               <li>
+                <Link to="/services/white-label-agency-automation/" className="hover:text-accent transition-colors block py-0.5 text-accent">
+                  White-Label WordPress UK/EU
+                </Link>
+              </li>
+              <li>
                 <Link to="/services/data-science-analytics/" className="hover:text-accent transition-colors block py-0.5">
                   Data Science & BI Pipelines
                 </Link>
@@ -121,6 +126,11 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
               </li>
               <li className="pt-2 text-[10px] text-brand-muted uppercase font-bold">
                 REGIONAL HUBS:
+              </li>
+              <li>
+                <Link to="/locations/uae-saudi-ai-automation/" className="hover:text-accent transition-colors block py-0.5 text-accent font-semibold">
+                  🇦🇪 🇸🇦 UAE & Saudi Arabia AI Hub
+                </Link>
               </li>
               <li>
                 <Link to="/freelancer-in-pakistan/" className="hover:text-accent transition-colors block py-0.5 text-accent font-semibold">
@@ -168,7 +178,17 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
             <ul className="space-y-2 text-xs font-mono text-brand-secondary">
               <li>
                 <Link to="/blog/" className="hover:text-accent transition-colors block py-0.5 text-accent font-bold">
-                  → Technical Blog & Deep Dives (12)
+                  → Technical Blog & Deep Dives
+                </Link>
+              </li>
+              <li>
+                <Link to="/architecture/deterministic-ai-agent-runtimes/" className="hover:text-accent transition-colors block py-0.5 text-xs text-brand-secondary">
+                  ⚡ Blueprint: Deterministic AI Runtimes
+                </Link>
+              </li>
+              <li>
+                <Link to="/architecture/sub-500ms-voice-ai-sip-telephony/" className="hover:text-accent transition-colors block py-0.5 text-xs text-brand-secondary">
+                  ⚡ Blueprint: Sub-500ms Voice Telephony
                 </Link>
               </li>
               <li>

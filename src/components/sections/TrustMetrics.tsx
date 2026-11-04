@@ -7,14 +7,19 @@ const CounterItem: React.FC<{ target: number; suffix: string; label: string }> =
   suffix,
   label,
 }) => {
-  const [count, setCount] = useState(0);
+  // Initialize with target value so SSR and initial client paint display actual metrics immediately without zero-state glitching
+  const [count, setCount] = useState<number>(target);
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
-    if (!isInView) return;
+    // Smoothly animate only once when scrolled into view
+    if (!isInView || hasAnimatedRef.current) return;
+    hasAnimatedRef.current = true;
+
     let start = 0;
-    const duration = 1800;
+    const duration = 1600;
     const stepTime = 20;
     const steps = duration / stepTime;
     const increment = target / steps;
@@ -25,12 +30,16 @@ const CounterItem: React.FC<{ target: number; suffix: string; label: string }> =
         setCount(target);
         clearInterval(timer);
       } else {
-        setCount(Math.floor(start));
+        setCount(Number.isInteger(target) ? Math.floor(start) : Number(start.toFixed(1)));
       }
     }, stepTime);
 
     return () => clearInterval(timer);
   }, [isInView, target]);
+
+  const displayValue = Number.isInteger(count)
+    ? count.toLocaleString('en-US')
+    : count.toFixed(1);
 
   return (
     <div
@@ -38,7 +47,7 @@ const CounterItem: React.FC<{ target: number; suffix: string; label: string }> =
       className="p-6 sm:p-8 rounded-2xl bg-surface-1/70 border border-brand-border/80 hover:border-accent/30 transition-all hover:bg-surface-2/70 group"
     >
       <div className="text-3xl sm:text-4xl lg:text-5xl font-heading font-black text-white group-hover:text-accent transition-colors flex items-baseline gap-0.5">
-        <span>{count}</span>
+        <span>{displayValue}</span>
         <span className="text-accent">{suffix}</span>
       </div>
       <div className="mt-2 text-xs font-mono tracking-wider text-brand-secondary uppercase">

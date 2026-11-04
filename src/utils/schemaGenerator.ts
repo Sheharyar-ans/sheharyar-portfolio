@@ -1,6 +1,7 @@
 import { SUB_SERVICES, WHITE_LABEL_PORTALS, REGIONAL_LOCATIONS, AeoFaq } from '../data/taxonomyData';
 import { FAQ_ITEMS } from '../data/portfolioData';
 import { TOOLS_TAXONOMY, TOOLS_LIST } from '../data/toolsData';
+import { ARCHITECTURE_GUIDES } from '../data/architectureData';
 
 export const SITE_URL = 'https://sheharyarsiraj.com';
 export const PERSON_ID = `${SITE_URL}/#person`;
@@ -262,7 +263,13 @@ export const BASE_BUSINESS_ENTITY = {
     { '@type': 'Country', name: 'Singapore', identifier: 'SG' },
     { '@type': 'Country', name: 'Malaysia', identifier: 'MY' },
     { '@type': 'Country', name: 'Australia', identifier: 'AU' },
-    { '@type': 'Country', name: 'Netherlands', identifier: 'NL' }
+    { '@type': 'Country', name: 'Netherlands', identifier: 'NL' },
+    { '@type': 'City', name: 'Dubai' },
+    { '@type': 'City', name: 'Riyadh' },
+    { '@type': 'City', name: 'Jeddah' },
+    { '@type': 'City', name: 'Makkah' },
+    { '@type': 'City', name: 'London' },
+    { '@type': 'City', name: 'Amsterdam' }
   ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
@@ -1531,6 +1538,86 @@ export function generateSchemaGraph(route: string): { '@context': string; '@grap
     });
 
     graphNodes.push(formatFaqEntity(canonicalUrl, FREELANCER_PAKISTAN_FAQS));
+
+    return { '@context': 'https://schema.org', '@graph': graphNodes };
+  }
+
+  // Deep Technical Engineering Hubs (/architecture/{slug}/)
+  if (cleanRoute.startsWith('/architecture/')) {
+    const slug = cleanRoute.replace('/architecture/', '');
+    const guide = ARCHITECTURE_GUIDES[slug];
+
+    if (guide) {
+      graphNodes.push({
+        '@type': 'WebPage',
+        '@id': `${canonicalUrl}#webpage`,
+        url: canonicalUrl,
+        name: guide.metaTitle,
+        description: guide.metaDescription,
+        isPartOf: { '@id': WEBSITE_ID }
+      });
+
+      graphNodes.push(
+        formatBreadcrumbs([
+          { name: 'Home', item: `${SITE_URL}/` },
+          { name: 'Architecture', item: `${SITE_URL}/blog/` },
+          { name: guide.badge, item: canonicalUrl }
+        ])
+      );
+
+      // TechArticle Schema with Explicit Author Byline, Entity Mentions, and Code Blocks
+      graphNodes.push({
+        '@type': 'TechArticle',
+        '@id': `${canonicalUrl}#techarticle`,
+        url: canonicalUrl,
+        headline: guide.headline,
+        name: guide.title,
+        description: guide.metaDescription,
+        datePublished: guide.publishedDate,
+        dateModified: guide.updatedDate,
+        proficiencyLevel: guide.proficiencyLevel,
+        dependencies: guide.techStack.join(', '),
+        author: {
+          '@type': 'Person',
+          '@id': PERSON_ID,
+          name: guide.author.name,
+          jobTitle: guide.author.role,
+          url: `${SITE_URL}/`,
+          image: `${SITE_URL}${guide.author.avatar}`,
+          sameAs: BASE_PERSON_ENTITY.sameAs
+        },
+        publisher: {
+          '@id': BUSINESS_ID
+        },
+        inLanguage: 'en-US',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': `${canonicalUrl}#webpage`
+        },
+        about: guide.entityMentions.map((entity) => ({
+          '@type': 'Thing',
+          name: entity
+        })),
+        mentions: guide.entityMentions.map((entity) => ({
+          '@type': 'Thing',
+          name: entity
+        })),
+        articleBody: `${guide.directAnswerCapsule} ${guide.sections.map((s) => s.title + ': ' + s.content.slice(0, 180)).join(' ')}`,
+        hasPart: guide.sections
+          .filter((s) => s.codeSnippet)
+          .map((s) => ({
+            '@type': 'SoftwareSourceCode',
+            name: s.codeSnippet!.fileName,
+            programmingLanguage: s.codeSnippet!.language,
+            text: s.codeSnippet!.code
+          }))
+      });
+
+      // Target Long-Tail GSC Questions with FAQPage Schema
+      if (guide.faqs && guide.faqs.length > 0) {
+        graphNodes.push(formatFaqEntity(canonicalUrl, guide.faqs));
+      }
+    }
 
     return { '@context': 'https://schema.org', '@graph': graphNodes };
   }

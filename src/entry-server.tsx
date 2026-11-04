@@ -5,6 +5,7 @@ import App from './App';
 import { SUB_SERVICES, WHITE_LABEL_PORTALS, REGIONAL_LOCATIONS } from './data/taxonomyData';
 import { TOOLS_TAXONOMY } from './data/toolsData';
 import { BLOG_POSTS } from './data/blogData';
+import { ARCHITECTURE_GUIDES } from './data/architectureData';
 import { generateSchemaGraph } from './utils/schemaGenerator';
 
 export const ROUTES = [
@@ -21,6 +22,7 @@ export const ROUTES = [
   '/services/vibe-coding-engineering/',
   '/services/custom-saas-mvp-development/',
   '/services/ai-video-ads-ugc/',
+  '/services/white-label-agency-automation/',
   '/white-label/marketing-agencies/',
   '/white-label/seo-agencies/',
   '/locations/',
@@ -30,10 +32,13 @@ export const ROUTES = [
   '/locations/canada/',
   '/locations/uae/',
   '/locations/saudi-arabia/',
+  '/locations/uae-saudi-ai-automation/',
   '/locations/singapore/',
   '/locations/malaysia/',
   '/locations/australia/',
   '/locations/netherlands/',
+  '/architecture/deterministic-ai-agent-runtimes/',
+  '/architecture/sub-500ms-voice-ai-sip-telephony/',
   '/case-studies/',
   '/tools/',
   '/tools/local-schema-generator/',
@@ -147,6 +152,20 @@ export function getRouteMetadata(url: string) {
         title: loc.metaTitle,
         description: loc.metaDescription,
         canonical: `https://sheharyarsiraj.com/locations/${loc.slug}/`,
+        schema
+      };
+    }
+  }
+
+  // Architecture Guides & Engineering Hubs
+  if (cleanUrl.startsWith('/architecture/')) {
+    const slug = cleanUrl.replace('/architecture/', '');
+    const guide = ARCHITECTURE_GUIDES[slug];
+    if (guide) {
+      return {
+        title: guide.metaTitle,
+        description: guide.metaDescription,
+        canonical: guide.canonicalUrl,
         schema
       };
     }

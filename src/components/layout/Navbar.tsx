@@ -43,12 +43,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenInquiry }) => {
     { label: 'WooCommerce Architecture', desc: 'High-concurrency checkout & inventory engines', slug: 'woocommerce-systems-architecture', icon: Cpu },
     { label: 'Production Vibe Coding', desc: 'AI-assisted code auditing & production hardening', slug: 'vibe-coding-engineering', icon: Terminal },
     { label: 'Custom SaaS & MVP Engineering', desc: 'Multi-tenant apps, PostgreSQL & Stripe billing', slug: 'custom-saas-mvp-development', icon: Boxes },
+    { label: 'White-Label Agency Automation', desc: 'UK & EU headless WordPress and ghost engineering', slug: 'white-label-agency-automation', icon: Boxes },
     { label: 'Data Science & BI Pipelines', desc: 'Predictive analytics & executive dashboards', slug: 'data-science-analytics', icon: BarChart3 },
   ];
 
   const allServices = [...aiAutomationServices, ...webEngineeringServices];
 
   const locationItems = [
+    { country: 'UAE & Saudi Arabia', flag: '🇦🇪 🇸🇦', slug: 'uae-saudi-ai-automation' },
     { country: 'United States', flag: '🇺🇸', slug: 'usa' },
     { country: 'United Kingdom', flag: '🇬🇧', slug: 'uk' },
     { country: 'Germany & DACH', flag: '🇩🇪', slug: 'germany' },
