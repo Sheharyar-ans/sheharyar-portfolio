@@ -5,8 +5,17 @@
     <link>https://sheharyarsiraj.com/blog/</link>
     <description>In-depth architectural guides on custom WordPress VIP engineering, low-latency AI voice telephony, WooCommerce HPOS scaling, and deterministic agentic AI.</description>
     <language>en-US</language>
-    <lastBuildDate>Mon, 09 Nov 2026 22:55:39 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 09 Nov 2026 23:13:37 GMT</lastBuildDate>
     <atom:link href="https://sheharyarsiraj.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MCP-Enabled Voice AI Telephony: Architecting Real-Time Voice Agents with Model Context Protocol (MCP), Twilio SIP, and Live Database Tool-Calling</title>
+      <link>https://sheharyarsiraj.com/blog/mcp-enabled-voice-ai-telephony-agent-architecture/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/mcp-enabled-voice-ai-telephony-agent-architecture/</guid>
+      <description>Discover how to architect production-grade, sub-600ms conversational Voice AI agents using Model Context Protocol (MCP), Twilio SIP trunking, FastMCP tool servers, and live bidirectional CRM integrations without custom API spaghetti.</description>
+      <category>AI Voice Telephony</category>
+      <pubDate>Tue, 10 Nov 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
     <item>
       <title>Production Model Context Protocol (MCP): Architecting Secure, Real-Time Tool Servers for Autonomous Multi-Agent Systems</title>
       <link>https://sheharyarsiraj.com/blog/production-model-context-protocol-mcp-servers-agentic-ai-architecture/</link>
