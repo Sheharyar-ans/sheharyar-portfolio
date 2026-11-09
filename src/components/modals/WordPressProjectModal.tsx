@@ -167,10 +167,10 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
               {/* Scrollable Container */}
               <div 
                 ref={scrollContainerRef}
-                className="flex-1 overflow-y-auto custom-scrollbar p-2 sm:p-4 bg-dot-pattern"
+                className="flex-1 overflow-y-auto custom-scrollbar p-2 sm:p-5 bg-dot-pattern"
                 tabIndex={0}
               >
-                <div className="max-w-xl mx-auto rounded-xl overflow-hidden border border-brand-border/60 shadow-2xl bg-surface-1">
+                <div className="max-w-[360px] sm:max-w-[400px] mx-auto rounded-2xl overflow-hidden border border-brand-border/70 shadow-2xl bg-surface-1">
                   <img
                     src={project.image}
                     alt={project.title}

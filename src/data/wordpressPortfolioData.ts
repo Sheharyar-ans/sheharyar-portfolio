@@ -27,7 +27,7 @@ export const WORDPRESS_PROJECTS: WordPressProject[] = [
     category: 'Agency & Lead Generation',
     badge: 'CUSTOM WORDPRESS & PHP 8.2',
     tags: ['Custom Blocks', 'PHP 8.2', 'Dark UI', 'Lead Funnel', 'Speed 98+'],
-    image: '/assets/images/portfolio/wp-ende-online.jpg',
+    image: '/assets/images/portfolio/wp-ende-online.webp',
     shortDesc: 'Modern dark-themed agency platform featuring custom topographic branding, interactive services showcase, verified client reviews, and an optimized lead capture funnel.',
     fullDesc: 'Ende Online ke liye ek high-performance bespoke WordPress website design aur develop ki gayi. Isme custom Gutenberg blocks, interactive dark-mode topographic line art design, client testimonial carousels, aur automated lead-capture forms shamil hain jo sub-second speed par deliver hote hain.',
     metrics: {
@@ -58,7 +58,7 @@ export const WORDPRESS_PROJECTS: WordPressProject[] = [
     category: 'Recruitment & Job Portal',
     badge: 'CUSTOM POST TYPES & PORTAL',
     tags: ['Job Board', 'Custom Post Types', 'Intake Forms', 'Multilingual', 'Speed 96+'],
-    image: '/assets/images/portfolio/wp-moldstaff-recruitment.jpg',
+    image: '/assets/images/portfolio/wp-moldstaff-recruitment.webp',
     shortDesc: 'International European recruitment platform connecting skilled candidates with verified European employers, featuring multi-step application workflows and video testimonials.',
     fullDesc: 'MoldStaff ke liye complete European employment aur talent recruitment portal design kiya gaya. Isme job vacancies listing, custom candidate application forms, CV upload pipelines, employer trust badges, customer video story grids aur multi-step screening flow shamil hain.',
     metrics: {
@@ -89,7 +89,7 @@ export const WORDPRESS_PROJECTS: WordPressProject[] = [
     category: 'WooCommerce & Machinery Catalog',
     badge: 'WOOCOMMERCE & HIGH INVENTORY',
     tags: ['WooCommerce', 'Spare Parts Catalog', 'SKU Search', 'Dutch Market', 'Speed 97+'],
-    image: '/assets/images/portfolio/wp-everaard-techniek.jpg',
+    image: '/assets/images/portfolio/wp-everaard-techniek.webp',
     shortDesc: 'Heavy-duty agricultural machinery dealership and spare parts catalog platform built on WooCommerce, featuring high-speed SKU search and direct maintenance booking.',
     fullDesc: 'Everaard Techniek ke liye agricultural machinery, spare parts catalog aur tractor equipment ka comprehensive web portal banaya gaya. John Deere, Lemken aur Steeno dealers ke mutabiq parts database, quotation requests, workshop service scheduling aur sub-second catalog search implement ki gayi.',
     metrics: {
@@ -120,7 +120,7 @@ export const WORDPRESS_PROJECTS: WordPressProject[] = [
     category: 'Creative Agency & Video Production',
     badge: 'BESPOKE THEME & GSAP MOTION',
     tags: ['GSAP Motion', 'Video Lazy Load', 'Creative UI', 'Fluid Typography', 'Speed 99+'],
-    image: '/assets/images/portfolio/wp-contentwerk-agency.jpg',
+    image: '/assets/images/portfolio/wp-contentwerk-agency.webp',
     shortDesc: 'Aesthetic storytelling and video production agency website featuring fluid organic section transitions, high-impact video showcases, and a streamlined client scoping intake.',
     fullDesc: 'ContentWerk media house ke liye custom storytelling portfolio website banayi gayi. Isme organic curved wave transitions, video lazy-loading CDN, interactive service pillars (Content Distribution, End-to-End Delivery, Full Service), client success stories aur direct project consultation form shamil hain.',
     metrics: {
@@ -151,7 +151,7 @@ export const WORDPRESS_PROJECTS: WordPressProject[] = [
     category: 'Corporate & Lead Generation',
     badge: 'HIGH-CONVERSION WORDPRESS',
     tags: ['Showroom Gallery', 'Quote Engine', 'Local Schema', 'Elementor Pro', 'Speed 98+'],
-    image: '/assets/images/portfolio/wp-floortec-flooring.jpg',
+    image: '/assets/images/portfolio/wp-floortec-flooring.webp',
     shortDesc: 'High-converting residential and commercial flooring specialist website with interactive showroom visualizer, quotation estimator, and verified review matrix.',
     fullDesc: 'Floortec ke liye lead-generation focused corporate website develop ki gayi. Isme flooring solutions (wooden floors, cast floors, maintenance), showroom visit online booking, 20k+ satisfied customer review matrix, aur direct quotation form shamil hain jo high conversion rates generate karti hain.',
     metrics: {

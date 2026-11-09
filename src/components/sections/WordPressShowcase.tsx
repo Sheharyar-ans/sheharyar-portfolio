@@ -52,14 +52,14 @@ const ProjectBrowserCard: React.FC<{
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group rounded-3xl bg-surface-1 border border-brand-border/70 hover:border-accent/50 transition-all duration-300 shadow-xl hover:shadow-accent/5 flex flex-col overflow-hidden"
+      transition={{ duration: 0.45, delay: index * 0.08 }}
+      className="group rounded-2xl bg-surface-1 border border-brand-border/70 hover:border-accent/50 transition-all duration-300 shadow-lg hover:shadow-accent/5 flex flex-col overflow-hidden max-w-[360px] mx-auto w-full"
     >
       {/* Mockup Browser Window Header */}
-      <div className="px-4 py-3 bg-surface-2 border-b border-brand-border/60 flex items-center justify-between gap-3">
+      <div className="px-3.5 py-2.5 bg-surface-2 border-b border-brand-border/60 flex items-center justify-between gap-2.5">
         {/* macOS style traffic dots */}
         <div className="flex items-center gap-1.5" aria-hidden="true">
           <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
@@ -68,19 +68,19 @@ const ProjectBrowserCard: React.FC<{
         </div>
 
         {/* Browser URL Pill */}
-        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-1/90 border border-brand-border/50 text-[11px] font-mono text-brand-secondary truncate max-w-[200px] sm:max-w-[260px]">
-          <Globe size={11} className="text-accent shrink-0" />
+        <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-1/90 border border-brand-border/50 text-[10px] font-mono text-brand-secondary truncate max-w-[180px] sm:max-w-[220px]">
+          <Globe size={10} className="text-accent shrink-0" />
           <span className="truncate text-white/80">{project.domain}</span>
         </div>
 
         {/* Status indicator */}
-        <div className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400 font-semibold shrink-0">
+        <div className="flex items-center gap-1 text-[10px] font-mono text-emerald-400 font-semibold shrink-0">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="hidden sm:inline">LIVE</span>
+          <span className="text-[10px]">LIVE</span>
         </div>
       </div>
 
-      {/* Auto-Scroll on Hover Viewport Box */}
+      {/* Auto-Scroll on Hover Viewport Box - Compact & Sharp */}
       <div
         ref={containerRef}
         onMouseEnter={() => {
@@ -89,8 +89,8 @@ const ProjectBrowserCard: React.FC<{
         }}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onOpenModal(project)}
-        className="relative w-full h-[360px] sm:h-[420px] md:h-[450px] overflow-hidden bg-[#0a0a0a] cursor-pointer select-none"
-        title="Hover karein poori website scroll karne ke liye, ya click karein full view ke liye"
+        className="relative w-full h-[260px] sm:h-[280px] overflow-hidden bg-[#0a0a0a] cursor-pointer select-none"
+        title="Hover karein poori website scroll dekhne ke liye, ya click karein full view ke liye"
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
@@ -107,33 +107,33 @@ const ProjectBrowserCard: React.FC<{
           src={project.image}
           alt={project.title}
           onLoad={calculateScroll}
-          className="w-full h-auto block transform-gpu will-change-transform"
+          className="w-full h-auto block select-none transform-gpu will-change-transform"
           style={{
             transform: isHovered ? `translateY(-${scrollDistance}px)` : 'translateY(0px)',
             transition: isHovered
               ? `transform ${scrollDuration}ms cubic-bezier(0.25, 1, 0.5, 1)`
-              : 'transform 1000ms cubic-bezier(0.16, 1, 0.3, 1)',
+              : 'transform 800ms cubic-bezier(0.16, 1, 0.3, 1)',
           }}
           loading="lazy"
         />
 
         {/* Floating Hover Instruction Badge */}
         <div 
-          className={`absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full text-[11px] font-mono font-medium backdrop-blur-md border transition-all duration-300 pointer-events-none flex items-center gap-1.5 whitespace-nowrap shadow-lg ${
+          className={`absolute bottom-2.5 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded-full text-[10px] font-mono font-medium backdrop-blur-md border transition-all duration-300 pointer-events-none flex items-center gap-1.5 whitespace-nowrap shadow-lg ${
             isHovered
-              ? 'bg-accent/95 text-black border-accent'
+              ? 'bg-accent/95 text-black border-accent font-bold'
               : 'bg-black/75 text-white/90 border-white/20'
           }`}
         >
           {isHovered ? (
             <>
-              <Sparkles size={12} className="animate-spin text-black" />
-              <span>Scroll ho raha hai • Click for full screen</span>
+              <Sparkles size={11} className="animate-spin text-black" />
+              <span>Auto-Scrolling • Click for full</span>
             </>
           ) : (
             <>
-              <MousePointer size={12} className="text-accent animate-bounce" />
-              <span>Hover karein scroll dekhne ke liye</span>
+              <MousePointer size={11} className="text-accent animate-bounce" />
+              <span>Hover karke scroll dekhein</span>
             </>
           )}
         </div>
@@ -145,24 +145,24 @@ const ProjectBrowserCard: React.FC<{
             e.stopPropagation();
             onOpenModal(project);
           }}
-          className="absolute top-3 right-3 p-2 rounded-xl bg-black/75 hover:bg-accent hover:text-black text-white border border-white/15 backdrop-blur-md transition-all shadow-md group/btn"
+          className="absolute top-2.5 right-2.5 p-1.5 rounded-lg bg-black/75 hover:bg-accent hover:text-black text-white border border-white/15 backdrop-blur-md transition-all shadow-md group/btn"
           title="Full layout preview open karein"
           aria-label="Full screen preview"
         >
-          <Maximize2 size={14} className="group-hover/btn:scale-110 transition-transform" />
+          <Maximize2 size={13} className="group-hover/btn:scale-110 transition-transform" />
         </button>
       </div>
 
-      {/* Card Info & Details */}
-      <div className="p-5 sm:p-6 flex flex-col justify-between flex-1 space-y-4">
+      {/* Card Info & Details - Compact & Clean */}
+      <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 space-y-3">
         <div>
           {/* Category & Badge */}
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="text-[10px] font-mono tracking-widest text-accent uppercase font-bold truncate">
+          <div className="flex items-center justify-between gap-2 mb-1.5">
+            <span className="text-[9px] font-mono tracking-widest text-accent uppercase font-bold truncate">
               {project.badge}
             </span>
             <span className="text-[10px] font-mono text-emerald-400 font-semibold shrink-0 flex items-center gap-1">
-              <Zap size={11} />
+              <Zap size={10} />
               <span>{project.metrics.speedScore}</span>
             </span>
           </div>
@@ -170,22 +170,22 @@ const ProjectBrowserCard: React.FC<{
           {/* Title */}
           <h3 
             onClick={() => onOpenModal(project)}
-            className="text-base sm:text-lg font-heading font-bold text-white group-hover:text-accent transition-colors leading-snug cursor-pointer mb-2"
+            className="text-sm sm:text-base font-heading font-bold text-white group-hover:text-accent transition-colors leading-snug cursor-pointer mb-1.5"
           >
             {project.title}
           </h3>
 
           {/* Short Description */}
-          <p className="text-xs text-brand-secondary line-clamp-2 leading-relaxed mb-4">
+          <p className="text-xs text-brand-secondary line-clamp-2 leading-relaxed mb-3">
             {project.shortDesc}
           </p>
 
           {/* Tags */}
-          <div className="flex flex-wrap gap-1.5">
-            {project.tags.map((tag) => (
+          <div className="flex flex-wrap gap-1">
+            {project.tags.slice(0, 4).map((tag) => (
               <span
                 key={tag}
-                className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface-2 text-brand-secondary border border-brand-border/60"
+                className="text-[9px] font-mono px-2 py-0.5 rounded bg-surface-2 text-brand-secondary border border-brand-border/60"
               >
                 {tag}
               </span>
@@ -194,17 +194,17 @@ const ProjectBrowserCard: React.FC<{
         </div>
 
         {/* Card Footer Button */}
-        <div className="pt-4 border-t border-brand-border/60 flex items-center justify-between gap-2">
-          <span className="text-[11px] font-mono text-brand-muted">
+        <div className="pt-3 border-t border-brand-border/60 flex items-center justify-between gap-2">
+          <span className="text-[10px] font-mono text-brand-muted truncate max-w-[150px]">
             {project.client}
           </span>
           <button
             type="button"
             onClick={() => onOpenModal(project)}
-            className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-white hover:text-accent group-hover:translate-x-0.5 transition-all"
+            className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-white hover:text-accent group-hover:translate-x-0.5 transition-all shrink-0"
           >
-            <span>Full Layout Dekhein</span>
-            <ArrowUpRight size={14} className="text-accent" />
+            <span>Full Layout</span>
+            <ArrowUpRight size={13} className="text-accent" />
           </button>
         </div>
       </div>
@@ -289,7 +289,7 @@ export const WordPressShowcase: React.FC<WordPressShowcaseProps> = ({
         </div>
 
         {/* Responsive Grid of Interactive Mockup Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 max-w-6xl mx-auto">
           {filteredProjects.map((project, idx) => (
             <ProjectBrowserCard
               key={project.id}
