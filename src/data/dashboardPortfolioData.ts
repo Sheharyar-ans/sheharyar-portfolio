@@ -2,11 +2,12 @@ export interface DashboardProject {
   id: string;
   title: string;
   client: string;
-  category: 'Power BI' | 'Advanced Excel' | 'Data Analytics & SEO' | 'Enterprise Cloud';
+  category: 'Power BI' | 'Advanced Excel' | 'Data Analytics & SEO' | 'Python & Machine Learning';
   badge: string;
   tool: string;
   tools: string[];
   image: string;
+  liveUrl?: string;
   shortDesc: string;
   fullDesc: string;
   metrics: {
@@ -19,6 +20,37 @@ export interface DashboardProject {
 }
 
 export const DASHBOARD_PROJECTS: DashboardProject[] = [
+  {
+    id: 'dash-customer-churn-streamlit',
+    title: 'Customer Churn Prediction & Retention Machine Learning App',
+    client: 'Subscription & Telecom Analytics (Live Streamlit App)',
+    category: 'Python & Machine Learning',
+    badge: 'STREAMLIT & MACHINE LEARNING',
+    tool: 'Python, Streamlit & Scikit-learn',
+    tools: ['Python', 'Streamlit', 'Scikit-learn', 'Pandas', 'Predictive Modeling', 'Cloud Deployment'],
+    image: '/assets/images/dashboards/dashboard-customer-churn-streamlit.webp',
+    liveUrl: 'https://dsaprojectjp.streamlit.app/',
+    shortDesc: 'Live cloud-deployed machine learning application that predicts customer churn probabilities using 15 demographic, contract, and usage parameters.',
+    fullDesc: 'Engineered an interactive predictive data science application hosted live on Streamlit Cloud (dsaprojectjp.streamlit.app). Trained on multi-parametric customer telemetry including contract duration, monthly charges, tenure, support ticket frequency, and payment history to compute real-time churn risk classifications.',
+    metrics: {
+      kpi: '15-Feature ML Model',
+      secondaryKpi: 'Sub-Second Inference',
+      impact: 'Interactive Churn Scoring'
+    },
+    chartsIncluded: [
+      'Multi-Factor Customer Telemetry Inputs (Tenure, Contract, Monthly Usage)',
+      'Real-Time Binary Churn Classification & Risk Probability Meter',
+      'Customer Support Call Frequency Hazard Scoring',
+      'Contract Type & Payment Method Sensitivity Analysis',
+      'Interactive Web-Based Prediction Workspace on Streamlit Cloud'
+    ],
+    deliverables: [
+      'End-to-End Supervised ML Pipeline with Scikit-learn',
+      'Live Cloud-Hosted Interactive Streamlit Deployment (dsaprojectjp.streamlit.app)',
+      'Dynamic Form Ingestion & Multi-Parametric Normalization',
+      'Real-Time Probability Estimation & Churn Retention Flags'
+    ]
+  },
   {
     id: 'dash-housing-data-report',
     title: 'Housing Market Valuation & Property Analytics Dashboard',

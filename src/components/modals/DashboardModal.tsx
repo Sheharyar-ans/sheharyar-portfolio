@@ -10,7 +10,9 @@ import {
   ArrowRight,
   Maximize2,
   TrendingUp,
-  FileSpreadsheet
+  FileSpreadsheet,
+  ExternalLink,
+  Cpu
 } from 'lucide-react';
 import { DashboardProject, DASHBOARD_PROJECTS } from '../../data/dashboardPortfolioData';
 
@@ -127,6 +129,8 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({
             <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-1/90 border border-brand-border/50 text-xs font-mono text-brand-secondary">
               {project.category === 'Advanced Excel' ? (
                 <FileSpreadsheet size={13} className="text-emerald-400 shrink-0" />
+              ) : project.category === 'Python & Machine Learning' ? (
+                <Cpu size={13} className="text-accent shrink-0" />
               ) : (
                 <BarChart3 size={13} className="text-accent shrink-0" />
               )}
@@ -251,13 +255,24 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({
 
               {/* Bottom CTA Action */}
               <div className="pt-6 border-t border-brand-border/70 flex flex-col sm:flex-row items-center gap-3">
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto py-3 px-5 rounded-xl bg-accent text-black font-heading font-extrabold text-xs uppercase tracking-wider hover:bg-white transition-all shadow-lg flex items-center justify-center gap-2"
+                  >
+                    <span>Launch Live App</span>
+                    <ExternalLink size={14} />
+                  </a>
+                )}
                 <button
                   type="button"
                   onClick={() => {
                     onClose();
                     if (onOpenInquiry) onOpenInquiry();
                   }}
-                  className="w-full sm:flex-1 py-3 px-5 rounded-xl bg-accent text-black font-heading font-extrabold text-xs uppercase tracking-wider hover:bg-white transition-all shadow-lg flex items-center justify-center gap-2"
+                  className={`w-full ${project.liveUrl ? 'sm:flex-1' : 'sm:w-full'} py-3 px-5 rounded-xl bg-surface-2 hover:bg-accent hover:text-black text-white font-heading font-extrabold text-xs uppercase tracking-wider border border-brand-border/70 hover:border-accent transition-all shadow-lg flex items-center justify-center gap-2`}
                 >
                   <span>Request Custom BI Dashboard</span>
                   <ArrowRight size={15} />

@@ -23,7 +23,8 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
     'AI VOICE',
     'RAG & CHATBOTS',
     'N8N & AUTOMATION',
-    'WORDPRESS & COMMERCE'
+    'WORDPRESS & COMMERCE',
+    'DATA SCIENCE & ML'
   ];
 
   const filteredStudies = CASE_STUDIES.filter((study) => {
@@ -32,6 +33,7 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
     if (activeFilter === 'RAG & CHATBOTS') return study.category.includes('RAG') || study.category.includes('PINECONE') || study.category.includes('AGENT');
     if (activeFilter === 'N8N & AUTOMATION') return study.category.includes('N8N') || study.category.includes('AUTOMATION') || study.category.includes('MAKE');
     if (activeFilter === 'WORDPRESS & COMMERCE') return study.category.includes('WORDPRESS') || study.category.includes('WOOCOMMERCE');
+    if (activeFilter === 'DATA SCIENCE & ML') return study.category.includes('MACHINE LEARNING') || study.category.includes('PYTHON') || study.category.includes('STREAMLIT');
     return true;
   });
 

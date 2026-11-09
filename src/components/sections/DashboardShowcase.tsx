@@ -8,7 +8,9 @@ import {
   Sparkles, 
   TrendingUp, 
   Database,
-  Layers
+  Layers,
+  ExternalLink,
+  Cpu
 } from 'lucide-react';
 import { DASHBOARD_PROJECTS, DashboardProject } from '../../data/dashboardPortfolioData';
 import { DashboardModal } from '../modals/DashboardModal';
@@ -46,6 +48,8 @@ const DashboardCard: React.FC<{
         <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-1/90 border border-brand-border/50 text-[10px] font-mono text-brand-secondary">
           {project.category === 'Advanced Excel' ? (
             <FileSpreadsheet size={10} className="text-emerald-400 shrink-0" />
+          ) : project.category === 'Python & Machine Learning' ? (
+            <Cpu size={10} className="text-accent shrink-0" />
           ) : (
             <BarChart3 size={10} className="text-accent shrink-0" />
           )}
@@ -137,9 +141,23 @@ const DashboardCard: React.FC<{
 
         {/* Card Footer Button */}
         <div className="pt-3 border-t border-brand-border/60 flex items-center justify-between gap-2">
-          <span className="text-[10px] font-mono text-emerald-400 font-medium">
-            {project.metrics.secondaryKpi}
-          </span>
+          {project.liveUrl ? (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-accent hover:underline shrink-0"
+              title="Launch live Streamlit web app in new tab"
+            >
+              <span>Live App</span>
+              <ExternalLink size={11} />
+            </a>
+          ) : (
+            <span className="text-[10px] font-mono text-emerald-400 font-medium truncate max-w-[150px]">
+              {project.metrics.secondaryKpi}
+            </span>
+          )}
           <button
             type="button"
             onClick={() => onOpenModal(project)}
@@ -167,6 +185,7 @@ export const DashboardShowcase: React.FC<DashboardShowcaseProps> = ({
     { key: 'ALL', label: 'ALL DASHBOARDS' },
     { key: 'POWER BI', label: 'POWER BI' },
     { key: 'EXCEL', label: 'EXCEL & FINANCIAL' },
+    { key: 'PYTHON & ML', label: 'PYTHON & ML APPS' },
     { key: 'TELEMETRY', label: 'TELEMETRY & SEO' }
   ];
 
@@ -175,10 +194,12 @@ export const DashboardShowcase: React.FC<DashboardShowcaseProps> = ({
       if (filterCategory === 'data-science-analytics') return true;
       if (filterCategory === 'power-bi') return proj.category === 'Power BI';
       if (filterCategory === 'excel') return proj.category === 'Advanced Excel';
+      if (filterCategory === 'python-ml') return proj.category === 'Python & Machine Learning';
     }
     if (activeFilter === 'ALL') return true;
     if (activeFilter === 'POWER BI') return proj.category === 'Power BI';
     if (activeFilter === 'EXCEL') return proj.category === 'Advanced Excel';
+    if (activeFilter === 'PYTHON & ML') return proj.category === 'Python & Machine Learning';
     if (activeFilter === 'TELEMETRY') return proj.category === 'Data Analytics & SEO';
     return true;
   });

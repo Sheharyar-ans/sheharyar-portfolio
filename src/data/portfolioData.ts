@@ -387,6 +387,19 @@ export const CASE_STUDIES: CaseStudy[] = [
     projectType: 'Client Project',
     tags: ['PHP 8.2', 'WooCommerce', 'REST API', 'MySQL'],
   },
+  {
+    id: 'cs-7',
+    category: 'MACHINE LEARNING × PYTHON × STREAMLIT',
+    title: 'Customer Churn Prediction & Retention Machine Learning Web App',
+    problem: 'Subscription businesses experienced elevated churn rates because account management teams lacked real-time risk classification before customer cancellations occurred.',
+    system: 'Engineered a supervised machine learning classification pipeline deployed live on Streamlit Cloud (dsaprojectjp.streamlit.app) that evaluates 15 multi-parametric customer features and delivers instant churn probability scores.',
+    architecture: 'Raw Telemetry Features → Scikit-Learn Classification Pipeline → Streamlit Web Application (Cloud Hosted) → Real-Time Prediction Engine',
+    tech: 'Python, Streamlit, Scikit-learn, Pandas, NumPy, Supervised ML, Cloud Deployment',
+    outcome: 'Live cloud predictive application providing instant probability scores and parameter sensitivity insights for customer retention.',
+    role: 'Data Scientist & Machine Learning Engineer',
+    projectType: 'Production Benchmark',
+    tags: ['Streamlit', 'Python', 'Scikit-Learn', 'Machine Learning'],
+  },
 ];
 
 export const TECH_CATEGORIES: TechCategory[] = [
