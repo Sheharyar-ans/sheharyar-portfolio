@@ -43,8 +43,9 @@ export const LeadConfirmationModal: React.FC<LeadConfirmationModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
+    <div data-lenis-prevent="true" onWheel={(e) => e.stopPropagation()} className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
       <div 
+        data-lenis-prevent="true"
         className="relative w-full max-w-lg bg-zinc-950/90 border border-emerald-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl shadow-emerald-950/40 text-white backdrop-blur-xl transition-all"
         role="dialog"
         aria-modal="true"

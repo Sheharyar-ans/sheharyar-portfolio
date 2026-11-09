@@ -15,10 +15,18 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClo
     };
     if (caseStudy) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.stop();
+      }
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.start();
+      }
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [caseStudy, onClose]);
@@ -78,7 +86,11 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClo
             </div>
 
             {/* Scrollable Content Sections */}
-            <div className="flex-1 overflow-y-auto overscroll-contain custom-scrollbar px-4 sm:px-6 space-y-3.5 pb-2">
+            <div 
+              data-lenis-prevent="true"
+              onWheel={(e) => e.stopPropagation()}
+              className="flex-1 overflow-y-auto overscroll-contain custom-scrollbar px-4 sm:px-6 space-y-3.5 pb-2"
+            >
               {/* Architecture Flow */}
               <div className="p-3.5 sm:p-4 rounded-xl bg-surface-2/70 border border-brand-border/60">
                 <div className="flex items-center gap-2 text-xs font-mono tracking-wider text-accent mb-1.5 font-semibold">

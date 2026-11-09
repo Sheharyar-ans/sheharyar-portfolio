@@ -656,6 +656,30 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     handleUserQuery(query);
   };
 
+  // Lock body scroll & stop Lenis smooth scroll while voice modal is active
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.stop();
+      }
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.start();
+      }
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.start();
+      }
+    };
+  }, [isModalOpen]);
+
   return (
     <>
       {/* Floating Launcher Pill Button (Visible when closed) */}
@@ -679,8 +703,9 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
 
       {/* Main Glassmorphic Centered Voice Assistant Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-xl animate-fadeIn">
+        <div data-lenis-prevent="true" className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-xl animate-fadeIn">
           <div
+            data-lenis-prevent="true"
             className="relative w-full max-w-xl bg-zinc-950/95 border border-zinc-800 rounded-3xl shadow-2xl shadow-black/80 flex flex-col justify-between overflow-hidden text-white backdrop-blur-2xl"
             style={{ maxHeight: 'calc(100dvh - 24px)' }}
             role="dialog"

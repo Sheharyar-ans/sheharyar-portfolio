@@ -31,10 +31,18 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ isOpen, onClose }) =
     };
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.stop();
+      }
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.start();
+      }
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose]);
@@ -127,7 +135,11 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ isOpen, onClose }) =
             </button>
 
             {/* Internal Scrollable Content */}
-            <div className="flex-1 overflow-y-auto overscroll-contain custom-scrollbar p-4 sm:p-6 md:p-8">
+            <div 
+              data-lenis-prevent="true"
+              onWheel={(e) => e.stopPropagation()}
+              className="flex-1 overflow-y-auto overscroll-contain custom-scrollbar p-4 sm:p-6 md:p-8"
+            >
               {!isSubmitted ? (
                 <>
                   <div className="text-[11px] font-mono tracking-widest text-accent uppercase mb-1">

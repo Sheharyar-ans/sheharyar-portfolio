@@ -54,6 +54,10 @@ export const LeadManagementModal: React.FC<LeadManagementModalProps> = ({ isOpen
     if (isOpen) {
       const prevOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.stop();
+      }
       const isAuth = sessionStorage.getItem(AUTH_SESSION_KEY) === 'true';
       setIsAuthenticated(isAuth);
       if (isAuth) {
@@ -67,6 +71,10 @@ export const LeadManagementModal: React.FC<LeadManagementModalProps> = ({ isOpen
       window.addEventListener('keydown', handleKeyDown);
       return () => {
         document.body.style.overflow = prevOverflow;
+        document.documentElement.style.overflow = '';
+        if (typeof window !== 'undefined' && (window as any).__lenis) {
+          (window as any).__lenis.start();
+        }
         window.removeEventListener('keydown', handleKeyDown);
       };
     }

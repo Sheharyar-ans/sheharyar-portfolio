@@ -30,19 +30,52 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Lock body scroll
+  // Lock body scroll & stop Lenis smooth scroll while modal is active
   useEffect(() => {
     if (project) {
       document.body.style.overflow = 'hidden';
-      // Reset scroll position to top when switching projects
+      document.documentElement.style.overflow = 'hidden';
+
+      // Pause Lenis so mouse wheel events don't scroll the background page
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.stop();
+      }
+
+      // Reset scroll position to top and focus container for immediate wheel responsiveness
       if (scrollContainerRef.current) {
         scrollContainerRef.current.scrollTop = 0;
+        scrollContainerRef.current.focus({ preventScroll: true });
       }
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.start();
+      }
     }
+
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.start();
+      }
+    };
+  }, [project]);
+
+  // Direct wheel event listener on the preview container to ensure immediate 1:1 scroll without needing a click
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container || !project) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Prevent background page scroll & stop bubbling
+      e.stopPropagation();
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: true });
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
     };
   }, [project]);
 
@@ -81,6 +114,7 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
     <AnimatePresence>
       <div 
         className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md"
+        data-lenis-prevent="true"
         onClick={onClose}
         role="dialog"
         aria-modal="true"
@@ -91,6 +125,7 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 20 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          data-lenis-prevent="true"
           className="relative w-full max-w-6xl max-h-[92vh] bg-surface-1 border border-brand-border/80 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
@@ -167,8 +202,10 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
               {/* Scrollable Container */}
               <div 
                 ref={scrollContainerRef}
-                className="flex-1 overflow-y-auto custom-scrollbar p-2 sm:p-5 bg-dot-pattern"
+                data-lenis-prevent="true"
+                className="flex-1 overflow-y-auto overscroll-contain custom-scrollbar p-2 sm:p-5 bg-dot-pattern focus:outline-none"
                 tabIndex={0}
+                onWheel={(e) => e.stopPropagation()}
               >
                 <div className="max-w-[360px] sm:max-w-[400px] mx-auto rounded-2xl overflow-hidden border border-brand-border/70 shadow-2xl bg-surface-1">
                   <img
@@ -182,7 +219,11 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
             </div>
 
             {/* Right: Project Specifications & Breakdown (5 Cols) */}
-            <div className="lg:col-span-5 overflow-y-auto custom-scrollbar p-6 sm:p-8 flex flex-col justify-between bg-surface-1/95 space-y-6">
+            <div 
+              data-lenis-prevent="true"
+              onWheel={(e) => e.stopPropagation()}
+              className="lg:col-span-5 overflow-y-auto overscroll-contain custom-scrollbar p-6 sm:p-8 flex flex-col justify-between bg-surface-1/95 space-y-6"
+            >
               <div>
                 {/* Category & Badge */}
                 <div className="flex flex-wrap items-center gap-2 mb-3">

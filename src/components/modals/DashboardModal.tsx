@@ -29,15 +29,30 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({
   onOpenInquiry,
   onSelectProject,
 }) => {
-  // Lock body scroll
+  // Lock body scroll & stop Lenis smooth scroll while modal is active
   useEffect(() => {
     if (project) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+
+      // Pause Lenis so mouse wheel events don't scroll the background page
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.stop();
+      }
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.start();
+      }
     }
+
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (typeof window !== 'undefined' && (window as any).__lenis) {
+        (window as any).__lenis.start();
+      }
     };
   }, [project]);
 
@@ -76,6 +91,7 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({
     <AnimatePresence>
       <div 
         className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md"
+        data-lenis-prevent="true"
         onClick={onClose}
         role="dialog"
         aria-modal="true"
@@ -86,6 +102,7 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 20 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          data-lenis-prevent="true"
           className="relative w-full max-w-6xl max-h-[92vh] bg-surface-1 border border-brand-border/80 rounded-3xl overflow-hidden shadow-2xl flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
@@ -155,7 +172,11 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({
           {/* Modal Body: 2-Column Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 flex-1 overflow-hidden min-h-0">
             {/* Left: Full High-Res Dashboard Preview (7 Cols) */}
-            <div className="lg:col-span-7 bg-[#050505] relative border-b lg:border-b-0 lg:border-r border-brand-border/70 overflow-y-auto custom-scrollbar flex flex-col justify-center p-3 sm:p-6">
+            <div 
+              data-lenis-prevent="true"
+              onWheel={(e) => e.stopPropagation()}
+              className="lg:col-span-7 bg-[#050505] relative border-b lg:border-b-0 lg:border-r border-brand-border/70 overflow-y-auto overscroll-contain custom-scrollbar flex flex-col justify-center p-3 sm:p-6"
+            >
               {/* Preview Window Box */}
               <div className="rounded-2xl overflow-hidden border border-brand-border/70 shadow-2xl bg-surface-1 relative group/img">
                 <img
@@ -175,7 +196,11 @@ export const DashboardModal: React.FC<DashboardModalProps> = ({
             </div>
 
             {/* Right: Analytics Architecture Breakdown (5 Cols) */}
-            <div className="lg:col-span-5 overflow-y-auto custom-scrollbar p-6 sm:p-8 flex flex-col justify-between bg-surface-1/95 space-y-6">
+            <div 
+              data-lenis-prevent="true"
+              onWheel={(e) => e.stopPropagation()}
+              className="lg:col-span-5 overflow-y-auto overscroll-contain custom-scrollbar p-6 sm:p-8 flex flex-col justify-between bg-surface-1/95 space-y-6"
+            >
               <div>
                 {/* Category & Badge */}
                 <div className="flex flex-wrap items-center gap-2 mb-3">

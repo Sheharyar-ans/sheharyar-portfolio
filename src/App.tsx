@@ -77,6 +77,8 @@ export const App: React.FC = () => {
       smoothWheel: true,
     });
 
+    (window as any).__lenis = lenis;
+
     lenis.on('scroll', ScrollTrigger.update);
 
     const updateTicker = (time: number) => {
@@ -89,6 +91,7 @@ export const App: React.FC = () => {
     return () => {
       gsap.ticker.remove(updateTicker);
       lenis.destroy();
+      delete (window as any).__lenis;
     };
   }, []);
 
