@@ -110,7 +110,7 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
                   type="button"
                   onClick={navigatePrev}
                   className="p-1.5 rounded-lg bg-surface-3/80 hover:bg-surface-3 text-brand-secondary hover:text-white transition-colors"
-                  title="Pichla project (Left arrow)"
+                  title="Previous project (Left arrow)"
                   aria-label="Previous project"
                 >
                   <ChevronLeft size={16} />
@@ -122,7 +122,7 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
                   type="button"
                   onClick={navigateNext}
                   className="p-1.5 rounded-lg bg-surface-3/80 hover:bg-surface-3 text-brand-secondary hover:text-white transition-colors"
-                  title="Agla project (Right arrow)"
+                  title="Next project (Right arrow)"
                   aria-label="Next project"
                 >
                   <ChevronRight size={16} />
@@ -143,7 +143,7 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
                 type="button"
                 onClick={onClose}
                 className="p-2 rounded-xl bg-surface-3/80 hover:bg-surface-3 text-brand-secondary hover:text-white transition-colors"
-                title="Band karein (Esc)"
+                title="Close (Esc)"
                 aria-label="Close modal"
               >
                 <X size={18} />
@@ -159,9 +159,9 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
               <div className="px-4 py-2 bg-surface-2/90 border-b border-brand-border/40 flex items-center justify-between text-[11px] font-mono text-brand-secondary shrink-0">
                 <span className="flex items-center gap-1.5 text-accent font-semibold">
                   <Maximize2 size={12} />
-                  <span>POORI WEBSITE KA FULL PREVIEW</span>
+                  <span>FULL PAGE WEBSITE PREVIEW</span>
                 </span>
-                <span className="text-brand-muted">Scroll karke neechay tak dekhein ↓</span>
+                <span className="text-brand-muted">Scroll down to inspect full layout ↓</span>
               </div>
 
               {/* Scrollable Container */}
@@ -274,7 +274,7 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
                   }}
                   className="w-full sm:flex-1 py-3 px-5 rounded-xl bg-accent text-black font-heading font-extrabold text-xs uppercase tracking-wider hover:bg-white transition-all shadow-lg flex items-center justify-center gap-2"
                 >
-                  <span>Aisa WordPress System Banwayein</span>
+                  <span>Build a Similar WordPress System</span>
                   <ArrowRight size={15} />
                 </button>
               </div>

@@ -220,7 +220,7 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
         <WordPressShowcase
           onOpenInquiry={onOpenInquiry}
           title="PRODUCTION WORDPRESS WEBSITES"
-          subtitle="Real client deployments: Box pe hover karke poora layout auto-scroll hote dekhein ya click karke high-resolution full view open karein."
+          subtitle="Real client deployments: Hover over any window to auto-scroll the full page layout, or click for high-resolution inspection."
         />
       </div>
 

@@ -90,7 +90,7 @@ const ProjectBrowserCard: React.FC<{
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => onOpenModal(project)}
         className="relative w-full h-[260px] sm:h-[280px] overflow-hidden bg-[#0a0a0a] cursor-pointer select-none"
-        title="Hover karein poori website scroll dekhne ke liye, ya click karein full view ke liye"
+        title="Hover to auto-scroll full layout, or click for full view"
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
@@ -133,7 +133,7 @@ const ProjectBrowserCard: React.FC<{
           ) : (
             <>
               <MousePointer size={11} className="text-accent animate-bounce" />
-              <span>Hover karke scroll dekhein</span>
+              <span>Hover to Scroll Layout</span>
             </>
           )}
         </div>
@@ -146,7 +146,7 @@ const ProjectBrowserCard: React.FC<{
             onOpenModal(project);
           }}
           className="absolute top-2.5 right-2.5 p-1.5 rounded-lg bg-black/75 hover:bg-accent hover:text-black text-white border border-white/15 backdrop-blur-md transition-all shadow-md group/btn"
-          title="Full layout preview open karein"
+          title="Open full layout preview"
           aria-label="Full screen preview"
         >
           <Maximize2 size={13} className="group-hover/btn:scale-110 transition-transform" />
@@ -203,7 +203,7 @@ const ProjectBrowserCard: React.FC<{
             onClick={() => onOpenModal(project)}
             className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-white hover:text-accent group-hover:translate-x-0.5 transition-all shrink-0"
           >
-            <span>Full Layout</span>
+            <span>View Layout</span>
             <ArrowUpRight size={13} className="text-accent" />
           </button>
         </div>
@@ -215,7 +215,7 @@ const ProjectBrowserCard: React.FC<{
 export const WordPressShowcase: React.FC<WordPressShowcaseProps> = ({
   onOpenInquiry,
   title = 'WORDPRESS CLIENT WEBSITES',
-  subtitle = 'Interactive live layouts: Box pe hover karke poora web page scroll hote dekhein ya click karke full view kholein.',
+  subtitle = 'Interactive production layouts: Hover over any preview to auto-scroll the full page layout, or click for high-resolution inspection.',
   filterCategory,
 }) => {
   const [selectedProject, setSelectedProject] = useState<WordPressProject | null>(null);
@@ -311,7 +311,7 @@ export const WordPressShowcase: React.FC<WordPressShowcaseProps> = ({
                 Bespoke Code & Sub-Second Speeds (Zero Bloated Themes)
               </h4>
               <p className="text-xs text-brand-secondary">
-                Har website custom PHP 8.2 standards, custom blocks, responsive CSS aur Core Web Vitals (95+ score) ke sath bani hui hai.
+                Every platform is engineered to custom PHP 8.2 standards, native block patterns, responsive CSS, and verified 95+ Core Web Vitals.
               </p>
             </div>
           </div>
@@ -321,7 +321,7 @@ export const WordPressShowcase: React.FC<WordPressShowcaseProps> = ({
               onClick={onOpenInquiry}
               className="px-5 py-2.5 rounded-xl bg-surface-2 hover:bg-accent hover:text-black text-white font-mono text-xs font-bold border border-brand-border/70 hover:border-accent transition-all shrink-0"
             >
-              Apna WordPress Project Discuss Karein →
+              Discuss Your WordPress Project →
             </button>
           )}
         </div>

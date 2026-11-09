@@ -264,7 +264,7 @@ export const SubServicePage: React.FC<SubServicePageProps> = ({ onOpenInquiry })
               ? 'WOOCOMMERCE & CATALOG SHOWCASE'
               : 'PRODUCTION WORDPRESS WEBSITES'
           }
-          subtitle="Box pe cursor hover karke poora web layout auto-scroll hote dekhein, ya click karke high-resolution full view open karein."
+          subtitle="Interactive production preview: Hover over any window to auto-scroll the full layout, or click for high-resolution inspection."
         />
       )}
 

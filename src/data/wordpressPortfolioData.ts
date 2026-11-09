@@ -29,7 +29,7 @@ export const WORDPRESS_PROJECTS: WordPressProject[] = [
     tags: ['Custom Blocks', 'PHP 8.2', 'Dark UI', 'Lead Funnel', 'Speed 98+'],
     image: '/assets/images/portfolio/wp-ende-online.webp',
     shortDesc: 'Modern dark-themed agency platform featuring custom topographic branding, interactive services showcase, verified client reviews, and an optimized lead capture funnel.',
-    fullDesc: 'Ende Online ke liye ek high-performance bespoke WordPress website design aur develop ki gayi. Isme custom Gutenberg blocks, interactive dark-mode topographic line art design, client testimonial carousels, aur automated lead-capture forms shamil hain jo sub-second speed par deliver hote hain.',
+    fullDesc: 'Architected and engineered a high-performance bespoke WordPress web platform for Ende Online. Features custom Gutenberg blocks, interactive dark-mode topographic contour styling, client testimonial carousels, and automated sub-second lead-capture pipelines.',
     metrics: {
       speedScore: '98/100 Mobile',
       loadTime: '0.6s TTFB',
@@ -60,7 +60,7 @@ export const WORDPRESS_PROJECTS: WordPressProject[] = [
     tags: ['Job Board', 'Custom Post Types', 'Intake Forms', 'Multilingual', 'Speed 96+'],
     image: '/assets/images/portfolio/wp-moldstaff-recruitment.webp',
     shortDesc: 'International European recruitment platform connecting skilled candidates with verified European employers, featuring multi-step application workflows and video testimonials.',
-    fullDesc: 'MoldStaff ke liye complete European employment aur talent recruitment portal design kiya gaya. Isme job vacancies listing, custom candidate application forms, CV upload pipelines, employer trust badges, customer video story grids aur multi-step screening flow shamil hain.',
+    fullDesc: 'Engineered an international European recruitment and career placement portal for MoldStaff. Built with custom post types, filtered vacancy boards, candidate application funnels with CV ingestion, employer trust credentials, and multilingual architecture.',
     metrics: {
       speedScore: '96/100 Mobile',
       loadTime: '0.8s LCP',
@@ -91,7 +91,7 @@ export const WORDPRESS_PROJECTS: WordPressProject[] = [
     tags: ['WooCommerce', 'Spare Parts Catalog', 'SKU Search', 'Dutch Market', 'Speed 97+'],
     image: '/assets/images/portfolio/wp-everaard-techniek.webp',
     shortDesc: 'Heavy-duty agricultural machinery dealership and spare parts catalog platform built on WooCommerce, featuring high-speed SKU search and direct maintenance booking.',
-    fullDesc: 'Everaard Techniek ke liye agricultural machinery, spare parts catalog aur tractor equipment ka comprehensive web portal banaya gaya. John Deere, Lemken aur Steeno dealers ke mutabiq parts database, quotation requests, workshop service scheduling aur sub-second catalog search implement ki gayi.',
+    fullDesc: 'Architected an industrial agricultural machinery catalog and parts ordering platform for Everaard Techniek. Engineered for John Deere, Lemken, and Steeno machinery dealerships with sub-second SKU search, custom quote requests, and workshop service scheduling.',
     metrics: {
       speedScore: '97/100 Mobile',
       loadTime: '0.7s TTFB',
@@ -122,7 +122,7 @@ export const WORDPRESS_PROJECTS: WordPressProject[] = [
     tags: ['GSAP Motion', 'Video Lazy Load', 'Creative UI', 'Fluid Typography', 'Speed 99+'],
     image: '/assets/images/portfolio/wp-contentwerk-agency.webp',
     shortDesc: 'Aesthetic storytelling and video production agency website featuring fluid organic section transitions, high-impact video showcases, and a streamlined client scoping intake.',
-    fullDesc: 'ContentWerk media house ke liye custom storytelling portfolio website banayi gayi. Isme organic curved wave transitions, video lazy-loading CDN, interactive service pillars (Content Distribution, End-to-End Delivery, Full Service), client success stories aur direct project consultation form shamil hain.',
+    fullDesc: 'Crafted a bespoke digital agency showcase for ContentWerk media house. Features fluid organic wave section dividers, lazy-loading video CDN streaming, interactive service tiers, client success story carousels, and streamlined project scoping forms.',
     metrics: {
       speedScore: '99/100 Mobile',
       loadTime: '0.5s TTFB',
@@ -153,7 +153,7 @@ export const WORDPRESS_PROJECTS: WordPressProject[] = [
     tags: ['Showroom Gallery', 'Quote Engine', 'Local Schema', 'Elementor Pro', 'Speed 98+'],
     image: '/assets/images/portfolio/wp-floortec-flooring.webp',
     shortDesc: 'High-converting residential and commercial flooring specialist website with interactive showroom visualizer, quotation estimator, and verified review matrix.',
-    fullDesc: 'Floortec ke liye lead-generation focused corporate website develop ki gayi. Isme flooring solutions (wooden floors, cast floors, maintenance), showroom visit online booking, 20k+ satisfied customer review matrix, aur direct quotation form shamil hain jo high conversion rates generate karti hain.',
+    fullDesc: 'Developed a high-converting corporate web platform for Floortec flooring specialists. Features interactive showroom galleries, direct showroom appointment booking, 20k+ verified customer reviews matrix, and multi-step custom quotation workflows.',
     metrics: {
       speedScore: '98/100 Mobile',
       loadTime: '0.6s LCP',
