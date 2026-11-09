@@ -6,6 +6,7 @@ import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 import { AeoDirectAnswer } from '../components/seo/AeoDirectAnswer';
 import { ComparisonTable } from '../components/seo/ComparisonTable';
 import { WordPressShowcase } from '../components/sections/WordPressShowcase';
+import { DashboardShowcase } from '../components/sections/DashboardShowcase';
 import { SUB_SERVICES } from '../data/taxonomyData';
 import { generateSchemaGraph } from '../utils/schemaGenerator';
 
@@ -265,6 +266,16 @@ export const SubServicePage: React.FC<SubServicePageProps> = ({ onOpenInquiry })
               : 'PRODUCTION WORDPRESS WEBSITES'
           }
           subtitle="Interactive production preview: Hover over any window to auto-scroll the full layout, or click for high-resolution inspection."
+        />
+      )}
+
+      {/* Power BI, Excel & Data Analytics Interactive Dashboard Showcase */}
+      {(data.slug === 'data-science-analytics' || data.slug === 'data-analytics-data-science') && (
+        <DashboardShowcase
+          onOpenInquiry={onOpenInquiry}
+          filterCategory="data-science-analytics"
+          title="EXECUTIVE POWER BI & EXCEL DASHBOARDS"
+          subtitle="Production data models, executive financial scorecards, and multi-cloud analytics engineered for strategic business intelligence."
         />
       )}
 

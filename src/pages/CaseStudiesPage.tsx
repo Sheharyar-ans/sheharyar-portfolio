@@ -5,6 +5,7 @@ import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 import { AeoDirectAnswer } from '../components/seo/AeoDirectAnswer';
 import { CASE_STUDIES, CaseStudy } from '../data/portfolioData';
 import { WordPressShowcase } from '../components/sections/WordPressShowcase';
+import { DashboardShowcase } from '../components/sections/DashboardShowcase';
 
 interface CaseStudiesPageProps {
   onSelectCaseStudy: (study: CaseStudy) => void;
@@ -221,6 +222,15 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
           onOpenInquiry={onOpenInquiry}
           title="PRODUCTION WORDPRESS WEBSITES"
           subtitle="Real client deployments: Hover over any window to auto-scroll the full page layout, or click for high-resolution inspection."
+        />
+      </div>
+
+      {/* Business Intelligence & Analytics Dashboards Showcase */}
+      <div className="mt-20">
+        <DashboardShowcase
+          onOpenInquiry={onOpenInquiry}
+          title="EXECUTIVE DATA ANALYTICS & BI DASHBOARDS"
+          subtitle="Verified production dashboards in Power BI, Excel financial models, and infrastructure telemetry built for high-stakes decision-making."
         />
       </div>
 
