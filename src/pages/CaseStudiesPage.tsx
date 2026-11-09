@@ -4,6 +4,7 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 import { AeoDirectAnswer } from '../components/seo/AeoDirectAnswer';
 import { CASE_STUDIES, CaseStudy } from '../data/portfolioData';
+import { WordPressShowcase } from '../components/sections/WordPressShowcase';
 
 interface CaseStudiesPageProps {
   onSelectCaseStudy: (study: CaseStudy) => void;
@@ -212,6 +213,15 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
             </div>
           </div>
         ))}
+      </div>
+
+      {/* WordPress Production Visual Showcase */}
+      <div className="mt-20">
+        <WordPressShowcase
+          onOpenInquiry={onOpenInquiry}
+          title="PRODUCTION WORDPRESS WEBSITES"
+          subtitle="Real client deployments: Box pe hover karke poora layout auto-scroll hote dekhein ya click karke high-resolution full view open karein."
+        />
       </div>
 
       {/* CTA Box */}

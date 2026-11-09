@@ -5,6 +5,7 @@ import { Services } from '../components/sections/Services';
 import { SystemFlow } from '../components/sections/SystemFlow';
 import { CaseStudies } from '../components/sections/CaseStudies';
 import { WordPressFoundation } from '../components/sections/WordPressFoundation';
+import { WordPressShowcase } from '../components/sections/WordPressShowcase';
 import { Process } from '../components/sections/Process';
 import { TechStack } from '../components/sections/TechStack';
 import { AboutTimeline } from '../components/sections/AboutTimeline';
@@ -40,6 +41,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       <SystemFlow />
       <CaseStudies onSelectCaseStudy={onSelectCaseStudy} />
       <WordPressFoundation />
+      <WordPressShowcase onOpenInquiry={onOpenInquiry} />
       <Process />
       <TechStack />
       <AboutTimeline />

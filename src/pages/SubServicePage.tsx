@@ -5,6 +5,7 @@ import { SEOHead } from '../components/seo/SEOHead';
 import { Breadcrumbs } from '../components/seo/Breadcrumbs';
 import { AeoDirectAnswer } from '../components/seo/AeoDirectAnswer';
 import { ComparisonTable } from '../components/seo/ComparisonTable';
+import { WordPressShowcase } from '../components/sections/WordPressShowcase';
 import { SUB_SERVICES } from '../data/taxonomyData';
 import { generateSchemaGraph } from '../utils/schemaGenerator';
 
@@ -252,6 +253,20 @@ export const SubServicePage: React.FC<SubServicePageProps> = ({ onOpenInquiry })
           </div>
         </div>
       </div>
+
+      {/* WordPress & WooCommerce Interactive Live Visual Showcase */}
+      {(data.slug === 'custom-wordpress-development' || data.slug === 'woocommerce-systems-architecture') && (
+        <WordPressShowcase
+          onOpenInquiry={onOpenInquiry}
+          filterCategory={data.slug}
+          title={
+            data.slug === 'woocommerce-systems-architecture'
+              ? 'WOOCOMMERCE & CATALOG SHOWCASE'
+              : 'PRODUCTION WORDPRESS WEBSITES'
+          }
+          subtitle="Box pe cursor hover karke poora web layout auto-scroll hote dekhein, ya click karke high-resolution full view open karein."
+        />
+      )}
 
       {/* Comparison Section with H2 + Content Capsule */}
       <section className="my-16">
