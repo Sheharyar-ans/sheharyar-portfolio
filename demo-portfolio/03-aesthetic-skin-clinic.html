@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aesthetic Skin Clinic | عيادة استاتيك للجلدية والتجميل — As Sahafah, Riyadh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Coolors Warm Neutral Tones: #FAF9F7, #EEE4E1, #E7D8C9, #B2967D, #1C2B27 */
+    :root {
+      --bg: #faf9f7;
+      --sand: #eee4e1;
+      --cream: #e7d8c9;
+      --taupe: #b2967d;
+      --ink: #1c2b27;
+      --muted: #5b6964;
+      --card: #ffffff;
+      --line: rgba(28, 43, 39, 0.11);
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: clip; scroll-behavior: smooth; background: var(--bg); color: var(--ink); font-family: var(--font-body); }
+    body { overflow-x: clip; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    :focus-visible { outline: 2px solid var(--taupe); outline-offset: 3px; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+
+    header { position: sticky; top: 0; z-index: 40; background: rgba(250, 249, 247, 0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+    .nav { display: flex; justify-content: space-between; align-items: center; height: 76px; }
+    .brand { text-decoration: none; color: var(--ink); display: flex; flex-direction: column; line-height: 1.1; }
+    .brand strong { font-family: var(--font-display); font-size: 25px; font-weight: 400; }
+    .brand span { font-size: 12px; color: var(--taupe); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; }
+    .nav-links a:hover { color: var(--ink); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; border-radius: 999px;
+      font-size: 13px; font-weight: 600; text-decoration: none; border: 1px solid transparent; cursor: pointer;
+      transition: background-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .btn-ink { background: var(--ink); color: #fff; }
+    .btn-ink:hover { background: var(--taupe); transform: translateY(-1px); }
+    .btn-soft { background: var(--sand); color: var(--ink); }
+
+    .hero { padding: 68px 0 88px; border-bottom: 1px solid var(--line); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 52px; align-items: center; }
+    h1 { font-family: var(--font-display); font-size: clamp(46px, 5.6vw, 76px); line-height: 1.0; font-weight: 400; margin-bottom: 20px; }
+    .hero p { color: var(--muted); font-size: 17px; max-width: 490px; margin-bottom: 28px; }
+    .hero-photo { aspect-ratio: 4 / 4.4; border-radius: 24px; overflow: hidden; position: relative; box-shadow: 0 28px 65px rgba(28,43,39,0.1); }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .clinic-card {
+      position: absolute; bottom: 20px; left: 20px; right: 20px; background: rgba(250, 249, 247, 0.94);
+      padding: 18px 22px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; font-size: 14px;
+    }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    section.pad { padding: 88px 0; border-bottom: 1px solid var(--line); }
+    h2 { font-family: var(--font-display); font-size: clamp(34px, 4vw, 52px); font-weight: 400; line-height: 1.05; margin-bottom: 12px; }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; }
+    .about-img { aspect-ratio: 16 / 11; border-radius: 20px; overflow: hidden; }
+    .about-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Interactive Treatments */
+    .t-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 24px 0 32px; }
+    .t-btn { padding: 10px 20px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); font-family: var(--font-body); font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); }
+    .t-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .treat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .treat-card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+    .treat-img { aspect-ratio: 4 / 3; overflow: hidden; }
+    .treat-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+    .treat-card:hover .treat-img img { transform: scale(1.04); }
+    .treat-body { padding: 24px; }
+    .treat-body h3 { font-family: var(--font-display); font-size: 26px; font-weight: 400; margin-bottom: 8px; }
+    .treat-body p { font-size: 14px; color: var(--muted); }
+
+    /* Reviews */
+    .rev-band { background: var(--sand); }
+    .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 34px; }
+    .rev-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; justify-content: space-between; }
+
+    /* Booking */
+    .book-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center; background: var(--ink); color: #fff; border-radius: 24px; padding: 48px; }
+    .book-form { display: grid; gap: 12px; }
+    .book-form input, .book-form select { padding: 13px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; font-family: var(--font-body); }
+
+    footer { padding: 34px 0; font-size: 13px; color: var(--muted); }
+    .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .about-grid, .treat-grid, .rev-grid, .book-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a href="#" class="brand">
+        <strong>Aesthetic Skin Clinic</strong>
+        <span>عيادة استاتيك للجلدية والتجميل · As Sahafah, Riyadh</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#about">Clinic</a>
+        <a href="#treatments">Treatments</a>
+        <a href="#reviews">Patient Reviews</a>
+        <a href="#book">Appointment</a>
+      </nav>
+      <a href="#book" class="btn btn-ink">Book Consultation</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <h1>Dermatology &amp; natural aesthetic artistry in As Sahafah.</h1>
+          <p>Physician-led HydraFacial, laser rejuvenation, and non-surgical injectables with zero downtime — trusted by 625+ Riyadh patients.</p>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a href="#book" class="btn btn-ink">Book Appointment</a>
+            <a href="tel:+966114879071" class="btn btn-soft">Call +966 11 487 9071</a>
+          </div>
+        </div>
+        <div class="hero-photo">
+          <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1000&q=85" alt="Luxury dermatology and facial treatment studio" />
+          <div class="clinic-card">
+            <div><strong>4.8 ★ (625 Google Reviews)</strong><div style="color:var(--muted); font-size:12px;">7490 Al Thoumamah Rd, As Sahafah, Riyadh</div></div>
+            <span style="color:var(--taupe); font-weight:600;">10 AM – 10 PM</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="pad">
+      <div class="wrap about-grid reveal">
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=80" alt="Modern hygienic aesthetic clinic suite" />
+        </div>
+        <div>
+          <h2>Clinical precision in a calm, hygienic sanctuary.</h2>
+          <p style="color:var(--muted); margin-top:14px;">Located on Al Thoumamah Road in As Sahafah (Riyadh 13315), Aesthetic Skin Clinic is led by experienced dermatologists including Dr. Fatima — combining FDA-cleared laser platforms with gentle, tailored skin protocols.</p>
+          <p style="color:var(--muted); margin-top:12px;">Open daily including Friday afternoons (2 PM – 10 PM), with punctual scheduling and minimal waiting times.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="treatments" class="pad">
+      <div class="wrap">
+        <h2>Signature Clinical Treatments</h2>
+        <div class="t-tabs">
+          <button type="button" class="t-btn active" data-cat="all">All Procedures</button>
+          <button type="button" class="t-btn" data-cat="laser">Laser &amp; Glow</button>
+          <button type="button" class="t-btn" data-cat="injectables">Injectables</button>
+        </div>
+
+        <div class="treat-grid reveal">
+          <article class="treat-card" data-cat="laser">
+            <div class="treat-img"><img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=800&q=80" alt="HydraFacial skin rejuvenation" /></div>
+            <div class="treat-body">
+              <h3>HydraFacial &amp; Skin Glow</h3>
+              <p>Deep medical-grade pore extraction, antioxidant infusion, and instant luminosity with zero downtime.</p>
+            </div>
+          </article>
+          <article class="treat-card" data-cat="laser">
+            <div class="treat-img"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80" alt="Laser dermatology suite" /></div>
+            <div class="treat-body">
+              <h3>Laser Skin Rejuvenation</h3>
+              <p>Targeted pigmentation, texture refinement, and collagen stimulation tailored to Middle Eastern skin tones.</p>
+            </div>
+          </article>
+          <article class="treat-card" data-cat="injectables">
+            <div class="treat-img"><img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=800&q=80" alt="Precision aesthetic consultation" /></div>
+            <div class="treat-body">
+              <h3>Botox &amp; Natural Contour</h3>
+              <p>Subtle, physician-administered expression softening and hydration boosters for refreshed balance.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews" class="pad rev-band">
+      <div class="wrap">
+        <h2>625+ Verified Patient Experiences</h2>
+        <div class="rev-grid reveal">
+          <div class="rev-card">
+            <p>"Visited for HydraFacial and laser skin rejuvenation. Dr. Fatima was attentive and the staff was extremely professional. Beautiful and hygienic clinic."</p>
+            <div style="margin-top:16px;"><strong>Huda Al-Qahtani</strong><div style="font-size:12px; color:var(--muted);">Local Guide · Google Maps</div></div>
+          </div>
+          <div class="rev-card">
+            <p>"Very upscale clinic in As Sahafah. Great results with Botox and skin glow treatments without downtime. Receptionist was welcoming."</p>
+            <div style="margin-top:16px;"><strong>Reem Al-Dosari</strong><div style="font-size:12px; color:var(--muted);">Local Guide · Google Maps</div></div>
+          </div>
+          <div class="rev-card">
+            <p>"Top tier aesthetic care! Clean, organized, and no long wait times. Booking an appointment over phone was smooth."</p>
+            <div style="margin-top:16px;"><strong>Mona Al-Shahrani</strong><div style="font-size:12px; color:var(--muted);">Verified Patient · Google Maps</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="book" class="pad" style="border-bottom:none;">
+      <div class="wrap">
+        <div class="book-grid reveal">
+          <div>
+            <h2 style="color:#fff;">Reserve Your Clinic Visit</h2>
+            <p style="color:rgba(255,255,255,0.78); margin-top:10px;">7490 Al Thoumamah Rd, As Sahafah, Riyadh 13315</p>
+            <p style="color:var(--cream); margin-top:6px;">Sat–Thu: 10:00 AM – 10:00 PM · Fri: 2:00 PM – 10:00 PM</p>
+            <p style="color:var(--cream); margin-top:6px;">Phone: +966 11 487 9071</p>
+          </div>
+          <form class="book-form" id="clinic-form">
+            <input type="text" placeholder="Patient Name" required />
+            <input type="tel" placeholder="Mobile (+966...)" required />
+            <select aria-label="Treatment">
+              <option>HydraFacial &amp; Glow</option>
+              <option>Laser Skin Rejuvenation</option>
+              <option>Botox &amp; Aesthetic Consultation</option>
+            </select>
+            <button type="submit" class="btn" style="background:var(--cream); color:var(--ink);">Request Appointment</button>
+            <span id="clinic-msg" style="display:none; font-size:13px; color:#a7f3d0;">Appointment request received. Our As Sahafah desk will confirm shortly.</span>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>Aesthetic Skin Clinic · عيادة استاتيك للجلدية والتجميل</span>
+      <span>As Sahafah, Riyadh 13315</span>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    document.querySelectorAll('.t-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const c = btn.dataset.cat;
+        document.querySelectorAll('.treat-card').forEach(card => {
+          card.style.display = (c === 'all' || card.dataset.cat === c) ? 'block' : 'none';
+        });
+      });
+    });
+
+    document.getElementById('clinic-form').addEventListener('submit', e => {
+      e.preventDefault();
+      document.getElementById('clinic-msg').style.display = 'block';
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>

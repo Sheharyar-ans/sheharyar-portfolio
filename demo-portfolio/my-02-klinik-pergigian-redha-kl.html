@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Klinik Pergigian Redha — Taman Bukit Cheras, Kuala Lumpur</title>
+  <meta name="description" content="4.9-star Dental Clinic with 2,092 Google Reviews at 62A, Jalan 2/144A, Taman Bukit Cheras, 56000 Cheras, Kuala Lumpur. Open daily 9 AM – 10 PM." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg:#f7f5f2; --card:#ffffff; --sage:#2b5b4e; --mint:#e5efeb; --ink:#17211e; --muted:#5b6763; --line:rgba(23,33,30,0.11); --font-display:'Instrument Serif',Georgia,serif; --font-sans:'Plus Jakarta Sans',-apple-system,sans-serif; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;background:var(--bg);color:var(--ink);font-family:var(--font-sans);}
+    body{overflow-x:clip;line-height:1.65;}
+    a{color:inherit;text-decoration:none;} button,input,select{font:inherit;color:inherit;}
+    :focus-visible{outline:2px solid var(--sage);outline-offset:3px;}
+    .container{width:min(1220px,calc(100% - 40px));margin-inline:auto;}
+    header{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(247,245,242,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);}
+    .header-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;}
+    .brand strong{display:block;font-size:15px;} .brand span{font-size:12px;color:var(--muted);}
+    .nav-links{display:flex;gap:26px;list-style:none;font-size:14px;color:var(--muted);}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;border:1px solid transparent;}
+    .btn-sage{background:var(--sage);color:#fff;} .btn-outline{border-color:var(--line);}
+    .hero{padding:136px 0 88px;} .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:44px;align-items:center;}
+    .pill{display:inline-flex;gap:8px;padding:7px 14px;border-radius:999px;background:var(--mint);border:1px solid var(--line);font-size:13px;margin-bottom:20px;}
+    .hero h1{font-family:var(--font-display);font-size:clamp(3rem,5.5vw,4.9rem);line-height:1.02;font-weight:400;margin-bottom:18px;}
+    .hero h1 em{font-style:italic;color:var(--sage);}
+    .hero p{color:var(--muted);font-size:17px;max-width:540px;margin-bottom:28px;}
+    .hero-img{border-radius:20px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);}
+    .hero-img img{width:100%;height:100%;object-fit:cover;display:block;}
+    section{padding:84px 0;} .kicker{display:block;font-size:13px;font-weight:600;color:var(--sage);margin-bottom:8px;}
+    .title{font-family:var(--font-display);font-size:clamp(2.1rem,4vw,3.2rem);font-weight:400;line-height:1.07;}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px;}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;}
+    .contact-grid{display:grid;grid-template-columns:0.95fr 1.05fr;gap:32px;}
+    .panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px;}
+    .row{padding:14px 0;border-bottom:1px solid var(--line);} .row:last-child{border-bottom:0;}
+    .row span{display:block;font-size:12px;color:var(--muted);}
+    .field{margin-bottom:14px;} .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;}
+    .field input,.field select{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);}
+    footer{padding:34px 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted);}
+    .footer-inner{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;}
+    @media(max-width:920px){.nav-links{display:none;}.hero-grid,.grid-3,.contact-grid{grid-template-columns:1fr;}}
+  
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
+    .about-img { border-radius:18px; overflow:hidden; aspect-ratio:4/3; border:1px solid var(--line); }
+    .about-img img { width:100%; height:100%; object-fit:cover; display:block; }
+    .stat-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:26px; }
+    .stat-box { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; }
+    .stat-box strong { display:block; font-family:var(--font-display); font-size:1.55rem; font-weight:500; color:var(--sage); line-height:1.1; margin-bottom:4px; }
+    .stat-box span { font-size:12px; color:var(--muted); }
+    .faq-list { margin-top:28px; display:grid; gap:12px; max-width:860px; }
+    .faq-item { background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+    .faq-q { width:100%; text-align:left; background:transparent; border:0; padding:18px 22px; font-weight:600; font-size:15px; display:flex; justify-content:space-between; align-items:center; gap:16px; cursor:pointer; }
+    .faq-q span.icon { color:var(--sage); font-size:20px; line-height:1; transition:transform .25s ease; }
+    .faq-item.open .faq-q span.icon { transform:rotate(45deg); }
+    .faq-a { max-height:0; overflow:hidden; transition:max-height .32s ease; color:var(--muted); font-size:14px; }
+    .faq-a-inner { padding:0 22px 18px; }
+    @media(max-width:920px){ .about-grid,.stat-strip{grid-template-columns:1fr;} }
+
+    .reveal { opacity:0; transform:translateY(18px); transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1); }
+    .reveal.is-visible { opacity:1; transform:none; }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a href="#top" class="brand"><strong>Klinik Pergigian Redha</strong><span>Taman Bukit Cheras · 56000 KL</span></a>
+      <nav><ul class="nav-links"><li><a href="#about">About</a></li><li><a href="#care">Treatments</a></li><li><a href="#reviews">2,092 Reviews</a></li><li><a href="#book">WhatsApp Booking</a></li><li><a href="#faq">FAQ</a></li></ul></nav>
+      <div style="display:flex;gap:10px;"><a href="tel:+601110510495" class="btn btn-outline">+60 11-1051 0495</a><a href="https://wa.me/601110510495" target="_blank" rel="noopener" class="btn btn-sage">Book via WhatsApp</a></div>
+    </div>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="pill"><strong style="color:var(--sage);">4.9 ★ (2,092 Google Reviews)</strong> · Open Daily 9 AM – 10 PM</div>
+          <h1>Gentle hands (<em>tangan lembut</em>) &amp; caring dentistry in Cheras.</h1>
+          <p>Trusted by over 2,000 patients in Taman Bukit Cheras, Dr. Dayana, Dr. Nadhirah, and our reception team deliver calm, thoroughly explained dental care 7 days a week until 10:00 PM.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;"><a href="#book" class="btn btn-sage">Schedule WhatsApp Visit</a><a href="#care" class="btn btn-outline">Our Clinic</a></div>
+        </div>
+        <div class="hero-img"><img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1200&q=85" alt="Gentle family dental care in Kuala Lumpur" /></div>
+      </div>
+    </section>
+    <section id="about" class="reveal">
+      <div class="container about-grid">
+        <div class="about-img"><img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1200&q=85" alt="Warm family dental clinic in Taman Bukit Cheras Kuala Lumpur" loading="lazy" /></div>
+        <div>
+          <span class="kicker">Taman Bukit Cheras · 2,092+ Patient Reviews</span>
+          <h2 class="title">Family-friendly dental clinic trusted across Cheras & KL.</h2>
+          <p style="color:var(--muted);margin-top:16px;">At 62A Jalan 2/144A in Taman Bukit Cheras, Klinik Pergigian Redha combines gentle pediatric & adult checkups, ultrasonic scaling, aesthetic fillings, and clear communication backed by 2,092+ glowing reviews.</p>
+          <div class="stat-strip"><div class="stat-box"><strong>4.9 ★</strong><span>2,092 Google Reviews</span></div><div class="stat-box"><strong>56000 KL</strong><span>Taman Bukit Cheras</span></div><div class="stat-box"><strong>Family</strong><span>Kids & Adults</span></div></div>
+        </div>
+      </div>
+    </section>
+    <section id="care">
+      <div class="container">
+        <span class="kicker">Patient-First Dentistry</span>
+        <h2 class="title">Clear explanations, calm chairside manner.</h2>
+        <div class="grid-3">
+          <article class="card"><h3>Thorough Consultations</h3><p>Dr. Dayana and Dr. Nadhirah explain every step clearly before any treatment begins.</p></article>
+          <article class="card"><h3>Extended Daily Hours</h3><p>Open Monday through Sunday from 9:00 AM to 10:00 PM so working families never miss care.</p></article>
+          <article class="card"><h3>Fast WhatsApp Booking</h3><p>Seamless appointment coordination with our polite front-desk team.</p></article>
+        </div>
+      </div>
+    </section>
+    <section id="reviews">
+      <div class="container">
+        <span class="kicker">2,092 Verified Reviews</span>
+        <h2 class="title">Why Cheras families trust Klinik Pergigian Redha.</h2>
+        <div class="grid-3">
+          <article class="card"><div style="color:var(--sage);margin-bottom:10px;">★★★★★</div><p>&ldquo;It was very easy to set up an appointment via WhatsApp and was assisted by Ms. Alya. Clean environment and friendly staff and doctor! Dr. Dayana is super friendly and explained thoroughly...&rdquo;</p><strong style="display:block;margin-top:14px;font-size:14px;">Nabila Razak</strong><span style="font-size:12px;color:var(--muted);">Google Review · Cheras, KL</span></article>
+          <article class="card"><div style="color:var(--sage);margin-bottom:10px;">★★★★★</div><p>&ldquo;Dr Nadhirah, the dental surgeon was very professional and patient. She has light hands (tangan lembut) and experienced. The nurse assisting her was also very helpful.&rdquo;</p><strong style="display:block;margin-top:14px;font-size:14px;">Radz Aziz</strong><span style="font-size:12px;color:var(--muted);">Google Review · Cheras, KL</span></article>
+          <article class="card"><div style="color:var(--sage);margin-bottom:10px;">9 AM – 10 PM</div><p>Open 7 days a week at 62A, Jalan 2/144A, Taman Bukit Cheras, 56000 Cheras, Kuala Lumpur.</p><strong style="display:block;margin-top:14px;font-size:14px;">4.9 ★ (2,092 Reviews)</strong><span style="font-size:12px;color:var(--muted);">Kuala Lumpur, Malaysia</span></article>
+        </div>
+      </div>
+    </section>
+    <section id="faq" class="reveal">
+      <div class="container">
+        <span class="kicker">Frequently Asked Questions</span>
+        <h2 class="title">Everything you need to know before visiting.</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>Is Klinik Pergigian Redha suitable for anxious patients and children?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Yes — our dentists take extra time with gentle numbing and step-by-step reassurance.</div></div>
+          </div><div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>How can I confirm available appointment times?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Call +60 11-1051 0495 or submit your preferred date below for prompt clinic confirmation.</div></div>
+          </div><div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>What routine services are available?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Scaling & polishing, tooth-colored fillings, whitening consultations, extractions, and family checkups.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="book">
+      <div class="container contact-grid">
+        <div class="panel">
+          <span class="kicker">Cheras Clinic</span>
+          <h2 class="title" style="font-size:2.1rem;margin-bottom:14px;">Klinik Pergigian Redha</h2>
+          <div class="row"><span>Address</span><strong>62A, Jalan 2/144A, Taman Bukit Cheras, 56000 Cheras, Kuala Lumpur</strong></div>
+          <div class="row"><span>Phone &amp; WhatsApp</span><a href="tel:+601110510495"><strong>+60 11-1051 0495</strong></a></div>
+          <div class="row"><span>Hours</span><strong>Monday – Sunday: 9:00 AM – 10:00 PM</strong></div>
+        </div>
+        <form class="panel" id="redhaForm">
+          <span class="kicker">WhatsApp Appointment</span>
+          <h2 class="title" style="font-size:2.1rem;margin-bottom:16px;">Book your dental visit</h2>
+          <div class="field"><label for="rName">Patient Name</label><input id="rName" type="text" required placeholder="Your name" /></div>
+          <div class="field"><label for="rSvc">Treatment</label><select id="rSvc"><option>Scaling &amp; Check-Up</option><option>Toothache / Extraction</option><option>Filling / Family Dental Care</option></select></div>
+          <button type="submit" class="btn btn-sage" style="width:100%;">Message Clinic on WhatsApp</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer><div class="container footer-inner"><span>Klinik Pergigian Redha Taman Bukit Cheras · 62A, Jalan 2/144A, 56000 KL</span><span>+60 11-1051 0495 · 4.9 ★ (2,092 Reviews)</span></div></footer>
+  <script>
+    document.getElementById('redhaForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = `Hi Klinik Pergigian Redha, my name is ${document.getElementById('rName').value.trim()} and I would like to book ${document.getElementById('rSvc').value}.`;
+      window.open(`https://wa.me/601110510495?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    });
+  </script>
+
+  <script>
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const ans = item.querySelector('.faq-a');
+        const isOpen = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        ans.style.maxHeight = isOpen ? ans.scrollHeight + 'px' : '0px';
+      });
+    });
+  </script>
+
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>

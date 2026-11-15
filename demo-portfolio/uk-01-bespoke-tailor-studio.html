@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bespoke Tailor Studio — 58-60 Stamford St, London SE1</title>
+  <meta name="description" content="4.9-star London bespoke tailoring studio at 58-60 Stamford St, London SE1 9LX. Wedding suits, hand-finished jackets, and private fittings." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-savile: #12161c;
+      --bg-cloth: #1a2029;
+      --gold: #c9a66b;
+      --ivory: #f3efe7;
+      --muted: #a6aab2;
+      --line: rgba(243, 239, 231, 0.12);
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--bg-savile); color: var(--ivory); font-family: var(--font-sans); }
+    body { overflow-x: clip; line-height: 1.65; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+    .container { width: min(1220px, calc(100% - 40px)); margin-inline: auto; }
+
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 0; background: rgba(18, 22, 28, 0.84); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line); }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .brand strong { display: block; font-size: 15px; font-weight: 600; letter-spacing: 0.03em; }
+    .brand span { font-size: 12px; color: var(--muted); }
+    .nav-links { display: flex; gap: 26px; list-style: none; font-size: 14px; color: var(--muted); }
+    .nav-links a:hover { color: var(--ivory); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 11px 22px; border-radius: 999px; font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: transform 0.25s var(--ease), background-color 0.25s ease; }
+    .btn-gold { background: var(--gold); color: var(--bg-savile); }
+    .btn-gold:hover { background: #d6b67d; transform: translateY(-1px); }
+    .btn-outline { border-color: var(--line); background: transparent; }
+
+    .hero { padding: 136px 0 88px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 44px; align-items: center; }
+    .badge { display: inline-flex; gap: 8px; padding: 7px 14px; border-radius: 999px; background: var(--bg-cloth); border: 1px solid var(--line); font-size: 13px; margin-bottom: 20px; }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(3rem, 5.8vw, 5.1rem); line-height: 1.02; font-weight: 500; margin-bottom: 18px; }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero p { color: var(--muted); font-size: 17px; max-width: 540px; margin-bottom: 28px; }
+    .hero-img { border-radius: 20px; overflow: hidden; aspect-ratio: 4 / 5; border: 1px solid var(--line); }
+    .hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    section { padding: 88px 0; }
+    .kicker { display: block; font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 8px; }
+    .title { font-family: var(--font-display); font-size: clamp(2.1rem, 4vw, 3.2rem); font-weight: 500; line-height: 1.07; }
+
+    .cloth-box { background: var(--bg-cloth); border: 1px solid var(--line); border-radius: 20px; padding: 36px; margin-top: 30px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
+    .tab { padding: 10px 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg-savile); font-size: 14px; font-weight: 600; cursor: pointer; }
+    .tab.active { background: var(--gold); color: var(--bg-savile); border-color: var(--gold); }
+    .cloth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+    .cloth-grid img { width: 100%; border-radius: 14px; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .card { background: var(--bg-cloth); border: 1px solid var(--line); border-radius: 16px; padding: 26px; }
+    .stars { color: var(--gold); margin-bottom: 12px; }
+
+    .contact-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 32px; }
+    .panel { background: var(--bg-cloth); border: 1px solid var(--line); border-radius: 20px; padding: 32px; }
+    .row { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .row:last-child { border-bottom: 0; }
+    .row span { display: block; font-size: 12px; color: var(--muted); }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .field input, .field select { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg-savile); }
+
+    footer { padding: 34px 0; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 920px) {
+      .nav-links { display: none; }
+      .hero-grid, .cloth-grid, .grid-3, .contact-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
+    .about-img { border-radius:18px; overflow:hidden; aspect-ratio:4/3; border:1px solid var(--line); }
+    .about-img img { width:100%; height:100%; object-fit:cover; display:block; }
+    .stat-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:26px; }
+    .stat-box { background:var(--bg-cloth); border:1px solid var(--line); border-radius:14px; padding:16px; }
+    .stat-box strong { display:block; font-family:var(--font-display); font-size:1.55rem; font-weight:500; color:var(--gold); line-height:1.1; margin-bottom:4px; }
+    .stat-box span { font-size:12px; color:var(--muted); }
+    .faq-list { margin-top:28px; display:grid; gap:12px; max-width:860px; }
+    .faq-item { background:var(--bg-cloth); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+    .faq-q { width:100%; text-align:left; background:transparent; border:0; padding:18px 22px; font-weight:600; font-size:15px; display:flex; justify-content:space-between; align-items:center; gap:16px; cursor:pointer; }
+    .faq-q span.icon { color:var(--gold); font-size:20px; line-height:1; transition:transform .25s ease; }
+    .faq-item.open .faq-q span.icon { transform:rotate(45deg); }
+    .faq-a { max-height:0; overflow:hidden; transition:max-height .32s ease; color:var(--muted); font-size:14px; }
+    .faq-a-inner { padding:0 22px 18px; }
+    @media(max-width:920px){ .about-grid,.stat-strip{grid-template-columns:1fr;} }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a href="#top" class="brand">
+        <strong>Bespoke Tailor Studio</strong>
+        <span>58-60 Stamford St · London SE1 9LX</span>
+      </a>
+      <nav>
+        <ul class="nav-links"><li><a href="#about">About</a></li>
+          <li><a href="#cloths">Cloth &amp; Cuts</a></li>
+          <li><a href="#reviews">Client Reviews</a></li>
+          <li><a href="#fitting">Book Fitting</a></li>
+        <li><a href="#faq">FAQ</a></li></ul>
+      </nav>
+      <div style="display:flex;gap:10px;">
+        <a href="tel:+447979000300" class="btn btn-outline">+44 7979 000300</a>
+        <a href="#fitting" class="btn btn-gold">Book Fitting</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge"><strong style="color:var(--gold);">4.9 ★</strong> <span>15 Verified London Reviews · South Bank SE1</span></div>
+          <h1>Hand-cut <em>London bespoke</em>, fitted to your posture.</h1>
+          <p>
+            From wedding commissions to sharp business tailoring on Stamford Street, Bespoke Tailor Studio pairs unhurried personal fittings with punctual turnaround — open Monday through Saturday until 7:00 PM.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <a href="#fitting" class="btn btn-gold">Reserve Private Fitting</a>
+            <a href="#cloths" class="btn btn-outline">Explore Tailoring Cuts</a>
+          </div>
+        </div>
+        <div class="hero-img reveal">
+          <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=85" alt="Bespoke tailored suit jacket in London studio" />
+        </div>
+      </div>
+    </section>
+    <section id="about" class="reveal">
+      <div class="container about-grid">
+        <div class="about-img"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=85" alt="Bespoke suit tailoring and cloth inspection in London SE1" loading="lazy" /></div>
+        <div>
+          <span class="kicker">Southbank Atelier · Est. London SE1</span>
+          <h2 class="title">Hand-cut patterns, private fittings, zero rush.</h2>
+          <p style="color:var(--muted);margin-top:16px;">Located minutes from Waterloo at 58-60 Stamford St, Bespoke Tailor Studio crafts structured two-piece and three-piece garments, ceremonial wedding attire, and precision alterations from English worsted and Italian flannel bolts.</p>
+          <div class="stat-strip"><div class="stat-box"><strong>4.9 ★</strong><span>15 Google Reviews</span></div><div class="stat-box"><strong>SE1 9LX</strong><span>Stamford St, London</span></div><div class="stat-box"><strong>Mon–Sat</strong><span>9:00 AM – 7:00 PM</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cloths">
+      <div class="container">
+        <span class="kicker">Atelier Disciplines</span>
+        <h2 class="title">Tailoring commissions &amp; cloths.</h2>
+        <div class="cloth-box reveal">
+          <div class="tabs">
+            <button class="tab active" data-cut="wedding">Wedding &amp; Morning Suits</button>
+            <button class="tab" data-cut="business">City Business Two-Piece</button>
+            <button class="tab" data-cut="alterations">Precision Alterations</button>
+          </div>
+          <div class="cloth-grid">
+            <img id="cutImg" src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1200&q=85" alt="Bespoke wedding suit fitting" />
+            <div>
+              <h3 id="cutTitle" style="font-family:var(--font-display);font-size:32px;font-weight:500;">Wedding &amp; Formal Commissions</h3>
+              <p id="cutDesc" style="color:var(--muted);margin-top:10px;">
+                Cut from fine worsted wools and structured to drape cleanly across the shoulder, delivered ahead of your ceremony date with full basted fittings.
+              </p>
+              <a href="#fitting" class="btn btn-gold" style="margin-top:20px;">Book Wedding Fitting</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews">
+      <div class="container">
+        <span class="kicker">London Client Praise</span>
+        <h2 class="title">4.9 ★ craftsmanship in SE1.</h2>
+        <div class="grid-3">
+          <article class="card reveal">
+            <div class="stars">★★★★★</div>
+            <p>&ldquo;Superb service from start to finish. I had a suit tailored for a wedding and the craftsmanship was second to none. Attention to detail was fantastic and it was ready ahead of time.&rdquo;</p>
+            <strong style="display:block;margin-top:16px;font-size:14px;">Jack Watson</strong>
+            <span style="font-size:12px;color:var(--muted);">Google Review · London</span>
+          </article>
+          <article class="card reveal">
+            <div class="stars">★★★★★</div>
+            <p>&ldquo;Exceptional tailoring quality and very personal, attentive service. The fit of my jacket was absolutely spot on. Will definitely be returning for my next bespoke suit.&rdquo;</p>
+            <strong style="display:block;margin-top:16px;font-size:14px;">David Miller</strong>
+            <span style="font-size:12px;color:var(--muted);">Google Review · London</span>
+          </article>
+          <article class="card reveal">
+            <div class="stars">Mon – Sat</div>
+            <p>Open 9:00 AM – 7:00 PM Monday through Saturday at 58-60 Stamford St, minutes from Waterloo &amp; Blackfriars.</p>
+            <strong style="display:block;margin-top:16px;font-size:14px;">4.9 ★ (15 Reviews)</strong>
+            <span style="font-size:12px;color:var(--muted);">London SE1 9LX</span>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section id="faq" class="reveal">
+      <div class="container">
+        <span class="kicker">Frequently Asked Questions</span>
+        <h2 class="title">Everything you need to know before visiting.</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>How many fittings does a bespoke suit require?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Most bespoke commissions include an initial cloth & measurement consultation, a basted canvas fitting, and a final press-and-collection fitting.</div></div>
+          </div><div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>Do you handle urgent wedding or black-tie alterations?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Yes — call +44 7979 000300 to check same-week turnaround slots for trousers, jacket sleeves, and waist suppression.</div></div>
+          </div><div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>Which cloth mills are available to inspect in person?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">We carry seasonal books in Super 130s Merino wool, Irish linen blends, and midnight barathea wool for eveningwear.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fitting">
+      <div class="container contact-grid">
+        <div class="panel reveal">
+          <span class="kicker">London Studio</span>
+          <h2 class="title" style="font-size:2.1rem;margin-bottom:14px;">Bespoke Tailor Studio</h2>
+          <div class="row"><span>Address</span><strong>58-60 Stamford St, London SE1 9LX, United Kingdom</strong></div>
+          <div class="row"><span>Phone</span><a href="tel:+447979000300"><strong>+44 7979 000300</strong></a></div>
+          <div class="row"><span>Hours</span><strong>Monday – Saturday: 9:00 AM – 7:00 PM · Sunday: Closed</strong></div>
+        </div>
+        <form class="panel reveal" id="fitForm">
+          <span class="kicker">Private Appointment</span>
+          <h2 class="title" style="font-size:2.1rem;margin-bottom:16px;">Request a fitting slot</h2>
+          <div class="field"><label for="tName">Full Name</label><input id="tName" type="text" required placeholder="Your name" /></div>
+          <div class="field">
+            <label for="tType">Commission Type</label>
+            <select id="tType">
+              <option>Bespoke Wedding Suit</option>
+              <option>Two-Piece Business Suit</option>
+              <option>Bespoke Jacket / Trousers</option>
+              <option>Tailoring Alterations</option>
+            </select>
+          </div>
+          <div class="field"><label for="tDate">Preferred Day</label><input id="tDate" type="text" placeholder="e.g., Thursday 5:30 PM" required /></div>
+          <button type="submit" class="btn btn-gold" style="width:100%;">Confirm Fitting Request</button>
+          <p id="fitNote" style="margin-top:10px;font-size:13px;color:var(--gold);"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>Bespoke Tailor Studio · 58-60 Stamford St, London SE1 9LX, UK</span>
+      <span>+44 7979 000300 · Mon–Sat 9:00 AM – 7:00 PM</span>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => obs.observe(el));
+
+    const cuts = {
+      wedding: {
+        title: 'Wedding & Formal Commissions',
+        desc: 'Cut from fine worsted wools and structured to drape cleanly across the shoulder, delivered ahead of your ceremony date with full basted fittings.',
+        img: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1200&q=85'
+      },
+      business: {
+        title: 'City Business Two-Piece',
+        desc: 'Breathable four-season British and Italian cloths tailored for long days between Canary Wharf, the City, and South Bank.',
+        img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=85'
+      },
+      alterations: {
+        title: 'Precision Garment Alterations',
+        desc: 'Jacket waist suppression, sleeve pitch adjustments, and trouser tapering executed with bespoke-level hand finishing.',
+        img: 'https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?auto=format&fit=crop&w=1200&q=85'
+      }
+    };
+
+    document.querySelectorAll('.tab').forEach((t) => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach((b) => b.classList.remove('active'));
+        t.classList.add('active');
+        const c = cuts[t.dataset.cut];
+        document.getElementById('cutTitle').textContent = c.title;
+        document.getElementById('cutDesc').textContent = c.desc;
+        document.getElementById('cutImg').src = c.img;
+      });
+    });
+
+    document.getElementById('fitForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('tName').value.trim();
+      const type = document.getElementById('tType').value;
+      const day = document.getElementById('tDate').value.trim();
+      document.getElementById('fitNote').textContent = `Thank you, ${name}. Fitting request logged for ${type} (${day}) — call +44 7979 000300 to confirm immediately.`;
+    });
+  </script>
+
+  <script>
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const ans = item.querySelector('.faq-a');
+        const isOpen = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        ans.style.maxHeight = isOpen ? ans.scrollHeight + 'px' : '0px';
+      });
+    });
+  </script>
+
+</body>
+</html>

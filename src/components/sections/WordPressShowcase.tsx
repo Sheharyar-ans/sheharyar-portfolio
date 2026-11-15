@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Globe, 
   Maximize2, 
   ArrowUpRight, 
+  ArrowRight,
   Layers, 
   Zap, 
   Sparkles, 
@@ -19,6 +21,8 @@ interface WordPressShowcaseProps {
   title?: string;
   subtitle?: string;
   filterCategory?: string;
+  maxItems?: number;
+  viewAllHref?: string;
 }
 
 const ProjectBrowserCard: React.FC<{
@@ -67,16 +71,15 @@ const ProjectBrowserCard: React.FC<{
           <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
         </div>
 
-        {/* Browser URL Pill */}
-        <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-1/90 border border-brand-border/50 text-[10px] font-mono text-brand-secondary truncate max-w-[180px] sm:max-w-[220px]">
+        {/* Category Badge Pill */}
+        <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-1/90 border border-brand-border/50 text-[10px] font-mono text-brand-secondary truncate max-w-[190px] sm:max-w-[230px]">
           <Globe size={10} className="text-accent shrink-0" />
-          <span className="truncate text-white/80">{project.domain}</span>
+          <span className="truncate text-white/80">{project.badge}</span>
         </div>
 
         {/* Status indicator */}
-        <div className="flex items-center gap-1 text-[10px] font-mono text-emerald-400 font-semibold shrink-0">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[10px]">LIVE</span>
+        <div className="flex items-center gap-1 text-[10px] font-mono text-accent font-semibold shrink-0">
+          <span className="text-[10px]">CASE STUDY</span>
         </div>
       </div>
 
@@ -217,6 +220,8 @@ export const WordPressShowcase: React.FC<WordPressShowcaseProps> = ({
   title = 'WORDPRESS CLIENT WEBSITES',
   subtitle = 'Interactive production layouts: Hover over any preview to auto-scroll the full page layout, or click for high-resolution inspection.',
   filterCategory,
+  maxItems,
+  viewAllHref,
 }) => {
   const [selectedProject, setSelectedProject] = useState<WordPressProject | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>('ALL');
@@ -289,8 +294,8 @@ export const WordPressShowcase: React.FC<WordPressShowcaseProps> = ({
         </div>
 
         {/* Responsive Grid of Interactive Mockup Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 max-w-6xl mx-auto">
-          {filteredProjects.map((project, idx) => (
+        <div className={`grid grid-cols-1 sm:grid-cols-2 ${maxItems === 4 ? 'lg:grid-cols-4 gap-5' : 'lg:grid-cols-3 gap-6 sm:gap-7 max-w-6xl mx-auto'}`}>
+          {(maxItems ? filteredProjects.slice(0, maxItems) : filteredProjects).map((project, idx) => (
             <ProjectBrowserCard
               key={project.id}
               project={project}
@@ -299,6 +304,18 @@ export const WordPressShowcase: React.FC<WordPressShowcaseProps> = ({
             />
           ))}
         </div>
+
+        {viewAllHref && (
+          <div className="mt-10 flex justify-center">
+            <Link
+              to={viewAllHref}
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-accent hover:bg-accent/90 text-black font-mono text-xs sm:text-sm font-bold tracking-wider uppercase transition-transform duration-200 hover:-translate-y-0.5 shadow-lg"
+            >
+              <span>Explore All {WORDPRESS_PROJECTS.length} Case Studies</span>
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+        )}
 
         {/* Bottom Assurance Note */}
         <div className="mt-12 p-6 rounded-2xl bg-surface-1/60 border border-brand-border/60 flex flex-col sm:flex-row items-center justify-between gap-4">

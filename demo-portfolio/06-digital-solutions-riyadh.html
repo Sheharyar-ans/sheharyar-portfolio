@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Solutions . شركه حلول رقميه — Alshaikh, Riyadh</title>
+  <meta name="description" content="Enterprise IT, digital infrastructure, and client support portal for Digital Solutions (شركه حلول رقميه) on Hassan bin Hussain Rd, Alshaikh, Riyadh." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy-deep: #0D1B2A;
+      --navy-surface: #1B263B;
+      --slate-blue: #415A77;
+      --mist-blue: #778DA9;
+      --ice-ink: #E0E1DD;
+      --ice-muted: #A9B6C6;
+      --border-line: rgba(224, 225, 221, 0.14);
+      --border-strong: rgba(224, 225, 221, 0.28);
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--navy-deep);
+      color: var(--ice-ink);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      overflow-x: clip;
+      line-height: 1.65;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(65, 90, 119, 0.22), transparent 42%),
+        radial-gradient(circle at 85% 24%, rgba(119, 141, 169, 0.14), transparent 36%),
+        var(--navy-deep);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--mist-blue);
+      outline-offset: 3px;
+    }
+
+    .container {
+      width: min(1240px, calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    /* Header */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 18px 0;
+      background: rgba(13, 27, 42, 0.78);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border-line);
+      transition: padding 0.3s var(--ease-out), background-color 0.3s ease;
+    }
+
+    .site-header.scrolled {
+      padding: 12px 0;
+      background: rgba(13, 27, 42, 0.94);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(145deg, var(--slate-blue), var(--navy-surface));
+      border: 1px solid var(--border-strong);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ice-ink);
+    }
+
+    .brand-meta strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .brand-meta span {
+      display: block;
+      font-size: 12px;
+      color: var(--ice-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--ice-muted);
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--ice-ink);
+    }
+
+    .header-cta {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform 0.25s var(--ease-out), background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .btn-primary {
+      background: var(--ice-ink);
+      color: var(--navy-deep);
+    }
+
+    .btn-primary:hover {
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: rgba(27, 38, 59, 0.65);
+      border-color: var(--border-strong);
+      color: var(--ice-ink);
+    }
+
+    .btn-outline:hover {
+      background: var(--slate-blue);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 140px 0 88px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .eyebrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: var(--navy-surface);
+      border: 1px solid var(--border-line);
+      font-size: 13px;
+      color: var(--ice-muted);
+      margin-bottom: 22px;
+    }
+
+    .eyebrow-pill strong {
+      color: var(--ice-ink);
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(2.9rem, 5.6vw, 4.9rem);
+      line-height: 1.04;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--mist-blue);
+    }
+
+    .hero-sub {
+      color: var(--ice-muted);
+      font-size: 17px;
+      max-width: 560px;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-line);
+      max-width: 560px;
+    }
+
+    .hero-metrics strong {
+      display: block;
+      font-size: 18px;
+    }
+
+    .hero-metrics span {
+      font-size: 13px;
+      color: var(--ice-muted);
+    }
+
+    .hero-portal-card {
+      background: var(--navy-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .portal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-line);
+    }
+
+    .portal-photo {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-line);
+    }
+
+    .portal-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .quick-channels {
+      display: grid;
+      gap: 10px;
+    }
+
+    .channel-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--navy-deep);
+      border: 1px solid var(--border-line);
+      font-size: 14px;
+      transition: border-color 0.25s ease, background-color 0.25s ease;
+    }
+
+    .channel-link:hover {
+      border-color: var(--mist-blue);
+      background: rgba(65, 90, 119, 0.22);
+    }
+
+    /* Sections */
+    section {
+      padding: 88px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 44px;
+    }
+
+    .section-kicker {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--mist-blue);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(2rem, 3.8vw, 3.1rem);
+      line-height: 1.08;
+    }
+
+    .section-desc {
+      max-width: 450px;
+      color: var(--ice-muted);
+      font-size: 15px;
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .about-photo {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-line);
+      aspect-ratio: 4 / 3;
+    }
+
+    .about-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .about-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .about-mini {
+      background: var(--navy-surface);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-md);
+      padding: 18px;
+    }
+
+    .about-mini strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .about-mini p {
+      font-size: 13px;
+      color: var(--ice-muted);
+    }
+
+    /* Interactive Service Desk Portal */
+    .portal-shell {
+      background: var(--navy-surface);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+    }
+
+    .portal-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .portal-tab {
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: var(--navy-deep);
+      border: 1px solid var(--border-line);
+      color: var(--ice-muted);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .portal-tab.active, .portal-tab:hover {
+      background: var(--ice-ink);
+      color: var(--navy-deep);
+    }
+
+    .portal-body {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .portal-visual {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-line);
+      aspect-ratio: 16 / 10;
+    }
+
+    .portal-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .portal-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin: 18px 0 24px;
+    }
+
+    .portal-list li {
+      display: flex;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--ice-ink);
+    }
+
+    .portal-list li::before {
+      content: '→';
+      color: var(--mist-blue);
+      font-weight: 700;
+    }
+
+    /* Case Studies / Environments */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .case-card {
+      background: var(--navy-surface);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.3s var(--ease-out), border-color 0.3s ease;
+    }
+
+    .case-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-strong);
+    }
+
+    .case-card img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
+    }
+
+    .case-body {
+      padding: 22px;
+    }
+
+    .case-body span {
+      font-size: 12px;
+      color: var(--mist-blue);
+      font-weight: 600;
+    }
+
+    .case-body h3 {
+      font-size: 18px;
+      margin: 6px 0 8px;
+    }
+
+    .case-body p {
+      font-size: 14px;
+      color: var(--ice-muted);
+    }
+
+    /* Reviews */
+    .review-card {
+      background: var(--navy-surface);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-md);
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .stars {
+      color: #f4c150;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+
+    /* FAQ */
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      max-width: 840px;
+    }
+
+    .faq-item {
+      background: var(--navy-surface);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .faq-btn {
+      width: 100%;
+      padding: 20px 24px;
+      background: transparent;
+      border: 0;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .faq-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s var(--ease-out);
+    }
+
+    .faq-item.open .faq-panel {
+      max-height: 220px;
+    }
+
+    .faq-panel p {
+      padding: 0 24px 20px;
+      color: var(--ice-muted);
+      font-size: 14px;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 32px;
+    }
+
+    .panel-box {
+      background: var(--navy-surface);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+    }
+
+    .info-item {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-line);
+    }
+
+    .info-item:last-child {
+      border-bottom: 0;
+    }
+
+    .info-item span {
+      display: block;
+      font-size: 12px;
+      color: var(--ice-muted);
+      margin-bottom: 4px;
+    }
+
+    .info-item strong, .info-item a {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .form-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: var(--ice-muted);
+      margin-bottom: 6px;
+    }
+
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--navy-deep);
+      border: 1px solid var(--border-line);
+      font-size: 14px;
+    }
+
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--mist-blue);
+      outline: none;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-line);
+      padding: 36px 0;
+      color: var(--ice-muted);
+      font-size: 13px;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 960px) {
+      .nav-links {
+        display: none;
+      }
+      .hero-grid, .about-grid, .portal-body, .contact-grid, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .about-cards, .hero-metrics {
+        grid-template-columns: 1fr;
+      }
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="header">
+    <div class="container header-inner">
+      <a href="#top" class="brand">
+        <div class="brand-icon">DS</div>
+        <div class="brand-meta">
+          <strong>Digital Solutions . شركه حلول رقميه</strong>
+          <span>Information Services · Alshaikh, Riyadh</span>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#about">Overview</a></li>
+          <li><a href="#portal">Service Portal</a></li>
+          <li><a href="#capabilities">Capabilities</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#contact">Support Desk</a></li>
+        </ul>
+      </nav>
+      <div class="header-cta">
+        <a href="tel:+966557227250" class="btn btn-outline">+966 55 722 7250</a>
+        <a href="https://wa.me/966557227250" target="_blank" rel="noopener" class="btn btn-primary">Client Support</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow-pill">
+            <strong>Riyadh Technology Desk</strong>
+            <span>Hassan bin Hussain Rd, Alshaikh · 3.8 ★ (6 Google Reviews)</span>
+          </div>
+          <h1>Digital infrastructure &amp; <em>direct client</em> systems.</h1>
+          <p class="hero-sub">
+            Digital Solutions (شركه حلول رقميه) connects Riyadh organizations with dependable information services, system integration, and a live online support desk — open Sunday through Thursday.
+          </p>
+          <div class="hero-actions">
+            <a href="#portal" class="btn btn-primary">Open Service Portal</a>
+            <a href="#contact" class="btn btn-outline">Contact Support Team</a>
+          </div>
+          <div class="hero-metrics">
+            <div>
+              <strong>Alshaikh, Riyadh</strong>
+              <span>Hassan bin Hussain Rd 13245</span>
+            </div>
+            <div>
+              <strong>Sun – Thu</strong>
+              <span>9:00 AM – 6:00 PM</span>
+            </div>
+            <div>
+              <strong>Direct Desk</strong>
+              <span>Phone &amp; WhatsApp +966</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-portal-card reveal">
+          <div class="portal-top">
+            <div>
+              <strong style="display:block;">Official Online Portal</strong>
+              <span style="font-size:12px;color:var(--ice-muted);">شركه حلول رقميه · Riyadh</span>
+            </div>
+            <span style="font-size:12px;padding:5px 10px;border-radius:999px;background:rgba(119,141,169,0.2);color:var(--ice-ink);">Direct Access</span>
+          </div>
+          <div class="portal-photo">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85" alt="Enterprise server infrastructure and fiber connectivity" />
+          </div>
+          <div class="quick-channels">
+            <a href="https://wa.me/966557227250" target="_blank" rel="noopener" class="channel-link">
+              <span>WhatsApp Customer Service</span>
+              <strong>+966 55 722 7250 →</strong>
+            </a>
+            <a href="tel:+966557227250" class="channel-link">
+              <span>Direct Office Line (Sun–Thu)</span>
+              <strong>Call Now →</strong>
+            </a>
+            <a href="#contact" class="channel-link">
+              <span>Submit Service Ticket Online</span>
+              <strong>Open Form →</strong>
+            </a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container about-grid">
+        <div class="about-photo reveal">
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85" alt="Technology specialists collaborating on digital systems" />
+        </div>
+        <div class="reveal">
+          <span class="section-kicker">About Digital Solutions</span>
+          <h2 class="section-title">Built for clarity, uptime, and responsive service.</h2>
+          <p style="color:var(--ice-muted);margin-top:16px;">
+            Located on Hassan bin Hussain Rd in Alshaikh, Riyadh, Digital Solutions (شركه حلول رقميه) provides practical information technology and digital workflow services for local enterprises. This portal gives every client an immediate, transparent channel to reach our team during business hours.
+          </p>
+          <div class="about-cards">
+            <div class="about-mini">
+              <strong>Co-operative Support</strong>
+              <p>Direct human assistance for onboarding, troubleshooting, and account coordination.</p>
+            </div>
+            <div class="about-mini">
+              <strong>Riyadh Business Hours</strong>
+              <p>Dedicated Sunday–Thursday engineering and service desk from 9:00 AM to 6:00 PM.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portal">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="section-kicker">Interactive Service Directory</span>
+            <h2 class="section-title">Choose the solution you need.</h2>
+          </div>
+          <p class="section-desc">
+            Select a track below to review scope, deliverables, and connect directly with our Riyadh office.
+          </p>
+        </div>
+
+        <div class="portal-shell reveal">
+          <div class="portal-tabs" role="tablist">
+            <button class="portal-tab active" data-track="systems" role="tab" aria-selected="true">Information Systems</button>
+            <button class="portal-tab" data-track="cloud" role="tab" aria-selected="false">Cloud &amp; Network</button>
+            <button class="portal-tab" data-track="support" role="tab" aria-selected="false">Managed Client Desk</button>
+          </div>
+
+          <div class="portal-body">
+            <div class="portal-visual">
+              <img id="trackImg" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85" alt="Digital analytics dashboard and enterprise reporting" />
+            </div>
+            <div>
+              <h3 id="trackTitle" style="font-family:var(--font-display);font-size:34px;font-weight:400;">Enterprise Information Systems</h3>
+              <p id="trackDesc" style="color:var(--ice-muted);margin-top:10px;">
+                Structured data portals, internal operations dashboards, and tailored software integrations designed for growing Saudi businesses.
+              </p>
+              <ul class="portal-list" id="trackList">
+                <li>Custom client portals and operational workflow automation</li>
+                <li>Secure database architecture and role-based access</li>
+                <li>Direct Riyadh engineering coordination (Sun–Thu)</li>
+              </ul>
+              <a id="trackCta" href="https://wa.me/966557227250?text=Hello%20Digital%20Solutions%2C%20I%20would%20like%20to%20discuss%20Enterprise%20Information%20Systems." target="_blank" rel="noopener" class="btn btn-primary">Discuss This Solution</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="capabilities">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="section-kicker">Core Capabilities</span>
+            <h2 class="section-title">Practical technology, delivered cleanly.</h2>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <article class="case-card reveal">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=85" alt="Connected digital network infrastructure" />
+            <div class="case-body">
+              <span>Infrastructure</span>
+              <h3>Network &amp; Server Readiness</h3>
+              <p>Reliable office connectivity, structured backups, and hardened access control for Riyadh teams.</p>
+            </div>
+          </article>
+
+          <article class="case-card reveal">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=85" alt="Software workspace and digital collaboration" />
+            <div class="case-body">
+              <span>Digital Platforms</span>
+              <h3>Web &amp; Client Portals</h3>
+              <p>Modern, responsive interfaces that give customers instant access to support, documentation, and bookings.</p>
+            </div>
+          </article>
+
+          <article class="case-card reveal">
+            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=900&q=85" alt="Security and operations monitoring" />
+            <div class="case-body">
+              <span>Continuity</span>
+              <h3>Dedicated Support Desk</h3>
+              <p>Clear escalation paths by phone, WhatsApp, and online ticket submission during Saudi workdays.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="section-kicker">Google Maps Feedback</span>
+            <h2 class="section-title">Client voices from Riyadh.</h2>
+          </div>
+          <p class="section-desc">
+            Rated 3.8 ★ across 6 Google Maps reviews — now backed by a dedicated online customer service portal.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="review-card reveal">
+            <div>
+              <div class="stars">★★★★★</div>
+              <p style="margin-top:14px;">&ldquo;Co-operative and great service.&rdquo;</p>
+            </div>
+            <div>
+              <strong style="display:block;font-size:14px;">Faten Aldosari</strong>
+              <span style="font-size:12px;color:var(--ice-muted);">Verified Google Review · 6 reviews</span>
+            </div>
+          </article>
+
+          <article class="review-card reveal">
+            <div>
+              <div class="stars">★★★★★</div>
+              <p style="margin-top:14px;">5-star customer rating for service delivery and responsiveness in Riyadh.</p>
+            </div>
+            <div>
+              <strong style="display:block;font-size:14px;">maha alotaibi</strong>
+              <span style="font-size:12px;color:var(--ice-muted);">Verified Google Review · 5 reviews</span>
+            </div>
+          </article>
+
+          <article class="review-card reveal">
+            <div>
+              <div class="stars" style="color:var(--mist-blue);">Direct Portal</div>
+              <p style="margin-top:14px;">Instant online contact, transparent office hours, and one-click WhatsApp support for every client inquiry.</p>
+            </div>
+            <div>
+              <strong style="display:block;font-size:14px;">Digital Solutions Desk</strong>
+              <span style="font-size:12px;color:var(--ice-muted);">Alshaikh, Riyadh 13245</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="section-kicker">FAQ</span>
+            <h2 class="section-title">Quick answers for clients.</h2>
+          </div>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item open">
+            <button class="faq-btn" aria-expanded="true">
+              <span>How can I reach Digital Solutions customer service?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-panel">
+              <p>You can call or message +966 55 722 7250 directly, or submit a ticket in the Support Desk form below for immediate routing.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>Where is your Riyadh office located?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-panel">
+              <p>Hassan bin Hussain Rd, Alshaikh, Riyadh 13245, Saudi Arabia.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-btn" aria-expanded="false">
+              <span>What are your working days and hours?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-panel">
+              <p>Sunday through Thursday, 9:00 AM to 6:00 PM. Closed Friday and Saturday.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container contact-grid">
+        <div class="panel-box reveal">
+          <span class="section-kicker">Riyadh Headquarters</span>
+          <h2 class="section-title" style="font-size:2.2rem;margin-bottom:14px;">Digital Solutions . شركه حلول رقميه</h2>
+          <div class="info-item">
+            <span>Address</span>
+            <strong>Hassan bin Hussain Rd, Alshaikh, Riyadh 13245, Saudi Arabia</strong>
+          </div>
+          <div class="info-item">
+            <span>Phone &amp; WhatsApp</span>
+            <a href="tel:+966557227250">+966 55 722 7250</a>
+          </div>
+          <div class="info-item">
+            <span>Business Hours</span>
+            <strong>Sunday – Thursday: 9:00 AM – 6:00 PM · Fri–Sat: Closed</strong>
+          </div>
+          <div class="info-item">
+            <span>Category</span>
+            <strong>Information Services &amp; Technology Solutions</strong>
+          </div>
+        </div>
+
+        <form class="panel-box reveal" id="supportForm">
+          <span class="section-kicker">Online Support Desk</span>
+          <h2 class="section-title" style="font-size:2.2rem;margin-bottom:18px;">Send an inquiry</h2>
+          <div class="form-stack">
+            <div class="field">
+              <label for="orgName">Company or Full Name</label>
+              <input id="orgName" type="text" placeholder="Your organization name" required />
+            </div>
+            <div class="field">
+              <label for="topic">Inquiry Type</label>
+              <select id="topic">
+                <option value="Information Systems Consultation">Information Systems Consultation</option>
+                <option value="Cloud & Network Support">Cloud &amp; Network Support</option>
+                <option value="Customer Service Ticket">Customer Service Ticket</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="details">Project or Support Details</label>
+              <textarea id="details" rows="3" placeholder="Briefly describe what you need..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Submit via WhatsApp Desk</button>
+            <p id="supportNote" style="font-size:13px;color:var(--mist-blue);min-height:18px;"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>Digital Solutions . شركه حلول رقميه · Hassan bin Hussain Rd, Alshaikh, Riyadh 13245</span>
+      <span>+966 55 722 7250 · Sun–Thu 9:00 AM – 6:00 PM</span>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 36);
+    }, { passive: true });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    const tracks = {
+      systems: {
+        title: 'Enterprise Information Systems',
+        desc: 'Structured data portals, internal operations dashboards, and tailored software integrations designed for growing Saudi businesses.',
+        img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85',
+        list: [
+          'Custom client portals and operational workflow automation',
+          'Secure database architecture and role-based access',
+          'Direct Riyadh engineering coordination (Sun–Thu)'
+        ],
+        cta: 'Enterprise Information Systems'
+      },
+      cloud: {
+        title: 'Cloud & Network Infrastructure',
+        desc: 'Resilient cloud migration, office network architecture, and automated backup policies engineered for zero-drama uptime.',
+        img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85',
+        list: [
+          'Structured office networking and encrypted remote access',
+          'Automated cloud backup and disaster recovery planning',
+          'Scalable infrastructure tailored to team headcount'
+        ],
+        cta: 'Cloud & Network Infrastructure'
+      },
+      support: {
+        title: 'Managed Client Support Desk',
+        desc: 'Fast, accountable technical support with direct phone and WhatsApp channels during Riyadh business hours.',
+        img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85',
+        list: [
+          'Direct line on +966 55 722 7250 (Sun–Thu, 9 AM – 6 PM)',
+          'Co-operative troubleshooting and account follow-through',
+          'Clear ticketing and onboarding documentation'
+        ],
+        cta: 'Managed Client Support Desk'
+      }
+    };
+
+    document.querySelectorAll('.portal-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.portal-tab').forEach((t) => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        const data = tracks[tab.dataset.track];
+        document.getElementById('trackTitle').textContent = data.title;
+        document.getElementById('trackDesc').textContent = data.desc;
+        document.getElementById('trackImg').src = data.img;
+        document.getElementById('trackList').innerHTML = data.list.map((i) => `<li>${i}</li>`).join('');
+        document.getElementById('trackCta').href = `https://wa.me/966557227250?text=${encodeURIComponent(`Hello Digital Solutions, I would like to discuss ${data.cta}.`)}`;
+      });
+    });
+
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const open = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    });
+
+    document.getElementById('supportForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const org = document.getElementById('orgName').value.trim();
+      const topic = document.getElementById('topic').value;
+      const details = document.getElementById('details').value.trim();
+      const text = `Hello Digital Solutions (شركه حلول رقميه), Inquiry from ${org} | Topic: ${topic} | Details: ${details}`;
+      document.getElementById('supportNote').textContent = 'Opening WhatsApp Support Desk...';
+      window.open(`https://wa.me/966557227250?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    });
+  </script>
+</body>
+</html>

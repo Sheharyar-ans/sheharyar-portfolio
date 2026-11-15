@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Olson Defendorf Custom Homes — Westlake &amp; Austin, TX</title>
+  <meta name="description" content="4.6-star luxury custom home builder at 3355 Bee Caves Rd #501, Austin, TX 78746. Architectural plan review, budget transparency, and Hill Country builds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --u: min(calc(100vw / 1600), calc(100vh / 900));
+      --k: 1; --k2: 1; --dip: 0;
+      --ink: color-mix(in srgb, #14202f calc((1 - var(--k)) * 100%), #ffffff);
+      --nav: color-mix(in srgb, #1b2736 calc((1 - var(--k)) * 100%), #eef1f6);
+      --soft: color-mix(in srgb, #1b2736 calc((1 - var(--k)) * 100%), #dfe5ee);
+      --bg: #0f1216; --surface: #171c22; --bronze: #c59b62; --muted: #9aa3b0; --line: rgba(255,255,255,0.12);
+      --font-sans: 'Instrument Sans', system-ui, sans-serif; --font-display: 'Instrument Serif', Georgia, serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--bg); color: #f4f1ea; font-family: var(--font-sans); }
+    body { overflow-x: clip; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; color: inherit; }
+    button { background: none; border: 0; cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--bronze); outline-offset: 3px; }
+
+    .hero { position: relative; height: 100svh; min-height: 620px; overflow: hidden; isolation: isolate; background: #0f1216; }
+    .layer, .layer img { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .layer img { display: block; object-fit: cover; object-position: 50% 60%; }
+    .sky img { filter: blur(calc(12 * var(--u))) brightness(0.76); transform: scale(1.08); }
+    #skyN { opacity: var(--k); }
+    .home { will-change: transform; transform: translate3d(0, var(--sink, 0px), 0); }
+    .home .set { position: absolute; inset: 0; visibility: hidden; }
+    .home .set.is-on { visibility: visible; }
+    .home .set::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,18,22,0.45) 0%, rgba(15,18,22,0.14) 50%, rgba(15,18,22,0.68) 100%); }
+    .tilt { position: absolute; inset: 0; pointer-events: none; -webkit-backdrop-filter: blur(calc(7 * var(--u))); backdrop-filter: blur(calc(7 * var(--u))); -webkit-mask-image: linear-gradient(transparent 72%, #000 94%); mask-image: linear-gradient(transparent 72%, #000 94%); }
+    #fog { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+    .ui { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+    .ui a, .ui button { pointer-events: auto; }
+    .bar { width: 100%; display: flex; align-items: center; padding: calc(22 * var(--u)) calc(38 * var(--u)) 0; color: var(--nav); }
+    .logo { display: flex; align-items: center; gap: calc(10 * var(--u)); font-size: calc(19 * var(--u)); font-weight: 600; color: var(--ink); flex: 1 1 0; }
+    .links { display: flex; gap: calc(36 * var(--u)); list-style: none; font-size: calc(16 * var(--u)); font-weight: 500; opacity: calc(1 - var(--dip) * .82); }
+    .side { flex: 1 1 0; display: flex; align-items: center; justify-content: flex-end; gap: calc(24 * var(--u)); font-size: calc(15 * var(--u)); font-weight: 500; }
+    .cta { display: inline-flex; align-items: center; height: calc(44 * var(--u)); padding: 0 calc(24 * var(--u)); border-radius: 99px; background: color-mix(in srgb, #0d1117 calc((1 - var(--k)) * 100%), #fff); color: color-mix(in srgb, #fff calc((1 - var(--k)) * 100%), #0d1117); font-weight: 600; opacity: calc(1 - var(--dip) * .62); }
+
+    h1.hero-title { margin-top: calc(54 * var(--u)); text-align: center; font-size: calc(58 * var(--u)); line-height: 1.07; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); max-width: calc(960 * var(--u)); padding: 0 20px; }
+    h1.hero-title span { display: block; }
+    h1.hero-title .l1, h1.hero-title .y { opacity: calc(1 - var(--dip) * .8); }
+    h1.hero-title i { font-style: normal; color: color-mix(in srgb, #14202f calc((1 - var(--k2)) * 42%), color-mix(in srgb, #fff calc(var(--k2) * 100%), #7c8794)); }
+    h1.hero-title .y { display: inline; }
+
+    .dock { margin-top: auto; padding-bottom: calc(38 * var(--u)); display: flex; flex-direction: column; align-items: center; }
+    .toggle { position: relative; display: grid; grid-template-columns: 1fr 1fr; width: calc(500 * var(--u)); height: calc(82 * var(--u)); padding: calc(3 * var(--u)); border-radius: calc(16 * var(--u)); overflow: hidden; background: rgba(120,132,140,.34); border: 1px solid rgba(255,255,255,.24); -webkit-backdrop-filter: blur(calc(14 * var(--u))); backdrop-filter: blur(calc(14 * var(--u))); }
+    .toggle button { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(2 * var(--u)); border-radius: calc(13 * var(--u)); overflow: hidden; }
+    .toggle button:before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(160deg, #f7f4dc, #e5c67b 90%); box-shadow: inset 0 0 calc(18 * var(--u)) rgba(255,255,255,.65); opacity: var(--on); }
+    .toggle b, .toggle small { position: relative; color: color-mix(in srgb, #1c2316 calc(var(--on) * 100%), #fff); }
+    .toggle b { font-size: calc(21 * var(--u)); font-weight: 600; }
+    .toggle small { font-size: calc(14 * var(--u)); opacity: .78; }
+    #bm { --on: calc(1 - var(--k)); }
+    #bn { --on: var(--k); }
+    .cap { margin-top: calc(18 * var(--u)); text-align: center; font-size: calc(15.5 * var(--u)); color: var(--soft); max-width: 640px; padding: 0 20px; }
+
+    .container { width: min(1240px, calc(100% - 40px)); margin-inline: auto; }
+    section.band { padding: 88px 0; border-top: 1px solid var(--line); }
+    .kicker { display: block; font-size: 13px; font-weight: 600; color: var(--bronze); margin-bottom: 8px; }
+    .sec-title { font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.3rem); font-weight: 400; line-height: 1.08; margin-bottom: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 32px; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+    .card img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+    .card-body { padding: 24px; }
+    .card-body p { font-size: 14px; color: var(--muted); }
+    .tabs-box { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 36px; margin-top: 32px; }
+    .tab-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+    .tab-pill { padding: 10px 20px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--muted); font-size: 14px; font-weight: 600; }
+    .tab-pill.active { background: var(--bronze); color: #0f1216; border-color: var(--bronze); }
+    .tab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+    .tab-grid img { width: 100%; border-radius: 14px; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+    .contact-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 32px; }
+    .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 32px; }
+    .info-row { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .info-row:last-child { border-bottom: 0; }
+    .info-row span { display: block; font-size: 12px; color: var(--muted); }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .field input, .field select { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); }
+    .btn-bronze { width: 100%; padding: 13px 22px; border-radius: 999px; background: var(--bronze); color: #0f1216; font-weight: 700; }
+    footer { padding: 34px 0; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; }
+    @media (max-width: 820px) { :root { --u: 1px; } .bar { padding: 16px 16px 0; } .links, .side > a:first-child { display: none; } h1.hero-title { margin-top: 34px; font-size: clamp(32px, 9.5vw, 52px); } .toggle { width: 100%; max-width: 420px; height: 74px; } .grid-3, .tab-grid, .contact-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="layer sky">
+      <img id="skyM" alt="" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=75" />
+      <img id="skyN" alt="" src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1600&q=75" />
+    </div>
+    <div class="layer home">
+      <div class="set" id="setM"><img alt="Austin custom home in morning sun" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=85" /></div>
+      <div class="set is-on" id="setN"><img alt="Austin custom home in evening glow" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=85" /></div>
+    </div>
+    <div class="tilt"></div>
+    <canvas id="fog" aria-hidden="true"></canvas>
+    <div class="ui">
+      <header class="bar">
+        <a class="logo" href="#top"><span>Olson Defendorf Custom Homes</span></a>
+        <ul class="links"><li><a href="#portfolio">Residences</a></li><li><a href="#process">Build Process</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#contact">Westlake Office</a></li></ul>
+        <div class="side"><a href="tel:+15122436508">(512) 243-6508</a><a class="cta" href="#contact">Plan Review</a></div>
+      </header>
+      <h1 class="hero-title"><span class="l1">Westlake &amp; Spanish Oaks</span><span><i>Custom</i> <span class="y">Architecture</span></span></h1>
+      <div class="dock">
+        <div class="toggle" role="group" aria-label="Time of day">
+          <button id="bm" aria-pressed="false"><b>Morning</b><small>Hill Country Light</small></button>
+          <button id="bn" aria-pressed="true"><b>Night</b><small>Warm Evening Glow</small></button>
+        </div>
+        <p class="cap">4.6 ★ (22 Google Reviews) · 3355 Bee Caves Rd #501, Austin, TX 78746</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="portfolio">
+    <div class="container">
+      <span class="kicker">Signature Austin Residences</span>
+      <h2 class="sec-title">Crafted for Westlake, Spanish Oaks &amp; Austin hills.</h2>
+      <div class="grid-3">
+        <article class="card"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=85" alt="Spanish Oaks living room" /><div class="card-body"><h3>Architectural Plan Integration</h3><p>Pre-construction plan reviews with your architect to optimize structure and material budgets.</p></div></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=85" alt="Custom kitchen pavilion" /><div class="card-body"><h3>Transparent Budget Discipline</h3><p>Line-item allowances and disciplined schedule reporting from groundbreaking to move-in.</p></div></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=85" alt="Custom courtyard" /><div class="card-body"><h3>Dedicated Project Management</h3><p>Attentive on-site leadership praised by homeowners and Austin real estate brokers alike.</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="process">
+    <div class="container">
+      <span class="kicker">Build Methodology</span>
+      <h2 class="sec-title">Three disciplined phases.</h2>
+      <div class="tabs-box">
+        <div class="tab-row">
+          <button class="tab-pill active" data-p="pre">1. Pre-Construction</button>
+          <button class="tab-pill" data-p="build">2. Site Execution</button>
+          <button class="tab-pill" data-p="hand">3. Key Handover</button>
+        </div>
+        <div class="tab-grid">
+          <img id="pImg" src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=85" alt="Architectural blueprints" />
+          <div>
+            <h3 id="pTitle" style="font-family:var(--font-display);font-size:32px;font-weight:400;">Pre-Construction &amp; Plan Review</h3>
+            <p id="pDesc" style="color:var(--muted);margin-top:10px;">Our team evaluates architectural plans, topography, and realistic budgets before breaking ground.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="reviews">
+    <div class="container">
+      <span class="kicker">Verified Austin Reviews</span>
+      <h2 class="sec-title">Trusted by families &amp; brokers.</h2>
+      <div class="grid-3">
+        <article class="card"><div class="card-body"><div style="color:var(--bronze);margin-bottom:8px;">★★★★★</div><p>&ldquo;Olson Defendorf recently finished building our custom home in Spanish Oaks... From the pre-construction phase where they reviewed our architectural plans, to helping us stay within our budget, the process was very smooth.&rdquo;</p><strong style="display:block;margin-top:12px;font-size:14px;">eddy patterson</strong></div></article>
+        <article class="card"><div class="card-body"><div style="color:var(--bronze);margin-bottom:8px;">★★★★★</div><p>&ldquo;Olson Defendorf built the house that we are living in currently and they did a fantastic job. As a real estate broker... I would definitely recommend Olson Defendorf.&rdquo;</p><strong style="display:block;margin-top:12px;font-size:14px;">Austin Fine Properties</strong></div></article>
+        <article class="card"><div class="card-body"><div style="color:var(--bronze);margin-bottom:8px;">4.6 ★ (22)</div><p>Open Monday–Friday 8:00 AM – 5:00 PM at 3355 Bee Caves Rd #501, Austin, TX 78746.</p><strong style="display:block;margin-top:12px;font-size:14px;">Westlake, Austin</strong></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="contact">
+    <div class="container contact-grid">
+      <div class="panel">
+        <span class="kicker">Austin Office</span>
+        <h2 class="sec-title" style="font-size:2.1rem;">Olson Defendorf Custom Homes</h2>
+        <div class="info-row"><span>Address</span><strong>3355 Bee Caves Rd #501, Austin, TX 78746</strong></div>
+        <div class="info-row"><span>Phone</span><a href="tel:+15122436508"><strong>+1 512-243-6508</strong></a></div>
+        <div class="info-row"><span>Hours</span><strong>Mon–Fri: 8:00 AM – 5:00 PM · Sat–Sun: Closed</strong></div>
+      </div>
+      <form class="panel" id="odForm">
+        <span class="kicker">Project Intake</span>
+        <h2 class="sec-title" style="font-size:2.1rem;margin-bottom:16px;">Discuss your lot or plans</h2>
+        <div class="field"><label for="odName">Full Name</label><input id="odName" type="text" required placeholder="Your name" /></div>
+        <div class="field"><label for="odStage">Stage</label><select id="odStage"><option>Architectural Plans Ready</option><option>Own Lot — Seeking Builder</option><option>Evaluating Austin Lots</option></select></div>
+        <button type="submit" class="btn-bronze">Request Pre-Construction Call</button>
+        <p id="odMsg" style="margin-top:10px;font-size:13px;color:var(--bronze);"></p>
+      </form>
+    </div>
+  </section>
+
+  <footer><div class="container footer-inner"><span>Olson Defendorf Custom Homes · 3355 Bee Caves Rd #501, Austin, TX 78746</span><span>+1 512-243-6508 · Mon–Fri 8 AM – 5 PM</span></div></footer>
+
+  <script>
+    const root=document.documentElement.style,$=id=>document.getElementById(id);
+    const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    const SINK=240,RISE=820,DEPTH=.27;
+    const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+    const smooth=(a,b,x)=>{x=clamp((x-a)/(b-a));return x*x*(3-2*x)};
+    let night=1,target=1,from=1,start=-1e9,queued=null,swapped=true,k=1,animating=false,clock=0;
+    const cv=$('fog'),gl=cv.getContext('webgl2',{alpha:true,premultipliedAlpha:true,antialias:false});
+    let U={};
+    if(gl){
+      const vs=`#version 300 es\nvoid main(){vec2 p=vec2((gl_VertexID<<1)&2,gl_VertexID&2);gl_Position=vec4(p*2.-1.,0,1);}`;
+      const fs=`#version 300 es\nprecision highp float;\nuniform vec2 R;uniform float T,S,K;out vec4 O;\nfloat h(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}\nfloat n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}\nfloat fbm(vec2 p){float a=.5,s=0.;mat2 m=mat2(1.6,1.2,-1.2,1.6);p=mat2(.8,.6,-.6,.8)*p+5.3;for(int i=0;i<5;i++){s+=a*n(p);p=m*p;a*=.5;}return s;}\nvoid main(){vec2 uv=gl_FragCoord.xy/R;uv.y=1.-uv.y;float asp=R.x/R.y;vec2 p=vec2(uv.x*asp,uv.y);float t=T*.05;vec2 w=vec2(fbm(p*1.3+vec2(t,-t*.6)),fbm(p*1.3+vec2(-t*.8,t)+7.));float d=fbm(p*1.9+w*1.7+vec2(t*1.6,-t*1.1+S*.5));float e=fbm(p*.9-w+vec2(-t,t*.5)+3.);float low=smoothstep(.70,1.04,uv.y+(d-.5)*.34);float side=smoothstep(.2,.0,uv.x+(e-.5)*.28)+smoothstep(.8,1.,uv.x+(e-.5)*.28);side*=smoothstep(.25,.6,uv.y)*.2;float wisps=smoothstep(.5,.78,d)*smoothstep(.22,.5,uv.y)*smoothstep(.86,.6,uv.y)*.18;float rest=clamp(low+side+wisps,0.,1.);float front=1.02-S*.68;float rise=smoothstep(front-.02,front+.26,uv.y+(d-.5)*.5);float haze=S*(.3+.46*d);float a=clamp(max(rest,max(rise*.97,haze)),0.,1.);vec3 dayA=vec3(.97,.93,.84),dayB=vec3(.79,.78,.71),nitA=vec3(.40,.45,.57),nitB=vec3(.15,.19,.29);vec3 c=mix(mix(dayB,dayA,d*1.15),mix(nitB,nitA,d*1.1),K);float porch=exp(-dot((uv-vec2(.72,.74))*vec2(1.7,2.6),(uv-vec2(.72,.74))*vec2(1.7,2.6))*3.2);c=mix(c,vec3(.86,.55,.27),K*porch*.42*(1.-S));O=vec4(c*a,a);}`;
+      const sh=(t,s)=>{const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o};
+      const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
+      for(const u of['R','T','S','K'])U[u]=gl.getUniformLocation(pr,u);
+    }
+    function size(){if(!gl)return;const w=Math.round(Math.min(innerWidth,960)),h=Math.round(w*innerHeight/innerWidth);if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;gl.viewport(0,0,w,h)}}
+    addEventListener('resize',size);size();
+    function show(n){$('setM').classList.toggle('is-on',!n);$('setN').classList.toggle('is-on',!!n)}
+    function pick(n){if(n===target&&queued===null)return;$('bm').setAttribute('aria-pressed',!n);$('bn').setAttribute('aria-pressed',!!n);if(calm){target=night=n;k=n;show(n);return}if(animating)queued=n;else begin(n,clock)}
+    function begin(n,now){target=n;from=k;start=now;swapped=false;animating=true}
+    $('bm').onclick=()=>pick(0);$('bn').onclick=()=>pick(1);
+    function frame(now){
+      clock=now;const d=now-start;let y=0,s=0,dip=0,k2=k;
+      if(animating){
+        if(d<SINK){const x=d/SINK;y=x*x*(3-2*x)*DEPTH}
+        else{if(!swapped){swapped=true;night=target;show(target)}const x=clamp((d-SINK)/RISE);y=Math.pow(1-x,3.4)*DEPTH}
+        s=smooth(0,SINK*.92,d)*(1-smooth(SINK+70,SINK+RISE*.92,d));
+        dip=smooth(30,190,d)*(1-smooth(330,720,d));
+        k=from+(target-from)*smooth(120,520,d);k2=from+(target-from)*smooth(340,760,d);
+        if(d>=SINK+RISE){animating=false;k=k2=target;y=s=dip=0;if(queued!==null&&queued!==target){const q=queued;queued=null;begin(q,now)}else queued=null}
+      }
+      root.setProperty('--sink',(y*innerHeight).toFixed(1)+'px');root.setProperty('--k',k.toFixed(3));root.setProperty('--k2',k2.toFixed(3));root.setProperty('--dip',dip.toFixed(3));
+      if(gl){gl.uniform2f(U.R,cv.width,cv.height);gl.uniform1f(U.T,now/1000);gl.uniform1f(U.S,s);gl.uniform1f(U.K,k);gl.drawArrays(gl.TRIANGLES,0,3)}
+    }
+    function loop(t){frame(t);requestAnimationFrame(loop)}
+    requestAnimationFrame(loop);
+
+    const phases={pre:{t:'Pre-Construction & Plan Review',d:'Our team evaluates architectural plans, topography, and realistic budgets before breaking ground.',i:'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=85'},build:{t:'Dedicated Site Execution',d:'Your project manager oversees vetted Austin trades and weekly walkthroughs.',i:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85'},hand:{t:'Final Walkthrough & Care',d:'Every detail is verified before key handover, backed by responsive support.',i:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85'}};
+    document.querySelectorAll('.tab-pill').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab-pill').forEach(x=>x.classList.remove('active'));b.classList.add('active');const v=phases[b.dataset.p];$('pTitle').textContent=v.t;$('pDesc').textContent=v.d;$('pImg').src=v.i;});
+    $('odForm').onsubmit=e=>{e.preventDefault();$('odMsg').textContent=`Received for ${$('odName').value.trim()} (${$('odStage').value}). Call (512) 243-6508 Mon–Fri 8–5.`;};
+  </script>
+</body>
+</html>

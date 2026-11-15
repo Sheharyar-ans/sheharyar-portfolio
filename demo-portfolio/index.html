@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Client Pitch Hub — 24 Real Businesses Across 10 Countries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0d11;
+      --surface: #13161d;
+      --card: #181c25;
+      --accent: #e09f3e;
+      --ink: #f4f1ea;
+      --muted: #9ca3af;
+      --line: rgba(244, 241, 234, 0.12);
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); color: var(--ink); font-family: var(--font-sans); }
+    body { overflow-x: clip; line-height: 1.6; padding: 48px 0 84px; }
+    .container { width: min(1320px, calc(100% - 40px)); margin-inline: auto; }
+    h1 { font-family: var(--font-display); font-size: clamp(2.6rem, 5vw, 4.4rem); font-weight: 400; line-height: 1.04; margin-bottom: 14px; }
+    h1 em { font-style: italic; color: var(--accent); }
+    .lead { color: var(--muted); max-width: 720px; font-size: 16px; margin-bottom: 28px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .filter-btn {
+      padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line);
+      background: var(--surface); color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .filter-btn.active, .filter-btn:hover { background: var(--accent); color: #0b0d11; border-color: var(--accent); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 24px;
+      display: flex; flex-direction: column; justify-content: space-between; gap: 16px;
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 12px; color: var(--accent); font-weight: 600; }
+    .card h2 { font-size: 19px; line-height: 1.3; margin-top: 6px; }
+    .meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .audit {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+      padding: 12px 14px; font-size: 13px; color: #d6d9e0;
+    }
+    .audit strong { color: #f59e0b; display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .card-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+    .open-btn {
+      display: inline-flex; align-items: center; justify-content: center; padding: 9px 18px;
+      border-radius: 999px; background: var(--ink); color: var(--bg); font-size: 13px; font-weight: 700; text-decoration: none;
+    }
+    .open-btn:hover { background: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Global 10-Country <em>Client Pitch</em> Portfolio.</h1>
+    <p class="lead">
+      24 real businesses verified on Google Maps across all 10 markets offered on our website — each audited for missing, dead, 404, or outdated websites and rebuilt as a production-ready landing page.
+    </p>
+
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-country="all">All Markets (24)</button>
+      <button class="filter-btn" data-country="sa">Saudi Arabia (6)</button>
+      <button class="filter-btn" data-country="usa">USA (2)</button>
+      <button class="filter-btn" data-country="uk">UK (2)</button>
+      <button class="filter-btn" data-country="ca">Canada (2)</button>
+      <button class="filter-btn" data-country="ae">Dubai &amp; UAE (2)</button>
+      <button class="filter-btn" data-country="de">Germany (2)</button>
+      <button class="filter-btn" data-country="nl">Netherlands (2)</button>
+      <button class="filter-btn" data-country="sg">Singapore (2)</button>
+      <button class="filter-btn" data-country="my">Malaysia (2)</button>
+      <button class="filter-btn" data-country="au">Australia (2)</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <script>
+    const sites = [
+      { country: 'sa', label: 'Saudi Arabia · Real Estate', name: 'Naif Alobaid Real Estate Office (مكتب نايف العبيد للعقارات)', city: 'Al Malqa, Riyadh · 4.8 ★ (198)', issue: 'No website on Google Maps; zero online property inquiry funnel.', file: '01-naif-alobaid-real-estate.html' },
+      { country: 'sa', label: 'Saudi Arabia · Specialty Coffee', name: 'otto Speciality Coffee & Roastery (أوتو كافيه ومحمصة مختصة)', city: 'Al Muruj, Riyadh · 4.8 ★ (172) · 24h', issue: 'No website on Google Maps; no digital roast catalog or 24h order link.', file: '02-otto-speciality-coffee.html' },
+      { country: 'sa', label: 'Saudi Arabia · Skin Clinic', name: 'Aesthetic skin clinic (عيادة استاتيك للجلدية والتجميل)', city: 'As Sahafah, Riyadh · 4.8 ★ (625)', issue: 'No website on Google Maps despite 625 patient reviews.', file: '03-aesthetic-skin-clinic.html' },
+      { country: 'sa', label: 'Saudi Arabia · Luxury Watches', name: 'HALAH BOUTIQUE (بوتيك هالة للساعات والمجوهرات)', city: 'Al Olaya, Riyadh · 4.5 ★ (246)', issue: 'Listed domain halahboutique.com is DNS-down / unreachable.', file: '04-halah-boutique-watches.html' },
+      { country: 'sa', label: 'Saudi Arabia · Auto PPF & Tint', name: 'Dream Automotive | PPF & Window Tint', city: 'Al Ghadir, Riyadh · 5.0 ★ (90)', issue: 'No website on Google Maps; missing Xpel PPF package configurator.', file: '05-dream-automotive-ppf.html' },
+      { country: 'sa', label: 'Saudi Arabia · IT Services', name: 'Digital Solutions . شركه حلول رقميه', city: 'Alshaikh, Riyadh · 3.8 ★ (6)', issue: 'No website; Google reviewer explicitly noted no way to reach customer service.', file: '06-digital-solutions-riyadh.html' },
+
+      { country: 'usa', label: 'USA · Medical Spa', name: 'Beauty Elite Med Spa', city: 'Austin, TX · 4.8 ★ (55)', issue: 'beautyelitemedspa.com fails with ERR_NAME_NOT_RESOLVED; zero booking funnel.', file: 'usa-01-beauty-elite-medspa.html' },
+      { country: 'usa', label: 'USA · Custom Home Builder', name: 'Olson Defendorf Custom Homes', city: 'Westlake / Austin, TX · 4.6 ★ (22)', issue: 'Insecure http://odcustomhomes.com fails DNS; no architectural portfolio online.', file: 'usa-02-olson-defendorf-custom-homes.html' },
+
+      { country: 'uk', label: 'UK · Bespoke Tailor', name: 'Bespoke Tailor Studio', city: 'Stamford St, London SE1 · 4.9 ★ (15)', issue: 'bespoketailorstudio.com fails with ERR_NAME_NOT_RESOLVED; no fitting booking.', file: 'uk-01-bespoke-tailor-studio.html' },
+      { country: 'uk', label: 'UK · Watch Repair & Boutique', name: 'Be UNIQUE Camden', city: 'Chalk Farm Rd, London NW1 · 4.9 ★ (119)', issue: 'No website on Google Maps despite 119 reviews; no mail-in repair intake.', file: 'uk-02-be-unique-camden-watches.html' },
+
+      { country: 'ca', label: 'Canada · CPA & Tax Firm', name: 'Lismont Professional Corporation', city: 'Toronto, ON · 4.8 ★ (32)', issue: '2018 WordPress site loads broken http://stage.lismont.ca video & dummy # links.', file: 'ca-01-lismont-cpa-toronto.html' },
+      { country: 'ca', label: 'Canada · Auto Detailing', name: 'Expert Car Detailing', city: 'Vancouver, BC · 4.8 ★ (45)', issue: 'cardetailingvancouverbc.com serves a completely blank 39-byte white page.', file: 'ca-02-expert-car-detailing-vancouver.html' },
+
+      { country: 'ae', label: 'Dubai UAE · Interior Fit-Out', name: 'Royal Fitout & Interior Design Dubai', city: 'Al Quoz 4, Dubai · 5.0 ★ (11)', issue: 'royalfitoutdubai.com refuses HTTPS and returns a blank 39-byte HTTP doc.', file: 'ae-01-royal-fitout-dubai.html' },
+      { country: 'ae', label: 'Dubai UAE · Auto Detailing', name: '7 Road Auto Care', city: 'Al Quoz 3, Dubai · 4.8 ★ (61)', issue: '7roadautocare.tilda.ws returns an immediate HTTP 404 Page Not Found error.', file: 'ae-02-7road-auto-care-dubai.html' },
+
+      { country: 'de', label: 'Germany · Architecture', name: 'architekten', city: 'Schillerstraße 16, Frankfurt · 5.0 ★ (2)', issue: 'architekten.de returns a blank 39-byte HTTP page; missing mandatory § 5 TMG Impressum.', file: 'de-01-architekten-frankfurt.html' },
+      { country: 'de', label: 'Germany · Specialty Coffee', name: 'WHY! Specialty Coffee', city: 'Klingerstraße 11, Frankfurt · 4.8 ★ (553)', issue: 'Outdated pixelated whycoffee.de page; no digital menu, bean reservation, or phone.', file: 'de-02-why-specialty-coffee-frankfurt.html' },
+
+      { country: 'nl', label: 'Netherlands · Interior Styling', name: 'Babette Verhoef Styling & Interieuradvies', city: 'Amsterdam · 4.8 ★ (13)', issue: 'Unconfigured page title, dense vertical blog layout, and no consultation intake.', file: 'nl-01-babette-verhoef-amsterdam.html' },
+      { country: 'nl', label: 'Netherlands · Skin Care Clinic', name: 'Amsterdam Skin', city: 'Van Woustraat, Amsterdam · 4.8 ★ (17)', issue: 'Title reads "Home6 - Amsterdam Skin"; hours contradict Google Maps; 10-node stub.', file: 'nl-02-amsterdam-skin.html' },
+
+      { country: 'sg', label: 'Singapore · Bespoke Tailor', name: "Mohan's Custom Tailors", city: 'Orchard Rd, Singapore · 4.8 ★ (116)', issue: 'Insecure http://mohanstailors.com fails with ERR_NAME_NOT_RESOLVED.', file: 'sg-01-mohans-custom-tailors.html' },
+      { country: 'sg', label: 'Singapore · Dental Clinic', name: 'Horizon Dental Surgery', city: 'New Bridge Rd, Singapore · 5.0 ★ (435)', issue: 'No website on Google Maps despite 435 five-star patient reviews.', file: 'sg-02-horizon-dental-surgery.html' },
+
+      { country: 'my', label: 'Malaysia · Auto Detailing', name: 'Mel Detailing Car Detailing Kuala Lumpur', city: 'Kuchai Park, KL · 5.0 ★ (631)', issue: 'No website on Google Maps despite 631 five-star reviews.', file: 'my-01-mel-detailing-kl.html' },
+      { country: 'my', label: 'Malaysia · Dental Clinic', name: 'Klinik Pergigian Redha Taman Bukit Cheras', city: 'Cheras, KL · 4.9 ★ (2,092)', issue: 'No website on Google Maps despite 2,092 reviews & daily 9 AM–10 PM operation.', file: 'my-02-klinik-pergigian-redha-kl.html' },
+
+      { country: 'au', label: 'Australia · Architecture Studio', name: 'Studio Urbo', city: 'Pyrmont, Sydney NSW · 5.0 ★ (11)', issue: 'http://studiourbo.com serves an empty 39-byte HTML skeleton with no SSL.', file: 'au-01-studio-urbo-sydney.html' },
+      { country: 'au', label: 'Australia · Car Wash & Ceramic', name: 'Mr. Bubbles Hand Car Wash', city: 'Coburg, Melbourne VIC · 4.5 ★ (47)', issue: 'No website on Google Maps; no online ceramic coating & detailing booking.', file: 'au-02-mr-bubbles-melbourne.html' }
+    ];
+
+    const grid = document.getElementById('grid');
+    function render(filter) {
+      const items = filter === 'all' ? sites : sites.filter((s) => s.country === filter);
+      grid.innerHTML = items.map((s) => `
+        <article class="card">
+          <div>
+            <div class="card-top"><span>${s.label}</span></div>
+            <h2>${s.name}</h2>
+            <p class="meta">${s.city}</p>
+          </div>
+          <div class="audit">
+            <strong>Audited Website Gap</strong>
+            ${s.issue}
+          </div>
+          <div class="card-foot">
+            <span style="font-size:12px;color:var(--muted);">${s.file}</span>
+            <a href="${s.file}" class="open-btn">Open Pitch Site →</a>
+          </div>
+        </article>
+      `).join('');
+    }
+    render('all');
+
+    document.querySelectorAll('.filter-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        render(btn.dataset.country);
+      });
+    });
+  </script>
+</body>
+</html>

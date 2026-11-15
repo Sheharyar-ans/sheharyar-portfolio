@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expert Car Detailing — Mobile &amp; Shop Detailing | Vancouver, BC</title>
+  <meta name="description" content="4.8-star Luxury Auto Detailing Service in Vancouver, BC (1037 W 11th Ave). Mobile at-home detailing, scratch removal, and full interior restoration 7 days a week." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-slate: #0e1318;
+      --bg-panel: #161d24;
+      --accent-ice: #6bb5d8;
+      --ink: #f1f5f8;
+      --muted: #98a6b3;
+      --line: rgba(241, 245, 248, 0.12);
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--bg-slate); color: var(--ink); font-family: var(--font-sans); }
+    body { overflow-x: clip; line-height: 1.65; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent-ice); outline-offset: 3px; }
+    .container { width: min(1220px, calc(100% - 40px)); margin-inline: auto; }
+
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 0; background: rgba(14, 19, 24, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line); }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .brand strong { display: block; font-size: 15px; font-weight: 700; }
+    .brand span { font-size: 12px; color: var(--muted); }
+    .nav-links { display: flex; gap: 26px; list-style: none; font-size: 14px; color: var(--muted); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 11px 22px; border-radius: 999px; font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: transform 0.25s var(--ease), background-color 0.25s ease; }
+    .btn-ice { background: var(--accent-ice); color: #081016; }
+    .btn-outline { border-color: var(--line); }
+
+    .hero { padding: 136px 0 88px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 44px; align-items: center; }
+    .pill { display: inline-flex; gap: 8px; padding: 7px 14px; border-radius: 999px; background: var(--bg-panel); border: 1px solid var(--line); font-size: 13px; margin-bottom: 20px; }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(3rem, 5.6vw, 5rem); line-height: 1.02; font-weight: 400; margin-bottom: 18px; }
+    .hero h1 em { font-style: italic; color: var(--accent-ice); }
+    .hero p { color: var(--muted); font-size: 17px; max-width: 540px; margin-bottom: 28px; }
+    .hero-img { border-radius: 20px; overflow: hidden; aspect-ratio: 4 / 3; border: 1px solid var(--line); }
+    .hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    section { padding: 84px 0; }
+    .kicker { display: block; font-size: 13px; font-weight: 600; color: var(--accent-ice); margin-bottom: 8px; }
+    .title { font-family: var(--font-display); font-size: clamp(2.1rem, 4vw, 3.2rem); font-weight: 400; line-height: 1.07; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .card { background: var(--bg-panel); border: 1px solid var(--line); border-radius: 16px; padding: 26px; }
+    .card h3 { font-size: 18px; margin-bottom: 8px; }
+    .card p { font-size: 14px; color: var(--muted); }
+
+    .contact-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 32px; }
+    .panel { background: var(--bg-panel); border: 1px solid var(--line); border-radius: 20px; padding: 32px; }
+    .row { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .row:last-child { border-bottom: 0; }
+    .row span { display: block; font-size: 12px; color: var(--muted); }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .field input, .field select { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg-slate); }
+
+    footer { padding: 34px 0; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 920px) {
+      .nav-links { display: none; }
+      .hero-grid, .grid-3, .contact-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
+    .about-img { border-radius:18px; overflow:hidden; aspect-ratio:4/3; border:1px solid var(--line); }
+    .about-img img { width:100%; height:100%; object-fit:cover; display:block; }
+    .stat-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:26px; }
+    .stat-box { background:var(--bg-panel); border:1px solid var(--line); border-radius:14px; padding:16px; }
+    .stat-box strong { display:block; font-family:var(--font-display); font-size:1.55rem; font-weight:500; color:var(--accent-ice); line-height:1.1; margin-bottom:4px; }
+    .stat-box span { font-size:12px; color:var(--muted); }
+    .faq-list { margin-top:28px; display:grid; gap:12px; max-width:860px; }
+    .faq-item { background:var(--bg-panel); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+    .faq-q { width:100%; text-align:left; background:transparent; border:0; padding:18px 22px; font-weight:600; font-size:15px; display:flex; justify-content:space-between; align-items:center; gap:16px; cursor:pointer; }
+    .faq-q span.icon { color:var(--accent-ice); font-size:20px; line-height:1; transition:transform .25s ease; }
+    .faq-item.open .faq-q span.icon { transform:rotate(45deg); }
+    .faq-a { max-height:0; overflow:hidden; transition:max-height .32s ease; color:var(--muted); font-size:14px; }
+    .faq-a-inner { padding:0 22px 18px; }
+    @media(max-width:920px){ .about-grid,.stat-strip{grid-template-columns:1fr;} }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a href="#top" class="brand">
+        <strong>Expert Car Detailing</strong>
+        <span>1037 W 11th Ave · Vancouver, BC</span>
+      </a>
+      <nav>
+        <ul class="nav-links"><li><a href="#about">About</a></li>
+          <li><a href="#services">Packages</a></li>
+          <li><a href="#reviews">Vancouver Reviews</a></li>
+          <li><a href="#book">Book Mobile Detail</a></li>
+        <li><a href="#faq">FAQ</a></li></ul>
+      </nav>
+      <div style="display:flex;gap:10px;">
+        <a href="tel:+16043322056" class="btn btn-outline">(604) 332-2056</a>
+        <a href="#book" class="btn btn-ice">Book Detail</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="pill"><strong style="color:var(--accent-ice);">4.8 ★ (45 Google Reviews)</strong> · Mobile &amp; Broadway Studio</div>
+          <h1>Showroom restoration — <em>at your driveway</em> in Vancouver.</h1>
+          <p>
+            From deep interior nook-and-cranny restoration to multi-hour exterior scratch removal, Expert Car Detailing comes to your home or welcomes you 7 days a week from 7:00 AM to 10:00 PM.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <a href="#book" class="btn btn-ice">Book Mobile or Shop Slot</a>
+            <a href="#services" class="btn btn-outline">Inspect Packages</a>
+          </div>
+        </div>
+        <div class="hero-img reveal">
+          <img src="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=1200&q=85" alt="Luxury vehicle exterior gloss and detailing" />
+        </div>
+      </div>
+    </section>
+    <section id="about" class="reveal">
+      <div class="container about-grid">
+        <div class="about-img"><img src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=1200&q=85" alt="Car detailing and paint gloss studio in Vancouver" loading="lazy" /></div>
+        <div>
+          <span class="kicker">Vancouver Precision Detailing</span>
+          <h2 class="title">Built for West Coast rain, road salt & daily drivers.</h2>
+          <p style="color:var(--muted);margin-top:16px;">Located at 1037 W 11th Ave in Vancouver, our studio stays open daily from 7:00 AM to 10:00 PM so busy commuters can drop off for deep interior steam, salt extraction, and ceramic gloss protection.</p>
+          <div class="stat-strip"><div class="stat-box"><strong>4.8 ★</strong><span>45 Google Reviews</span></div><div class="stat-box"><strong>V6H 1K2</strong><span>1037 W 11th Ave</span></div><div class="stat-box"><strong>7 AM–10 PM</strong><span>Open 7 Days</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <span class="kicker">Detailing Services</span>
+        <h2 class="title">Unrushed multi-hour care, 7 days a week.</h2>
+        <div class="grid-3">
+          <article class="card reveal">
+            <h3>Mobile At-Home Detailing</h3>
+            <p>Our technicians arrive directly at your Vancouver residence with full interior &amp; exterior equipment.</p>
+          </article>
+          <article class="card reveal">
+            <h3>Scratch &amp; Swirl Removal</h3>
+            <p>Dedicated multi-hour machine polishing to restore clarity and eliminate surface scratches.</p>
+          </article>
+          <article class="card reveal">
+            <h3>Deep Interior Restoration</h3>
+            <p>2.5+ hour meticulous cabin detailing covering leather, vents, carpets, and every hidden seam.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews">
+      <div class="container">
+        <span class="kicker">Vancouver Driver Reviews</span>
+        <h2 class="title">4.8 ★ across 45 local bookings.</h2>
+        <div class="grid-3">
+          <article class="card reveal">
+            <div style="color:var(--accent-ice);margin-bottom:10px;">★★★★★</div>
+            <p>&ldquo;First of all they come to YOU and second, the price is very reasonable. Brandon is a consummate professional... He spent 2 1/2 hours making sure to clean everything nook and cranny. The inside of my car now looks better than it did when it was new!&rdquo;</p>
+            <strong style="display:block;margin-top:14px;font-size:14px;">Michelle McKendry</strong>
+            <span style="font-size:12px;color:var(--muted);">Google Review · Vancouver</span>
+          </article>
+          <article class="card reveal">
+            <div style="color:var(--accent-ice);margin-bottom:10px;">★★★★★</div>
+            <p>&ldquo;Mark did a fantastic job. He spent a total of 5 hours detailing my car at my house. The result was amazing and he even managed to get all the scratches out.&rdquo;</p>
+            <strong style="display:block;margin-top:14px;font-size:14px;">Pieter du Plessis</strong>
+            <span style="font-size:12px;color:var(--muted);">Google Review · Vancouver</span>
+          </article>
+          <article class="card reveal">
+            <div style="color:var(--accent-ice);margin-bottom:10px;">7 AM – 10 PM Daily</div>
+            <p>Open 7 days a week at 1037 W 11th Ave (1001 West Broadway Lot 623) plus mobile Vancouver coverage.</p>
+            <strong style="display:block;margin-top:14px;font-size:14px;">4.8 ★ (45 Reviews)</strong>
+            <span style="font-size:12px;color:var(--muted);">Vancouver, BC V6H 1K2</span>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section id="faq" class="reveal">
+      <div class="container">
+        <span class="kicker">Frequently Asked Questions</span>
+        <h2 class="title">Everything you need to know before visiting.</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>Do you remove winter road salt and coffee stains from carpets?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Yes — our deep interior package uses heated extraction and pH-neutral fabric cleaners to lift embedded salt rings.</div></div>
+          </div><div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>Are early morning or evening drop-offs available?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">We operate 7 days a week from 7:00 AM to 10:00 PM, making pre-work drop-off and late pickup easy.</div></div>
+          </div><div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>How long does a full interior & exterior detail take?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Most complete details take 3–4 hours depending on vehicle size and cabin condition.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="book">
+      <div class="container contact-grid">
+        <div class="panel reveal">
+          <span class="kicker">Vancouver Base</span>
+          <h2 class="title" style="font-size:2.1rem;margin-bottom:14px;">Expert Car Detailing</h2>
+          <div class="row"><span>Address</span><strong>1037 W 11th Ave, Vancouver, BC V6H 1K2 (1001 W Broadway Lot 623)</strong></div>
+          <div class="row"><span>Phone</span><a href="tel:+16043322056"><strong>+1 604-332-2056</strong></a></div>
+          <div class="row"><span>Hours</span><strong>Monday – Sunday: 7:00 AM – 10:00 PM</strong></div>
+        </div>
+        <form class="panel reveal" id="detForm">
+          <span class="kicker">Reserve Your Detail</span>
+          <h2 class="title" style="font-size:2.1rem;margin-bottom:16px;">Schedule mobile or lot service</h2>
+          <div class="field"><label for="vCar">Vehicle Model</label><input id="vCar" type="text" required placeholder="e.g., BMW X5 / Tesla Model Y" /></div>
+          <div class="field">
+            <label for="vPkg">Package</label>
+            <select id="vPkg">
+              <option>Full Interior &amp; Exterior Mobile Detail</option>
+              <option>Scratch Removal &amp; Paint Polish</option>
+              <option>Deep Interior Nook &amp; Cranny Detail</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-ice" style="width:100%;">Request Booking Time</button>
+          <p id="detMsg" style="margin-top:10px;font-size:13px;color:var(--accent-ice);"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>Expert Car Detailing · 1037 W 11th Ave, Vancouver, BC V6H 1K2</span>
+      <span>+1 604-332-2056 · Open Daily 7:00 AM – 10:00 PM</span>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => obs.observe(el));
+
+    document.getElementById('detForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const car = document.getElementById('vCar').value.trim();
+      const pkg = document.getElementById('vPkg').value;
+      document.getElementById('detMsg').textContent = `Booking request ready for ${car} (${pkg}). Call (604) 332-2056 (7 AM–10 PM daily) for immediate dispatch.`;
+    });
+  </script>
+
+  <script>
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const ans = item.querySelector('.faq-a');
+        const isOpen = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        ans.style.maxHeight = isOpen ? ans.scrollHeight + 'px' : '0px';
+      });
+    });
+  </script>
+
+</body>
+</html>

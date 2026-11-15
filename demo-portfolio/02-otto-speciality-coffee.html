@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>otto Speciality Coffee &amp; Roastery | أوتو كافيه ومحمصة مختصة — Al Muruj, Riyadh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f3eb;
+      --surface: #ede5d6;
+      --card: #ffffff;
+      --ink: #1e1511;
+      --muted: #66574e;
+      --accent: #b8532a;
+      --olive: #495a3d;
+      --line: rgba(30, 21, 17, 0.12);
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: clip; scroll-behavior: smooth; background: var(--bg); color: var(--ink); font-family: var(--font-body); }
+    body { overflow-x: clip; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+
+    header { position: sticky; top: 0; z-index: 40; background: rgba(247, 243, 235, 0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+    .nav { display: flex; justify-content: space-between; align-items: center; height: 76px; }
+    .brand { text-decoration: none; color: var(--ink); display: flex; flex-direction: column; line-height: 1.1; }
+    .brand strong { font-family: var(--font-display); font-size: 25px; font-weight: 600; }
+    .brand span { font-size: 12px; color: var(--accent); }
+    .nav-links { display: flex; gap: 26px; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; }
+    .nav-links a:hover { color: var(--accent); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; border-radius: 999px;
+      font-size: 13px; font-weight: 700; text-decoration: none; border: 1px solid transparent; cursor: pointer;
+      transition: background-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .btn-terra { background: var(--accent); color: #fff; }
+    .btn-terra:hover { background: var(--ink); transform: translateY(-1px); }
+    .btn-outline { background: transparent; border-color: var(--ink); color: var(--ink); }
+    .btn-outline:hover { background: var(--ink); color: var(--bg); }
+
+    .hero { padding: 64px 0 88px; border-bottom: 1px solid var(--line); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 52px; align-items: center; }
+    h1 { font-family: var(--font-display); font-size: clamp(44px, 5.4vw, 72px); line-height: 1.0; font-weight: 500; margin-bottom: 20px; }
+    .hero p { color: var(--muted); font-size: 17px; max-width: 490px; margin-bottom: 28px; }
+    .hero-photo { aspect-ratio: 4 / 4.2; border-radius: 24px; overflow: hidden; position: relative; box-shadow: 0 28px 65px rgba(30,21,17,0.14); }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-badge {
+      position: absolute; bottom: 20px; left: 20px; right: 20px; background: rgba(247, 243, 235, 0.94);
+      padding: 16px 20px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; font-size: 14px;
+    }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    section.pad { padding: 88px 0; border-bottom: 1px solid var(--line); }
+    h2 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 50px); font-weight: 500; line-height: 1.05; margin-bottom: 12px; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; }
+    .about-img { aspect-ratio: 16 / 11; border-radius: 20px; overflow: hidden; }
+    .about-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Menu & Beans */
+    .sec-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px; margin-bottom: 40px; }
+    .tabs { display: flex; gap: 6px; background: var(--surface); padding: 5px; border-radius: 999px; }
+    .tab { padding: 8px 18px; border-radius: 999px; border: none; background: transparent; font-family: var(--font-body); font-size: 13px; font-weight: 700; color: var(--muted); cursor: pointer; }
+    .tab.active { background: var(--ink); color: var(--bg); }
+
+    .beans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .bean { background: var(--card); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+    .bean-photo { aspect-ratio: 16 / 10; overflow: hidden; }
+    .bean-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+    .bean:hover .bean-photo img { transform: scale(1.04); }
+    .bean-body { padding: 24px; }
+    .bean-notes { font-size: 13px; color: var(--accent); font-weight: 700; margin-bottom: 4px; }
+    .bean-body h3 { font-family: var(--font-display); font-size: 25px; margin-bottom: 8px; }
+    .bean-foot { padding: 16px 24px 22px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+
+    /* Reviews */
+    .rev-band { background: var(--surface); }
+    .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 36px; }
+    .rev-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; justify-content: space-between; }
+
+    /* Location */
+    .loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; background: var(--ink); color: var(--bg); border-radius: 24px; padding: 48px; }
+    .order-form { display: grid; gap: 12px; }
+    .order-form input, .order-form select { padding: 13px 16px; border-radius: 10px; border: 1px solid rgba(247,243,235,0.2); background: rgba(255,255,255,0.08); color: #fff; font-family: var(--font-body); }
+
+    footer { padding: 34px 0; font-size: 13px; color: var(--muted); }
+    .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .about-grid, .beans, .rev-grid, .loc-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a href="#" class="brand">
+        <strong>otto Roastery</strong>
+        <span>أوتو كافيه ومحمصة مختصة · Open 24 Hours</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#about">Our Roastery</a>
+        <a href="#menu">Beans &amp; Brews</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#visit">Visit Al Muruj</a>
+      </nav>
+      <a href="#menu" class="btn btn-terra">Order Fresh Beans</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <h1>Al Muruj’s 24/7 specialty roastery and brew bar.</h1>
+          <p>Small-batch Ethiopian and Salvadoran micro-lots roasted in-house on Ibn Sina Street. Enjoy a quiet late-night V60 or order whole beans directly online.</p>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a href="#menu" class="btn btn-terra">Explore Roasts &amp; Menu</a>
+            <a href="tel:+966115001669" class="btn btn-outline">Call +966 11 500 1669</a>
+          </div>
+        </div>
+        <div class="hero-photo">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=85" alt="Specialty pour-over and flat white at otto Roastery" />
+          <div class="hero-badge">
+            <div><strong>4.8 ★ (172 Google Reviews)</strong><div style="color:var(--muted); font-size:12px;">Ibn Sina, Al Muruj, Riyadh 12282</div></div>
+            <span style="color:var(--olive); font-weight:700;">Open 24/7</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="pad">
+      <div class="wrap about-grid reveal">
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1000&q=80" alt="Freshly roasted specialty coffee beans" />
+        </div>
+        <div>
+          <h2>A quiet sanctuary in Al Muruj, open around the clock.</h2>
+          <p style="color:var(--muted); margin-top:14px;">Nestled on Ibn Sina Street in Al Muruj, otto Speciality Coffee &amp; Roastery pairs precision drum roasting with calm hospitality — welcoming early risers, remote creatives, and late-night coffee purists 24 hours a day.</p>
+          <p style="color:var(--muted); margin-top:12px;">From balanced Ethiopian flat whites to floral Salvadoran V60 pour-overs, every cup is dialed in daily by our baristas.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="pad">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <div>
+            <h2>Roastery Selection &amp; Signature Brews</h2>
+            <p style="color:var(--muted);">Available in-cafe 24/7 or reserved for pickup and Riyadh delivery.</p>
+          </div>
+          <div class="tabs">
+            <button type="button" class="tab active" data-roast="all">All</button>
+            <button type="button" class="tab" data-roast="filter">Filter &amp; V60</button>
+            <button type="button" class="tab" data-roast="espresso">Espresso</button>
+          </div>
+        </div>
+
+        <div class="beans reveal">
+          <article class="bean" data-roast="filter">
+            <div>
+              <div class="bean-photo"><img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80" alt="El Salvador V60 brew" /></div>
+              <div class="bean-body">
+                <div class="bean-notes">Floral • Red Berry • Honey</div>
+                <h3>El Salvador V60 Reserve</h3>
+                <p style="font-size:14px; color:var(--muted);">Hand-poured single-origin lot celebrated for delicate floral aromatics and clean finish.</p>
+              </div>
+            </div>
+            <div class="bean-foot"><strong>SAR 78 / 250g</strong><button type="button" class="btn btn-outline add-bag" style="padding:8px 16px;">Reserve Bag</button></div>
+          </article>
+
+          <article class="bean" data-roast="espresso">
+            <div>
+              <div class="bean-photo"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Ethiopian Flat White" /></div>
+              <div class="bean-body">
+                <div class="bean-notes">Rich Crema • Cocoa • Peach</div>
+                <h3>Ethiopia Espresso Roast</h3>
+                <p style="font-size:14px; color:var(--muted);">Our signature house roast engineered for velvety flat whites and balanced espresso.</p>
+              </div>
+            </div>
+            <div class="bean-foot"><strong>SAR 72 / 250g</strong><button type="button" class="btn btn-outline add-bag" style="padding:8px 16px;">Reserve Bag</button></div>
+          </article>
+
+          <article class="bean" data-roast="filter">
+            <div>
+              <div class="bean-photo"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80" alt="Cold brew specialty bottle" /></div>
+              <div class="bean-body">
+                <div class="bean-notes">Caramel • Sweet Citrus</div>
+                <h3>24-Hour Cold Brew Box</h3>
+                <p style="font-size:14px; color:var(--muted);">Slow-steeped specialty concentrate bottled fresh daily for Riyadh gatherings.</p>
+              </div>
+            </div>
+            <div class="bean-foot"><strong>SAR 95 / 6-Pack</strong><button type="button" class="btn btn-outline add-bag" style="padding:8px 16px;">Reserve Box</button></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews" class="pad rev-band">
+      <div class="wrap">
+        <h2>Loved by Riyadh Coffee Purists</h2>
+        <div class="rev-grid reveal">
+          <div class="rev-card">
+            <p>"One of the hidden gems in Al Muruj. Their flat white with Ethiopian beans is balanced with rich crema. Cozy vibes and quiet atmosphere."</p>
+            <div style="margin-top:16px;"><strong>Meshal Al-Harbi</strong><div style="font-size:12px; color:var(--muted);">Local Guide · 54 reviews</div></div>
+          </div>
+          <div class="rev-card">
+            <p>"Great specialty coffee roaster! Tried their V60 Salvadorian brew, superb floral notes. Needs an online store to order beans directly."</p>
+            <div style="margin-top:16px;"><strong>Sarah K.</strong><div style="font-size:12px; color:var(--muted);">Local Guide · 19 reviews</div></div>
+          </div>
+          <div class="rev-card">
+            <p>"Excellent roasting quality, professional baristas, and fast service. Best 24/7 specialty spot around."</p>
+            <div style="margin-top:16px;"><strong>Nawaf</strong><div style="font-size:12px; color:var(--muted);">Verified Guest · 31 reviews</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="visit" class="pad" style="border-bottom:none;">
+      <div class="wrap">
+        <div class="loc-grid reveal">
+          <div>
+            <h2 style="color:var(--bg);">Visit or Order Beans Direct</h2>
+            <p style="color:#d6cbc2; margin-top:10px;">Ibn Sina, Al Muruj, Riyadh 12282, Saudi Arabia</p>
+            <p style="color:#e2b887; margin-top:6px;">Open 24 Hours Daily · +966 11 500 1669</p>
+            <div style="margin-top:22px;">
+              <a href="https://maps.google.com/?q=otto+Speciality+Coffee+Roastery+Al+Muruj+Riyadh" target="_blank" rel="noopener noreferrer" class="btn btn-terra">Directions on Google Maps</a>
+            </div>
+          </div>
+          <form class="order-form" id="otto-form">
+            <input type="text" placeholder="Your Name" required />
+            <input type="tel" placeholder="Mobile (+966...)" required />
+            <select aria-label="Select Bean Order">
+              <option>El Salvador V60 Reserve (250g)</option>
+              <option>Ethiopia Espresso Roast (250g)</option>
+              <option>24-Hour Cold Brew Box (6-Pack)</option>
+            </select>
+            <button type="submit" class="btn btn-terra">Place Pickup / Delivery Request</button>
+            <span id="otto-msg" style="display:none; font-size:13px; color:#b7ff3c;">Order request received! Our Al Muruj barista team will confirm shortly.</span>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>otto Speciality Coffee &amp; Roastery · أوتو كافيه ومحمصة مختصة</span>
+      <span>Al Muruj, Riyadh 12282 · Open 24 Hours</span>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const r = tab.dataset.roast;
+        document.querySelectorAll('.bean').forEach(b => {
+          b.style.display = (r === 'all' || b.dataset.roast === r) ? 'flex' : 'none';
+        });
+      });
+    });
+
+    document.querySelectorAll('.add-bag').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.textContent = 'Reserved ✓';
+        setTimeout(() => btn.textContent = 'Reserve Bag', 1400);
+      });
+    });
+
+    document.getElementById('otto-form').addEventListener('submit', e => {
+      e.preventDefault();
+      document.getElementById('otto-msg').style.display = 'block';
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>

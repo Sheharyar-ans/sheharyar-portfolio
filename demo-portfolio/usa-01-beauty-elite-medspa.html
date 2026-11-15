@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beauty Elite Med Spa — Austin, TX | Aesthetics &amp; Injectables</title>
+  <meta name="description" content="4.8-star Boutique Medical Spa on Research Blvd, Austin TX. Botox, natural lip filler, and customized facial rejuvenation by Dr. Sarah and team." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-alabaster: #faf6f3;
+      --bg-blush: #eee4e1;
+      --bg-sand: #e7d8c9;
+      --accent-rosewood: #9e6b5b;
+      --accent-bronze: #b2967d;
+      --ink-espresso: #231b18;
+      --ink-muted: #665852;
+      --border-soft: rgba(35, 27, 24, 0.11);
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--bg-alabaster); color: var(--ink-espresso); font-family: var(--font-sans); }
+    body { overflow-x: clip; line-height: 1.65; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent-rosewood); outline-offset: 3px; }
+    .container { width: min(1220px, calc(100% - 40px)); margin-inline: auto; }
+
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 16px 0; background: rgba(250, 246, 243, 0.84);
+      backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-soft);
+    }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--ink-espresso); color: var(--bg-alabaster);
+      display: grid; place-items: center; font-family: var(--font-display); font-size: 20px; font-weight: 600;
+    }
+    .brand-text strong { display: block; font-size: 15px; font-weight: 600; }
+    .brand-text span { display: block; font-size: 12px; color: var(--ink-muted); }
+    .nav-links { display: flex; gap: 26px; list-style: none; font-size: 14px; color: var(--ink-muted); }
+    .nav-links a:hover { color: var(--ink-espresso); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 22px; border-radius: 999px; font-size: 14px; font-weight: 600; cursor: pointer;
+      border: 1px solid transparent; transition: transform 0.25s var(--ease), background-color 0.25s ease;
+    }
+    .btn-primary { background: var(--ink-espresso); color: var(--bg-alabaster); }
+    .btn-primary:hover { background: #3a2d28; transform: translateY(-1px); }
+    .btn-outline { background: transparent; border-color: var(--border-soft); }
+    .btn-outline:hover { background: var(--bg-blush); }
+
+    .hero { padding: 132px 0 88px; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; }
+    .rating-chip {
+      display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px;
+      background: var(--bg-blush); border: 1px solid var(--border-soft); font-size: 13px; margin-bottom: 22px;
+    }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(3rem, 5.5vw, 4.9rem); line-height: 1.02; font-weight: 500; margin-bottom: 18px; }
+    .hero h1 em { font-style: italic; color: var(--accent-rosewood); }
+    .hero-lead { color: var(--ink-muted); font-size: 17px; max-width: 520px; margin-bottom: 30px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 34px; }
+    .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-top: 22px; border-top: 1px solid var(--border-soft); }
+    .hero-stats strong { display: block; font-size: 19px; }
+    .hero-stats span { font-size: 13px; color: var(--ink-muted); }
+
+    .hero-frame { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4 / 5; box-shadow: 0 30px 60px rgba(35, 27, 24, 0.14); }
+    .hero-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-float {
+      position: absolute; left: 20px; right: 20px; bottom: 20px;
+      background: rgba(250, 246, 243, 0.92); backdrop-filter: blur(12px);
+      border-radius: var(--radius-md); padding: 18px 20px; border: 1px solid var(--border-soft);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    section { padding: 88px 0; }
+    .section-kicker { display: block; font-size: 13px; font-weight: 600; color: var(--accent-rosewood); margin-bottom: 8px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.2rem); line-height: 1.06; font-weight: 500; }
+
+    .about-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 48px; align-items: center; }
+    .about-photo { border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4 / 3; }
+    .about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .pillars { display: grid; gap: 14px; margin-top: 24px; }
+    .pillar { padding: 18px 20px; border-radius: var(--radius-md); background: var(--bg-blush); border: 1px solid var(--border-soft); }
+
+    .menu-box { background: var(--bg-blush); border-radius: var(--radius-lg); padding: 36px; border: 1px solid var(--border-soft); margin-top: 32px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+    .tab-btn {
+      padding: 10px 20px; border-radius: 999px; border: 1px solid var(--border-soft);
+      background: var(--bg-alabaster); cursor: pointer; font-size: 14px; font-weight: 600;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    .tab-btn.active, .tab-btn:hover { background: var(--ink-espresso); color: var(--bg-alabaster); }
+    .menu-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+    .menu-img { border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 16 / 10; }
+    .menu-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .menu-list { list-style: none; display: grid; gap: 10px; margin: 18px 0 24px; }
+    .menu-list li { display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border-soft); font-size: 14px; }
+
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 36px; }
+    .review-card { background: #fff; border: 1px solid var(--border-soft); border-radius: var(--radius-md); padding: 26px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; }
+    .stars { color: var(--accent-rosewood); letter-spacing: 0.08em; }
+
+    .contact-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 32px; }
+    .card-panel { background: #fff; border: 1px solid var(--border-soft); border-radius: var(--radius-lg); padding: 32px; }
+    .info-row { padding: 14px 0; border-bottom: 1px solid var(--border-soft); }
+    .info-row:last-child { border-bottom: 0; }
+    .info-row span { display: block; font-size: 12px; color: var(--ink-muted); }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 13px; color: var(--ink-muted); margin-bottom: 6px; }
+    .field input, .field select, .field textarea { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border-soft); background: var(--bg-alabaster); }
+
+    footer { padding: 32px 0; border-top: 1px solid var(--border-soft); font-size: 13px; color: var(--ink-muted); }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 920px) {
+      .nav-links { display: none; }
+      .hero-grid, .about-grid, .menu-panel, .reviews-grid, .contact-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a href="#top" class="brand">
+        <div class="brand-mark">BE</div>
+        <div class="brand-text">
+          <strong>Beauty Elite Med Spa</strong>
+          <span>Research Blvd · Austin, TX 78750</span>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#about">Our Approach</a></li>
+          <li><a href="#treatments">Treatments</a></li>
+          <li><a href="#reviews">Patient Reviews</a></li>
+          <li><a href="#book">Book Visit</a></li>
+        </ul>
+      </nav>
+      <div style="display:flex;gap:10px;">
+        <a href="tel:+15125883444" class="btn btn-outline">(512) 588-3444</a>
+        <a href="#book" class="btn btn-primary">Book Consultation</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="rating-chip">
+            <strong>4.8 ★</strong>
+            <span>55 Verified Google Reviews · Austin, Texas</span>
+          </div>
+          <h1>Refined, <em>natural-looking</em> aesthetics in Austin.</h1>
+          <p class="hero-lead">
+            Led by Dr. Sarah and our attentive clinical team on Research Blvd, Beauty Elite Med Spa pairs medical precision with a warm, boutique studio atmosphere.
+          </p>
+          <div class="hero-actions">
+            <a href="#book" class="btn btn-primary">Request Appointment</a>
+            <a href="#treatments" class="btn btn-outline">Explore Treatments</a>
+          </div>
+          <div class="hero-stats">
+            <div><strong>4.8 / 5.0</strong><span>Google Rating (55)</span></div>
+            <div><strong>Dr. Sarah</strong><span>Honest clinical guidance</span></div>
+            <div><strong>Mon – Sat</strong><span>Morning &amp; Saturday slots</span></div>
+          </div>
+        </div>
+        <div class="hero-frame reveal">
+          <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1000&q=85" alt="Calm boutique facial and medical spa treatment suite" />
+          <div class="hero-float">
+            <div>
+              <strong style="display:block;font-size:14px;">13740 Research Blvd, Bldg V, Ste 1</strong>
+              <span style="font-size:12px;color:var(--ink-muted);">Austin, TX 78750 · Mon–Fri 9–5, Sat 9–2</span>
+            </div>
+            <a href="tel:+15125883444" style="font-weight:700;color:var(--accent-rosewood);font-size:14px;">Call →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container about-grid">
+        <div class="about-photo reveal">
+          <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1200&q=85" alt="Clean chic medspa consultation room" />
+        </div>
+        <div class="reveal">
+          <span class="section-kicker">Why Austin Patients Choose Us</span>
+          <h2 class="section-title">Honest recommendations. Never overdone.</h2>
+          <p style="color:var(--ink-muted);margin-top:14px;">
+            Whether it is your first Botox visit or a subtle lip refresh, Dr. Sarah takes time to listen to your goals and give transparent, conservative clinical advice inside a clean, welcoming Northwest Austin suite.
+          </p>
+          <div class="pillars">
+            <div class="pillar">
+              <strong>Natural Results Philosophy</strong>
+              <p style="font-size:14px;color:var(--ink-muted);">Balanced facial harmony designed to look refreshed, never artificial.</p>
+            </div>
+            <div class="pillar">
+              <strong>Transparent Pricing &amp; Specials</strong>
+              <p style="font-size:14px;color:var(--ink-muted);">Clear treatment plans discussed upfront with zero pressure.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="treatments">
+      <div class="container">
+        <span class="section-kicker">Treatment Menu</span>
+        <h2 class="section-title">Curated aesthetic &amp; facial care.</h2>
+        <div class="menu-box reveal">
+          <div class="tabs" role="tablist">
+            <button class="tab-btn active" data-tab="injectables">Botox &amp; Lip Filler</button>
+            <button class="tab-btn" data-tab="facials">Medical Facials</button>
+            <button class="tab-btn" data-tab="consult">New Patient Consult</button>
+          </div>
+          <div class="menu-panel">
+            <div class="menu-img">
+              <img id="tabImg" src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=1200&q=85" alt="Facial aesthetic treatment" />
+            </div>
+            <div>
+              <h3 id="tabTitle" style="font-family:var(--font-display);font-size:32px;font-weight:500;">Botox &amp; Natural Lip Filler</h3>
+              <p id="tabDesc" style="color:var(--ink-muted);margin-top:8px;">Precision neuromodulators and hyaluronic acid dermal fillers tailored by Dr. Sarah for soft, balanced expression.</p>
+              <ul class="menu-list" id="tabList">
+                <li><span>Upper Face &amp; Expression Smoothing</span><strong>Custom Units</strong></li>
+                <li><span>Natural Lip Volume &amp; Border Definition</span><strong>1/2 or Full Syringe</strong></li>
+                <li><span>First-Visit Aesthetic Mapping</span><strong>Included</strong></li>
+              </ul>
+              <a href="#book" class="btn btn-primary">Schedule This Treatment</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews">
+      <div class="container">
+        <span class="section-kicker">Verified Austin Reviews</span>
+        <h2 class="section-title">4.8 ★ across 55 local patients.</h2>
+        <div class="reviews-grid">
+          <article class="review-card reveal">
+            <div>
+              <div class="stars">★★★★★</div>
+              <p style="margin-top:12px;">&ldquo;Today was my first visit with Beauty Elite Med Spa. I came for Botox and Lip Filler... Dr. Sarah was great! She asked me what I wanted and she also gave me her honest and professional opinion. I’m in love with the results!&rdquo;</p>
+            </div>
+            <div><strong>Alicia</strong><span style="display:block;font-size:12px;color:var(--ink-muted);">Google Review · Austin, TX</span></div>
+          </article>
+          <article class="review-card reveal">
+            <div>
+              <div class="stars">★★★★★</div>
+              <p style="margin-top:12px;">&ldquo;Awesome experience! My lips look so natural! Great pricing and specials. They are professional, friendly and give great guidance on the best choices for you. It’s so clean, chic and fun.&rdquo;</p>
+            </div>
+            <div><strong>Lori</strong><span style="display:block;font-size:12px;color:var(--ink-muted);">Google Review · Austin, TX</span></div>
+          </article>
+          <article class="review-card reveal">
+            <div>
+              <div class="stars">★★★★★</div>
+              <p style="margin-top:12px;">Open Monday–Friday 9:00 AM – 5:00 PM and Saturdays 9:00 AM – 2:00 PM on Research Blvd for convenient weekend appointments.</p>
+            </div>
+            <div><strong>Northwest Austin Clinic</strong><span style="display:block;font-size:12px;color:var(--ink-muted);">4.8 ★ (55 Reviews)</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="book">
+      <div class="container contact-grid">
+        <div class="card-panel reveal">
+          <span class="section-kicker">Visit Us</span>
+          <h2 class="section-title" style="font-size:2.2rem;margin-bottom:16px;">Beauty Elite Med Spa</h2>
+          <div class="info-row"><span>Address</span><strong>13740 Research Blvd Building V, Suite 1, Austin, TX 78750</strong></div>
+          <div class="info-row"><span>Phone</span><a href="tel:+15125883444"><strong>+1 512-588-3444</strong></a></div>
+          <div class="info-row"><span>Hours</span><strong>Mon–Fri: 9:00 AM – 5:00 PM · Sat: 9:00 AM – 2:00 PM · Sun: Closed</strong></div>
+        </div>
+        <form class="card-panel reveal" id="bookingForm">
+          <span class="section-kicker">Online Booking Request</span>
+          <h2 class="section-title" style="font-size:2.2rem;margin-bottom:18px;">Reserve your appointment</h2>
+          <div class="field"><label for="pName">Full Name</label><input id="pName" type="text" required placeholder="Your name" /></div>
+          <div class="field"><label for="pPhone">Phone Number</label><input id="pPhone" type="tel" required placeholder="(512) 000-0000" /></div>
+          <div class="field">
+            <label for="pService">Service Interest</label>
+            <select id="pService">
+              <option>Botox Consultation</option>
+              <option>Natural Lip Filler</option>
+              <option>Custom Facial Rejuvenation</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Request Callback &amp; Slot</button>
+          <p id="bookStatus" style="margin-top:12px;font-size:13px;color:var(--accent-rosewood);"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>Beauty Elite Med Spa · 13740 Research Blvd Building V, Suite 1, Austin, TX 78750</span>
+      <span>+1 512-588-3444 · 4.8 ★ (55 Google Reviews)</span>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => obs.observe(el));
+
+    const tabData = {
+      injectables: {
+        title: 'Botox & Natural Lip Filler',
+        desc: 'Precision neuromodulators and hyaluronic acid dermal fillers tailored by Dr. Sarah for soft, balanced expression.',
+        img: 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=1200&q=85',
+        items: [
+          ['Upper Face & Expression Smoothing', 'Custom Units'],
+          ['Natural Lip Volume & Border Definition', '1/2 or Full Syringe'],
+          ['First-Visit Aesthetic Mapping', 'Included']
+        ]
+      },
+      facials: {
+        title: 'Corrective Medical Facials',
+        desc: 'Clinical-grade exfoliation, hydration, and barrier-repair protocols customized for Texas sun and skin clarity.',
+        img: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1200&q=85',
+        items: [
+          ['Deep Pore Hydration & Renewal', '60 Min'],
+          ['Tone & Texture Brightening Peel', '45 Min'],
+          ['Post-Treatment Calming Mask', 'Included']
+        ]
+      },
+      consult: {
+        title: 'Honest 1-on-1 Aesthetic Consultation',
+        desc: 'Meet with Dr. Sarah to review your goals, pricing specials, and a step-by-step plan tailored to your features.',
+        img: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1200&q=85',
+        items: [
+          ['Comprehensive Facial Assessment', '30 Min'],
+          ['Transparent Pricing & Specials Review', 'Upfront'],
+          ['Zero-Pressure Treatment Roadmap', 'Personalized']
+        ]
+      }
+    };
+
+    document.querySelectorAll('.tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const d = tabData[btn.dataset.tab];
+        document.getElementById('tabTitle').textContent = d.title;
+        document.getElementById('tabDesc').textContent = d.desc;
+        document.getElementById('tabImg').src = d.img;
+        document.getElementById('tabList').innerHTML = d.items.map(([k, v]) => `<li><span>${k}</span><strong>${v}</strong></li>`).join('');
+      });
+    });
+
+    document.getElementById('bookingForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('pName').value.trim();
+      const svc = document.getElementById('pService').value;
+      document.getElementById('bookStatus').textContent = `Thank you, ${name}. Your ${svc} request is ready — call (512) 588-3444 for immediate same-week confirmation.`;
+    });
+  </script>
+</body>
+</html>

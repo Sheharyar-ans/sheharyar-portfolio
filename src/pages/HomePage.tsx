@@ -42,7 +42,11 @@ export const HomePage: React.FC<HomePageProps> = ({
       <SystemFlow />
       <CaseStudies onSelectCaseStudy={onSelectCaseStudy} />
       <WordPressFoundation />
-      <WordPressShowcase onOpenInquiry={onOpenInquiry} />
+      <WordPressShowcase
+        onOpenInquiry={onOpenInquiry}
+        maxItems={4}
+        viewAllHref="/case-studies/"
+      />
       <DashboardShowcase onOpenInquiry={onOpenInquiry} />
       <Process />
       <TechStack />

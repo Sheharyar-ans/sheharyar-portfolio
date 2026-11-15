@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mr. Bubbles Hand Car Wash — Coburg, Melbourne VIC</title>
+  <meta name="description" content="4.5-star Hand Car Wash, Detailing &amp; Ceramic Coating at 69 Sydney Rd, Coburg VIC 3058, Australia. Open 7 days a week 8 AM – 5 PM." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg:#0c1117; --card:#141c26; --cyan:#48b8d0; --ink:#f2f6f9; --muted:#95a6b5; --line:rgba(242,246,249,0.12); --font-display:'Instrument Serif',Georgia,serif; --font-sans:'Plus Jakarta Sans',-apple-system,sans-serif; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;background:var(--bg);color:var(--ink);font-family:var(--font-sans);}
+    body{overflow-x:clip;line-height:1.65;}
+    a{color:inherit;text-decoration:none;} button,input,select{font:inherit;color:inherit;}
+    :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
+    .container{width:min(1220px,calc(100% - 40px));margin-inline:auto;}
+    header{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(12,17,23,0.86);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);}
+    .header-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;}
+    .brand strong{display:block;font-size:15px;} .brand span{font-size:12px;color:var(--muted);}
+    .nav-links{display:flex;gap:26px;list-style:none;font-size:14px;color:var(--muted);}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;border:1px solid transparent;}
+    .btn-cyan{background:var(--cyan);color:#081217;} .btn-outline{border-color:var(--line);}
+    .hero{padding:136px 0 88px;} .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:44px;align-items:center;}
+    .pill{display:inline-flex;gap:8px;padding:7px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13px;margin-bottom:20px;}
+    .hero h1{font-family:var(--font-display);font-size:clamp(3rem,5.6vw,5rem);line-height:1.02;font-weight:400;margin-bottom:18px;}
+    .hero h1 em{font-style:italic;color:var(--cyan);}
+    .hero p{color:var(--muted);font-size:17px;max-width:540px;margin-bottom:28px;}
+    .hero-img{border-radius:20px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);}
+    .hero-img img{width:100%;height:100%;object-fit:cover;display:block;}
+    section{padding:84px 0;} .kicker{display:block;font-size:13px;font-weight:600;color:var(--cyan);margin-bottom:8px;}
+    .title{font-family:var(--font-display);font-size:clamp(2.1rem,4vw,3.2rem);font-weight:400;line-height:1.07;}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px;}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;}
+    .contact-grid{display:grid;grid-template-columns:0.95fr 1.05fr;gap:32px;}
+    .panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px;}
+    .row{padding:14px 0;border-bottom:1px solid var(--line);} .row:last-child{border-bottom:0;}
+    .row span{display:block;font-size:12px;color:var(--muted);}
+    .field{margin-bottom:14px;} .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;}
+    .field input,.field select{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);}
+    footer{padding:34px 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted);}
+    .footer-inner{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;}
+    @media(max-width:920px){.nav-links{display:none;}.hero-grid,.grid-3,.contact-grid{grid-template-columns:1fr;}}
+  
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; }
+    .about-img { border-radius:18px; overflow:hidden; aspect-ratio:4/3; border:1px solid var(--line); }
+    .about-img img { width:100%; height:100%; object-fit:cover; display:block; }
+    .stat-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:26px; }
+    .stat-box { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; }
+    .stat-box strong { display:block; font-family:var(--font-display); font-size:1.55rem; font-weight:500; color:var(--cyan); line-height:1.1; margin-bottom:4px; }
+    .stat-box span { font-size:12px; color:var(--muted); }
+    .faq-list { margin-top:28px; display:grid; gap:12px; max-width:860px; }
+    .faq-item { background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+    .faq-q { width:100%; text-align:left; background:transparent; border:0; padding:18px 22px; font-weight:600; font-size:15px; display:flex; justify-content:space-between; align-items:center; gap:16px; cursor:pointer; }
+    .faq-q span.icon { color:var(--cyan); font-size:20px; line-height:1; transition:transform .25s ease; }
+    .faq-item.open .faq-q span.icon { transform:rotate(45deg); }
+    .faq-a { max-height:0; overflow:hidden; transition:max-height .32s ease; color:var(--muted); font-size:14px; }
+    .faq-a-inner { padding:0 22px 18px; }
+    @media(max-width:920px){ .about-grid,.stat-strip{grid-template-columns:1fr;} }
+
+    .reveal { opacity:0; transform:translateY(18px); transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1); }
+    .reveal.is-visible { opacity:1; transform:none; }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a href="#top" class="brand"><strong>Mr. Bubbles Hand Car Wash</strong><span>69 Sydney Rd · Coburg VIC 3058</span></a>
+      <nav><ul class="nav-links"><li><a href="#about">About</a></li><li><a href="#services">Wash &amp; Ceramic</a></li><li><a href="#reviews">Melbourne Reviews</a></li><li><a href="#book">Book Bay</a></li><li><a href="#faq">FAQ</a></li></ul></nav>
+      <div style="display:flex;gap:10px;"><a href="tel:+61450520952" class="btn btn-outline">+61 450 520 952</a><a href="#book" class="btn btn-cyan">Book Wash</a></div>
+    </div>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="pill"><strong style="color:var(--cyan);">4.5 ★ (47 Google Reviews)</strong> · Sydney Rd, Coburg VIC</div>
+          <h1>Showroom <em>ceramic gloss</em> &amp; hand wash in Melbourne.</h1>
+          <p>Open 7 days a week on Sydney Road in Coburg, Mr. Bubbles delivers meticulous hand washing, full inside-and-out detailing, and protective ceramic coatings.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;"><a href="#book" class="btn btn-cyan">Reserve Detailing Slot</a><a href="#services" class="btn btn-outline">View Packages</a></div>
+        </div>
+        <div class="hero-img"><img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1200&q=85" alt="Hand car wash and ceramic shine in Melbourne" /></div>
+      </div>
+    </section>
+    <section id="about" class="reveal">
+      <div class="container about-grid">
+        <div class="about-img"><img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=1200&q=85" alt="Foam hand wash and detailing in Coburg Melbourne" loading="lazy" /></div>
+        <div>
+          <span class="kicker">Coburg VIC 3058 · Open 7 Days</span>
+          <h2 class="title">Hand-wash care & full detailing on Sydney Rd, Coburg.</h2>
+          <p style="color:var(--muted);margin-top:16px;">At 69 Sydney Rd in Coburg, Mr Bubbles Car Wash & Detailing operates daily 8:00 AM – 5:00 PM with meticulous hand washing, interior vacuum & steam, and gloss protection for Melbourne drivers.</p>
+          <div class="stat-strip"><div class="stat-box"><strong>4.5 ★</strong><span>47 Google Reviews</span></div><div class="stat-box"><strong>VIC 3058</strong><span>69 Sydney Rd, Coburg</span></div><div class="stat-box"><strong>8 AM–5 PM</strong><span>Open 7 Days</span></div></div>
+        </div>
+      </div>
+    </section>
+    <section id="services">
+      <div class="container">
+        <span class="kicker">Sydney Rd Services</span>
+        <h2 class="title">Built for daily drivers &amp; 4WDs alike.</h2>
+        <div class="grid-3">
+          <article class="card"><h3>Full Inside &amp; Out Wash</h3><p>Safe pH-neutral hand wash, wheel cleaning, vacuuming, and cabin dressing for SUVs and sedans.</p></article>
+          <article class="card"><h3>Ceramic Coating</h3><p>Long-lasting hydrophobic paint protection with full maintenance guidance explained clearly.</p></article>
+          <article class="card"><h3>Deep Car Detailing</h3><p>Multi-step gloss enhancement and stain care to bring back that fresh-off-the-showroom finish.</p></article>
+        </div>
+      </div>
+    </section>
+    <section id="reviews">
+      <div class="container">
+        <span class="kicker">Coburg Customer Voices</span>
+        <h2 class="title">4.5 ★ across 47 Melbourne reviews.</h2>
+        <div class="grid-3">
+          <article class="card"><div style="color:var(--cyan);margin-bottom:10px;">★★★★★</div><p>&ldquo;Took my Jeep Grand Cherokee down today after reading the reviews and the lads done an exceptional job inside &amp; out!!! They will now be my regular guys… 5 star service.&rdquo;</p><strong style="display:block;margin-top:14px;font-size:14px;">Samuel Beckett</strong><span style="font-size:12px;color:var(--muted);">Google Review · Coburg</span></article>
+          <article class="card"><div style="color:var(--cyan);margin-bottom:10px;">★★★★★</div><p>&ldquo;The ceramic coating added an incredible layer of shine and protection, making it look like it just rolled out of the showroom. The staff was courteous and professional, ensuring that I understood the benefits and maintenance.&rdquo;</p><strong style="display:block;margin-top:14px;font-size:14px;">danushka karunarathna</strong><span style="font-size:12px;color:var(--muted);">Google Review · Melbourne</span></article>
+          <article class="card"><div style="color:var(--cyan);margin-bottom:10px;">Open 7 Days</div><p>Monday – Sunday, 8:00 AM – 5:00 PM at 69 Sydney Rd, Coburg VIC 3058.</p><strong style="display:block;margin-top:14px;font-size:14px;">4.5 ★ (47 Reviews)</strong><span style="font-size:12px;color:var(--muted);">Melbourne, VIC</span></article>
+        </div>
+      </div>
+    </section>
+    <section id="faq" class="reveal">
+      <div class="container">
+        <span class="kicker">Frequently Asked Questions</span>
+        <h2 class="title">Everything you need to know before visiting.</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>Do I need a booking for a standard hand wash?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Walk-ins are welcome daily 8 AM–5 PM at 69 Sydney Rd; full interior/exterior details are best booked ahead.</div></div>
+          </div><div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>Do you clean family SUVs, utes, and pet hair?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Yes — we handle sedans, 4WDs, utes, and deep pet-hair & upholstery extraction.</div></div>
+          </div><div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>How do I book a full detail?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Call +61 450 520 952 or submit your vehicle details in the form below.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="book">
+      <div class="container contact-grid">
+        <div class="panel">
+          <span class="kicker">Coburg Location</span>
+          <h2 class="title" style="font-size:2.1rem;margin-bottom:14px;">Mr. Bubbles Hand Car Wash</h2>
+          <div class="row"><span>Address</span><strong>69 Sydney Rd, Coburg VIC 3058, Australia</strong></div>
+          <div class="row"><span>Phone</span><a href="tel:+61450520952"><strong>+61 450 520 952</strong></a></div>
+          <div class="row"><span>Hours</span><strong>Monday – Sunday: 8:00 AM – 5:00 PM</strong></div>
+        </div>
+        <form class="panel" id="auWashForm">
+          <span class="kicker">Booking Request</span>
+          <h2 class="title" style="font-size:2.1rem;margin-bottom:16px;">Book your wash or ceramic</h2>
+          <div class="field"><label for="aCar">Vehicle Type</label><input id="aCar" type="text" required placeholder="e.g., Jeep Grand Cherokee / Sedan" /></div>
+          <div class="field"><label for="aPkg">Service</label><select id="aPkg"><option>Inside &amp; Out Hand Wash</option><option>Full Detailing</option><option>Ceramic Coating Consultation</option></select></div>
+          <button type="submit" class="btn btn-cyan" style="width:100%;">Request Sydney Rd Slot</button>
+          <p id="auWashMsg" style="margin-top:10px;font-size:13px;color:var(--cyan);"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer><div class="container footer-inner"><span>Mr. Bubbles Hand Car Wash · 69 Sydney Rd, Coburg VIC 3058</span><span>+61 450 520 952 · Open Daily 8 AM – 5 PM</span></div></footer>
+  <script>
+    document.getElementById('auWashForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('auWashMsg').textContent = `Slot request ready for ${document.getElementById('aCar').value.trim()} (${document.getElementById('aPkg').value}). Call +61 450 520 952.`;
+    });
+  </script>
+
+  <script>
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const ans = item.querySelector('.faq-a');
+        const isOpen = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        ans.style.maxHeight = isOpen ? ans.scrollHeight + 'px' : '0px';
+      });
+    });
+  </script>
+
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>

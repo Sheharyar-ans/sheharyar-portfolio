@@ -165,11 +165,10 @@ export const WordPressProjectModal: React.FC<WordPressProjectModalProps> = ({
               </div>
             </div>
 
-            {/* Center: Live Domain URL Bar */}
+            {/* Center: Client / Project Label */}
             <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-1/90 border border-brand-border/50 text-xs font-mono text-brand-secondary max-w-sm truncate">
               <Globe size={13} className="text-accent shrink-0" />
-              <span className="truncate text-white/90">https://{project.domain}</span>
-              <span className="ml-auto w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              <span className="truncate text-white/90">{project.client}</span>
             </div>
 
             {/* Right: Close Button */}
