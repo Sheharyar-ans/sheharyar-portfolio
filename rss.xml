@@ -5,8 +5,17 @@
     <link>https://sheharyarsiraj.com/blog/</link>
     <description>In-depth architectural guides on custom WordPress VIP engineering, low-latency AI voice telephony, WooCommerce HPOS scaling, and deterministic agentic AI.</description>
     <language>en-US</language>
-    <lastBuildDate>Sun, 15 Nov 2026 22:35:08 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 16 Nov 2026 01:23:26 GMT</lastBuildDate>
     <atom:link href="https://sheharyarsiraj.com/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI Search, Agentic Discovery &amp; llms.txt: The Complete SEO, AEO, GEO, AIO &amp; Semantic SEO Blueprint for WordPress in 2026</title>
+      <link>https://sheharyarsiraj.com/blog/ai-search-agentic-discovery-llms-txt-seo-aeo-geo-aio-wordpress-2026/</link>
+      <guid isPermaLink="true">https://sheharyarsiraj.com/blog/ai-search-agentic-discovery-llms-txt-seo-aeo-geo-aio-wordpress-2026/</guid>
+      <description>Ranking #1 on Google blue links is no longer enough when buyers ask ChatGPT, Perplexity, Google AI Overviews, and autonomous AI agents to shortlist vendors. Here is the production engineering blueprint combining Traditional SEO, Answer Engine Optimization (AEO), Generative Engine Optimization (GEO), AI Optimization (AIO), llms.txt, and Semantic SEO long-tail clusters on WordPress.</description>
+      <category>Generative Engine Optimization</category>
+      <pubDate>Mon, 16 Nov 2026 04:00:00 GMT</pubDate>
+      <author>sherryansari870@gmail.com (Sheharyar Siraj)</author>
+    </item>
     <item>
       <title>MCP-Enabled Voice AI Telephony: Architecting Real-Time Voice Agents with Model Context Protocol (MCP), Twilio SIP, and Live Database Tool-Calling</title>
       <link>https://sheharyarsiraj.com/blog/mcp-enabled-voice-ai-telephony-agent-architecture/</link>
