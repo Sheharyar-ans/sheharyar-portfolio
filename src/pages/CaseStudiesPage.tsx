@@ -71,17 +71,35 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
       <Breadcrumbs items={[{ label: 'CASE STUDIES' }]} />
 
       {/* Header */}
-      <div className="mt-8 mb-10">
+      <div className="mt-8 mb-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent font-mono text-xs font-bold uppercase tracking-wider mb-4">
           <Sparkles size={14} />
           <span>PRODUCTION VERIFICATION HUB</span>
         </div>
-        <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
+        <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1] mb-4">
           Architectural <span className="text-accent">Case Studies</span>
         </h1>
         <p className="text-brand-secondary text-base sm:text-xl max-w-3xl leading-relaxed font-body">
           Documented benchmarks, architectural blueprints, and measurable operational outcomes from 1,200+ projects delivered worldwide.
         </p>
+      </div>
+
+      {/* WordPress Production Visual Showcase — Immediate Top Visibility */}
+      <div className="mb-10">
+        <WordPressShowcase
+          onOpenInquiry={onOpenInquiry}
+          title="PRODUCTION WORDPRESS WEBSITES"
+          subtitle="Real client deployments: Hover over any window to auto-scroll the full page layout, or click for high-resolution inspection."
+        />
+      </div>
+
+      {/* Business Intelligence & Analytics Dashboards Showcase */}
+      <div className="mb-12">
+        <DashboardShowcase
+          onOpenInquiry={onOpenInquiry}
+          title="EXECUTIVE DATA ANALYTICS & BI DASHBOARDS"
+          subtitle="Verified production dashboards in Power BI, Excel financial models, and infrastructure telemetry built for high-stakes decision-making."
+        />
       </div>
 
       {/* AEO Direct Answer */}
@@ -216,24 +234,6 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
             </div>
           </div>
         ))}
-      </div>
-
-      {/* WordPress Production Visual Showcase */}
-      <div className="mt-20">
-        <WordPressShowcase
-          onOpenInquiry={onOpenInquiry}
-          title="PRODUCTION WORDPRESS WEBSITES"
-          subtitle="Real client deployments: Hover over any window to auto-scroll the full page layout, or click for high-resolution inspection."
-        />
-      </div>
-
-      {/* Business Intelligence & Analytics Dashboards Showcase */}
-      <div className="mt-20">
-        <DashboardShowcase
-          onOpenInquiry={onOpenInquiry}
-          title="EXECUTIVE DATA ANALYTICS & BI DASHBOARDS"
-          subtitle="Verified production dashboards in Power BI, Excel financial models, and infrastructure telemetry built for high-stakes decision-making."
-        />
       </div>
 
       {/* CTA Box */}

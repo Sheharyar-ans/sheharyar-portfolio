@@ -37,17 +37,17 @@ export const HomePage: React.FC<HomePageProps> = ({
         schema={homeSchema}
       />
       <Hero onOpenInquiry={onOpenInquiry} />
-      <TrustMetrics />
-      <Services onOpenInquiry={onOpenInquiry} />
-      <SystemFlow />
-      <CaseStudies onSelectCaseStudy={onSelectCaseStudy} />
-      <WordPressFoundation />
       <WordPressShowcase
         onOpenInquiry={onOpenInquiry}
         maxItems={4}
         viewAllHref="/case-studies/"
       />
       <DashboardShowcase onOpenInquiry={onOpenInquiry} />
+      <TrustMetrics />
+      <Services onOpenInquiry={onOpenInquiry} />
+      <SystemFlow />
+      <CaseStudies onSelectCaseStudy={onSelectCaseStudy} />
+      <WordPressFoundation />
       <Process />
       <TechStack />
       <AboutTimeline />
