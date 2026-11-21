@@ -21,7 +21,7 @@ export const SystemFlow: React.FC = () => {
   return (
     <section
       id="system-flow"
-      className="py-24 md:py-32 bg-[#080808] border-y border-white/[0.08] relative overflow-hidden"
+      className="py-14 md:py-20 bg-[#080808] border-y border-white/[0.08] relative overflow-hidden"
     >
       {/* Ambient radial glow */}
       <div
@@ -36,7 +36,7 @@ export const SystemFlow: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
-          className="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/[0.08] pb-8 text-left"
+          className="mb-8 md:mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/[0.08] pb-8 text-left"
         >
           <div>
             <span className="inline-flex items-center gap-2 text-[11px] font-mono tracking-[0.2em] text-accent uppercase mb-3">

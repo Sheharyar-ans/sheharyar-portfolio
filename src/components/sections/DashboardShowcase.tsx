@@ -189,11 +189,11 @@ export const DashboardShowcase: React.FC<DashboardShowcaseProps> = ({
   const [activeFilter, setActiveFilter] = useState<string>('ALL');
 
   const filterOptions = [
-    { key: 'ALL', label: 'ALL DASHBOARDS' },
+    { key: 'ALL', label: 'ALL' },
     { key: 'POWER BI', label: 'POWER BI' },
-    { key: 'EXCEL', label: 'EXCEL & FINANCIAL' },
-    { key: 'PYTHON & ML', label: 'PYTHON & ML APPS' },
-    { key: 'TELEMETRY', label: 'TELEMETRY & SEO' }
+    { key: 'EXCEL', label: 'EXCEL & BI' },
+    { key: 'PYTHON & ML', label: 'PYTHON ML' },
+    { key: 'TELEMETRY', label: 'TELEMETRY' }
   ];
 
   const filteredProjects = DASHBOARD_PROJECTS.filter((proj) => {
@@ -212,11 +212,11 @@ export const DashboardShowcase: React.FC<DashboardShowcaseProps> = ({
   });
 
   return (
-    <section id="dashboard-showcase" className="py-20 md:py-28 relative">
+    <section id="dashboard-showcase" className="py-14 md:py-20 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 text-left">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 text-left">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/25 text-accent font-mono text-xs font-bold uppercase tracking-wider mb-3">
               <Database size={13} />

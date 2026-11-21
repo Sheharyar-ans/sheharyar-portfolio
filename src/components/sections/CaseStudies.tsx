@@ -10,7 +10,7 @@ interface CaseStudiesProps {
 
 export const CaseStudies: React.FC<CaseStudiesProps> = ({ onSelectCaseStudy }) => {
   return (
-    <section id="work" className="py-24 md:py-32 bg-[#080808] relative">
+    <section id="work" className="py-14 md:py-20 bg-[#080808] relative">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         {/* Section Header */}
         <motion.div
@@ -18,7 +18,7 @@ export const CaseStudies: React.FC<CaseStudiesProps> = ({ onSelectCaseStudy }) =
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
-          className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/[0.08] pb-8 text-left"
+          className="mb-8 md:mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/[0.08] pb-8 text-left"
         >
           <div>
             <span className="inline-flex items-center gap-2 text-[11px] font-mono tracking-[0.2em] text-accent uppercase mb-3">

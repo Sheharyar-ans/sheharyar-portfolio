@@ -8,7 +8,7 @@ export const AeoFaq: React.FC = () => {
   return (
     <section
       id="faq"
-      className="py-24 md:py-32 bg-[#080808] border-y border-white/[0.08] relative overflow-hidden"
+      className="py-14 md:py-20 bg-[#080808] border-y border-white/[0.08] relative overflow-hidden"
     >
       {/* Subtle Halftone dot-matrix texture */}
       <div
@@ -23,7 +23,7 @@ export const AeoFaq: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
-          className="mb-14 text-center"
+          className="mb-8 md:mb-10 text-center"
         >
           <div className="inline-flex items-center gap-1.5 text-[11px] font-mono tracking-[0.18em] text-accent uppercase mb-4 px-3.5 py-1.5 rounded-full bg-accent/10 border border-accent/25">
             <HelpCircle size={13} />

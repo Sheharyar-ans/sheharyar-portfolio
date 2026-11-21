@@ -51,7 +51,7 @@ export const WordPressFoundation: React.FC = () => {
   return (
     <section
       id="wordpress-foundation"
-      className="py-24 md:py-32 bg-[#080808] border-y border-white/[0.08] relative overflow-hidden"
+      className="py-14 md:py-20 bg-[#080808] border-y border-white/[0.08] relative overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">

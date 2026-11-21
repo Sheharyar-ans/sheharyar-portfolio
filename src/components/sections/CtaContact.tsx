@@ -10,7 +10,7 @@ interface CtaContactProps {
 
 export const CtaContact: React.FC<CtaContactProps> = ({ onOpenInquiry }) => {
   return (
-    <section id="contact" className="py-24 md:py-32 bg-[#080808] relative overflow-hidden">
+    <section id="contact" className="py-14 md:py-20 bg-[#080808] relative overflow-hidden">
       {/* Cybernetic grid backdrop */}
       <div
         aria-hidden="true"

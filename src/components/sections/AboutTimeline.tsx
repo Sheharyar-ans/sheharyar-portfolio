@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { TIMELINE, CERTIFICATIONS, CONTACT_INFO, EDUCATION } from '../../data/portfolioData';
-import { MapPin, Globe2, Award, CheckCircle2, MessageSquare, ArrowUpRight, GraduationCap } from 'lucide-react';
+import { TIMELINE, CONTACT_INFO } from '../../data/portfolioData';
+import { MapPin, Globe2, CheckCircle2, MessageSquare, ArrowUpRight } from 'lucide-react';
 import { SpotlightCard } from '../visuals/SpotlightCard';
 
 export const AboutTimeline: React.FC = () => {
   return (
-    <section id="about" className="py-24 md:py-32 bg-[#080808] relative">
+    <section id="about" className="py-14 md:py-20 bg-[#080808] relative">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         {/* Top Split: Biography & Timeline */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -137,79 +137,6 @@ export const AboutTimeline: React.FC = () => {
             </div>
           </motion.div>
         </div>
-
-        {/* Bottom Section: Audited Certifications & Education Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          className="mt-20 pt-14 border-t border-white/[0.08]"
-        >
-          <div className="mb-8 text-left">
-            <span className="text-[11px] font-mono tracking-[0.2em] text-accent uppercase block mb-1">
-              ACADEMIC BACKGROUND
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-heading font-black text-white tracking-tight">
-              EDUCATION &amp; DEGREES
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-14">
-            {EDUCATION.map((edu) => (
-              <SpotlightCard
-                key={edu.institution}
-                className="p-6 rounded-3xl bg-[#0e0e10]/90 border border-white/[0.08] hover:border-accent/40 transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 text-accent flex items-center justify-center mb-4">
-                    <GraduationCap size={18} />
-                  </div>
-                  <span className="text-[10px] font-mono text-accent font-bold px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/20 inline-block mb-2.5">
-                    {edu.year}
-                  </span>
-                  <h4 className="text-sm sm:text-base font-heading font-bold text-white leading-snug mb-1">
-                    {edu.degree}
-                  </h4>
-                  <p className="text-xs font-mono text-brand-secondary">{edu.institution}</p>
-                </div>
-                {edu.description && (
-                  <p className="text-xs text-brand-secondary font-body mt-4 pt-3 border-t border-white/[0.06] leading-relaxed">
-                    {edu.description}
-                  </p>
-                )}
-              </SpotlightCard>
-            ))}
-          </div>
-
-          <div className="mb-8 text-left">
-            <span className="text-[11px] font-mono tracking-[0.2em] text-accent uppercase block mb-1">
-              CREDENTIALS &amp; SPECIALIZED TRAINING
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-heading font-black text-white tracking-tight">
-              PROFESSIONAL CERTIFICATIONS
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {CERTIFICATIONS.map((cert) => (
-              <SpotlightCard
-                key={cert.title}
-                className="p-6 rounded-3xl bg-[#0e0e10]/90 border border-white/[0.08] hover:border-accent/40 transition-all flex flex-col justify-between"
-              >
-                <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 text-accent flex items-center justify-center mb-4">
-                  <Award size={18} />
-                </div>
-                <div>
-                  <h4 className="text-xs sm:text-sm font-heading font-bold text-white leading-snug mb-1">
-                    {cert.title}
-                  </h4>
-                  <p className="text-[11px] font-mono text-brand-secondary">{cert.issuer}</p>
-                </div>
-              </SpotlightCard>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
