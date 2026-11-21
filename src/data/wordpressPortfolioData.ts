@@ -692,5 +692,117 @@ export const WORDPRESS_PROJECTS: WordPressProject[] = [
       'Ceramic & Detailing Package Showcase',
       'Local Coburg SEO Layout'
     ]
+  },
+  {
+    id: 'uk-03-london-plumbers',
+    title: 'London Plumbers — Gas Safe Boilers & Emergency Plumbing W5',
+    client: 'London Plumbers (Ealing, London W5, United Kingdom)',
+    domain: 'londonplumbers.com',
+    category: 'Booking & Lead-Gen Portal',
+    badge: 'UK • PLUMBING & HEATING',
+    tags: ['London W5', 'Gas Safe', 'Boilers', 'Emergency Plumbing', '4.7 ★'],
+    image: '/assets/images/portfolio/uk-03-london-plumbers.webp',
+    shortDesc: 'Complete modern redesign for London Plumbers (43 Sunnyside Rd, W5) — replacing unfinished template copy, dead # CTAs, and mixed-content font errors with a fast 7-day Gas Safe dispatch hub.',
+    fullDesc: 'Audited and redesigned the web presence for London Plumbers in Ealing W5 (4.7 ★ across 190 Google Reviews). Eliminated dead anchor CTAs, overlapping header badges, static text captchas, and blocked HTTP fonts—replacing them with rewritten service copy, Greater London borough coverage, FAQ accordion, and a friction-free engineer callback form.',
+    metrics: {
+      speedScore: '99/100 Mobile',
+      loadTime: '0.4s LCP',
+      architecture: 'Gas Safe Dispatch UI • Zero Mixed-Content'
+    },
+    features: [
+      '4 Specialist Divisions: Emergency, Boilers, Drainage & Bathrooms',
+      'West & Greater London Borough Coverage Matrix',
+      'Verified 4.7 ★ (190 Google Reviews) & Gas Safe Positioning',
+      'Direct +44 7796 345453 & Friction-Free Callback Form'
+    ],
+    deliverables: [
+      'Full Copy Rewrite & Template Cleanup',
+      'Header Navigation & Mobile Conversion Fix',
+      'Local London W5 SEO & Schema Structure'
+    ]
+  },
+  {
+    id: 'uk-04-row-london-construction',
+    title: 'Row London Construction Ltd — NW1 Refurbishment & Lofts',
+    client: 'Row London Construction Ltd (Primrose Hill NW1, United Kingdom)',
+    domain: 'rowlondonconstruction.co.uk',
+    category: 'Agency & Creative',
+    badge: 'UK • BUILDING CONTRACTOR',
+    tags: ['London NW1', 'Refurbishment', 'Loft Conversions', '5.0 ★ (95)', 'Contractor'],
+    image: '/assets/images/portfolio/uk-04-row-london-construction.webp',
+    shortDesc: 'Editorial refurbishment showcase for Row London Construction (93 Regent\'s Park Rd, NW1) — eliminating blocking £20 popups, broken 0★ counters, and contradictory copy.',
+    fullDesc: 'Redesigned Row London Construction\'s digital presence (5.0 ★ across 95 Google Reviews) into a calm, architectural NW1 showcase. Removed the intrusive quote modal that contradicted their free consultation offer, replaced unlabeled 0+ metrics with verified trust stats, and introduced interactive build scope tabs (Full House Refurbishment, Kitchens & Bathrooms, Loft Conversions).',
+    metrics: {
+      speedScore: '99/100 Mobile',
+      loadTime: '0.4s LCP',
+      architecture: 'Architectural Contractor UI • Interactive Scopes'
+    },
+    features: [
+      'Interactive Build Scope Tabs (Refurbishment, Kitchens, Lofts)',
+      'Verified 5.0 ★ (95 Google Reviews) Primrose Hill Proof',
+      'Accurate Mon–Sat Operating Hours & Direct NW1 Contact',
+      'Free Site Walkthrough & Scope Consultation Form'
+    ],
+    deliverables: [
+      'Popup Removal & Contradiction-Free Copy Rewrite',
+      'Interactive Renovation Scope Explorer',
+      'NW1 Period Home Contractor Positioning'
+    ]
+  },
+  {
+    id: 'uk-05-debonair-cooling-hvac',
+    title: 'Debonair Cooling — Daikin D1+ & REFCOM HVAC London NW2',
+    client: 'Debonair Cooling (Atlas Business Centre, London NW2, UK)',
+    domain: 'debonaircooling.co.uk',
+    category: 'Catalog & Service Commerce',
+    badge: 'UK • HVAC & COOLING',
+    tags: ['London NW2', 'REFCOM F-Gas', 'Daikin D1+', 'HVAC', '4.9 ★ (367)'],
+    image: '/assets/images/portfolio/uk-05-debonair-cooling-hvac.webp',
+    shortDesc: 'High-contrast HVAC showcase for Debonair Cooling (4.9 ★, 367 reviews) — fixing 293-image DOM bloat, broken chat widgets, and empty /brands pages with an interactive Daikin unit selector.',
+    fullDesc: 'Re-engineered Debonair Cooling\'s website (Office 105, Atlas Business Centre, NW2) to highlight their REFCOM F-Gas certification (REF1019664), Daikin D1+ Business Partner status, and 7-year warranties. Replaced hidden desktop navigation, low-contrast hero text, and failing third-party widgets with an interactive Daikin inverter range selector and instant Video E-Survey booking.',
+    metrics: {
+      speedScore: '99/100 Mobile',
+      loadTime: '0.4s LCP',
+      architecture: 'Clean HVAC UI • Interactive Daikin Range'
+    },
+    features: [
+      'Interactive Daikin Model Tabs (Stylish, Perfera, Sensira, Floor-Standing)',
+      'REFCOM REF1019664 & Daikin D1+ Accreditation Strip',
+      'Verified 4.9 ★ (367 Google Reviews) London Testimonials',
+      'Instant Postcode Video E-Survey Request Form'
+    ],
+    deliverables: [
+      'DOM Payload Reduction (293 Images -> Clean Core)',
+      'Interactive Daikin Inverter Selector',
+      'Brand-New High-Contrast Hero & Navigation'
+    ]
+  },
+  {
+    id: 'uk-06-ls-legal-solicitors',
+    title: 'LS Legal Solicitors — SRA Regulated Law Firm London EC2M',
+    client: 'LS Legal Solicitors (Devonshire Square, London EC2M, UK)',
+    domain: 'lslegaluk.com',
+    category: 'Booking & Lead-Gen Portal',
+    badge: 'UK • SOLICITORS & LAW',
+    tags: ['London EC2M', 'SRA 624866', 'Immigration Law', 'Corporate', '5.0 ★ (175)'],
+    image: '/assets/images/portfolio/uk-06-ls-legal-solicitors.webp',
+    shortDesc: 'Authoritative City of London legal portal for LS Legal Solicitors (SRA 624866, 5.0 ★ across 175 reviews) — replacing stalled PDF embeds and missing <h1> hierarchy with a complete 7-practice showcase.',
+    fullDesc: 'Completely redesigned LS Legal Solicitors\' homepage (8 Devonshire Square, London EC2M 4PL) into a high-trust City of London legal platform. Eliminated the stalled DearFlip PDF flipbook gap, added proper semantic <h1> hierarchy and clickable tel:+442081445588 links, restored the missing Corporate & Commercial practice card, and surfaced SRA Registration No. 624866 compliance clearly.',
+    metrics: {
+      speedScore: '99/100 Mobile',
+      loadTime: '0.4s LCP',
+      architecture: 'SRA-Compliant Legal UI • 7 Practice Divisions'
+    },
+    features: [
+      'All 7 Practice Areas Including Corporate & Business Immigration',
+      'Prominent SRA Registration No. 624866 Compliance Verification',
+      'Verified 5.0 ★ (175 Google Reviews) Client Outcomes',
+      'Confidential Solicitor Callback & Chambers Hours Desk'
+    ],
+    deliverables: [
+      'PDF Flipbook Removal & Semantic H1 Hierarchy',
+      'Complete 7-Practice Grid & Rewritten Legal Copy',
+      'Clickable Telephone & SRA Compliance Footer'
+    ]
   }
 ];

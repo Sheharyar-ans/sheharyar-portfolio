@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debonair Cooling — Daikin D1+ &amp; REFCOM Air Conditioning | London NW2</title>
+  <meta name="description" content="4.9-star London HVAC &amp; air conditioning specialists (367 Google Reviews). REFCOM F-Gas certified (REF1019664) &amp; Daikin D1+ Installer at Atlas Business Centre, NW2." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080d12;
+      --card: #101821;
+      --ice: #38bdf8;
+      --mint: #2dd4bf;
+      --ink: #f1f5f9;
+      --muted: #94a3b8;
+      --line: rgba(241, 245, 249, 0.11);
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--bg); color: var(--ink); font-family: var(--font-sans); }
+    body { overflow-x: clip; line-height: 1.65; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; color: inherit; }
+    .container { width: min(1220px, calc(100% - 40px)); margin-inline: auto; }
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 0; background: rgba(8, 13, 18, 0.88); backdrop-filter: blur(16px); border-bottom: 1px solid var(--line); }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .brand strong { display: block; font-size: 15px; }
+    .brand span { font-size: 12px; color: var(--muted); }
+    .nav-links { display: flex; gap: 24px; list-style: none; font-size: 14px; color: var(--muted); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 11px 22px; border-radius: 999px; font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
+    .btn-ice { background: var(--ice); color: #06121c; }
+    .btn-outline { border-color: var(--line); }
+    .hero { padding: 136px 0 84px; background: radial-gradient(circle at 75% 20%, rgba(56,189,248,0.14), transparent 48%); }
+    .hero-grid { display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 44px; align-items: center; }
+    .pill { display: inline-flex; gap: 8px; padding: 7px 14px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); font-size: 13px; margin-bottom: 20px; }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(3rem, 5.4vw, 4.9rem); line-height: 1.03; font-weight: 400; margin-bottom: 18px; }
+    .hero h1 em { font-style: italic; color: var(--ice); }
+    .hero p { color: var(--muted); font-size: 17px; max-width: 540px; margin-bottom: 28px; }
+    .hero-img { border-radius: 20px; overflow: hidden; aspect-ratio: 4/3; border: 1px solid var(--line); }
+    .hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    section { padding: 80px 0; }
+    .kicker { display: block; font-size: 13px; font-weight: 600; color: var(--ice); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .title { font-family: var(--font-display); font-size: clamp(2.1rem, 4vw, 3.2rem); font-weight: 400; line-height: 1.08; }
+    .trust-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+    .trust-item { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+    .trust-item strong { display: block; font-size: 16px; color: var(--ice); margin-bottom: 4px; }
+    .trust-item span { font-size: 13px; color: var(--muted); }
+    .unit-box { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 34px; margin-top: 28px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+    .tab { padding: 10px 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); font-size: 14px; font-weight: 600; cursor: pointer; }
+    .tab.active { background: var(--ice); color: #06121c; border-color: var(--ice); }
+    .unit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+    .unit-grid img { width: 100%; border-radius: 14px; aspect-ratio: 16/10; object-fit: cover; display: block; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 26px; }
+    .faq-list { margin-top: 28px; display: grid; gap: 12px; max-width: 860px; }
+    .faq-item { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+    .faq-q { width: 100%; text-align: left; background: transparent; border: 0; padding: 18px 22px; font-weight: 600; font-size: 15px; display: flex; justify-content: space-between; align-items: center; gap: 16px; cursor: pointer; }
+    .faq-q span.icon { color: var(--ice); font-size: 20px; transition: transform .25s ease; }
+    .faq-item.open .faq-q span.icon { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .3s ease; color: var(--muted); font-size: 14px; }
+    .faq-a-inner { padding: 0 22px 18px; }
+    .contact-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 32px; }
+    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 32px; }
+    .row { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .row:last-child { border-bottom: 0; }
+    .row span { display: block; font-size: 12px; color: var(--muted); }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .field input, .field select { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); }
+    footer { padding: 34px 0; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    @media(max-width: 960px) { .nav-links { display: none; } .hero-grid, .trust-bar, .unit-grid, .grid-3, .contact-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a href="#top" class="brand"><strong>Debonair Cooling</strong><span>London NW2 · REFCOM F-Gas &amp; Daikin D1+</span></a>
+      <nav><ul class="nav-links"><li><a href="#accreditations">Accreditations</a></li><li><a href="#models">Daikin Range</a></li><li><a href="#reviews">367 Reviews</a></li><li><a href="#faq">FAQ</a></li></ul></nav>
+      <div style="display:flex;gap:10px;"><a href="tel:+442038354578" class="btn btn-outline">+44 20 3835 4578</a><a href="#survey" class="btn btn-ice">Book Video E-Survey</a></div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="pill"><strong style="color:var(--ice);">4.9 ★ (367 Google Reviews)</strong> · REFCOM REF1019664</div>
+          <h1>Whisper-quiet <em>climate control</em> for London homes.</h1>
+          <p>As a Daikin D1+ Business Partner based at Atlas Business Centre in London NW2, Debonair Cooling engineers neat, energy-efficient inverter heating and cooling systems backed by 7-year warranties.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <a href="#survey" class="btn btn-ice">Book Free Video E-Survey</a>
+            <a href="#models" class="btn btn-outline">Explore Daikin Models</a>
+          </div>
+        </div>
+        <div class="hero-img"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85" alt="Modern London residence with discreet inverter air conditioning" /></div>
+      </div>
+    </section>
+
+    <section id="accreditations" class="reveal">
+      <div class="container">
+        <span class="kicker">Certified Engineering &amp; Brands</span>
+        <h2 class="title">Built to commercial F-Gas standards for residential comfort.</h2>
+        <div class="trust-bar">
+          <div class="trust-item"><strong>REFCOM F-Gas</strong><span>Certified No. REF1019664</span></div>
+          <div class="trust-item"><strong>Daikin D1+</strong><span>Approved Business Partner</span></div>
+          <div class="trust-item"><strong>7-Year Warranty</strong><span>Full Parts &amp; Commissioning</span></div>
+          <div class="trust-item"><strong>4.9 ★ Rating</strong><span>367 Verified Reviews</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="models" class="reveal">
+      <div class="container">
+        <span class="kicker">Daikin Inverter Lineup</span>
+        <h2 class="title">Select the unit engineered for your room.</h2>
+        <div class="unit-box">
+          <div class="tabs">
+            <button type="button" class="tab active" data-idx="0">Daikin Stylish</button>
+            <button type="button" class="tab" data-idx="1">Daikin Perfera</button>
+            <button type="button" class="tab" data-idx="2">Daikin Sensira</button>
+            <button type="button" class="tab" data-idx="3">Perfera Floor-Standing</button>
+          </div>
+          <div class="unit-grid">
+            <img id="unit-img" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=85" alt="Daikin Stylish architectural bedroom installation" />
+            <div>
+              <h3 id="unit-title" class="title" style="font-size:2rem;margin-bottom:12px;">Daikin Stylish</h3>
+              <p id="unit-desc" style="color:var(--muted);margin-bottom:20px;">Ultra-slim architectural wall unit combining Coanda airflow optimization, whisper-quiet night operation, and dual heating/cooling inverter efficiency.</p>
+              <a href="#survey" class="btn btn-ice">Quote This System</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews" class="reveal">
+      <div class="container">
+        <span class="kicker">367 Verified Google Reviews</span>
+        <h2 class="title">Neat trunking, polite teams, thorough commissioning.</h2>
+        <div class="grid-3">
+          <article class="card">
+            <div style="color:var(--ice);margin-bottom:10px;">★★★★★</div>
+            <p>"Quality of workmanship was exceptional, with great attention to detail and a real commitment to ensuring everything was installed neatly."</p>
+            <strong style="display:block;margin-top:14px;font-size:13px;">Nimesh Patel · Google Review</strong>
+          </article>
+          <article class="card">
+            <div style="color:var(--ice);margin-bottom:10px;">★★★★★</div>
+            <p>"Confirming the trunking routes before proceeding... A special shout-out to Ali, who stayed late until 7 PM on the final day to commission everything properly."</p>
+            <strong style="display:block;margin-top:14px;font-size:13px;">Ranjith Parayogasingam · Google Review</strong>
+          </article>
+          <article class="card">
+            <div style="color:var(--ice);margin-bottom:10px;">★★★★★</div>
+            <p>"Installation was neat and tidy. Communication was good throughout and the aftercare has been excellent, with warranty details provided promptly."</p>
+            <strong style="display:block;margin-top:14px;font-size:13px;">Yasin Patel · Google Review</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="reveal">
+      <div class="container">
+        <span class="kicker">Installation &amp; Aftercare</span>
+        <h2 class="title">Everything you need to know before your survey.</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>How does the free Video E-Survey work?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Walk us through your rooms on a brief video call so we can inspect outdoor condenser placement, trunking routes, and room sizing—delivering a fixed quote without waiting days.</div></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>Do Daikin inverter systems also heat in winter?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Yes—modern air-to-air inverter units deliver both rapid summer cooling and high-efficiency winter heating from the same sleek indoor unit.</div></div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false"><span>Are you certified to handle refrigerant &amp; multi-split installs?</span><span class="icon">+</span></button>
+            <div class="faq-a"><div class="faq-a-inner">Yes. Debonair Cooling Ltd (Company 12883569) holds REFCOM F-Gas certification (REF1019664) and Daikin D1+ Business Partner status.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="survey" class="reveal">
+      <div class="container contact-grid">
+        <div class="panel">
+          <span class="kicker">London NW2 HQ</span>
+          <h2 class="title" style="font-size:2.2rem;">Debonair Cooling</h2>
+          <div class="row"><span>Office Address</span><strong>Office 105, Atlas Business Centre, Oxgate Ln, London NW2 7HJ</strong></div>
+          <div class="row"><span>Telephone</span><strong><a href="tel:+442038354578">+44 20 3835 4578</a></strong></div>
+          <div class="row"><span>Opening Hours</span><strong>Mon–Fri 8–6 · Sat 10–4 · Sun 11–4</strong></div>
+          <div class="row"><span>Accreditations</span><strong>REFCOM REF1019664 · Daikin D1+ · 7-Year Warranty</strong></div>
+        </div>
+        <div class="panel">
+          <span class="kicker">Postcode Quote</span>
+          <h3 class="title" style="font-size:1.9rem;margin-bottom:18px;">Book your Video E-Survey</h3>
+          <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='E-Survey Request Confirmed';">
+            <div class="field"><label for="dc-name">Full Name</label><input id="dc-name" type="text" placeholder="Your name" required /></div>
+            <div class="field"><label for="dc-post">Postcode</label><input id="dc-post" type="text" placeholder="e.g. NW2, SW3, E14" required /></div>
+            <div class="field"><label for="dc-type">System Type</label>
+              <select id="dc-type"><option>Single-Room Split AC</option><option>Multi-Split Whole-Home AC</option><option>AC Replacement / Upgrade</option><option>Servicing &amp; Maintenance</option></select>
+            </div>
+            <button type="submit" class="btn btn-ice" style="width:100%;margin-top:6px;">Request Free Video E-Survey</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>Debonair Cooling · Office 105, Atlas Business Centre, London NW2 7HJ</span>
+      <span>REFCOM REF1019664 · +44 20 3835 4578</span>
+    </div>
+  </footer>
+
+  <script>
+    const units = [
+      { title: 'Daikin Stylish', desc: 'Ultra-slim architectural wall unit combining Coanda airflow optimization, whisper-quiet night operation, and dual heating/cooling inverter efficiency.', img: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=85' },
+      { title: 'Daikin Perfera', desc: 'High-seasonal-efficiency inverter system with Flash Streamer air purification, 3D airflow distribution, and smart app scheduling.', img: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=85' },
+      { title: 'Daikin Sensira', desc: 'Dependable everyday climate control engineered for bedrooms, garden offices, and loft conversions with low energy draw.', img: 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1200&q=85' },
+      { title: 'Perfera Floor-Standing', desc: 'Ideal for loft eaves and dwarf walls where wall-mounted space is limited—delivering dual-flow heating and cooling at floor level.', img: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85' }
+    ];
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const u = units[tab.dataset.idx];
+        document.getElementById('unit-title').textContent = u.title;
+        document.getElementById('unit-desc').textContent = u.desc;
+        document.getElementById('unit-img').src = u.img;
+      });
+    });
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const ans = item.querySelector('.faq-a');
+        const open = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        ans.style.maxHeight = open ? ans.scrollHeight + 'px' : '0px';
+      });
+    });
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
