@@ -350,8 +350,8 @@ export function getRouteMetadata(url: string) {
 
   if (cleanUrl === '/blog') {
     return {
-      title: 'Engineering Blog & Architectural Knowledge Base | Sheharyar Siraj',
-      description: 'In-depth architectural guides on custom WordPress VIP engineering, low-latency AI voice telephony, WooCommerce HPOS scaling, and deterministic agentic AI.',
+      title: 'WordPress, WooCommerce and AI Automation Guides: Engineering Blog | Sheharyar Siraj',
+      description: 'Practical engineering guides on WordPress and WooCommerce performance, AI voice agents, n8n workflow automation and RAG systems, written for agencies and businesses that want faster sites, smarter automation and less manual work.',
       canonical: 'https://sheharyarsiraj.com/blog/',
       schema
     };

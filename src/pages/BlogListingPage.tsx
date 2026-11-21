@@ -66,8 +66,8 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({ onOpenInquiry 
   return (
     <div className="pt-28 pb-20 px-4 sm:px-8 max-w-7xl mx-auto">
       <SEOHead
-        title="Technical Architecture & AI Automation Blog | Sheharyar Siraj"
-        description="In-depth engineering guides: custom WordPress VIP architectures, sub-600ms conversational AI voice agents, WooCommerce HPOS, and enterprise workflow automations."
+        title="WordPress, WooCommerce and AI Automation Guides: Engineering Blog | Sheharyar Siraj"
+        description="Practical engineering guides on WordPress and WooCommerce performance, AI voice agents, n8n workflow automation and RAG systems, written for agencies and businesses that want faster sites, smarter automation and less manual work."
         canonicalUrl="https://sheharyarsiraj.com/blog/"
         schema={listingSchema}
       />
