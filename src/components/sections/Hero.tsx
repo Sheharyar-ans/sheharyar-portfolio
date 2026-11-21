@@ -110,38 +110,68 @@ export const Hero: React.FC<HeroProps> = ({ onOpenInquiry }) => {
     video.setAttribute('muted', '');
     video.setAttribute('playsinline', '');
     video.setAttribute('webkit-playsinline', '');
+    video.muted = true;
 
-    const attemptPlay = () => {
-      if (video && video.paused) {
-        const promise = video.play();
-        if (promise !== undefined) {
-          promise.catch(() => {
-            // Autoplay waiting for interaction
-          });
-        }
+    let pendingTime: number | null = null;
+    let primed = false;
+
+    const primeForScrollScrub = () => {
+      if (primed) return;
+      primed = true;
+      // Prime iOS/Safari decoder with muted play->pause, then lock to current scroll frame
+      const p = video.play();
+      if (p !== undefined) {
+        p.then(() => {
+          video.pause();
+          const v = smoothProgress.get();
+          if (Number.isFinite(video.duration) && video.duration > 0) {
+            video.currentTime = Math.min(video.duration - 0.04, Math.max(0, v * video.duration));
+          }
+        }).catch(() => {
+          video.pause();
+        });
       }
     };
 
-    attemptPlay();
-    video.addEventListener('loadeddata', attemptPlay);
-    video.addEventListener('canplay', attemptPlay);
-
-    const onUserInteraction = () => {
-      attemptPlay();
-      window.removeEventListener('click', onUserInteraction);
-      window.removeEventListener('touchstart', onUserInteraction);
+    const seekToProgress = (v: number) => {
+      if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+      const target = Math.min(video.duration - 0.04, Math.max(0, v * video.duration));
+      if (video.seeking) {
+        pendingTime = target;
+      } else {
+        video.currentTime = target;
+      }
     };
 
-    window.addEventListener('click', onUserInteraction, { once: true, passive: true });
-    window.addEventListener('touchstart', onUserInteraction, { once: true, passive: true });
+    const onSeeked = () => {
+      if (pendingTime !== null && !video.seeking) {
+        const next = pendingTime;
+        pendingTime = null;
+        video.currentTime = next;
+      }
+    };
+
+    const onLoadedMeta = () => {
+      seekToProgress(smoothProgress.get());
+    };
+
+    video.addEventListener('loadedmetadata', onLoadedMeta);
+    video.addEventListener('seeked', onSeeked);
+    window.addEventListener('touchstart', primeForScrollScrub, { once: true, passive: true });
+    window.addEventListener('pointerdown', primeForScrollScrub, { once: true, passive: true });
+
+    const unsubscribe = smoothProgress.on('change', (v) => {
+      seekToProgress(v);
+    });
 
     return () => {
-      video.removeEventListener('loadeddata', attemptPlay);
-      video.removeEventListener('canplay', attemptPlay);
-      window.removeEventListener('click', onUserInteraction);
-      window.removeEventListener('touchstart', onUserInteraction);
+      unsubscribe();
+      video.removeEventListener('loadedmetadata', onLoadedMeta);
+      video.removeEventListener('seeked', onSeeked);
+      window.removeEventListener('touchstart', primeForScrollScrub);
+      window.removeEventListener('pointerdown', primeForScrollScrub);
     };
-  }, []);
+  }, [smoothProgress]);
 
   const toggleMute = () => {
     if (!videoRef.current) return;
@@ -206,17 +236,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenInquiry }) => {
           >
             <video
               ref={videoRef}
-              autoPlay
-              muted={isMuted}
+              muted
               playsInline
-              loop
               preload="auto"
-              poster="/assets/images/hero-developer-poster.webp"
+              poster="/assets/images/hero-scroll-world-poster.webp"
               width={1920}
               height={1080}
-              className="w-full h-full object-cover object-center opacity-80 sm:opacity-85 transition-opacity duration-1000"
+              className="w-full h-full object-cover object-center opacity-85 sm:opacity-90 transition-opacity duration-700"
             >
-              <source src="/video/Developer_working.webm" type="video/webm" />
+              <source src="/video/scroll-world-hero.webm" type="video/webm" />
+              <source src="/video/scroll-world-hero.mp4" type="video/mp4" />
             </video>
           </motion.div>
 

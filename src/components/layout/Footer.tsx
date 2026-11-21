@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Mail, MessageSquare, MapPin, Linkedin, Globe, Shield, Terminal } from 'lucide-react';
 import { CONTACT_INFO } from '../../data/portfolioData';
+import { Link001, Link004 } from '../ui/skiper40';
 
 interface FooterProps {
   onOpenInquiry: () => void;
@@ -46,24 +47,24 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
             </div>
             <ul className="space-y-1.5 text-xs font-mono text-brand-secondary">
               <li>
-                <Link to="/services/" className="hover:text-accent transition-colors block py-0.5 text-white font-bold">
-                  → All Architectural Services Hub
-                </Link>
+                <Link004 href="/services/" className="hover:text-accent transition-colors py-0.5 text-white font-bold">
+                  All Architectural Services Hub
+                </Link004>
               </li>
               <li>
-                <Link to="/services/custom-wordpress-development/" className="hover:text-accent transition-colors block py-0.5">
+                <Link001 href="/services/custom-wordpress-development/" className="hover:text-accent transition-colors py-0.5">
                   Custom WordPress Development
-                </Link>
+                </Link001>
               </li>
               <li>
-                <Link to="/services/woocommerce-systems-architecture/" className="hover:text-accent transition-colors block py-0.5">
+                <Link001 href="/services/woocommerce-systems-architecture/" className="hover:text-accent transition-colors py-0.5">
                   WooCommerce Architecture
-                </Link>
+                </Link001>
               </li>
               <li>
-                <Link to="/services/ai-voice-agents/" className="hover:text-accent transition-colors block py-0.5">
+                <Link001 href="/services/ai-voice-agents/" className="hover:text-accent transition-colors py-0.5">
                   Autonomous AI Voice Agents
-                </Link>
+                </Link001>
               </li>
               <li>
                 <Link to="/services/ai-chatbots-rag/" className="hover:text-accent transition-colors block py-0.5">

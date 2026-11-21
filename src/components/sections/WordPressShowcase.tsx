@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { WORDPRESS_PROJECTS, WordPressProject } from '../../data/wordpressPortfolioData';
 import { WordPressProjectModal } from '../modals/WordPressProjectModal';
+import { GlowBorderCard } from '../ui/glow-border-card';
+import { InteractiveHoverButton } from '../ui/interactive-hover-button';
 
 interface WordPressShowcaseProps {
   onOpenInquiry?: () => void;
@@ -60,8 +62,10 @@ const ProjectBrowserCard: React.FC<{
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.45, delay: index * 0.08 }}
-      className="group rounded-2xl bg-surface-1 border border-brand-border/70 hover:border-accent/50 transition-all duration-300 shadow-lg hover:shadow-accent/5 flex flex-col overflow-hidden max-w-[360px] mx-auto w-full"
+      className="group max-w-[360px] mx-auto w-full h-full"
     >
+      <GlowBorderCard colorPreset="brand" borderRadius="1rem" className="h-full w-full shadow-lg">
+        <div className="flex flex-col h-full bg-surface-1">
       {/* Mockup Browser Window Header */}
       <div className="px-3.5 py-2.5 bg-surface-2 border-b border-brand-border/60 flex items-center justify-between gap-2.5">
         {/* macOS style traffic dots */}
@@ -210,7 +214,9 @@ const ProjectBrowserCard: React.FC<{
             <ArrowUpRight size={13} className="text-accent" />
           </button>
         </div>
-      </div>
+        </div>
+        </div>
+      </GlowBorderCard>
     </motion.article>
   );
 };
@@ -333,13 +339,13 @@ export const WordPressShowcase: React.FC<WordPressShowcaseProps> = ({
             </div>
           </div>
           {onOpenInquiry && (
-            <button
+            <InteractiveHoverButton
               type="button"
               onClick={onOpenInquiry}
-              className="px-5 py-2.5 rounded-xl bg-surface-2 hover:bg-accent hover:text-black text-white font-mono text-xs font-bold border border-brand-border/70 hover:border-accent transition-all shrink-0"
+              className="shrink-0"
             >
-              Discuss Your WordPress Project →
-            </button>
+              Discuss WordPress Project
+            </InteractiveHoverButton>
           )}
         </div>
       </div>

@@ -138,3 +138,37 @@
   letter-spacing: 0.25em;
 }
 
+/* VengeanceUI GlowBorderCard conic gradient animation */
+@property --vng-glow-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes vng-glow-spin {
+  to {
+    --vng-glow-angle: 360deg;
+  }
+}
+
+.vng-glow-ring {
+  background: conic-gradient(
+    from var(--vng-glow-angle),
+    var(--vng-glow-1, #B7FF3C) 0%,
+    var(--vng-glow-2, #8CE626) 10%,
+    var(--vng-glow-3, #4ADE80) 20%,
+    var(--vng-glow-4, #22D3EE) 30%,
+    var(--vng-glow-5, #171717) 40%,
+    var(--vng-glow-6, #262626) 50%,
+    var(--vng-glow-7, #B7FF3C) 60%,
+    var(--vng-glow-8, #A3E635) 70%,
+    var(--vng-glow-9, #22D3EE) 80%,
+    var(--vng-glow-10, #B7FF3C) 100%
+  );
+  animation: vng-glow-spin var(--vng-glow-duration, 6s) linear infinite;
+}
+
+.vng-glow-paused .vng-glow-ring {
+  animation-play-state: paused;
+}
+

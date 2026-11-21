@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight, ChevronDown, Globe, Sparkles, Layers, Cpu, Mic, Bot, Workflow, BarChart3, Terminal, Boxes, Video } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link003 } from '../ui/skiper40';
 
 interface NavbarProps {
   onOpenInquiry: () => void;
@@ -196,23 +197,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenInquiry }) => {
             WHITE-LABEL
           </Link>
 
-          <Link
-            to="/case-studies/"
-            className={`hover:text-accent transition-colors py-1 relative group ${
+          <Link003
+            href="/case-studies/"
+            className={`hover:text-accent transition-colors py-1 ${
               location.pathname.startsWith('/case-studies') ? 'text-accent font-bold' : ''
             }`}
           >
             CASE STUDIES
-          </Link>
+          </Link003>
 
-          <Link
-            to="/tools/"
-            className={`hover:text-accent transition-colors py-1 relative group ${
+          <Link003
+            href="/tools/"
+            className={`hover:text-accent transition-colors py-1 ${
               location.pathname.startsWith('/tools') ? 'text-accent font-bold' : ''
             }`}
           >
             TOOLS
-          </Link>
+          </Link003>
 
           {/* Locations Menu with Dropdown */}
           <div

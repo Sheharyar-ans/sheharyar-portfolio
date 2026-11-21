@@ -14,6 +14,9 @@ import {
 } from 'lucide-react';
 import { DASHBOARD_PROJECTS, DashboardProject } from '../../data/dashboardPortfolioData';
 import { DashboardModal } from '../modals/DashboardModal';
+import { GlowBorderCard } from '../ui/glow-border-card';
+import StatsCounter from '../ui/stats-counter';
+import { InteractiveHoverButton } from '../ui/interactive-hover-button';
 
 interface DashboardShowcaseProps {
   onOpenInquiry?: () => void;
@@ -33,8 +36,10 @@ const DashboardCard: React.FC<{
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.45, delay: index * 0.08 }}
-      className="group rounded-2xl bg-surface-1 border border-brand-border/70 hover:border-accent/50 transition-all duration-300 shadow-lg hover:shadow-accent/5 flex flex-col overflow-hidden max-w-[380px] mx-auto w-full"
+      className="group max-w-[380px] mx-auto w-full h-full"
     >
+      <GlowBorderCard colorPreset="brand" borderRadius="1rem" className="h-full w-full shadow-lg">
+        <div className="flex flex-col h-full bg-surface-1">
       {/* Mockup Window Header */}
       <div className="px-3.5 py-2.5 bg-surface-2 border-b border-brand-border/60 flex items-center justify-between gap-2.5">
         {/* macOS style traffic dots */}
@@ -167,7 +172,9 @@ const DashboardCard: React.FC<{
             <ArrowUpRight size={13} className="text-accent" />
           </button>
         </div>
-      </div>
+        </div>
+        </div>
+      </GlowBorderCard>
     </motion.article>
   );
 };
@@ -244,6 +251,26 @@ export const DashboardShowcase: React.FC<DashboardShowcaseProps> = ({
           )}
         </div>
 
+        {/* Executive BI Telemetry Strip (VengeanceUI StatsCounter) */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8 max-w-6xl mx-auto">
+          <div className="px-4 py-3 rounded-xl bg-surface-1/80 border border-brand-border/60 flex items-center justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-brand-muted">BI Systems</span>
+            <span className="text-lg font-heading font-black text-accent"><StatsCounter value={DASHBOARD_PROJECTS.length} suffix="+" /></span>
+          </div>
+          <div className="px-4 py-3 rounded-xl bg-surface-1/80 border border-brand-border/60 flex items-center justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-brand-muted">Refresh SLA</span>
+            <span className="text-lg font-heading font-black text-white"><StatsCounter value={99.9} decimals={1} suffix="%" /></span>
+          </div>
+          <div className="px-4 py-3 rounded-xl bg-surface-1/80 border border-brand-border/60 flex items-center justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-brand-muted">Core Stacks</span>
+            <span className="text-lg font-heading font-black text-white"><StatsCounter value={4} /></span>
+          </div>
+          <div className="px-4 py-3 rounded-xl bg-surface-1/80 border border-brand-border/60 flex items-center justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-brand-muted">Active Filter</span>
+            <span className="text-xs font-mono font-bold text-accent">{filteredProjects.length} SHOWN</span>
+          </div>
+        </div>
+
         {/* Responsive Grid of Dashboard Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 max-w-6xl mx-auto">
           {filteredProjects.map((project, idx) => (
@@ -272,13 +299,13 @@ export const DashboardShowcase: React.FC<DashboardShowcaseProps> = ({
             </div>
           </div>
           {onOpenInquiry && (
-            <button
+            <InteractiveHoverButton
               type="button"
               onClick={onOpenInquiry}
-              className="px-5 py-2.5 rounded-xl bg-surface-2 hover:bg-accent hover:text-black text-white font-mono text-xs font-bold border border-brand-border/70 hover:border-accent transition-all shrink-0"
+              className="shrink-0"
             >
-              Discuss Your Analytics Project →
-            </button>
+              Discuss Analytics Project
+            </InteractiveHoverButton>
           )}
         </div>
       </div>

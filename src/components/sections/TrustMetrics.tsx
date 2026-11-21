@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { METRICS, MARQUEE_LOCATIONS, CONTACT_INFO, REAL_RESULTS_DELIVERED } from '../../data/portfolioData';
 import { SpotlightCard } from '../visuals/SpotlightCard';
+import StatsCounter from '../ui/stats-counter';
 
 const CounterItem: React.FC<{ target: number; suffix: string; label: string; index: number }> = ({
   target,
@@ -9,41 +10,10 @@ const CounterItem: React.FC<{ target: number; suffix: string; label: string; ind
   label,
   index,
 }) => {
-  const [count, setCount] = useState<number>(target);
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
-  const hasAnimatedRef = useRef(false);
-
-  useEffect(() => {
-    if (!isInView || hasAnimatedRef.current) return;
-    hasAnimatedRef.current = true;
-
-    let start = 0;
-    const duration = 1600;
-    const stepTime = 20;
-    const steps = duration / stepTime;
-    const increment = target / steps;
-
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Number.isInteger(target) ? Math.floor(start) : Number(start.toFixed(1)));
-      }
-    }, stepTime);
-
-    return () => clearInterval(timer);
-  }, [isInView, target]);
-
-  const displayValue = Number.isInteger(count)
-    ? count.toLocaleString('en-US')
-    : count.toFixed(1);
+  const decimals = Number.isInteger(target) ? 0 : 1;
 
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
@@ -57,7 +27,7 @@ const CounterItem: React.FC<{ target: number; suffix: string; label: string; ind
           <span className="w-1.5 h-1.5 rounded-full bg-accent/50 group-hover:bg-accent group-hover:shadow-[0_0_8px_#B7FF3C] transition-all" />
         </div>
         <div className="text-4xl sm:text-5xl lg:text-[3.25rem] font-heading font-black text-white group-hover:text-accent transition-colors flex items-baseline gap-0.5 tracking-tight">
-          <span>{displayValue}</span>
+          <StatsCounter value={target} decimals={decimals} />
           <span className="text-accent">{suffix}</span>
         </div>
         <div className="mt-3 text-[11px] font-mono tracking-[0.14em] text-brand-secondary uppercase">

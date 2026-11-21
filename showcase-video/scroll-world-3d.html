@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volumetric 3D Liquid-Obsidian Silk — Scroll World</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #080808; }
+    canvas { display: block; width: 1920px; height: 1080px; }
+  </style>
+</head>
+<body>
+  <canvas id="gl" width="1920" height="1080"></canvas>
+  <script>
+    const canvas = document.getElementById('gl');
+    const gl = canvas.getContext('webgl2', { antialias: true, powerPreference: 'high-performance' });
+    const DURATION = 12.0;
+
+    const vs = `#version 300 es
+    in vec2 aPos;
+    out vec2 vUv;
+    void main() {
+      vUv = aPos * 0.5 + 0.5;
+      gl_Position = vec4(aPos, 0.0, 1.0);
+    }`;
+
+    const fs = `#version 300 es
+    precision highp float;
+    in vec2 vUv;
+    out vec4 fragColor;
+
+    uniform vec2 uRes;
+    uniform float uTime;
+
+    // Smooth 2D hash & value noise
+    float hash(vec2 p) {
+      p = fract(p * vec2(123.34, 456.21));
+      p += dot(p, p + 45.32);
+      return fract(p.x * p.y);
+    }
+
+    float noise(vec2 p) {
+      vec2 i = floor(p);
+      vec2 f = fract(p);
+      f = f * f * (3.0 - 2.0 * f);
+      float a = hash(i);
+      float b = hash(i + vec2(1.0, 0.0));
+      float c = hash(i + vec2(0.0, 1.0));
+      float d = hash(i + vec2(1.0, 1.0));
+      return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+    }
+
+    float fbm(vec2 p) {
+      float v = 0.0;
+      float amp = 0.5;
+      mat2 rot = mat2(0.80, -0.60, 0.60, 0.80);
+      for (int i = 0; i < 6; i++) {
+        v += amp * noise(p);
+        p = rot * p * 2.02;
+        amp *= 0.5;
+      }
+      return v;
+    }
+
+    // Domain-warped liquid silk heightfield
+    float silk(vec2 p, float t) {
+      vec2 q = vec2(
+        fbm(p + vec2(0.0, t * 0.14)),
+        fbm(p + vec2(5.2, 1.3 - t * 0.11))
+      );
+      vec2 r = vec2(
+        fbm(p + 2.4 * q + vec2(1.7, 9.2) + t * 0.08),
+        fbm(p + 2.4 * q + vec2(8.3, 2.8) - t * 0.07)
+      );
+      return fbm(p + 2.2 * r);
+    }
+
+    void main() {
+      vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+      float p = clamp(uTime / 12.0, 0.0, 1.0);
+
+      // 3D camera flight through volumetric depth
+      float zoom = mix(1.0, 2.35, p);
+      vec2 camDrift = vec2(sin(p * 4.2) * 0.18, cos(p * 2.8) * 0.09);
+      vec2 st = (uv + camDrift) / zoom;
+
+      // Subtle 3D perspective warp so lower plane recedes into deep horizon
+      float persp = 1.0 / (abs(uv.y + 0.38) + 0.55);
+      vec2 flowUv = vec2(st.x * persp * 0.85, persp * 0.9 - uTime * 0.35);
+
+      float h = silk(flowUv * 1.45, uTime);
+      float hDx = silk((flowUv + vec2(0.012, 0.0)) * 1.45, uTime);
+      float hDy = silk((flowUv + vec2(0.0, 0.012)) * 1.45, uTime);
+
+      // Compute smooth surface normal for studio rim-lighting
+      vec3 normal = normalize(vec3((h - hDx) * 14.0, (h - hDy) * 14.0, 1.0));
+      vec3 lightDir1 = normalize(vec3(0.55, 0.75, 0.45));
+      vec3 lightDir2 = normalize(vec3(-0.7, 0.35, 0.5));
+
+      float spec1 = pow(max(dot(normal, lightDir1), 0.0), 18.0);
+      float spec2 = pow(max(dot(normal, lightDir2), 0.0), 14.0);
+      float fresnel = pow(1.0 - max(normal.z, 0.0), 3.0);
+
+      // Palette: Deep Obsidian #080808, Neon Lime #B7FF3C, Electric Cyan #22D3EE
+      vec3 obsidian = vec3(0.031, 0.033, 0.036);
+      vec3 darkMoss = vec3(0.055, 0.085, 0.045);
+      vec3 lime = vec3(0.718, 1.000, 0.235);
+      vec3 cyan = vec3(0.133, 0.827, 0.933);
+
+      vec3 col = mix(obsidian, darkMoss, smoothstep(0.28, 0.78, h));
+
+      // Caustic glowing silk ribbons along iso-contours
+      float ribbon1 = exp(-pow(abs(h - 0.56) * 22.0, 2.0));
+      float ribbon2 = exp(-pow(abs(h - 0.41) * 26.0, 2.0));
+      col += lime * ribbon1 * (0.48 + 0.35 * sin(p * 6.28));
+      col += cyan * ribbon2 * 0.34;
+
+      // Specular chrome highlights
+      col += lime * spec1 * 0.55;
+      col += cyan * spec2 * 0.38;
+      col += mix(lime, cyan, 0.4) * fresnel * 0.22;
+
+      // Smooth 3D Volumetric Bokeh Orbs (zero square pixels!)
+      for (int i = 0; i < 14; i++) {
+        float fi = float(i);
+        float zDepth = fract(fi * 0.27 + p * 1.4);
+        float scale = mix(0.25, 3.2, zDepth);
+        vec2 orbPos = vec2(
+          sin(fi * 2.31 + uTime * 0.15) * 0.72,
+          cos(fi * 1.77 - uTime * 0.12) * 0.42
+        ) * scale;
+        float dist = length(uv - orbPos);
+        float radius = 0.012 * scale;
+        float bokeh = smoothstep(radius * 2.8, 0.0, dist) * (1.0 - zDepth) * zDepth * 3.2;
+        vec3 orbCol = mod(fi, 3.0) < 0.5 ? cyan : lime;
+        col += orbCol * bokeh * 0.42;
+      }
+
+      // Soft horizon atmospheric glow & cinematic vignette
+      float horizon = exp(-pow((uv.y + 0.08) * 3.8, 2.0)) * (0.14 + 0.16 * p);
+      col += mix(lime, cyan, 0.35) * horizon;
+
+      float vig = 1.0 - dot(uv * vec2(0.75, 0.95), uv * vec2(0.75, 0.95)) * 0.65;
+      col *= clamp(vig, 0.22, 1.0);
+
+      // Subtle ACES-like tone curve so highlights stay silky
+      col = col / (col + vec3(0.85));
+      col = pow(col, vec3(0.92));
+
+      fragColor = vec4(col, 1.0);
+    }`;
+
+    function compile(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+      return s;
+    }
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'aPos');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    const uRes = gl.getUniformLocation(prog, 'uRes');
+    const uTime = gl.getUniformLocation(prog, 'uTime');
+
+    function renderAt(t) {
+      gl.viewport(0, 0, 1920, 1080);
+      gl.uniform2f(uRes, 1920, 1080);
+      gl.uniform1f(uTime, t);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+
+    renderAt(0);
+    window.__texturesReady = Promise.resolve();
+    window.__setTime = renderAt;
+  </script>
+</body>
+</html>
