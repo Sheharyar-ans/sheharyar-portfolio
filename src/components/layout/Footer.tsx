@@ -122,7 +122,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
               </li>
               <li>
                 <Link to="/white-label/seo-agencies/" className="hover:text-accent transition-colors block py-0.5 text-accent font-semibold">
-                  SEO Agencies
+                  Technical SEO, AEO &amp; GEO
                 </Link>
               </li>
               <li className="pt-2 text-[10px] text-brand-muted uppercase font-bold">

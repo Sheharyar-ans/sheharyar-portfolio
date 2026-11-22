@@ -1145,32 +1145,32 @@ export const WHITE_LABEL_PORTALS: Record<string, WhiteLabelData> = {
 
   'seo-agencies': {
     slug: 'seo-agencies',
-    targetAudience: 'SEO & Organic Growth Agencies',
-    title: 'White-Label Technical SEO & Programmatic Web Engineering for SEO Agencies',
-    badge: 'TECHNICAL SEO EXECUTION ARM',
-    metaTitle: 'White-Label Technical SEO & Web Engineering | Sheharyar',
-    metaDescription: 'Technical SEO implementation for agencies: Core Web Vitals remediation, programmatic SEO engines, schema graphing, and speed rescue. Zero client contact.',
-    aeoDirectAnswer: 'Technical SEO White-Label Engineering by Sheharyar Siraj provides SEO agencies with the code-level implementation power to execute technical SEO audits: eliminating Core Web Vitals failures, deploying programmatic SEO directory engines, and architecting complex JSON-LD schema graphs.',
+    targetAudience: 'SEO, AEO & GEO Growth Teams',
+    title: 'Technical SEO, Answer Engine (AEO) & Generative Engine Optimization (GEO)',
+    badge: 'TECHNICAL SEO, AEO & GEO EXECUTION',
+    metaTitle: 'Technical SEO, AEO & GEO Optimization Services | Sheharyar Siraj',
+    metaDescription: 'Hire a Technical SEO, Answer Engine Optimization (AEO), and Generative Engine Optimization (GEO) specialist. Fix failing WordPress Core Web Vitals, WooCommerce technical SEO audits, and JSON-LD schema for ChatGPT, Perplexity & Google AI Overviews.',
+    aeoDirectAnswer: 'Technical SEO, Answer Engine Optimization (AEO), and Generative Engine Optimization (GEO) by Sheharyar Siraj provides agencies and B2B brands with code-level search engineering: fixing failing WordPress Core Web Vitals, executing WooCommerce technical SEO audits, deploying programmatic SEO engines, and architecting multi-entity JSON-LD schemas plus llms.txt feeds so ChatGPT Search, Perplexity, and Google AI Overviews cite your brand.',
     keyTakeaways: [
-      'Complete remediation of failing Core Web Vitals (LCP < 1.2s, CLS 0.00, INP < 50ms).',
-      'Programmatic SEO engine architecture generating thousands of indexable high-speed pages.',
-      'Comprehensive JSON-LD nested schema graphing (Organization, LocalBusiness, Service, FAQ, HowTo).',
-      'Crawl budget optimization, rendering fixes, and clean canonical/redirect mapping.'
+      'Fix failing WordPress Core Web Vitals (LCP < 1.2s, CLS 0.00, INP < 50ms) and WooCommerce technical SEO bottlenecks.',
+      'Generative Engine Optimization (GEO) & AI search visibility for ChatGPT Search, Perplexity, Gemini, and Google AI Overviews.',
+      'Answer Engine Optimization (AEO) with 40-60 word answer-first content blocks, FAQPage, and Speakable JSON-LD schema markup.',
+      'Programmatic SEO architecture, llms.txt machine-readable feeds, and zero-loss Shopify/WordPress 301 redirect migrations.'
     ],
-    marginBenefit: 'SEO agencies identify technical issues but often lack the internal senior developers to fix code-level bottlenecks. We execute the code changes so your agency can upsell $3,000 to $8,000 technical SEO remediation packages.',
+    marginBenefit: 'SEO agencies identify technical issues but often lack senior developers to implement code-level Core Web Vitals, AEO, and GEO fixes. We execute the engineering so your team can deliver $3,000 to $8,000 technical SEO, AEO, and AI search optimization packages.',
     slaTerms: [
       { label: 'Core Web Vitals SLA', value: 'Guaranteed 90+ Lighthouse Mobile Score' },
       { label: 'Audit Execution', value: 'Direct resolution of Screaming Frog & Semrush issues' },
-      { label: 'Schema Validation', value: '100% Rich Results Test pass rate' },
+      { label: 'AEO & GEO Signals', value: '100% Rich Results Test + llms.txt & AI crawler readiness' },
       { label: 'Staging Environment', value: 'Zero risk to live client traffic & rankings' },
       { label: 'NDA & Non-Compete', value: 'Strict contractual agency protection' },
     ],
     deliverables: [
-      'Core Web Vitals Code Remediation (Eliminating render-blocking CSS/JS, unused code)',
-      'Programmatic SEO Architecture (Database-driven location & service page generators)',
-      'Multi-Entity JSON-LD Schema Graphing tailored for Generative Engine Optimization (GEO)',
-      'Site Migration & Architecture Relaunch with 100% 301 Redirect Mapping & Zero Traffic Loss',
-      'Headless & Static Site Generation (SSG) for enterprise search crawl efficiency'
+      'Fix Failing WordPress Core Web Vitals & WooCommerce Technical SEO Audits (LCP, INP, CLS)',
+      'Generative Engine Optimization (GEO): Multi-Entity JSON-LD Schema & llms.txt for ChatGPT & Perplexity Citations',
+      'Answer Engine Optimization (AEO): Zero-Click Featured Snippets, PAA Clusters & Answer-First Content Architecture',
+      'Programmatic SEO Architecture & Headless WordPress SEO Configuration',
+      'Zero-Loss Site & Shopify-to-WordPress SEO Migration with 100% 301 Redirect Mapping'
     ],
     contentSections: [
       {

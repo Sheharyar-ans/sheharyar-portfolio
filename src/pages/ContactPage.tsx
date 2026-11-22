@@ -358,6 +358,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenInquiry }) => {
                     className="w-full px-4 py-3 rounded-xl bg-surface-2 border border-brand-border text-white text-xs font-mono focus:outline-none focus:border-accent transition-colors"
                   >
                     <option value="Custom WordPress & WooCommerce">Custom WordPress & WooCommerce</option>
+                    <option value="Technical SEO, AEO & GEO Optimization">Technical SEO, AEO & GEO Optimization</option>
                     <option value="Data Science, Data Analytics & Power BI Dashboards">Data Science, Data Analytics & Power BI Dashboards</option>
                     <option value="Autonomous AI Voice Agents">Autonomous AI Voice Agents</option>
                     <option value="AI Chatbots & Contextual RAG">AI Chatbots & Contextual RAG</option>

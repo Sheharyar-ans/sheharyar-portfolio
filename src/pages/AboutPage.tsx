@@ -147,7 +147,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenInquiry }) => {
         'Event-Driven Workflow Automation (n8n, Make.com)',
         'Power BI Dashboards, DAX & Executive Business Intelligence',
         'Python Data Science, SQL ETL Pipelines & Predictive Analytics',
-        'Technical SEO, Core Web Vitals & JSON-LD Schemas',
+        'Technical SEO, Answer Engine Optimization (AEO) & Generative Engine Optimization (GEO)',
         'WordPress Security Hardening & Malware Recovery'
       ]
     }
