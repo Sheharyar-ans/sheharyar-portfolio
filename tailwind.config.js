@@ -14,9 +14,9 @@ export default {
           3: '#222222',
         },
         accent: {
-          DEFAULT: '#B7FF3C',
-          glow: 'rgba(183, 255, 60, 0.25)',
-          soft: 'rgba(183, 255, 60, 0.08)',
+          DEFAULT: '#FACC15',
+          glow: 'rgba(250, 204, 21, 0.25)',
+          soft: 'rgba(250, 204, 21, 0.08)',
         },
         brand: {
           border: 'rgba(255, 255, 255, 0.10)',

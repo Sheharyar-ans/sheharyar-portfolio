@@ -37,7 +37,7 @@ export const AiCore: React.FC = () => {
   const [positions, colors] = useMemo(() => {
     const pos = new Float32Array(particleCount * 3);
     const col = new Float32Array(particleCount * 3);
-    const accentColor = new THREE.Color('#B7FF3C');
+    const accentColor = new THREE.Color('#FACC15');
     const whiteColor = new THREE.Color('#ffffff');
 
     for (let i = 0; i < particleCount; i++) {
@@ -111,9 +111,9 @@ export const AiCore: React.FC = () => {
         <mesh ref={centralMeshRef}>
           <icosahedronGeometry args={[0.85, 2]} />
           <meshStandardMaterial
-            color="#B7FF3C"
+            color="#FACC15"
             wireframe
-            emissive="#B7FF3C"
+            emissive="#FACC15"
             emissiveIntensity={0.6}
             transparent
             opacity={0.85}
@@ -125,7 +125,7 @@ export const AiCore: React.FC = () => {
           <sphereGeometry args={[0.42, 32, 32]} />
           <meshStandardMaterial
             color="#ffffff"
-            emissive="#B7FF3C"
+            emissive="#FACC15"
             emissiveIntensity={0.4}
             roughness={0.2}
             metalness={0.8}
@@ -137,7 +137,7 @@ export const AiCore: React.FC = () => {
         {/* Orbital Ring 1 */}
         <mesh ref={ring1Ref} rotation={[Math.PI / 4, 0, 0]}>
           <torusGeometry args={[1.35, 0.012, 16, 100]} />
-          <meshBasicMaterial color="#B7FF3C" transparent opacity={0.45} />
+          <meshBasicMaterial color="#FACC15" transparent opacity={0.45} />
         </mesh>
 
         {/* Orbital Ring 2 */}
@@ -178,11 +178,11 @@ export const AiCore: React.FC = () => {
               {/* Glowing anchor point */}
               <mesh>
                 <sphereGeometry args={[0.07, 16, 16]} />
-                <meshBasicMaterial color="#B7FF3C" />
+                <meshBasicMaterial color="#FACC15" />
               </mesh>
               {/* HTML Badge */}
               <Html distanceFactor={8} position={[0, 0.25, 0]} center>
-                <div className="select-none pointer-events-none whitespace-nowrap px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider bg-surface-1/90 text-accent border border-accent/40 shadow-[0_0_12px_rgba(183,255,60,0.3)] backdrop-blur-md">
+                <div className="select-none pointer-events-none whitespace-nowrap px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider bg-surface-1/90 text-accent border border-accent/40 shadow-[0_0_12px_rgba(250,204,21,0.3)] backdrop-blur-md">
                   {node.text}
                 </div>
               </Html>

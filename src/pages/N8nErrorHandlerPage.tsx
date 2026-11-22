@@ -520,7 +520,7 @@ Value: {{ $json.error ? $json.error.message : "NO_ERROR" }}
                         onClick={() => setHandlingStrategy(s.id as any)}
                         className={`w-full p-3 rounded-xl border text-left transition-all ${
                           isSelected
-                            ? 'bg-accent/15 border-accent text-white shadow-[0_0_15px_rgba(183,255,60,0.12)]'
+                            ? 'bg-accent/15 border-accent text-white shadow-[0_0_15px_rgba(250,204,21,0.12)]'
                             : 'bg-surface-2 border-brand-border text-brand-secondary hover:border-brand-border/80'
                         }`}
                       >
@@ -567,7 +567,7 @@ Value: {{ $json.error ? $json.error.message : "NO_ERROR" }}
                     onClick={() => setActiveTab('code')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                       activeTab === 'code'
-                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(183,255,60,0.25)]'
+                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(250,204,21,0.25)]'
                         : 'text-brand-muted hover:text-white'
                     }`}
                   >
@@ -579,7 +579,7 @@ Value: {{ $json.error ? $json.error.message : "NO_ERROR" }}
                     onClick={() => setActiveTab('set_node')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                       activeTab === 'set_node'
-                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(183,255,60,0.25)]'
+                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(250,204,21,0.25)]'
                         : 'text-brand-muted hover:text-white'
                     }`}
                   >
@@ -591,7 +591,7 @@ Value: {{ $json.error ? $json.error.message : "NO_ERROR" }}
                     onClick={() => setActiveTab('architecture')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                       activeTab === 'architecture'
-                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(183,255,60,0.25)]'
+                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(250,204,21,0.25)]'
                         : 'text-brand-muted hover:text-white'
                     }`}
                   >
@@ -646,7 +646,7 @@ Value: {{ $json.error ? $json.error.message : "NO_ERROR" }}
               <button
                 type="button"
                 onClick={onOpenInquiry}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-mono text-xs font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(183,255,60,0.3)] flex-shrink-0 active:scale-95"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-mono text-xs font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(250,204,21,0.3)] flex-shrink-0 active:scale-95"
               >
                 <span>BOOK PIPELINE AUDIT</span>
                 <ArrowUpRight size={14} />
@@ -806,7 +806,7 @@ Value: {{ $json.error ? $json.error.message : "NO_ERROR" }}
           <button
             type="button"
             onClick={onOpenInquiry}
-            className="w-full sm:w-auto px-8 py-4 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(183,255,60,0.4)] active:scale-95"
+            className="w-full sm:w-auto px-8 py-4 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(250,204,21,0.4)] active:scale-95"
           >
             <Zap size={18} />
             <span>SCHEDULE ARCHITECTURE REVIEW</span>

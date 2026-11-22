@@ -66,7 +66,7 @@ export const FloatingScopingCta: React.FC<FloatingScopingCtaProps> = ({ onOpenIn
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-3 px-4 py-3 sm:px-5 sm:py-3.5 rounded-full bg-surface-1/95 hover:bg-surface-2 border border-accent/40 hover:border-accent text-white shadow-[0_0_30px_rgba(183,255,60,0.22)] backdrop-blur-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent"
+          className="group relative flex items-center gap-3 px-4 py-3 sm:px-5 sm:py-3.5 rounded-full bg-surface-1/95 hover:bg-surface-2 border border-accent/40 hover:border-accent text-white shadow-[0_0_30px_rgba(250,204,21,0.22)] backdrop-blur-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent"
           aria-label="Book 15-Minute Technical Scoping Call with Sheharyar Siraj"
           aria-haspopup="dialog"
           aria-expanded={isOpen}
@@ -74,7 +74,7 @@ export const FloatingScopingCta: React.FC<FloatingScopingCtaProps> = ({ onOpenIn
           {/* Pulsing online indicator */}
           <span className="relative flex h-3 w-3 shrink-0">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-accent shadow-[0_0_8px_#B7FF3C]" />
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-accent shadow-[0_0_8px_#FACC15]" />
           </span>
 
           <div className="flex flex-col text-left">
@@ -112,7 +112,7 @@ export const FloatingScopingCta: React.FC<FloatingScopingCtaProps> = ({ onOpenIn
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 40, scale: 0.96 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-lg bg-[#0F0F0F] border border-brand-border/80 sm:rounded-3xl rounded-t-3xl shadow-[0_0_50px_rgba(183,255,60,0.2)] overflow-hidden flex flex-col max-h-[90dvh]"
+              className="relative w-full max-w-lg bg-[#0F0F0F] border border-brand-border/80 sm:rounded-3xl rounded-t-3xl shadow-[0_0_50px_rgba(250,204,21,0.2)] overflow-hidden flex flex-col max-h-[90dvh]"
             >
               {/* Top Accent Strip */}
               <div className="h-1 bg-gradient-to-r from-transparent via-accent to-transparent" />
@@ -121,7 +121,7 @@ export const FloatingScopingCta: React.FC<FloatingScopingCtaProps> = ({ onOpenIn
               <div className="p-5 sm:p-6 pb-4 border-b border-brand-border/60 flex items-center justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#B7FF3C]" />
+                    <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#FACC15]" />
                     <span className="text-[10px] font-mono tracking-widest text-accent uppercase font-bold">
                       15-MINUTE TECHNICAL SCOPING SESSION
                     </span>
@@ -219,7 +219,7 @@ export const FloatingScopingCta: React.FC<FloatingScopingCtaProps> = ({ onOpenIn
                       setIsOpen(false);
                       onOpenInquiry();
                     }}
-                    className="w-full py-3.5 px-4 rounded-xl bg-accent text-black font-mono text-xs font-black tracking-wider uppercase hover:bg-white transition-all shadow-[0_0_20px_rgba(183,255,60,0.3)] flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+                    className="w-full py-3.5 px-4 rounded-xl bg-accent text-black font-mono text-xs font-black tracking-wider uppercase hover:bg-white transition-all shadow-[0_0_20px_rgba(250,204,21,0.3)] flex items-center justify-center gap-2 cursor-pointer active:scale-95"
                   >
                     <span>OPEN FULL CALENDAR & SCOPE FORM</span>
                     <ArrowRight size={14} />

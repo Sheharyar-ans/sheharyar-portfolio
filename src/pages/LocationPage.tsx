@@ -369,7 +369,7 @@ export const LocationPage: React.FC<LocationPageProps> = ({ onOpenInquiry }) => 
         <button
           onClick={onOpenInquiry}
           type="button"
-          className="px-8 py-3.5 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(183,255,60,0.3)] inline-flex items-center gap-2"
+          className="px-8 py-3.5 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(250,204,21,0.3)] inline-flex items-center gap-2"
         >
           <span>INITIATE REGIONAL INQUIRY</span>
           <ArrowUpRight size={15} />

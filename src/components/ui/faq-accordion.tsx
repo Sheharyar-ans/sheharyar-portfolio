@@ -12,7 +12,7 @@ export interface FaqAccordionProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 /**
- * VengeanceUI FaqAccordion — adapted to dark #080808 / #111111 / #B7FF3C architecture
+ * VengeanceUI FaqAccordion — adapted to dark #080808 / #111111 / #FACC15 architecture
  */
 export function FaqAccordion({
   items,
@@ -37,7 +37,7 @@ export function FaqAccordion({
               className={cn(
                 'w-full relative rounded-2xl overflow-hidden border transition-all duration-300',
                 isActive
-                  ? 'border-accent/45 bg-[#111215]/95 shadow-[0_0_25px_rgba(183,255,60,0.08)]'
+                  ? 'border-accent/45 bg-[#111215]/95 shadow-[0_0_25px_rgba(250,204,21,0.08)]'
                   : 'border-white/[0.08] bg-[#0e0e10]/85 hover:border-white/[0.2]'
               )}
             >

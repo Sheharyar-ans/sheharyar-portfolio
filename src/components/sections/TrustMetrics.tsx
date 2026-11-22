@@ -24,7 +24,7 @@ const CounterItem: React.FC<{ target: number; suffix: string; label: string; ind
           <span className="text-[10px] font-mono tracking-widest text-brand-muted">
             0{index + 1} // TELEMETRY
           </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-accent/50 group-hover:bg-accent group-hover:shadow-[0_0_8px_#B7FF3C] transition-all" />
+          <span className="w-1.5 h-1.5 rounded-full bg-accent/50 group-hover:bg-accent group-hover:shadow-[0_0_8px_#FACC15] transition-all" />
         </div>
         <div className="text-4xl sm:text-5xl lg:text-[3.25rem] font-heading font-black text-white group-hover:text-accent transition-colors flex items-baseline gap-0.5 tracking-tight">
           <StatsCounter value={target} decimals={decimals} />

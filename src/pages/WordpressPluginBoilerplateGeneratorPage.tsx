@@ -1187,7 +1187,7 @@ composer run phpcs
               type="button"
               onClick={handleDownloadZip}
               disabled={isZipping}
-              className="px-4 py-2.5 rounded-xl bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(183,255,60,0.3)] active:scale-95 disabled:opacity-50"
+              className="px-4 py-2.5 rounded-xl bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(250,204,21,0.3)] active:scale-95 disabled:opacity-50"
             >
               {isZipping ? (
                 <>
@@ -1576,7 +1576,7 @@ composer run phpcs
                       onClick={() => setActiveFilePath(file.path)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 border ${
                         isActive
-                          ? 'bg-accent text-black border-accent font-bold shadow-[0_0_10px_rgba(183,255,60,0.25)]'
+                          ? 'bg-accent text-black border-accent font-bold shadow-[0_0_10px_rgba(250,204,21,0.25)]'
                           : 'bg-surface-1 text-brand-secondary border-brand-border/40 hover:text-white hover:border-brand-border'
                       }`}
                     >
@@ -1893,7 +1893,7 @@ composer run phpcs
             <button
               type="button"
               onClick={onOpenInquiry}
-              className="px-6 py-3.5 rounded-xl bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(183,255,60,0.25)] active:scale-95"
+              className="px-6 py-3.5 rounded-xl bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(250,204,21,0.25)] active:scale-95"
             >
               <span>DISCUSS PLUGIN ARCHITECTURE</span>
               <ArrowUpRight size={15} />

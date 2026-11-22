@@ -53,7 +53,7 @@ export const CtaContact: React.FC<CtaContactProps> = ({ onOpenInquiry }) => {
               <button
                 type="button"
                 onClick={onOpenInquiry}
-                className="px-8 py-3.5 rounded-full text-xs font-bold font-mono tracking-wider bg-accent text-black hover:bg-white transition-all shadow-[0_0_26px_rgba(183,255,60,0.35)] flex items-center gap-2 active:scale-95"
+                className="px-8 py-3.5 rounded-full text-xs font-bold font-mono tracking-wider bg-accent text-black hover:bg-white transition-all shadow-[0_0_26px_rgba(250,204,21,0.35)] flex items-center gap-2 active:scale-95"
               >
                 <span>BUILD MY AI SYSTEM</span>
                 <ArrowRight size={15} />

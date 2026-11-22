@@ -19,7 +19,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
           <div className="lg:col-span-4 space-y-4">
             <Link to="/" className="flex items-center gap-2 font-heading font-extrabold text-base text-white hover:text-accent transition-colors">
               <span>SHEHARYAR SIRAJ</span>
-              <span className="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_#B7FF3C]" />
+              <span className="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_#FACC15]" />
             </Link>
             <div className="text-xs font-mono text-accent">
               AI Automation Architect & WordPress Systems Engineer
@@ -32,7 +32,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
               <button
                 type="button"
                 onClick={onOpenInquiry}
-                className="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-accent text-black hover:bg-white transition-all inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(183,255,60,0.25)]"
+                className="px-4 py-2 rounded-xl text-xs font-mono font-bold bg-accent text-black hover:bg-white transition-all inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(250,204,21,0.25)]"
               >
                 <span>INITIATE PROJECT INQUIRY</span>
                 <ArrowUpRight size={13} />
@@ -43,7 +43,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
           {/* Col 2: Services Taxonomy (3 cols) */}
           <div className="lg:col-span-3 space-y-3">
             <div className="text-xs font-mono tracking-widest text-brand-muted uppercase font-bold flex items-center gap-1.5">
-              <span>SERVICES TAXONOMY (10)</span>
+              <span>SERVICES TAXONOMY (11)</span>
             </div>
             <ul className="space-y-1.5 text-xs font-mono text-brand-secondary">
               <li>
@@ -194,7 +194,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
               </li>
               <li>
                 <Link to="/code-arcade/" className="hover:text-accent transition-colors block py-0.5 text-accent font-bold flex items-center gap-1.5 group">
-                  <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#B7FF3C]" />
+                  <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#FACC15]" />
                   <span>→ 🎮 Play 3D Code Arcade (Free)</span>
                 </Link>
               </li>

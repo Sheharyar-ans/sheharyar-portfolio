@@ -593,7 +593,7 @@ ${metaFields
                     onClick={() => setOutputMode('native')}
                     className={`px-3.5 py-1.5 rounded-lg text-xs font-mono tracking-wider transition-all border ${
                       outputMode === 'native'
-                        ? 'bg-accent text-black border-accent font-bold shadow-[0_0_12px_rgba(183,255,60,0.25)]'
+                        ? 'bg-accent text-black border-accent font-bold shadow-[0_0_12px_rgba(250,204,21,0.25)]'
                         : 'bg-surface-2 text-brand-secondary border-brand-border/60 hover:text-white'
                     }`}
                   >
@@ -605,7 +605,7 @@ ${metaFields
                     onClick={() => setOutputMode('acf')}
                     className={`px-3.5 py-1.5 rounded-lg text-xs font-mono tracking-wider transition-all border ${
                       outputMode === 'acf'
-                        ? 'bg-accent text-black border-accent font-bold shadow-[0_0_12px_rgba(183,255,60,0.25)]'
+                        ? 'bg-accent text-black border-accent font-bold shadow-[0_0_12px_rgba(250,204,21,0.25)]'
                         : 'bg-surface-2 text-brand-secondary border-brand-border/60 hover:text-white'
                     }`}
                   >
@@ -818,7 +818,7 @@ ${metaFields
             <button
               type="button"
               onClick={onOpenInquiry}
-              className="px-6 py-3.5 rounded-xl bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(183,255,60,0.25)] active:scale-95"
+              className="px-6 py-3.5 rounded-xl bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(250,204,21,0.25)] active:scale-95"
             >
               <span>DISCUSS BACKEND ARCHITECTURE</span>
               <ArrowUpRight size={15} />

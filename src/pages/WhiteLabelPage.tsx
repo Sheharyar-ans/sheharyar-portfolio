@@ -74,7 +74,7 @@ export const WhiteLabelPage: React.FC<WhiteLabelPageProps> = ({ onOpenInquiry })
           <button
             onClick={onOpenInquiry}
             type="button"
-            className="px-6 py-3 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_20px_rgba(183,255,60,0.3)] shrink-0 flex items-center gap-2"
+            className="px-6 py-3 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_20px_rgba(250,204,21,0.3)] shrink-0 flex items-center gap-2"
           >
             <span>DISCUSS PARTNERSHIP</span>
             <ArrowUpRight size={14} />
@@ -325,7 +325,7 @@ export const WhiteLabelPage: React.FC<WhiteLabelPageProps> = ({ onOpenInquiry })
         <button
           onClick={onOpenInquiry}
           type="button"
-          className="px-8 py-3.5 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(183,255,60,0.3)] inline-flex items-center gap-2"
+          className="px-8 py-3.5 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(250,204,21,0.3)] inline-flex items-center gap-2"
         >
           <span>REQUEST AGENCY PARTNERSHIP</span>
           <ArrowUpRight size={15} />

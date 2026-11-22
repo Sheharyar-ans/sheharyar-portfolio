@@ -47,9 +47,9 @@ const CyberBot: React.FC<{ isExecuting: boolean; isSuccess: boolean; hasError: b
       if (hasError) {
         coreMat.emissive.set('#EF4444');
       } else if (isSuccess) {
-        coreMat.emissive.set('#B7FF3C');
+        coreMat.emissive.set('#FACC15');
       } else {
-        coreMat.emissive.set(isExecuting ? '#00F0FF' : '#B7FF3C');
+        coreMat.emissive.set(isExecuting ? '#00F0FF' : '#FACC15');
       }
       coreMat.emissiveIntensity = 1.5 + Math.sin(t * 5) * 0.8;
     }
@@ -72,7 +72,7 @@ const CyberBot: React.FC<{ isExecuting: boolean; isSuccess: boolean; hasError: b
         <boxGeometry args={[0.48, 0.2, 0.1]} />
         <meshStandardMaterial
           color="#050505"
-          emissive={hasError ? '#EF4444' : isSuccess ? '#B7FF3C' : '#00F0FF'}
+          emissive={hasError ? '#EF4444' : isSuccess ? '#FACC15' : '#00F0FF'}
           emissiveIntensity={isExecuting ? 3.5 : 2.2}
           roughness={0.1}
         />
@@ -81,11 +81,11 @@ const CyberBot: React.FC<{ isExecuting: boolean; isSuccess: boolean; hasError: b
       {/* Antennas */}
       <mesh position={[-0.32, 1.15, 0]} rotation={[0, 0, 0.2]}>
         <cylinderGeometry args={[0.02, 0.02, 0.4]} />
-        <meshStandardMaterial color="#B7FF3C" emissive="#B7FF3C" emissiveIntensity={1} />
+        <meshStandardMaterial color="#FACC15" emissive="#FACC15" emissiveIntensity={1} />
       </mesh>
       <mesh position={[0.32, 1.15, 0]} rotation={[0, 0, -0.2]}>
         <cylinderGeometry args={[0.02, 0.02, 0.4]} />
-        <meshStandardMaterial color="#B7FF3C" emissive="#B7FF3C" emissiveIntensity={1} />
+        <meshStandardMaterial color="#FACC15" emissive="#FACC15" emissiveIntensity={1} />
       </mesh>
 
       {/* Torso */}
@@ -103,7 +103,7 @@ const CyberBot: React.FC<{ isExecuting: boolean; isSuccess: boolean; hasError: b
         <sphereGeometry args={[0.13, 16, 16]} />
         <meshStandardMaterial
           color="#000000"
-          emissive="#B7FF3C"
+          emissive="#FACC15"
           emissiveIntensity={2.0}
         />
       </mesh>
@@ -112,8 +112,8 @@ const CyberBot: React.FC<{ isExecuting: boolean; isSuccess: boolean; hasError: b
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -0.28, 0]}>
         <torusGeometry args={[0.45, 0.025, 16, 64]} />
         <meshStandardMaterial
-          color="#B7FF3C"
-          emissive="#B7FF3C"
+          color="#FACC15"
+          emissive="#FACC15"
           emissiveIntensity={isSuccess ? 3 : 1}
         />
       </mesh>
@@ -122,7 +122,7 @@ const CyberBot: React.FC<{ isExecuting: boolean; isSuccess: boolean; hasError: b
       <mesh position={[0, -0.45, 0]}>
         <coneGeometry args={[0.15, 0.35, 16]} />
         <meshBasicMaterial
-          color={isExecuting ? '#00F0FF' : '#B7FF3C'}
+          color={isExecuting ? '#00F0FF' : '#FACC15'}
           transparent
           opacity={0.7}
         />
@@ -167,8 +167,8 @@ const DataNodes: React.FC<{
             <mesh position={pos}>
               <octahedronGeometry args={[0.24, 0]} />
               <meshStandardMaterial
-                color={isUnlocked ? '#B7FF3C' : isExecuting ? '#00F0FF' : '#27272A'}
-                emissive={isUnlocked ? '#B7FF3C' : isExecuting ? '#00F0FF' : '#18181B'}
+                color={isUnlocked ? '#FACC15' : isExecuting ? '#00F0FF' : '#27272A'}
+                emissive={isUnlocked ? '#FACC15' : isExecuting ? '#00F0FF' : '#18181B'}
                 emissiveIntensity={isUnlocked ? 3.0 : isExecuting ? 2.0 : 0.2}
                 wireframe={!isUnlocked}
               />
@@ -209,7 +209,7 @@ const VictoryParticles: React.FC<{ active: boolean }> = ({ active }) => {
   const [positions, colors] = useMemo(() => {
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
-    const lime = new THREE.Color('#B7FF3C');
+    const lime = new THREE.Color('#FACC15');
     const cyan = new THREE.Color('#00F0FF');
     const gold = new THREE.Color('#FACC15');
 
@@ -324,7 +324,7 @@ export const Arcade3DViewport: React.FC<Arcade3DViewportProps> = ({
           >
             <ambientLight intensity={0.7} />
             <pointLight position={[5, 6, 5]} intensity={1.5} color="#00F0FF" />
-            <pointLight position={[-5, -4, -3]} intensity={1.2} color="#B7FF3C" />
+            <pointLight position={[-5, -4, -3]} intensity={1.2} color="#FACC15" />
             <directionalLight position={[0, 8, 2]} intensity={1.0} />
 
             {/* Ground grid lines */}
@@ -354,7 +354,7 @@ export const Arcade3DViewport: React.FC<Arcade3DViewportProps> = ({
 
         {/* Real-time State Banner over canvas */}
         {isSuccess && (
-          <div className="absolute inset-x-6 top-6 mx-auto max-w-sm p-3 rounded-xl bg-accent text-black font-mono font-bold text-xs flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(183,255,60,0.6)] animate-bounce z-20">
+          <div className="absolute inset-x-6 top-6 mx-auto max-w-sm p-3 rounded-xl bg-accent text-black font-mono font-bold text-xs flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(250,204,21,0.6)] animate-bounce z-20">
             <CheckCircle2 size={16} />
             <span>LEVEL SOLVED: ALL DATA NODES OVERRIDDEN!</span>
           </div>

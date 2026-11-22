@@ -564,7 +564,7 @@ add_filter('wpseo_title', function($title) {
                     onClick={() => setSelectedFilter(tab.id as any)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-mono tracking-wider transition-all whitespace-nowrap ${
                       selectedFilter === tab.id
-                        ? 'bg-accent text-black font-bold shadow-[0_0_15px_rgba(183,255,60,0.3)]'
+                        ? 'bg-accent text-black font-bold shadow-[0_0_15px_rgba(250,204,21,0.3)]'
                         : 'text-brand-secondary hover:text-white bg-surface-2 border border-brand-border/60'
                     }`}
                   >
@@ -705,7 +705,7 @@ add_filter('wpseo_title', function($title) {
                 <button
                   type="button"
                   onClick={copyScript}
-                  className="px-3 py-1 rounded-lg text-xs font-mono bg-accent text-black font-bold flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(183,255,60,0.3)] hover:bg-white"
+                  className="px-3 py-1 rounded-lg text-xs font-mono bg-accent text-black font-bold flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(250,204,21,0.3)] hover:bg-white"
                 >
                   {copiedScript ? (
                     <>
@@ -917,7 +917,7 @@ add_filter('wpseo_title', function($title) {
           <button
             type="button"
             onClick={onOpenInquiry}
-            className="w-full sm:w-auto px-8 py-4 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(183,255,60,0.4)] active:scale-95"
+            className="w-full sm:w-auto px-8 py-4 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(250,204,21,0.4)] active:scale-95"
           >
             <Zap size={18} />
             <span>REQUEST SYSTEM REMEDIATION</span>

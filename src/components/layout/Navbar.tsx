@@ -79,7 +79,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenInquiry }) => {
           className="flex items-center gap-2 font-heading font-extrabold text-sm sm:text-base tracking-wider text-white hover:text-accent transition-colors"
         >
           <span>SHEHARYAR SIRAJ</span>
-          <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#B7FF3C]" />
+          <span className="w-2 h-2 rounded-full bg-accent animate-pulse shadow-[0_0_8px_#FACC15]" />
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -180,7 +180,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenInquiry }) => {
                     to="/services/"
                     className="block p-2.5 rounded-xl bg-accent/10 hover:bg-accent hover:text-black text-accent text-[11px] font-bold tracking-wider transition-colors flex items-center justify-between border border-accent/20"
                   >
-                    <span>EXPLORE ALL SERVICES & ARCHITECTURES (10 SPECIALIZATIONS)</span>
+                    <span>EXPLORE ALL SERVICES & ARCHITECTURES (11 SPECIALIZATIONS)</span>
                     <ArrowUpRight size={13} />
                   </Link>
                 </motion.div>
@@ -297,7 +297,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenInquiry }) => {
           <button
             type="button"
             onClick={onOpenInquiry}
-            className="px-3.5 py-2 xl:px-5 xl:py-2.5 rounded-full text-[11px] xl:text-xs font-bold font-mono tracking-wider bg-accent text-black hover:bg-white transition-all shadow-[0_0_20px_rgba(183,255,60,0.3)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] flex items-center gap-1.5 active:scale-95 shrink-0"
+            className="px-3.5 py-2 xl:px-5 xl:py-2.5 rounded-full text-[11px] xl:text-xs font-bold font-mono tracking-wider bg-accent text-black hover:bg-white transition-all shadow-[0_0_20px_rgba(250,204,21,0.3)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] flex items-center gap-1.5 active:scale-95 shrink-0"
           >
             <span>BUILD MY AI SYSTEM</span>
             <ArrowUpRight size={14} />
@@ -353,7 +353,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenInquiry }) => {
                     onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
                     className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-accent/10 text-accent font-mono text-[10px] font-bold"
                   >
-                    <span>10 SERVICES</span>
+                    <span>11 SERVICES</span>
                     <ChevronDown size={12} className={`transition-transform duration-200 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
                   </button>
                 </div>

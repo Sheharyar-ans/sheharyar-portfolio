@@ -64,7 +64,7 @@ export const CustomCursor: React.FC = () => {
           translateY: '-50%',
           width: isHovered ? 48 : 28,
           height: isHovered ? 48 : 28,
-          backgroundColor: isHovered ? 'rgba(183, 255, 60, 0.15)' : 'transparent',
+          backgroundColor: isHovered ? 'rgba(250, 204, 21, 0.15)' : 'transparent',
         }}
         transition={{ type: 'spring', damping: 20, stiffness: 300 }}
       />

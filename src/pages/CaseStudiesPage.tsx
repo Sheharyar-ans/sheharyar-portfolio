@@ -146,7 +146,7 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
             type="button"
             className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold tracking-wider transition-all ${
               activeFilter === filter
-                ? 'bg-accent text-black shadow-[0_0_15px_rgba(183,255,60,0.3)]'
+                ? 'bg-accent text-black shadow-[0_0_15px_rgba(250,204,21,0.3)]'
                 : 'bg-surface-2 text-brand-secondary hover:text-white hover:bg-surface-3 border border-brand-border/40'
             }`}
           >
@@ -247,7 +247,7 @@ export const CaseStudiesPage: React.FC<CaseStudiesPageProps> = ({
         <button
           onClick={onOpenInquiry}
           type="button"
-          className="px-8 py-3.5 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(183,255,60,0.3)] inline-flex items-center gap-2"
+          className="px-8 py-3.5 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(250,204,21,0.3)] inline-flex items-center gap-2"
         >
           <span>SUBMIT PROJECT BRIEF</span>
           <ArrowUpRight size={15} />

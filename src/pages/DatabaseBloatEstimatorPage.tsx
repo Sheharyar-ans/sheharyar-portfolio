@@ -465,7 +465,7 @@ wp db optimize`;
               <button
                 type="button"
                 onClick={onOpenInquiry}
-                className="w-full sm:w-auto flex-1 py-3.5 px-5 rounded-xl font-mono text-xs font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(183,255,60,0.3)] active:scale-95"
+                className="w-full sm:w-auto flex-1 py-3.5 px-5 rounded-xl font-mono text-xs font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(250,204,21,0.3)] active:scale-95"
               >
                 <span>REQUEST SYSTEM DATABASE AUDIT</span>
                 <ArrowUpRight size={15} />
@@ -737,7 +737,7 @@ wp db optimize`;
             <button
               type="button"
               onClick={onOpenInquiry}
-              className="px-6 py-3.5 rounded-xl bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(183,255,60,0.25)] active:scale-95"
+              className="px-6 py-3.5 rounded-xl bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(250,204,21,0.25)] active:scale-95"
             >
               <span>SCHEDULE DATABASE SYSTEM AUDIT</span>
               <ArrowUpRight size={15} />

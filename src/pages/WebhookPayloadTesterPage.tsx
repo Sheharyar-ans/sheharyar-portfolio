@@ -571,7 +571,7 @@ ${mappings}
                   onClick={() => setActiveOutputTab('inspector')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                     activeOutputTab === 'inspector'
-                      ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(183,255,60,0.25)]'
+                      ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(250,204,21,0.25)]'
                       : 'text-brand-muted hover:text-white'
                   }`}
                 >
@@ -583,7 +583,7 @@ ${mappings}
                   onClick={() => setActiveOutputTab('n8n_code')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                     activeOutputTab === 'n8n_code'
-                      ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(183,255,60,0.25)]'
+                      ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(250,204,21,0.25)]'
                       : 'text-brand-muted hover:text-white'
                   }`}
                 >
@@ -595,7 +595,7 @@ ${mappings}
                   onClick={() => setActiveOutputTab('make_mapping')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                     activeOutputTab === 'make_mapping'
-                      ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(183,255,60,0.25)]'
+                      ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(250,204,21,0.25)]'
                       : 'text-brand-muted hover:text-white'
                   }`}
                 >
@@ -607,7 +607,7 @@ ${mappings}
                   onClick={() => setActiveOutputTab('headers')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                     activeOutputTab === 'headers'
-                      ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(183,255,60,0.25)]'
+                      ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(250,204,21,0.25)]'
                       : 'text-brand-muted hover:text-white'
                   }`}
                 >
@@ -754,7 +754,7 @@ ${mappings}
             <button
               type="button"
               onClick={onOpenInquiry}
-              className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-mono text-xs font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(183,255,60,0.3)] flex-shrink-0 active:scale-95"
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-mono text-xs font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(250,204,21,0.3)] flex-shrink-0 active:scale-95"
             >
               <span>AUDIT YOUR PIPELINE</span>
               <ArrowUpRight size={14} />
@@ -910,7 +910,7 @@ ${mappings}
           <button
             type="button"
             onClick={onOpenInquiry}
-            className="w-full sm:w-auto px-8 py-4 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(183,255,60,0.4)] active:scale-95"
+            className="w-full sm:w-auto px-8 py-4 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(250,204,21,0.4)] active:scale-95"
           >
             <Zap size={18} />
             <span>BOOK A PIPELINE ARCHITECTURE SESSION</span>

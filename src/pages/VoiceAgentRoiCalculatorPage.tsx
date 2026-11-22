@@ -522,7 +522,7 @@ export const VoiceAgentRoiCalculatorPage: React.FC<VoiceAgentRoiCalculatorPagePr
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-3.5 px-6 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(183,255,60,0.3)] active:scale-95 text-center"
+                    className="flex-1 py-3.5 px-6 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(250,204,21,0.3)] active:scale-95 text-center"
                   >
                     <MessageSquare size={16} />
                     <span>BOOK A SYSTEM AUDIT VIA WHATSAPP</span>
@@ -757,7 +757,7 @@ export const VoiceAgentRoiCalculatorPage: React.FC<VoiceAgentRoiCalculatorPagePr
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto px-8 py-4 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(183,255,60,0.4)] active:scale-95"
+            className="w-full sm:w-auto px-8 py-4 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(250,204,21,0.4)] active:scale-95"
           >
             <MessageSquare size={18} />
             <span>BOOK A SYSTEM AUDIT VIA WHATSAPP</span>

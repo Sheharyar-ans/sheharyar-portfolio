@@ -29,7 +29,7 @@ export const VoiceWaveform: React.FC = () => {
       const height = canvas.height;
 
       ctx.lineWidth = 2;
-      ctx.strokeStyle = '#B7FF3C';
+      ctx.strokeStyle = '#FACC15';
 
       ctx.beginPath();
       for (let x = 0; x < width; x += 4) {

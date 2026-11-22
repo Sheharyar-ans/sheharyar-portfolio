@@ -305,7 +305,7 @@ export const FighterArenaCanvas: React.FC<FighterArenaCanvasProps> = ({
                 arcadeAudio.playClick();
                 onNextBoss();
               }}
-              className="px-6 py-2.5 rounded-xl bg-accent text-black font-bold text-xs uppercase tracking-wider hover:scale-105 transition-all shadow-[0_0_20px_rgba(183,255,60,0.5)] flex items-center gap-2"
+              className="px-6 py-2.5 rounded-xl bg-accent text-black font-bold text-xs uppercase tracking-wider hover:scale-105 transition-all shadow-[0_0_20px_rgba(250,204,21,0.5)] flex items-center gap-2"
             >
               <span>Next Challenger (Endless)</span>
               <Swords size={14} />

@@ -78,7 +78,7 @@ export const SystemFlow: React.FC = () => {
                   transition={{ duration: 0.35, delay: index * 0.04 }}
                   className={`w-full text-left p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-4 ${
                     isActive
-                      ? 'bg-[#121316] border-accent/70 shadow-[0_0_28px_rgba(183,255,60,0.12)]'
+                      ? 'bg-[#121316] border-accent/70 shadow-[0_0_28px_rgba(250,204,21,0.12)]'
                       : 'bg-white/[0.02] border-white/[0.07] hover:border-white/[0.2] hover:bg-white/[0.04]'
                   }`}
                 >
@@ -86,7 +86,7 @@ export const SystemFlow: React.FC = () => {
                     <span
                       className={`w-9 h-9 rounded-xl font-mono text-xs font-bold flex items-center justify-center shrink-0 transition-all ${
                         isActive
-                          ? 'bg-accent text-black shadow-[0_0_14px_#B7FF3C]'
+                          ? 'bg-accent text-black shadow-[0_0_14px_#FACC15]'
                           : 'bg-white/[0.05] text-brand-secondary'
                       }`}
                     >
@@ -156,7 +156,7 @@ export const SystemFlow: React.FC = () => {
                 </div>
                 <div className="h-1.5 w-full rounded-full bg-white/[0.06] overflow-hidden">
                   <div
-                    className="h-full bg-accent transition-all duration-500 rounded-full shadow-[0_0_10px_#B7FF3C]"
+                    className="h-full bg-accent transition-all duration-500 rounded-full shadow-[0_0_10px_#FACC15]"
                     style={{
                       width: `${((activeStep + 1) / SYSTEM_FLOW_STEPS.length) * 100}%`,
                     }}

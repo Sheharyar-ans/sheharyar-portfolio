@@ -471,7 +471,7 @@ Specific Objection Rules:
                         onClick={() => setPrimaryObjective(item.id as any)}
                         className={`p-2.5 rounded-xl border text-left flex items-center gap-2 transition-all ${
                           isSelected
-                            ? 'bg-accent/15 border-accent text-white shadow-[0_0_15px_rgba(183,255,60,0.15)]'
+                            ? 'bg-accent/15 border-accent text-white shadow-[0_0_15px_rgba(250,204,21,0.15)]'
                             : 'bg-surface-2 border-brand-border text-brand-secondary hover:border-brand-border/80'
                         }`}
                       >
@@ -551,7 +551,7 @@ Specific Objection Rules:
                     onClick={() => setActiveTab('prompt')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                       activeTab === 'prompt'
-                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(183,255,60,0.25)]'
+                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(250,204,21,0.25)]'
                         : 'text-brand-muted hover:text-white'
                     }`}
                   >
@@ -563,7 +563,7 @@ Specific Objection Rules:
                     onClick={() => setActiveTab('json')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                       activeTab === 'json'
-                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(183,255,60,0.25)]'
+                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(250,204,21,0.25)]'
                         : 'text-brand-muted hover:text-white'
                     }`}
                   >
@@ -575,7 +575,7 @@ Specific Objection Rules:
                     onClick={() => setActiveTab('functions')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                       activeTab === 'functions'
-                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(183,255,60,0.25)]'
+                        ? 'bg-accent text-black font-bold shadow-[0_0_10px_rgba(250,204,21,0.25)]'
                         : 'text-brand-muted hover:text-white'
                     }`}
                   >
@@ -630,7 +630,7 @@ Specific Objection Rules:
               <button
                 type="button"
                 onClick={onOpenInquiry}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-mono text-xs font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(183,255,60,0.3)] flex-shrink-0 active:scale-95"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-mono text-xs font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(250,204,21,0.3)] flex-shrink-0 active:scale-95"
               >
                 <span>BOOK ARCHITECTURE REVIEW</span>
                 <ArrowUpRight size={14} />
@@ -797,7 +797,7 @@ Specific Objection Rules:
           <button
             type="button"
             onClick={onOpenInquiry}
-            className="w-full sm:w-auto px-8 py-4 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(183,255,60,0.4)] active:scale-95"
+            className="w-full sm:w-auto px-8 py-4 rounded-xl font-mono text-sm font-bold tracking-wider bg-accent text-black hover:bg-white transition-all flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(250,204,21,0.4)] active:scale-95"
           >
             <MessageSquare size={18} />
             <span>SCHEDULE ARCHITECTURE SESSION</span>

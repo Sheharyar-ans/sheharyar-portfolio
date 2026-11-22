@@ -119,7 +119,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onOpenInquiry }) => {
               <button
                 type="button"
                 onClick={onOpenInquiry}
-                className="w-full py-2.5 px-3 rounded-xl bg-accent text-black hover:bg-white font-mono text-xs font-bold transition-all text-center flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(183,255,60,0.25)]"
+                className="w-full py-2.5 px-3 rounded-xl bg-accent text-black hover:bg-white font-mono text-xs font-bold transition-all text-center flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(250,204,21,0.25)]"
               >
                 <span>INITIATE CUSTOM CONTRACT</span>
                 <ArrowUpRight size={13} />

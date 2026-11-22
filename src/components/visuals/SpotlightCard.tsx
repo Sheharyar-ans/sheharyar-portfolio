@@ -9,7 +9,7 @@ interface SpotlightCardProps extends React.HTMLAttributes<HTMLDivElement> {
 export const SpotlightCard: React.FC<SpotlightCardProps> = ({
   children,
   className = '',
-  spotlightColor = 'rgba(183, 255, 60, 0.11)',
+  spotlightColor = 'rgba(250, 204, 21, 0.11)',
   onMouseMove,
   onMouseLeave,
   ...rest

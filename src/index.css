@@ -5,8 +5,8 @@
 @layer base {
   :root {
     --bg-color: #080808;
-    --accent-color: #B7FF3C;
-    --accent-glow: rgba(183, 255, 60, 0.22);
+    --accent-color: #FACC15;
+    --accent-glow: rgba(250, 204, 21, 0.22);
   }
 
   html {
@@ -23,7 +23,7 @@
   }
 
   ::selection {
-    background-color: #B7FF3C;
+    background-color: #FACC15;
     color: #080808;
   }
 
@@ -55,7 +55,7 @@
   border-radius: 9999px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(183, 255, 60, 0.45);
+  background: rgba(250, 204, 21, 0.45);
 }
 .custom-scrollbar {
   scrollbar-width: thin;
@@ -98,18 +98,18 @@
 
 .glass-panel-hover:hover {
   background: rgba(26, 26, 26, 0.85);
-  border-color: rgba(183, 255, 60, 0.35);
+  border-color: rgba(250, 204, 21, 0.35);
   transform: translateY(-3px);
-  box-shadow: 0 12px 30px -10px rgba(183, 255, 60, 0.12);
+  box-shadow: 0 12px 30px -10px rgba(250, 204, 21, 0.12);
 }
 
 /* Glowing text and buttons */
 .text-glow {
-  text-shadow: 0 0 24px rgba(183, 255, 60, 0.4);
+  text-shadow: 0 0 24px rgba(250, 204, 21, 0.4);
 }
 
 .border-glow {
-  box-shadow: 0 0 20px rgba(183, 255, 60, 0.2);
+  box-shadow: 0 0 20px rgba(250, 204, 21, 0.2);
 }
 
 /* Subtle grid line overlay */
@@ -154,16 +154,16 @@
 .vng-glow-ring {
   background: conic-gradient(
     from var(--vng-glow-angle),
-    var(--vng-glow-1, #B7FF3C) 0%,
-    var(--vng-glow-2, #8CE626) 10%,
-    var(--vng-glow-3, #4ADE80) 20%,
-    var(--vng-glow-4, #22D3EE) 30%,
+    var(--vng-glow-1, #FACC15) 0%,
+    var(--vng-glow-2, #F59E0B) 10%,
+    var(--vng-glow-3, #FBBF24) 20%,
+    var(--vng-glow-4, #FEF08A) 30%,
     var(--vng-glow-5, #171717) 40%,
     var(--vng-glow-6, #262626) 50%,
-    var(--vng-glow-7, #B7FF3C) 60%,
-    var(--vng-glow-8, #A3E635) 70%,
-    var(--vng-glow-9, #22D3EE) 80%,
-    var(--vng-glow-10, #B7FF3C) 100%
+    var(--vng-glow-7, #FACC15) 60%,
+    var(--vng-glow-8, #FDE047) 70%,
+    var(--vng-glow-9, #FEF08A) 80%,
+    var(--vng-glow-10, #FACC15) 100%
   );
   animation: vng-glow-spin var(--vng-glow-duration, 6s) linear infinite;
 }

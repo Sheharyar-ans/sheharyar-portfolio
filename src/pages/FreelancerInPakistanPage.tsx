@@ -210,7 +210,7 @@ export const FreelancerInPakistanPage: React.FC<FreelancerInPakistanPageProps> =
           <button
             type="button"
             onClick={onOpenInquiry}
-            className="px-6 py-3.5 rounded-xl text-sm font-mono font-bold bg-accent text-black hover:bg-white transition-all inline-flex items-center gap-2 shadow-[0_0_20px_rgba(183,255,60,0.3)] cursor-pointer"
+            className="px-6 py-3.5 rounded-xl text-sm font-mono font-bold bg-accent text-black hover:bg-white transition-all inline-flex items-center gap-2 shadow-[0_0_20px_rgba(250,204,21,0.3)] cursor-pointer"
           >
             <span>START A PROJECT</span>
             <ArrowUpRight size={16} />
@@ -554,7 +554,7 @@ export const FreelancerInPakistanPage: React.FC<FreelancerInPakistanPageProps> =
             <button
               type="button"
               onClick={onOpenInquiry}
-              className="px-6 py-3.5 rounded-xl text-sm font-mono font-bold bg-accent text-black hover:bg-white transition-all inline-flex items-center gap-2 shadow-[0_0_20px_rgba(183,255,60,0.3)] cursor-pointer"
+              className="px-6 py-3.5 rounded-xl text-sm font-mono font-bold bg-accent text-black hover:bg-white transition-all inline-flex items-center gap-2 shadow-[0_0_20px_rgba(250,204,21,0.3)] cursor-pointer"
             >
               <span>GET A SCOPED PROPOSAL</span>
               <ArrowUpRight size={16} />

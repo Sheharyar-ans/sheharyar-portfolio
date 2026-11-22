@@ -413,26 +413,14 @@ export const AiChatbotWidget: React.FC<AiChatbotWidgetProps> = ({ onOpenInquiry 
     ? lastAssistantMsg.suggestedChips
     : DEFAULT_QUICK_CHIPS;
 
+  useEffect(() => {
+    const onOpenChat = () => setIsOpen(true);
+    window.addEventListener('open-ai-chatbot', onOpenChat);
+    return () => window.removeEventListener('open-ai-chatbot', onOpenChat);
+  }, []);
+
   return (
     <>
-      {/* Floating Trigger Button: Short Circle on Right Side */}
-      {!isOpen && (
-        <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40">
-          <button
-            onClick={() => setIsOpen(true)}
-            className="group relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-1/95 border border-brand-border/80 hover:border-accent text-accent shadow-2xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
-            aria-label="Chat with Elena (Executive Assistant)"
-            title="Chat with Elena (Executive Assistant)"
-          >
-            <MessageSquare size={20} className="sm:w-[22px] sm:h-[22px]" />
-            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-surface-1 animate-pulse" />
-            <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-surface-2 border border-brand-border text-white text-xs font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 shadow-xl hidden sm:block">
-              Elena • Executive Assistant
-            </span>
-          </button>
-        </div>
-      )}
-
       {/* Main Chat Interface Modal */}
       {isOpen && (
         <div

@@ -437,7 +437,7 @@ export const InteractiveGameArena: React.FC<InteractiveGameArenaProps> = ({ onXp
               onClick={() => handleModeChange('puzzle')}
               className={`px-3 py-2 rounded-lg font-bold flex items-center gap-2 transition-all ${
                 gameMode === 'puzzle'
-                  ? 'bg-accent text-black shadow-[0_0_12px_rgba(183,255,60,0.4)]'
+                  ? 'bg-accent text-black shadow-[0_0_12px_rgba(250,204,21,0.4)]'
                   : 'text-brand-muted hover:text-white'
               }`}
             >
@@ -711,7 +711,7 @@ export const InteractiveGameArena: React.FC<InteractiveGameArenaProps> = ({ onXp
               disabled={isEvaluating}
               className={`px-5 py-2.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg ${
                 gameMode === 'puzzle'
-                  ? 'bg-accent text-black hover:scale-105 shadow-[0_0_20px_rgba(183,255,60,0.4)]'
+                  ? 'bg-accent text-black hover:scale-105 shadow-[0_0_20px_rgba(250,204,21,0.4)]'
                   : 'bg-rose-500 text-white hover:scale-105 shadow-[0_0_20px_rgba(244,63,94,0.5)]'
               }`}
             >

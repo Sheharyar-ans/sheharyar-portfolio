@@ -279,7 +279,7 @@ export const LeadManagementModal: React.FC<LeadManagementModalProps> = ({ isOpen
         {!isAuthenticated ? (
           /* ================= ADMIN AUTHENTICATION GATE ================= */
           <div className="p-8 sm:p-12 flex flex-col items-center justify-center text-center my-auto">
-            <div className="w-16 h-16 rounded-2xl bg-accent/10 border border-accent/30 flex items-center justify-center text-accent mb-4 shadow-[0_0_30px_rgba(183,255,60,0.15)]">
+            <div className="w-16 h-16 rounded-2xl bg-accent/10 border border-accent/30 flex items-center justify-center text-accent mb-4 shadow-[0_0_30px_rgba(250,204,21,0.15)]">
               <Lock size={28} />
             </div>
 

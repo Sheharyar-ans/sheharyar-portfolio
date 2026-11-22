@@ -646,7 +646,7 @@ function CyberShield({ level, active }) {
         levelNumber: 2,
         title: 'Layout 02: Cyberpunk Neon Box Shadow',
         difficulty: 'Beginner',
-        missionBrief: 'Synthesize a multi-layered neon glow CSS box-shadow string using neon lime green (#B7FF3C).',
+        missionBrief: 'Synthesize a multi-layered neon glow CSS box-shadow string using neon lime green (#FACC15).',
         instructions: [
           'Complete generateNeonGlow(colorHex, spreadPx)',
           'Return format: `0 0 ${spreadPx}px ${colorHex}, 0 0 ${spreadPx * 2}px ${colorHex}`'
@@ -658,9 +658,9 @@ function CyberShield({ level, active }) {
         solutionHint: 'Interpolate spread and double spread: `0 0 ${spreadPx}px ${colorHex}, 0 0 ${spreadPx * 2}px ${colorHex}`',
         testCases: [
           {
-            description: 'Generates glow for #B7FF3C and 10px',
-            input: { colorHex: '#B7FF3C', spreadPx: 10 },
-            expected: '0 0 10px #B7FF3C, 0 0 20px #B7FF3C',
+            description: 'Generates glow for #FACC15 and 10px',
+            input: { colorHex: '#FACC15', spreadPx: 10 },
+            expected: '0 0 10px #FACC15, 0 0 20px #FACC15',
             validatorType: 'custom_eval'
           }
         ],

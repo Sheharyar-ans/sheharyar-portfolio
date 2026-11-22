@@ -637,7 +637,7 @@ export const FIGHTER_CHALLENGES: Record<LanguageType, Record<DifficultyLevel, Fi
         task: 'function makeGlow(color, px) -> `0 0 ${px}px ${color}, 0 0 ${px*2}px ${color}`',
         starterComment: '/* Complete function makeGlow(color, px): */\n',
         testCases: [
-          { input: ['#B7FF3C', 10], expected: '0 0 10px #B7FF3C, 0 0 20px #B7FF3C', displayInput: '("#B7FF3C", 10)', displayExpected: '"0 0 10px #B7FF3C, 0 0 20px #B7FF3C"' }
+          { input: ['#FACC15', 10], expected: '0 0 10px #FACC15, 0 0 20px #FACC15', displayInput: '("#FACC15", 10)', displayExpected: '"0 0 10px #FACC15, 0 0 20px #FACC15"' }
         ],
         hint: 'return `0 0 ${px}px ${color}, 0 0 ${px*2}px ${color}`;',
         targetFunction: 'makeGlow',

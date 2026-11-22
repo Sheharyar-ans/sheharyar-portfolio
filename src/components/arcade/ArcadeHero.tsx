@@ -119,7 +119,7 @@ export const ArcadeHero: React.FC<ArcadeHeroProps> = ({ playerStats, onScrollToA
       <div ref={ctaRef} className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
         <button
           onClick={onScrollToArena}
-          className="w-full sm:w-auto px-8 py-4 rounded-xl bg-accent text-black font-mono font-bold text-sm tracking-wider hover:bg-white transition-all shadow-[0_0_30px_rgba(183,255,60,0.4)] flex items-center justify-center gap-2 active:scale-95 group"
+          className="w-full sm:w-auto px-8 py-4 rounded-xl bg-accent text-black font-mono font-bold text-sm tracking-wider hover:bg-white transition-all shadow-[0_0_30px_rgba(250,204,21,0.4)] flex items-center justify-center gap-2 active:scale-95 group"
         >
           <Zap size={16} fill="currentColor" />
           <span>PLAY CODE ARENA NOW</span>

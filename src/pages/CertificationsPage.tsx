@@ -254,7 +254,7 @@ export const CertificationsPage: React.FC<CertificationsPageProps> = ({ onOpenIn
             onClick={() => setActiveFilter(tab.id as any)}
             className={`px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider transition-all cursor-pointer ${
               activeFilter === tab.id
-                ? 'bg-accent text-black shadow-[0_0_15px_rgba(183,255,60,0.3)]'
+                ? 'bg-accent text-black shadow-[0_0_15px_rgba(250,204,21,0.3)]'
                 : 'bg-surface-2 text-brand-secondary hover:text-white border border-brand-border/60 hover:border-accent/40'
             }`}
           >
@@ -431,7 +431,7 @@ export const CertificationsPage: React.FC<CertificationsPageProps> = ({ onOpenIn
           <button
             onClick={onOpenInquiry}
             type="button"
-            className="px-8 py-3.5 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(183,255,60,0.3)] inline-flex items-center gap-2 cursor-pointer"
+            className="px-8 py-3.5 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(250,204,21,0.3)] inline-flex items-center gap-2 cursor-pointer"
           >
             <span>CONNECT DIRECTLY WITH SHEHARYAR</span>
             <ArrowUpRight size={15} />

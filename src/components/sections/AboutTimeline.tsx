@@ -96,7 +96,7 @@ export const AboutTimeline: React.FC = () => {
               {TIMELINE.map((item) => (
                 <div key={item.company + item.year} className="relative group">
                   {/* Timeline Node */}
-                  <span className="absolute -left-[31px] sm:-left-[39px] top-6 w-3.5 h-3.5 rounded-full bg-[#080808] border-2 border-white/25 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[0_0_10px_#B7FF3C] transition-all" />
+                  <span className="absolute -left-[31px] sm:-left-[39px] top-6 w-3.5 h-3.5 rounded-full bg-[#080808] border-2 border-white/25 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[0_0_10px_#FACC15] transition-all" />
 
                   <SpotlightCard className="p-6 sm:p-7 rounded-3xl bg-[#0e0e10]/90 border border-white/[0.08] group-hover:border-accent/40 transition-all">
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-2">

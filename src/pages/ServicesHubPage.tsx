@@ -13,7 +13,9 @@ interface ServicesHubPageProps {
 
 export const ServicesHubPage: React.FC<ServicesHubPageProps> = ({ onOpenInquiry }) => {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const serviceKeys = Object.keys(SUB_SERVICES);
+  const serviceKeys = Object.keys(SUB_SERVICES).filter(
+    (key) => key !== 'data-analytics-data-science'
+  );
   const hubSchema = generateSchemaGraph('/services/');
 
   const getServiceIcon = (slug: string) => {
@@ -38,6 +40,8 @@ export const ServicesHubPage: React.FC<ServicesHubPageProps> = ({ onOpenInquiry 
         return <Boxes className="text-accent" size={24} />;
       case 'ai-video-ads-ugc':
         return <Video className="text-accent" size={24} />;
+      case 'white-label-agency-automation':
+        return <ShieldCheck className="text-accent" size={24} />;
       default:
         return <Cpu className="text-accent" size={24} />;
     }
@@ -110,7 +114,7 @@ export const ServicesHubPage: React.FC<ServicesHubPageProps> = ({ onOpenInquiry 
             What specialized B2B service architectures does Sheharyar Siraj engineer?
           </h2>
           <p className="content-capsule text-sm sm:text-base text-white/95 font-medium leading-relaxed mb-8 p-4 rounded-xl bg-accent/[0.04] border border-accent/20">
-            Sheharyar Siraj architects seven specialized B2B capabilities spanning custom WordPress VIP systems, high-concurrency WooCommerce stores, sub-600ms autonomous AI voice agents, contextual enterprise RAG chatbots, self-hosted n8n workflows, autonomous Agentic AI multi-agent applications, and predictive enterprise data analytics pipelines, delivering verified operational efficiency across 1,200+ global deployments.
+            Sheharyar Siraj architects eleven specialized B2B capabilities spanning custom WordPress VIP systems, high-concurrency WooCommerce stores, sub-600ms autonomous AI voice agents, contextual enterprise RAG chatbots, self-hosted n8n workflows, autonomous Agentic AI multi-agent applications, production vibe coding, custom SaaS MVPs, AI video ads, white-label agency automation, and predictive enterprise data analytics pipelines, delivering verified operational efficiency across 1,200+ global deployments.
           </p>
         </div>
 
@@ -128,7 +132,7 @@ export const ServicesHubPage: React.FC<ServicesHubPageProps> = ({ onOpenInquiry 
                       {getServiceIcon(service.slug)}
                     </div>
                     <span className="font-mono text-xs text-brand-muted tracking-widest font-bold">
-                      0{index + 1}
+                      {String(index + 1).padStart(2, '0')}
                     </span>
                   </div>
 
@@ -354,7 +358,7 @@ export const ServicesHubPage: React.FC<ServicesHubPageProps> = ({ onOpenInquiry 
             <div className="flex flex-wrap gap-3 pt-2">
               <Link
                 to="/tools/"
-                className="px-4 py-2 rounded-lg bg-accent text-black text-xs font-mono font-bold hover:bg-white transition-all shadow-[0_0_15px_rgba(183,255,60,0.25)]"
+                className="px-4 py-2 rounded-lg bg-accent text-black text-xs font-mono font-bold hover:bg-white transition-all shadow-[0_0_15px_rgba(250,204,21,0.25)]"
               >
                 Explore All 10 Tools →
               </Link>
@@ -380,7 +384,7 @@ export const ServicesHubPage: React.FC<ServicesHubPageProps> = ({ onOpenInquiry 
         <button
           onClick={onOpenInquiry}
           type="button"
-          className="px-8 py-3.5 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(183,255,60,0.3)] inline-flex items-center gap-2"
+          className="px-8 py-3.5 rounded-full bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(250,204,21,0.3)] inline-flex items-center gap-2"
         >
           <span>INITIATE PROJECT INQUIRY</span>
           <ArrowUpRight size={15} />

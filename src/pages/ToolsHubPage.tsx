@@ -225,7 +225,7 @@ export const ToolsHubPage: React.FC<ToolsHubPageProps> = ({ onOpenInquiry }) => 
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-mono tracking-wider transition-all border ${
                   isActive
-                    ? 'bg-accent text-black border-accent font-bold shadow-[0_0_15px_rgba(183,255,60,0.3)]'
+                    ? 'bg-accent text-black border-accent font-bold shadow-[0_0_15px_rgba(250,204,21,0.3)]'
                     : 'bg-surface-2 text-brand-secondary border-brand-border/60 hover:text-white hover:border-brand-borderHover'
                 }`}
               >
@@ -301,7 +301,7 @@ export const ToolsHubPage: React.FC<ToolsHubPageProps> = ({ onOpenInquiry }) => 
                   {/* Primary CTA button linking directly to its respective standalone landing page */}
                   <Link
                     to={`/tools/${tool.slug}/`}
-                    className="w-full py-2.5 px-4 rounded-xl font-mono text-xs font-bold tracking-wider bg-surface-2 hover:bg-accent hover:text-black text-white flex items-center justify-between transition-all border border-brand-border group-hover:border-accent/50 group-hover:shadow-[0_0_20px_rgba(183,255,60,0.15)] active:scale-[0.98]"
+                    className="w-full py-2.5 px-4 rounded-xl font-mono text-xs font-bold tracking-wider bg-surface-2 hover:bg-accent hover:text-black text-white flex items-center justify-between transition-all border border-brand-border group-hover:border-accent/50 group-hover:shadow-[0_0_20px_rgba(250,204,21,0.15)] active:scale-[0.98]"
                   >
                     <span>{tool.ctaText}</span>
                     <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -331,7 +331,7 @@ export const ToolsHubPage: React.FC<ToolsHubPageProps> = ({ onOpenInquiry }) => 
             <button
               type="button"
               onClick={onOpenInquiry}
-              className="px-6 py-3 rounded-xl bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(183,255,60,0.25)] active:scale-95"
+              className="px-6 py-3 rounded-xl bg-accent text-black font-mono text-xs font-bold tracking-wider hover:bg-white transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(250,204,21,0.25)] active:scale-95"
             >
               <span>DISCUSS CUSTOM TOOL ARCHITECTURE</span>
               <ArrowUpRight size={15} />

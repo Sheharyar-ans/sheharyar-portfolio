@@ -100,10 +100,10 @@ export const DirectConnectModal: React.FC<DirectConnectModalProps> = ({ isOpen, 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 20 }}
             transition={{ type: 'spring', damping: 26, stiffness: 320 }}
-            className="relative w-full h-[100dvh] max-h-[100dvh] sm:h-auto sm:max-h-[85vh] md:max-h-[88vh] sm:max-w-lg lg:max-w-xl bg-gradient-to-b from-[#141414] to-[#0A0A0A] border-0 sm:border sm:border-brand-border/80 rounded-none sm:rounded-3xl shadow-[0_0_50px_rgba(183,255,60,0.15)] z-10 overflow-hidden flex flex-col overscroll-contain my-auto pb-[env(safe-area-inset-bottom,0px)]"
+            className="relative w-full h-[100dvh] max-h-[100dvh] sm:h-auto sm:max-h-[85vh] md:max-h-[88vh] sm:max-w-lg lg:max-w-xl bg-gradient-to-b from-[#141414] to-[#0A0A0A] border-0 sm:border sm:border-brand-border/80 rounded-none sm:rounded-3xl shadow-[0_0_50px_rgba(250,204,21,0.15)] z-10 overflow-hidden flex flex-col overscroll-contain my-auto pb-[env(safe-area-inset-bottom,0px)]"
           >
             {/* Top scanning accent glow bar */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent shadow-[0_0_15px_#B7FF3C] z-20" />
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent shadow-[0_0_15px_#FACC15] z-20" />
 
             {/* Ambient background light spheres */}
             <div className="absolute -top-24 -left-24 w-48 h-48 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
@@ -114,7 +114,7 @@ export const DirectConnectModal: React.FC<DirectConnectModalProps> = ({ isOpen, 
               <div className="flex items-center gap-2 min-w-0">
                 <span className="relative flex h-2.5 w-2.5 shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent shadow-[0_0_8px_#B7FF3C]" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent shadow-[0_0_8px_#FACC15]" />
                 </span>
                 <span className="text-[10px] sm:text-[11px] font-mono tracking-wider sm:tracking-widest text-accent font-bold uppercase truncate">
                   DIRECT COMMS • NO FORMS, NO DELAYS
@@ -201,7 +201,7 @@ export const DirectConnectModal: React.FC<DirectConnectModalProps> = ({ isOpen, 
                         href={CONTACT_INFO.whatsappUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 sm:flex-none justify-center px-4 py-2 rounded-xl bg-accent text-black hover:bg-white text-xs font-mono font-bold tracking-wider flex items-center gap-1.5 shadow-[0_0_15px_rgba(183,255,60,0.3)] transition-all active:scale-95"
+                        className="flex-1 sm:flex-none justify-center px-4 py-2 rounded-xl bg-accent text-black hover:bg-white text-xs font-mono font-bold tracking-wider flex items-center gap-1.5 shadow-[0_0_15px_rgba(250,204,21,0.3)] transition-all active:scale-95"
                       >
                         <span>CHAT NOW</span>
                         <ArrowUpRight size={14} />

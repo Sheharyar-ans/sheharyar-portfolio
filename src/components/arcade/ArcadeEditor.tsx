@@ -391,7 +391,7 @@ export const ArcadeEditor: React.FC<ArcadeEditorProps> = ({
           <button
             onClick={executeCode}
             disabled={isExecuting}
-            className="px-4 py-1.5 rounded-xl bg-accent text-black font-bold font-mono text-xs hover:bg-white transition-all shadow-[0_0_15px_rgba(183,255,60,0.3)] flex items-center gap-1.5 disabled:opacity-40 active:scale-95"
+            className="px-4 py-1.5 rounded-xl bg-accent text-black font-bold font-mono text-xs hover:bg-white transition-all shadow-[0_0_15px_rgba(250,204,21,0.3)] flex items-center gap-1.5 disabled:opacity-40 active:scale-95"
           >
             {isExecuting ? (
               <>

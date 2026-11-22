@@ -310,7 +310,7 @@ export const CodeArcadePage: React.FC<CodeArcadePageProps> = ({ onOpenInquiry })
       {/* ================= VICTORY CELEBRATION MODAL ================= */}
       {showVictoryModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-md p-6 sm:p-8 rounded-3xl bg-surface-1 border border-accent/40 shadow-[0_0_50px_rgba(183,255,60,0.25)] text-center font-mono">
+          <div className="relative w-full max-w-md p-6 sm:p-8 rounded-3xl bg-surface-1 border border-accent/40 shadow-[0_0_50px_rgba(250,204,21,0.25)] text-center font-mono">
             {/* Mascot Avatar */}
             <div className="w-24 h-24 aspect-square rounded-2xl bg-black border border-accent/40 p-1 mx-auto mb-4 overflow-hidden shadow-xl">
               <img

@@ -42,7 +42,7 @@ import { ArchitectureGuidePage } from './pages/ArchitectureGuidePage';
 import { CodeArcadePage } from './pages/CodeArcadePage';
 import { AiChatbotWidget } from './components/chat/AiChatbotWidget';
 import { VoiceAssistantModal } from './components/VoiceAssistantModal';
-import { FloatingScopingCta } from './components/layout/FloatingScopingCta';
+import { FloatingAiDock } from './components/layout/FloatingAiDock';
 
 const CaseStudyModal = React.lazy(() =>
   import('./components/modals/CaseStudyModal').then((m) => ({ default: m.CaseStudyModal }))
@@ -449,8 +449,8 @@ export const App: React.FC = () => {
       {/* Autonomous Voice AI Telephony Assistant (Zero-Cost Client Speech Pipeline) */}
       <VoiceAssistantModal onOpenInquiry={() => setIsConnectOpen(true)} />
 
-      {/* Floating Accessible 15-Minute Technical Scoping Call Pill */}
-      <FloatingScopingCta onOpenInquiry={() => setIsConnectOpen(true)} />
+      {/* Compact Rounded Floating AI Dock (Hover to reveal Voice Bot & Chatbot) */}
+      <FloatingAiDock />
 
       {/* Floating RAG AI Chatbot Widget */}
       <AiChatbotWidget onOpenInquiry={() => setIsConnectOpen(true)} />

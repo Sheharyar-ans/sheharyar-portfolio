@@ -680,27 +680,14 @@ export const VoiceAssistantModal: React.FC<VoiceAssistantModalProps> = ({
     };
   }, [isModalOpen]);
 
+  useEffect(() => {
+    const onOpenEvent = () => handleOpen();
+    window.addEventListener('open-voice-assistant', onOpenEvent);
+    return () => window.removeEventListener('open-voice-assistant', onOpenEvent);
+  }, []);
+
   return (
     <>
-      {/* Floating Launcher Pill Button (Visible when closed) */}
-      {!isModalOpen && (
-        <button
-          onClick={handleOpen}
-          aria-label="Talk to Elena Voice Assistant"
-          className="fixed bottom-6 right-20 z-40 flex items-center gap-2.5 px-4 py-3 bg-zinc-950/90 hover:bg-zinc-900 border border-emerald-500/40 hover:border-emerald-400 text-white rounded-full shadow-2xl shadow-emerald-950/50 backdrop-blur-md transition-all hover:scale-105 group"
-        >
-          <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500" />
-          </span>
-          <div className="flex items-center gap-1.5 font-medium text-xs sm:text-sm">
-            <Phone className="w-4 h-4 text-emerald-400 group-hover:rotate-12 transition-transform" />
-            <span className="hidden sm:inline">Voice Agent:</span>
-            <span className="text-emerald-400 font-semibold">Talk to Elena</span>
-          </div>
-        </button>
-      )}
-
       {/* Main Glassmorphic Centered Voice Assistant Modal */}
       {isModalOpen && (
         <div data-lenis-prevent="true" className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-xl animate-fadeIn">

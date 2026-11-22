@@ -81,7 +81,7 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
     <div className="pt-24 pb-20 bg-bg text-white min-h-screen selection:bg-accent selection:text-black">
       {/* Scroll Reading Progress Bar */}
       <div
-        className="fixed top-0 left-0 h-[3px] bg-accent z-50 transition-all duration-100 ease-out shadow-[0_0_12px_#B7FF3C]"
+        className="fixed top-0 left-0 h-[3px] bg-accent z-50 transition-all duration-100 ease-out shadow-[0_0_12px_#FACC15]"
         style={{ width: `${scrollProgress}%` }}
         role="progressbar"
         aria-valuenow={Math.round(scrollProgress)}
@@ -182,7 +182,7 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
               <button
                 type="button"
                 onClick={onOpenInquiry}
-                className="px-4 py-1.5 rounded-full bg-accent text-black font-mono text-xs font-bold hover:bg-white transition-all shadow-[0_0_15px_rgba(183,255,60,0.3)] flex items-center gap-1 cursor-pointer active:scale-95"
+                className="px-4 py-1.5 rounded-full bg-accent text-black font-mono text-xs font-bold hover:bg-white transition-all shadow-[0_0_15px_rgba(250,204,21,0.3)] flex items-center gap-1 cursor-pointer active:scale-95"
               >
                 <span>BOOK SCOPING CALL</span>
                 <ArrowUpRight size={13} />
@@ -194,7 +194,7 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
         {/* AEO / GEO Direct Answer Capsule (Target for Answer Engine Snippets) */}
         <section
           aria-label="AEO Direct Answer Summary"
-          className="mb-12 p-6 sm:p-8 rounded-2xl glass-panel border border-accent/40 bg-gradient-to-br from-surface-1 via-accent/[0.05] to-surface-1 shadow-[0_0_30px_rgba(183,255,60,0.08)]"
+          className="mb-12 p-6 sm:p-8 rounded-2xl glass-panel border border-accent/40 bg-gradient-to-br from-surface-1 via-accent/[0.05] to-surface-1 shadow-[0_0_30px_rgba(250,204,21,0.08)]"
         >
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
@@ -255,11 +255,11 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
                 <svg viewBox="0 0 900 240" className="w-full h-auto font-mono text-xs select-none">
                   <defs>
                     <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#B7FF3C" stopOpacity="0.8" />
+                      <stop offset="0%" stopColor="#FACC15" stopOpacity="0.8" />
                       <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.8" />
                     </linearGradient>
                     <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                      <path d="M 0 1 L 8 5 L 0 9 z" fill="#B7FF3C" />
+                      <path d="M 0 1 L 8 5 L 0 9 z" fill="#FACC15" />
                     </marker>
                   </defs>
 
@@ -267,31 +267,31 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
                   {/* Step 1: Inbound SIP */}
                   <g transform="translate(10, 50)">
                     <rect width="140" height="90" rx="12" fill="#18181b" stroke="#3f3f46" strokeWidth="1.5" />
-                    <text x="70" y="32" textAnchor="middle" fill="#B7FF3C" fontWeight="bold">SIP INBOUND CALL</text>
+                    <text x="70" y="32" textAnchor="middle" fill="#FACC15" fontWeight="bold">SIP INBOUND CALL</text>
                     <text x="70" y="52" textAnchor="middle" fill="#a1a1aa" fontSize="10">PSTN Phone Network</text>
                     <text x="70" y="70" textAnchor="middle" fill="#71717a" fontSize="9">G.711u 8kHz Audio</text>
                   </g>
 
                   {/* Arrow 1 */}
-                  <path d="M 150 95 L 180 95" stroke="#B7FF3C" strokeWidth="2" markerEnd="url(#arrow)" />
+                  <path d="M 150 95 L 180 95" stroke="#FACC15" strokeWidth="2" markerEnd="url(#arrow)" />
 
                   {/* Step 2: Twilio SIP Trunk */}
                   <g transform="translate(185, 50)">
                     <rect width="140" height="90" rx="12" fill="#18181b" stroke="#3f3f46" strokeWidth="1.5" />
                     <text x="70" y="32" textAnchor="middle" fill="#ffffff" fontWeight="bold">TWILIO SIP TRUNK</text>
                     <text x="70" y="52" textAnchor="middle" fill="#a1a1aa" fontSize="10">Elastic Carrier SBC</text>
-                    <text x="70" y="70" textAnchor="middle" fill="#B7FF3C" fontSize="9">RFC 3261 Signaling</text>
+                    <text x="70" y="70" textAnchor="middle" fill="#FACC15" fontSize="9">RFC 3261 Signaling</text>
                   </g>
 
                   {/* Arrow 2 */}
-                  <path d="M 325 95 L 355 95" stroke="#B7FF3C" strokeWidth="2" markerEnd="url(#arrow)" />
+                  <path d="M 325 95 L 355 95" stroke="#FACC15" strokeWidth="2" markerEnd="url(#arrow)" />
 
                   {/* Step 3: WebSocket Gateway & Deepgram */}
                   <g transform="translate(360, 40)">
                     <rect width="165" height="110" rx="12" fill="#111827" stroke="#38bdf8" strokeWidth="1.5" />
                     <text x="82" y="30" textAnchor="middle" fill="#38bdf8" fontWeight="bold">WEBSOCKET GATEWAY</text>
                     <rect x="15" y="42" width="135" height="28" rx="6" fill="#1e293b" />
-                    <text x="82" y="60" textAnchor="middle" fill="#B7FF3C" fontWeight="bold">DEEPGRAM NOVA-2</text>
+                    <text x="82" y="60" textAnchor="middle" fill="#FACC15" fontWeight="bold">DEEPGRAM NOVA-2</text>
                     <text x="82" y="90" textAnchor="middle" fill="#a1a1aa" fontSize="10">Latency: &lt;300ms STT</text>
                     <text x="82" y="104" textAnchor="middle" fill="#38bdf8" fontSize="9">Streaming Partial Tokens</text>
                   </g>
@@ -303,17 +303,17 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
                   <g transform="translate(560, 50)">
                     <rect width="150" height="90" rx="12" fill="#18181b" stroke="#3f3f46" strokeWidth="1.5" />
                     <text x="75" y="32" textAnchor="middle" fill="#ffffff" fontWeight="bold">LLM INFERENCE</text>
-                    <text x="75" y="52" textAnchor="middle" fill="#B7FF3C" fontSize="10">Speculative Tokens</text>
+                    <text x="75" y="52" textAnchor="middle" fill="#FACC15" fontSize="10">Speculative Tokens</text>
                     <text x="75" y="70" textAnchor="middle" fill="#a1a1aa" fontSize="9">Pydantic Tool Calling</text>
                   </g>
 
                   {/* Arrow 4 */}
-                  <path d="M 710 95 L 735 95" stroke="#B7FF3C" strokeWidth="2" markerEnd="url(#arrow)" />
+                  <path d="M 710 95 L 735 95" stroke="#FACC15" strokeWidth="2" markerEnd="url(#arrow)" />
 
                   {/* Step 5: Cartesia TTS Audio Stream */}
                   <g transform="translate(740, 50)">
-                    <rect width="150" height="90" rx="12" fill="#18181b" stroke="#B7FF3C" strokeWidth="1.5" />
-                    <text x="75" y="30" textAnchor="middle" fill="#B7FF3C" fontWeight="bold">CARTESIA / 11LABS</text>
+                    <rect width="150" height="90" rx="12" fill="#18181b" stroke="#FACC15" strokeWidth="1.5" />
+                    <text x="75" y="30" textAnchor="middle" fill="#FACC15" fontWeight="bold">CARTESIA / 11LABS</text>
                     <text x="75" y="50" textAnchor="middle" fill="#ffffff" fontSize="10">Sonic TTS (&lt;200ms)</text>
                     <text x="75" y="72" textAnchor="middle" fill="#38bdf8" fontSize="9">Chunked Audio Back to SIP</text>
                   </g>
@@ -321,13 +321,13 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
                   {/* Bottom Latency Budget Summary Strip */}
                   <rect x="10" y="180" width="880" height="42" rx="8" fill="#18181b" stroke="#27272a" />
                   <text x="25" y="206" fill="#71717a" fontSize="10">ROUNDTRIP BUDGET:</text>
-                  <text x="160" y="206" fill="#B7FF3C" fontSize="11" fontWeight="bold">STT: ~250ms</text>
+                  <text x="160" y="206" fill="#FACC15" fontSize="11" fontWeight="bold">STT: ~250ms</text>
                   <text x="270" y="206" fill="#ffffff" fontSize="11">+</text>
                   <text x="290" y="206" fill="#38bdf8" fontSize="11" fontWeight="bold">LLM First Token: ~110ms</text>
                   <text x="460" y="206" fill="#ffffff" fontSize="11">+</text>
-                  <text x="480" y="206" fill="#B7FF3C" fontSize="11" fontWeight="bold">TTS Synthesis: ~90ms</text>
+                  <text x="480" y="206" fill="#FACC15" fontSize="11" fontWeight="bold">TTS Synthesis: ~90ms</text>
                   <text x="630" y="206" fill="#ffffff" fontSize="11">=</text>
-                  <text x="650" y="206" fill="#B7FF3C" fontSize="12" fontWeight="black">TOTAL TURN-TAKING LATENCY: 450ms (SUB-500ms SLA)</text>
+                  <text x="650" y="206" fill="#FACC15" fontSize="12" fontWeight="black">TOTAL TURN-TAKING LATENCY: 450ms (SUB-500ms SLA)</text>
                 </svg>
               </div>
             ) : (
@@ -336,26 +336,26 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
                 <svg viewBox="0 0 900 240" className="w-full h-auto font-mono text-xs select-none">
                   <defs>
                     <marker id="arrow2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                      <path d="M 0 1 L 8 5 L 0 9 z" fill="#B7FF3C" />
+                      <path d="M 0 1 L 8 5 L 0 9 z" fill="#FACC15" />
                     </marker>
                   </defs>
 
                   {/* Node 1: Ingress & Validation */}
                   <g transform="translate(10, 45)">
                     <rect width="145" height="95" rx="12" fill="#18181b" stroke="#3f3f46" strokeWidth="1.5" />
-                    <text x="72" y="30" textAnchor="middle" fill="#B7FF3C" fontWeight="bold">USER INTENT</text>
+                    <text x="72" y="30" textAnchor="middle" fill="#FACC15" fontWeight="bold">USER INTENT</text>
                     <text x="72" y="50" textAnchor="middle" fill="#ffffff" fontSize="10">Voice / API Ingress</text>
                     <text x="72" y="70" textAnchor="middle" fill="#a1a1aa" fontSize="9">SHA-256 Idempotency Key</text>
                   </g>
 
-                  <path d="M 155 92 L 185 92" stroke="#B7FF3C" strokeWidth="2" markerEnd="url(#arrow2)" />
+                  <path d="M 155 92 L 185 92" stroke="#FACC15" strokeWidth="2" markerEnd="url(#arrow2)" />
 
                   {/* Node 2: Database Lock & WAL */}
                   <g transform="translate(190, 45)">
                     <rect width="165" height="95" rx="12" fill="#111827" stroke="#38bdf8" strokeWidth="1.5" />
                     <text x="82" y="28" textAnchor="middle" fill="#38bdf8" fontWeight="bold">DATABASE ENGINE</text>
                     <text x="82" y="48" textAnchor="middle" fill="#ffffff" fontSize="10">Postgres WAL Stream</text>
-                    <text x="82" y="68" textAnchor="middle" fill="#B7FF3C" fontSize="9">pg_advisory_xact_lock()</text>
+                    <text x="82" y="68" textAnchor="middle" fill="#FACC15" fontSize="9">pg_advisory_xact_lock()</text>
                     <text x="82" y="84" textAnchor="middle" fill="#a1a1aa" fontSize="8">Redis Redlock Algorithm</text>
                   </g>
 
@@ -363,30 +363,30 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
 
                   {/* Node 3: Orchestrator State Machine */}
                   <g transform="translate(390, 35)">
-                    <rect width="170" height="115" rx="12" fill="#18181b" stroke="#B7FF3C" strokeWidth="2" />
-                    <text x="85" y="26" textAnchor="middle" fill="#B7FF3C" fontWeight="black">STATE ORCHESTRATOR</text>
+                    <rect width="170" height="115" rx="12" fill="#18181b" stroke="#FACC15" strokeWidth="2" />
+                    <text x="85" y="26" textAnchor="middle" fill="#FACC15" fontWeight="black">STATE ORCHESTRATOR</text>
                     <rect x="15" y="38" width="140" height="24" rx="6" fill="#27272a" />
                     <text x="85" y="54" textAnchor="middle" fill="#ffffff" fontSize="10">Temporal / LangGraph</text>
                     <text x="85" y="80" textAnchor="middle" fill="#a1a1aa" fontSize="9">Finite State Machine Gates</text>
                     <text x="85" y="98" textAnchor="middle" fill="#38bdf8" fontSize="9">Pydantic v2 Type Contract</text>
                   </g>
 
-                  <path d="M 560 92 L 590 92" stroke="#B7FF3C" strokeWidth="2" markerEnd="url(#arrow2)" />
+                  <path d="M 560 92 L 590 92" stroke="#FACC15" strokeWidth="2" markerEnd="url(#arrow2)" />
 
                   {/* Node 4: Voice RAG Tier */}
                   <g transform="translate(595, 45)">
                     <rect width="145" height="95" rx="12" fill="#18181b" stroke="#3f3f46" strokeWidth="1.5" />
                     <text x="72" y="30" textAnchor="middle" fill="#ffffff" fontWeight="bold">VOICE RAG TIER</text>
                     <text x="72" y="50" textAnchor="middle" fill="#38bdf8" fontSize="10">Redis JSON (&lt;5ms)</text>
-                    <text x="72" y="70" textAnchor="middle" fill="#B7FF3C" fontSize="9">pgvector HNSW (&lt;35ms)</text>
+                    <text x="72" y="70" textAnchor="middle" fill="#FACC15" fontSize="9">pgvector HNSW (&lt;35ms)</text>
                   </g>
 
-                  <path d="M 740 92 L 765 92" stroke="#B7FF3C" strokeWidth="2" markerEnd="url(#arrow2)" />
+                  <path d="M 740 92 L 765 92" stroke="#FACC15" strokeWidth="2" markerEnd="url(#arrow2)" />
 
                   {/* Node 5: Output Execution & Audit */}
                   <g transform="translate(770, 45)">
-                    <rect width="120" height="95" rx="12" fill="#18181b" stroke="#B7FF3C" strokeWidth="1.5" />
-                    <text x="60" y="28" textAnchor="middle" fill="#B7FF3C" fontWeight="bold">COMMIT &</text>
+                    <rect width="120" height="95" rx="12" fill="#18181b" stroke="#FACC15" strokeWidth="1.5" />
+                    <text x="60" y="28" textAnchor="middle" fill="#FACC15" fontWeight="bold">COMMIT &</text>
                     <text x="60" y="44" textAnchor="middle" fill="#ffffff" fontSize="10">EXECUTE</text>
                     <text x="60" y="66" textAnchor="middle" fill="#a1a1aa" fontSize="9">Event Sourcing</text>
                     <text x="60" y="84" textAnchor="middle" fill="#38bdf8" fontSize="8">Audit Record</text>
@@ -394,7 +394,7 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
 
                   {/* Bottom Guarantee Banner */}
                   <rect x="10" y="180" width="880" height="42" rx="8" fill="#18181b" stroke="#27272a" />
-                  <text x="25" y="206" fill="#B7FF3C" fontSize="11" fontWeight="bold">DETERMINISTIC GUARANTEE:</text>
+                  <text x="25" y="206" fill="#FACC15" fontSize="11" fontWeight="bold">DETERMINISTIC GUARANTEE:</text>
                   <text x="240" y="206" fill="#ffffff" fontSize="11">Zero Duplicate Tool Calls</text>
                   <text x="440" y="206" fill="#ffffff" fontSize="11">• Instant Crash Recovery from WAL</text>
                   <text x="680" y="206" fill="#38bdf8" fontSize="11">• 100% Transactional Repeatability</text>
@@ -628,7 +628,7 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
         </section>
 
         {/* Call to Action: Book 15-Minute Scoping Call */}
-        <section className="my-16 p-8 sm:p-12 rounded-3xl glass-panel border border-accent/40 bg-gradient-to-r from-surface-1 via-accent/[0.08] to-surface-1 text-center relative overflow-hidden shadow-[0_0_50px_rgba(183,255,60,0.15)]">
+        <section className="my-16 p-8 sm:p-12 rounded-3xl glass-panel border border-accent/40 bg-gradient-to-r from-surface-1 via-accent/[0.08] to-surface-1 text-center relative overflow-hidden shadow-[0_0_50px_rgba(250,204,21,0.15)]">
           <div className="absolute top-0 right-0 w-80 h-80 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto">
             <span className="inline-block px-3.5 py-1 rounded-full bg-accent/15 border border-accent/30 text-accent font-mono text-xs font-bold uppercase tracking-wider mb-4">
@@ -644,7 +644,7 @@ export const ArchitectureGuidePage: React.FC<ArchitectureGuidePageProps> = ({ on
               <button
                 type="button"
                 onClick={onOpenInquiry}
-                className="w-full sm:w-auto px-8 py-4 rounded-full bg-accent text-black font-mono text-xs sm:text-sm font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(183,255,60,0.35)] flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+                className="w-full sm:w-auto px-8 py-4 rounded-full bg-accent text-black font-mono text-xs sm:text-sm font-bold tracking-wider hover:bg-white transition-all shadow-[0_0_25px_rgba(250,204,21,0.35)] flex items-center justify-center gap-2 cursor-pointer active:scale-95"
               >
                 <span>SCHEDULE 15-MIN TECHNICAL SCOPING CALL</span>
                 <ArrowRight size={15} />

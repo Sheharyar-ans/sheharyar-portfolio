@@ -12,24 +12,24 @@ export interface GlowBorderCardProps extends React.HTMLAttributes<HTMLDivElement
 
 const colorPresets: Record<string, string[]> = {
   brand: [
-    '#B7FF3C',
-    '#8CE626',
-    '#4ADE80',
-    '#22D3EE',
+    '#FACC15',
+    '#F59E0B',
+    '#FBBF24',
+    '#FEF08A',
     '#171717',
     '#262626',
-    '#B7FF3C',
-    '#A3E635',
-    '#22D3EE',
-    '#B7FF3C',
+    '#FACC15',
+    '#FDE047',
+    '#FEF08A',
+    '#FACC15',
   ],
-  aurora: ['#B7FF3C', '#22ffaa', '#44ffcc', '#60efff', '#88ddff', '#B7FF3C', '#4ade80', '#22d3ee', '#a3e635', '#B7FF3C'],
+  aurora: ['#FACC15', '#22ffaa', '#44ffcc', '#60efff', '#88ddff', '#FACC15', '#4ade80', '#22d3ee', '#a3e635', '#FACC15'],
   ocean: ['#006699', '#1177aa', '#2288bb', '#3399cc', '#44aadd', '#55bbee', '#66ccff', '#44bbee', '#2299cc', '#006699'],
-  custom: ['#B7FF3C', '#9ef01a', '#4ade80', '#22d3ee', '#111111', '#222222', '#B7FF3C', '#84cc16', '#22d3ee', '#B7FF3C'],
+  custom: ['#FACC15', '#9ef01a', '#4ade80', '#22d3ee', '#111111', '#222222', '#FACC15', '#84cc16', '#22d3ee', '#FACC15'],
 };
 
 /**
- * VengeanceUI GlowBorderCard — adapted for dark luxury #080808 / #111111 / #B7FF3C theme
+ * VengeanceUI GlowBorderCard — adapted for dark luxury #080808 / #111111 / #FACC15 theme
  */
 export const GlowBorderCard = React.forwardRef<HTMLDivElement, GlowBorderCardProps>(
   (

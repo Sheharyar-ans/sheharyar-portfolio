@@ -66,7 +66,7 @@ export const Process: React.FC = () => {
                     <span className="font-mono text-4xl font-black text-white/15 group-hover:text-accent transition-colors">
                       {step.num}
                     </span>
-                    <span className="w-2 h-2 rounded-full bg-white/20 group-hover:bg-accent group-hover:shadow-[0_0_8px_#B7FF3C] transition-all" />
+                    <span className="w-2 h-2 rounded-full bg-white/20 group-hover:bg-accent group-hover:shadow-[0_0_8px_#FACC15] transition-all" />
                   </div>
                   <h3 className="text-xl font-heading font-bold text-white group-hover:text-accent transition-colors mb-3">
                     {step.title}
