@@ -161,8 +161,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenInquiry }) => {
               <div className="py-2.5 flex items-baseline gap-3">
                 <span className="font-mono text-xs font-bold text-accent">03</span>
                 <div>
-                  <h3 className="font-heading text-xs font-bold text-white uppercase">n8n Workflows &amp; Executive BI</h3>
-                  <p className="text-[11px] text-brand-secondary mt-0.5">Self-hosted CRM automation, Power BI, and Python ML.</p>
+                  <h3 className="font-heading text-xs font-bold text-white uppercase">Data Analytics, Power BI &amp; n8n Workflows</h3>
+                  <p className="text-[11px] text-brand-secondary mt-0.5">Power BI KPI dashboards, Python Data Science, SQL ETL, and CRM automation.</p>
                 </div>
               </div>
             </div>
@@ -324,8 +324,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenInquiry }) => {
                   <div className="py-[clamp(0.45rem,1.15vh,0.8rem)] flex items-baseline gap-3.5">
                     <span className="font-mono text-sm font-bold text-accent shrink-0">03</span>
                     <div>
-                      <h3 className="font-heading text-base font-bold text-white uppercase">n8n Workflows &amp; Executive BI</h3>
-                      <p className="text-sm text-brand-secondary mt-0.5 leading-snug">Self-hosted CRM pipelines, Power BI telemetry, and Python ML apps.</p>
+                      <h3 className="font-heading text-base font-bold text-white uppercase">Data Analytics, Power BI &amp; n8n Workflows</h3>
+                      <p className="text-sm text-brand-secondary mt-0.5 leading-snug">Power BI dashboards, Python Data Science, SQL ETL, and automated CRM pipelines.</p>
                     </div>
                   </div>
                 </div>

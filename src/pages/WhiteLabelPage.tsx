@@ -206,7 +206,7 @@ export const WhiteLabelPage: React.FC<WhiteLabelPageProps> = ({ onOpenInquiry })
             to="/services/"
             className="text-xs font-mono text-accent hover:text-white transition-colors flex items-center gap-1"
           >
-            <span>All 10 Services Hub</span>
+            <span>All 11 Services Hub</span>
             <ArrowRight size={12} />
           </Link>
         </div>
@@ -264,6 +264,33 @@ export const WhiteLabelPage: React.FC<WhiteLabelPageProps> = ({ onOpenInquiry })
             <span className="text-accent text-[10px] block mb-1">BACKEND PIPELINES</span>
             <span className="text-white group-hover:text-accent font-bold block mb-1">Workflow Automation (n8n & Make)</span>
             <span className="text-[11px] text-brand-secondary">Automate client lead routing, CRM enrichment, and billing</span>
+          </Link>
+
+          <Link
+            to="/services/data-science-analytics/"
+            className="p-4 rounded-xl bg-surface-2/60 border border-brand-border/50 hover:border-accent transition-all group"
+          >
+            <span className="text-accent text-[10px] block mb-1">DATA ANALYTICS & POWER BI</span>
+            <span className="text-white group-hover:text-accent font-bold block mb-1">Power BI Dashboards, Data Science & SQL ETL</span>
+            <span className="text-[11px] text-brand-secondary">White-label Power BI KPI reporting, Python ML, and automated client analytics</span>
+          </Link>
+
+          <Link
+            to="/services/ai-chatbots-rag/"
+            className="p-4 rounded-xl bg-surface-2/60 border border-brand-border/50 hover:border-accent transition-all group"
+          >
+            <span className="text-accent text-[10px] block mb-1">CONTEXTUAL AI RAG</span>
+            <span className="text-white group-hover:text-accent font-bold block mb-1">AI Chatbots & Vector Knowledge</span>
+            <span className="text-[11px] text-brand-secondary">Deploy custom knowledge-base chatbots grounded in client SOPs</span>
+          </Link>
+
+          <Link
+            to="/services/agentic-ai-applications/"
+            className="p-4 rounded-xl bg-surface-2/60 border border-brand-border/50 hover:border-accent transition-all group"
+          >
+            <span className="text-accent text-[10px] block mb-1">AUTONOMOUS AGENTS</span>
+            <span className="text-white group-hover:text-accent font-bold block mb-1">Agentic AI & Multi-Agent Apps</span>
+            <span className="text-[11px] text-brand-secondary">Custom LangGraph research, ops, and fulfillment agent workflows</span>
           </Link>
         </div>
       </section>

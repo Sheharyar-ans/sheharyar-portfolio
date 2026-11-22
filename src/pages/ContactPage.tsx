@@ -358,9 +358,14 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenInquiry }) => {
                     className="w-full px-4 py-3 rounded-xl bg-surface-2 border border-brand-border text-white text-xs font-mono focus:outline-none focus:border-accent transition-colors"
                   >
                     <option value="Custom WordPress & WooCommerce">Custom WordPress & WooCommerce</option>
+                    <option value="Data Science, Data Analytics & Power BI Dashboards">Data Science, Data Analytics & Power BI Dashboards</option>
                     <option value="Autonomous AI Voice Agents">Autonomous AI Voice Agents</option>
                     <option value="AI Chatbots & Contextual RAG">AI Chatbots & Contextual RAG</option>
                     <option value="Workflow Automation (n8n/Make)">Workflow Automation (n8n/Make)</option>
+                    <option value="Agentic AI & Multi-Agent Applications">Agentic AI & Multi-Agent Applications</option>
+                    <option value="Custom SaaS & MVP Engineering">Custom SaaS & MVP Engineering</option>
+                    <option value="Production Vibe Coding & Hardening">Production Vibe Coding & Hardening</option>
+                    <option value="AI Video Ads & Synthetic UGC">AI Video Ads & Synthetic UGC</option>
                     <option value="Agency White-Label Partnership">Agency White-Label Partnership</option>
                     <option value="Full Digital System Ecosystem">Full Digital System Ecosystem</option>
                   </select>

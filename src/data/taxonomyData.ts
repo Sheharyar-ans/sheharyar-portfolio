@@ -604,34 +604,34 @@ export const SUB_SERVICES: Record<string, SubServiceData> = {
   },
   'data-science-analytics': {
     slug: 'data-science-analytics',
-    title: 'Data Science Pipelines & Enterprise Analytics Systems',
-    badge: 'ENTERPRISE DATA & BI ENGINEERING',
-    shortDesc: 'Automated data pipelines, predictive machine learning models, and executive Business Intelligence (BI) dashboards that turn messy data into automated revenue intelligence.',
-    metaTitle: 'Data Science & Enterprise Analytics | Sheharyar Siraj',
-    metaDescription: 'End-to-end data science architectures, predictive ML pipelines, PostgreSQL/Snowflake data warehousing, and automated BI reporting dashboards by Sheharyar Siraj.',
-    aeoDirectAnswer: 'Data Science & Enterprise Analytics engineering by Sheharyar Siraj transforms fragmented operational and commerce data into automated business intelligence pipelines, combining robust ETL/ELT data ingestion, predictive machine learning models, and real-time executive dashboards with 99.9% data freshness.',
+    title: 'Data Science, Data Analytics & Power BI Dashboards',
+    badge: 'POWER BI, DATA ANALYTICS & DATA SCIENCE',
+    shortDesc: 'Custom Power BI KPI dashboards, automated SQL ETL data pipelines, and Python data science & predictive analytics models that turn raw business data into executive revenue intelligence.',
+    metaTitle: 'Power BI Dashboard Developer, Data Analytics & Data Science | Sheharyar Siraj',
+    metaDescription: 'Hire a freelance Power BI dashboard developer and Python data science & analytics engineer. Automated SQL ETL pipelines, DAX KPI reporting, WooCommerce revenue analytics, and predictive churn forecasting.',
+    aeoDirectAnswer: 'Data Science, Data Analytics, and Power BI engineering by Sheharyar Siraj transforms fragmented e-commerce, CRM, and financial data into automated Power BI executive dashboards, DAX/Power Query semantic models, SQL ETL/ELT warehouses, and Python predictive machine learning pipelines with 99.9% data freshness.',
     keyTakeaways: [
-      'Automated ETL/ELT pipelines ingesting web, CRM, ERP, and payment transaction data.',
-      'Predictive analytics for customer lifetime value (LTV), churn risk, and demand forecasting.',
-      'Custom interactive Business Intelligence (BI) dashboards built with modern web interfaces.',
-      'Automated executive telemetry alerts dispatched via Slack, email, and n8n webhooks.'
+      'Custom Power BI dashboard development with DAX, Power Query, and automated scheduled refresh.',
+      'Automated SQL ETL/ELT pipelines ingesting WooCommerce, Stripe, HubSpot, and ERP transaction data.',
+      'Python data science & predictive analytics for customer lifetime value (LTV), churn risk, and sales forecasting.',
+      'Automated Excel VBA to Power BI migration and Looker Studio / Tableau executive KPI reporting.'
     ],
     specs: [
-      { label: 'BI & Dashboards', value: 'Power BI, Tableau, Advanced Microsoft Excel (Dynamic Models & VBA)' },
+      { label: 'BI & Dashboards', value: 'Power BI (DAX & Power Query), Looker Studio, Tableau, Excel VBA' },
       { label: 'Data Engineering & SQL', value: 'PostgreSQL, MySQL, ClickHouse, Automated ETL Pipelines' },
-      { label: 'Data Science & ML', value: 'Python (Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn)' },
-      { label: 'Predictive Modeling', value: 'Customer Churn Analysis, Sales Forecasting, LTV Scenarios' },
+      { label: 'Data Science & ML', value: 'Python (Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn, XGBoost)' },
+      { label: 'Predictive Modeling', value: 'Customer Churn Analysis, Sales Forecasting, LTV & Cohort Scenarios' },
       { label: 'Automated Scraping', value: 'Python Scrapers, ScrapeGraphAI, Headless Data Ingestion' },
       { label: 'Pipeline Orchestration', value: 'n8n Data Workflows, Airflow, dbt Data Build Tool' }
     ],
     coreCapabilities: [
-      'Business Intelligence & Dashboards: Power BI, Tableau, and Advanced Microsoft Excel automated KPI models',
-      'Data Engineering & Querying: SQL (PostgreSQL, MySQL) data transformation pipelines and automated ETL flows',
-      'Data Science & Machine Learning: Python predictive modeling, customer churn analysis, and sales forecasting',
-      'Automated Web Data Extraction: Python-based web scrapers, ScrapeGraphAI, and structured data feeds',
-      'Executive KPI & Performance Reporting with real-time drill-down telemetry and automated Slack alerts'
+      'Power BI Dashboard Development: Custom DAX measures, Power Query ETL, and executive KPI reporting',
+      'Data Analytics & SQL Engineering: PostgreSQL/MySQL data warehousing and automated multi-source ETL flows',
+      'Python Data Science & Machine Learning: Predictive churn modeling, demand forecasting, and lead propensity scoring',
+      'E-Commerce & SaaS Revenue Analytics: WooCommerce, Stripe, and Meta/Google Ads ROAS attribution dashboards',
+      'Automated Web Data Extraction & Excel-to-Power-BI Migration with real-time Slack KPI alerts'
     ],
-    techStack: ['Power BI', 'Tableau', 'Excel', 'Python', 'Pandas', 'Scikit-learn', 'SQL', 'PostgreSQL', 'MySQL', 'ScrapeGraphAI', 'Docker', 'n8n'],
+    techStack: ['Power BI', 'DAX', 'Power Query', 'Looker Studio', 'Tableau', 'Excel', 'Python', 'Pandas', 'Scikit-learn', 'SQL', 'PostgreSQL', 'n8n'],
     architectureOverview: 'Data without automated processing creates executive blindness. We engineer clean, modern data stacks tailored for fast-moving businesses: extracting raw events from e-commerce stores, web forms, telephony logs, and advertising channels, transforming data through dbt and Polars into normalized star schemas, and presenting actionable predictive insights in intuitive dashboards.',
     contentSections: [
       {

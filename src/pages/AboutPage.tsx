@@ -145,7 +145,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenInquiry }) => {
         'Conversational AI Voice Agents (Vapi, ElevenLabs, Retell AI)',
         'Vector Search & RAG Knowledge Bases (Pinecone)',
         'Event-Driven Workflow Automation (n8n, Make.com)',
-        'Python Data Analytics Pipelines & Machine Learning',
+        'Power BI Dashboards, DAX & Executive Business Intelligence',
+        'Python Data Science, SQL ETL Pipelines & Predictive Analytics',
         'Technical SEO, Core Web Vitals & JSON-LD Schemas',
         'WordPress Security Hardening & Malware Recovery'
       ]
@@ -195,7 +196,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenInquiry }) => {
 
       {/* AEO Direct Answer */}
       <AeoDirectAnswer
-        summary="Sheharyar Siraj is a Senior WordPress Developer and Agentic AI Automation Engineer with 5+ years of remote experience and 1,200+ verified projects delivered worldwide across Upwork, direct contracts, and white-label agency execution. He specializes in full-stack WordPress and WooCommerce engineering, Elementor Pro, sub-300ms AI voice agents using Vapi and ElevenLabs, event-driven n8n/Make backend workflows, Python data pipelines, and full-stack vibe coding for rapid MVP launches."
+        summary="Sheharyar Siraj is a Senior WordPress Developer, Data Analytics & Power BI Consultant, and Agentic AI Automation Engineer with 5+ years of remote experience and 1,200+ verified projects delivered worldwide across Upwork, direct contracts, and white-label agency execution. He specializes in full-stack WordPress and WooCommerce engineering, Elementor Pro, Power BI KPI dashboards, Python data science and SQL ETL pipelines, sub-300ms AI voice agents using Vapi and ElevenLabs, event-driven n8n/Make backend workflows, and full-stack vibe coding for rapid MVP launches."
         keyTakeaways={[
           '5+ Years of hands-on remote engineering for global founders and enterprise teams in the USA, UK, UAE, KSA, and Europe.',
           '1,200+ Projects delivered with a 100% Job Success Score and 5-Star verified rating across Upwork and Fiverr.',

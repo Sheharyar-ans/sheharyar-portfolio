@@ -270,7 +270,7 @@ export const LocationPage: React.FC<LocationPageProps> = ({ onOpenInquiry }) => 
             to="/services/"
             className="text-xs font-mono text-accent hover:text-white transition-colors flex items-center gap-1"
           >
-            <span>All 10 Services Hub</span>
+            <span>All 11 Services Hub</span>
             <ArrowRight size={12} />
           </Link>
         </div>
@@ -319,6 +319,24 @@ export const LocationPage: React.FC<LocationPageProps> = ({ onOpenInquiry }) => 
             <span className="text-accent text-[10px] block mb-1">PERFORMANCE CREATIVE</span>
             <span className="text-white group-hover:text-accent font-bold block mb-1">AI Video Ads & Synthetic UGC</span>
             <span className="text-[11px] text-brand-secondary">High-ROAS Meta & TikTok creatives, ElevenLabs audio</span>
+          </Link>
+
+          <Link
+            to="/services/data-science-analytics/"
+            className="p-3.5 rounded-xl bg-surface-2/60 border border-brand-border/50 hover:border-accent transition-all group"
+          >
+            <span className="text-accent text-[10px] block mb-1">DATA ANALYTICS & POWER BI</span>
+            <span className="text-white group-hover:text-accent font-bold block mb-1">Power BI, Data Science & ETL</span>
+            <span className="text-[11px] text-brand-secondary">Executive Power BI dashboards, SQL ETL, and Python ML forecasting</span>
+          </Link>
+
+          <Link
+            to="/services/workflow-automation-n8n/"
+            className="p-3.5 rounded-xl bg-surface-2/60 border border-brand-border/50 hover:border-accent transition-all group"
+          >
+            <span className="text-accent text-[10px] block mb-1">EVENT AUTOMATION</span>
+            <span className="text-white group-hover:text-accent font-bold block mb-1">n8n & Make Workflow Pipelines</span>
+            <span className="text-[11px] text-brand-secondary">Self-hosted CRM sync, automated billing, and lead routing</span>
           </Link>
 
           <Link
