@@ -11,6 +11,7 @@ import {
 import { PuzzleGridCanvas } from './PuzzleGridCanvas';
 import { FighterArenaCanvas } from './FighterArenaCanvas';
 import { arcadeAudio } from '../../utils/arcadeAudio';
+import { executePythonWithBot, transpilePythonFunction } from '../../utils/pythonTranspiler';
 import { 
   Gamepad2, 
   Swords, 
@@ -217,31 +218,26 @@ export const InteractiveGameArena: React.FC<InteractiveGameArenaProps> = ({ onXp
         collect_key: () => generatedCommands.push('collect')
       };
 
-      // Support Python-style syntax conversion to JS executable block
-      let executable = code;
+      // Support real Python syntax or JS execution
       if (selectedLanguage === 'python') {
-        // Simple transpile for python loops like "for _ in range(x):"
-        executable = executable
-          .replace(/for\s+(\w+)\s+in\s+range\((\d+)\):/g, 'for (let $1 = 0; $1 < $2; $1++) {')
-          .replace(/while\s+(.*?):/g, 'while ($1) {')
-          .replace(/bot\.collect_key\(\)/g, 'bot.collectKey()')
-          .replace(/bot\.move_right\((\d*)\)/g, 'bot.right($1)')
-          .replace(/bot\.move_left\((\d*)\)/g, 'bot.left($1)')
-          .replace(/bot\.move_up\((\d*)\)/g, 'bot.up($1)')
-          .replace(/bot\.move_down\((\d*)\)/g, 'bot.down($1)');
+        const normalized = code
+          .replace(/bot\.move_right\((.*?)\)/g, 'bot.right($1)')
+          .replace(/bot\.move_left\((.*?)\)/g, 'bot.left($1)')
+          .replace(/bot\.move_up\((.*?)\)/g, 'bot.up($1)')
+          .replace(/bot\.move_down\((.*?)\)/g, 'bot.down($1)');
+        executePythonWithBot(normalized, mockBot);
+      } else {
+        // Safe JS Function Evaluation
+        const runner = new Function('bot', `
+          "use strict";
+          try {
+            ${code}
+          } catch (err) {
+            throw err;
+          }
+        `);
+        runner(mockBot);
       }
-
-      // Safe JS Function Evaluation
-      const runner = new Function('bot', `
-        "use strict";
-        try {
-          ${executable}
-        } catch (err) {
-          throw err;
-        }
-      `);
-
-      runner(mockBot);
 
       if (generatedCommands.length === 0) {
         throw new Error('Code executed successfully but emitted 0 bot movement commands. Make sure you call bot.right(), bot.down(), etc.');
@@ -273,21 +269,7 @@ export const InteractiveGameArena: React.FC<InteractiveGameArenaProps> = ({ onXp
       let userFn: any;
 
       if (selectedLanguage === 'python') {
-        // Check if user defined def <fn_name>
-        const defMatch = code.match(/def\s+(\w+)\s*\((.*?)\):/);
-        if (!defMatch) {
-          throw new Error(`Python Syntax Error: Expected function definition 'def ${challenge.targetFunction}(...):'`);
-        }
-        // Transpile basic Python math/return to JS function
-        const bodyLines = code.split('\n').filter(l => !l.startsWith('def '));
-        const body = bodyLines.join('\n')
-          .replace(/elif /g, 'else if ')
-          .replace(/True/g, 'true')
-          .replace(/False/g, 'false')
-          .replace(/None/g, 'null');
-
-        const params = defMatch[2];
-        userFn = new Function(params, `"use strict"; ${body}`);
+        userFn = transpilePythonFunction(code, challenge.targetFunction);
       } else {
         // JavaScript / React / API
         const fnName = challenge.targetFunction;

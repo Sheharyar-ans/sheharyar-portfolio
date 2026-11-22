@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { ArcadeLevel, LanguageKey, TestCase } from '../../data/arcadeGameData';
 import { arcadeAudio } from '../../utils/arcadeAudio';
+import { transpilePythonFunction } from '../../utils/pythonTranspiler';
 
 interface ArcadeEditorProps {
   level: ArcadeLevel;
@@ -137,68 +138,29 @@ export const ArcadeEditor: React.FC<ArcadeEditorProps> = ({
 
       try {
         if (language === 'python') {
-          // Python Evaluation Sandbox
-          // Extract Python logic or test cases based on defined level expectations
+          // Real Python-to-JS Transpilation & Execution
+          const pyMatch = level.initialCode.match(/def\s+(\w+)\s*\(/);
+          const expectedFnName = pyMatch ? pyMatch[1] : undefined;
+          const userFn = transpilePythonFunction(code, expectedFnName, customConsole);
+
           level.testCases.forEach((tc) => {
             let passed = false;
             let actual: any = null;
 
             try {
-              // Emulate pythonic function evaluation in JS runtime
-              // Level 1: find_max_altitude
-              if (level.id === 'py-1') {
-                const fn = new Function('altitudes', `
-                  ${code.includes('max(') ? 'return altitudes.length ? Math.max(...altitudes) : 0;' : 'return 0;'}
-                `);
-                actual = fn(tc.input);
-                passed = actual === tc.expected;
-              } 
-              // Level 2: square_evens
-              else if (level.id === 'py-2') {
-                const fn = new Function('numbers', `
-                  return numbers.filter(n => n % 2 === 0).map(n => n * n);
-                `);
-                actual = fn(tc.input);
-                passed = JSON.stringify(actual) === JSON.stringify(tc.expected);
+              if (tc.input !== undefined && tc.input !== null) {
+                actual = userFn(tc.input);
+              } else {
+                actual = userFn();
               }
-              // Level 3: count_anomalies
-              else if (level.id === 'py-3') {
-                const fn = new Function('codes', `
-                  const freq = {};
-                  codes.forEach(c => freq[c] = (freq[c] || 0) + 1);
-                  return freq;
-                `);
-                actual = fn(tc.input);
-                passed = JSON.stringify(actual) === JSON.stringify(tc.expected);
-              }
-              // Level 4: is_palindrome_code
-              else if (level.id === 'py-4') {
-                const fn = new Function('transmission', `
-                  const clean = transmission.toLowerCase().replace(/\\s+/g, '');
-                  return clean === clean.split('').reverse().join('');
-                `);
-                actual = fn(tc.input);
-                passed = actual === tc.expected;
-              }
-              // Level 5: generate_prime_keys
-              else if (level.id === 'py-5') {
-                const fn = new Function('n', `
-                  const primes = [];
-                  for(let i=2; i<=n; i++) {
-                    let p = true;
-                    for(let j=2; j<=Math.sqrt(i); j++) { if(i%j===0) { p=false; break; } }
-                    if(p) primes.push(i);
-                  }
-                  return primes;
-                `);
-                actual = fn(tc.input);
+
+              if (typeof tc.expected === 'object') {
                 passed = JSON.stringify(actual) === JSON.stringify(tc.expected);
               } else {
-                passed = true;
-                actual = tc.expected;
+                passed = actual === tc.expected;
               }
             } catch (err: any) {
-              actual = `Python syntax exception: ${err.message}`;
+              actual = `Python runtime exception: ${err.message}`;
             }
 
             if (passed) passedCount++;
@@ -211,47 +173,25 @@ export const ArcadeEditor: React.FC<ArcadeEditorProps> = ({
           });
         } else {
           // JavaScript, React, CSS, API/JSON Sandbox
-          // Evaluate functions declared in code
+          const fnMatch = level.initialCode.match(/function\s+(\w+)\s*\(/);
+          const targetFnName = fnMatch ? fnMatch[1] : null;
           const sandbox = new Function('console', `
+            "use strict";
             ${code}
-            return {
-              filterSafePower: typeof filterSafePower !== 'undefined' ? filterSafePower : null,
-              sumEnergy: typeof sumEnergy !== 'undefined' ? sumEnergy : null,
-              reverseSecurityKey: typeof reverseSecurityKey !== 'undefined' ? reverseSecurityKey : null,
-              deduplicateSignals: typeof deduplicateSignals !== 'undefined' ? deduplicateSignals : null,
-              sortDroneSwarm: typeof sortDroneSwarm !== 'undefined' ? sortDroneSwarm : null,
-              CyberShield: typeof CyberShield !== 'undefined' ? CyberShield : null,
-              adjustBattery: typeof adjustBattery !== 'undefined' ? adjustBattery : null,
-              formatLogItems: typeof formatLogItems !== 'undefined' ? formatLogItems : null,
-              sanitizeCommand: typeof sanitizeCommand !== 'undefined' ? sanitizeCommand : null,
-              arcadeReducer: typeof arcadeReducer !== 'undefined' ? arcadeReducer : null,
-              generateCenterFlex: typeof generateCenterFlex !== 'undefined' ? generateCenterFlex : null,
-              generateNeonGlow: typeof generateNeonGlow !== 'undefined' ? generateNeonGlow : null,
-              getGridThreeColumns: typeof getGridThreeColumns !== 'undefined' ? getGridThreeColumns : null,
-              validateImgTag: typeof validateImgTag !== 'undefined' ? validateImgTag : null,
-              generateFluidFont: typeof generateFluidFont !== 'undefined' ? generateFluidFont : null,
-              extractBearerToken: typeof extractBearerToken !== 'undefined' ? extractBearerToken : null,
-              routeWebhookEvent: typeof routeWebhookEvent !== 'undefined' ? routeWebhookEvent : null,
-              getCustomerCity: typeof getCustomerCity !== 'undefined' ? getCustomerCity : null,
-              filterEnterpriseInvoices: typeof filterEnterpriseInvoices !== 'undefined' ? filterEnterpriseInvoices : null,
-              buildApiUrl: typeof buildApiUrl !== 'undefined' ? buildApiUrl : null,
-            };
+            ${targetFnName ? `if (typeof ${targetFnName} === 'function') return ${targetFnName};` : ''}
+            return null;
           `);
 
-          const scope = sandbox(customConsole);
+          const targetFn = sandbox(customConsole);
 
           level.testCases.forEach((tc) => {
             let actual: any = null;
             let passed = false;
 
             try {
-              // Dynamically pick the target function from scope
-              const targetFn = Object.values(scope).find((fn) => typeof fn === 'function') as any;
-
-              if (targetFn) {
+              if (typeof targetFn === 'function') {
                 if (tc.input !== undefined && tc.input !== null) {
                   if (typeof tc.input === 'object' && !Array.isArray(tc.input)) {
-                    // Spread object properties if multi-arg function
                     const keys = Object.keys(tc.input);
                     if (keys.length === 2 && 'currentLevel' in tc.input) {
                       actual = targetFn(tc.input.currentLevel, tc.input.delta);
@@ -282,7 +222,7 @@ export const ArcadeEditor: React.FC<ArcadeEditorProps> = ({
                   passed = actual === tc.expected;
                 }
               } else {
-                actual = 'Error: Target function not defined';
+                actual = `Error: Function '${targetFnName || 'solution'}' not defined`;
               }
             } catch (err: any) {
               actual = `Runtime Error: ${err.message}`;
